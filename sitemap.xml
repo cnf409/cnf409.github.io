@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/2023/03/picoctf-2023-binexp/hijacking/</loc>
+    <lastmod>2023-03-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/posts/2023/03/picoctf-2023-misc/special/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
@@ -14,10 +17,16 @@
     <loc>/tags/bash/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/tags/binary-exploitation/</loc>
+    <lastmod>2023-03-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/series/educative-posts/</loc>
+    <lastmod>2023-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/library-hijacking/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/misc/</loc>
@@ -32,7 +41,13 @@
     <loc>/posts/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/tags/privesc/</loc>
+    <lastmod>2023-03-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/pwn/</loc>
+    <lastmod>2023-03-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/python/</loc>
     <lastmod>2023-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/race-condition/</loc>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>library hijacking on conflict</title>
+    <link>/tags/library-hijacking/</link>
+    <description>Recent content in library hijacking on conflict</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/library-hijacking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - binexp/hijacking</title>
+      <link>/posts/2023/03/picoctf-2023-binexp/hijacking/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/picoctf-2023-binexp/hijacking/</guid>
+      <description>Note Hijacking was a binary exploitation challenge from PicoCTF 2023.
+It was interesting and I always enjoy these privilege escalation exploits. They are very common in HackTheBox and TryHackMe boxes, so it&amp;rsquo;s useful to know about them.
+Description Getting root access can allow you to read the flag. Luckily there is a python file that you might like to play with. Through Social engineering, we&amp;#39;ve got the credentials to use on the server.</description>
+    </item>
+    
+  </channel>
+</rss>
