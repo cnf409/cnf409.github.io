@@ -21,6 +21,18 @@ Description Don&amp;#39;t power users get tired of making spelling mistakes in t
     </item>
     
     <item>
+      <title>🇬🇧 PicoCTF 2023 - misc/specialer</title>
+      <link>/posts/2023/03/picoctf-2023-misc/specialer/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/picoctf-2023-misc/specialer/</guid>
+      <description>Note Specialer was an even funnier challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
+It was based on the same principle as the Special challenge, bypassing a bash shell filter to read the flag.
+Let&amp;rsquo;s dive into it !
+Description Reception of Special has been cool to say the least. That&amp;#39;s why we made an exclusive version of Special, called Secure Comprehensive Interface for Affecting Linux Empirically Rad, or just &amp;#39;Specialer&amp;#39;.</description>
+    </item>
+    
+    <item>
       <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
       <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
@@ -115,17 +127,6 @@ File information checksec rickroll &amp;amp;&amp;amp; file rickroll [*] &amp;#39
 Description I made a bot to automatically answer all of your questions. Dockerfile, libc-2.31.so, ld-2.31.so, bot.c, bot
 File information before doing all of that, we run pwninit to patch the binary with the given libc and ld
 checksec bot_patched &amp;amp;&amp;amp; file bot_patched [*] &amp;#39;/home/conflict/ctfs/lactf2023/bot/bot_patched&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x3ff000) RUNPATH: &amp;#39;.</description>
-    </item>
-    
-    <item>
-      <title>🇬🇧 LACTF 2023 - pwn/gatekeep</title>
-      <link>/posts/2023/02/lactf-2023-pwn/gatekeep/</link>
-      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/02/lactf-2023-pwn/gatekeep/</guid>
-      <description>Note First pwn challenge of this CTF. It&amp;rsquo;s pretty easy because it only consists in overwriting a variable on the stack to make a condition valid and print the flag.
-Description If I gaslight you enough, you won&amp;#39;t be able to get my flag! :) Note: The attached binary is the exact same as the one executing on the remote server. Dockerfile, gatekeep.c, gatekeep
-File information checksec gatekeep &amp;amp;&amp;amp; file gatekeep [*] &amp;#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled gatekeep: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.</description>
     </item>
     
   </channel>

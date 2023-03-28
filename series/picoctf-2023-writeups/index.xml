@@ -21,6 +21,18 @@ Description Don&amp;#39;t power users get tired of making spelling mistakes in t
     </item>
     
     <item>
+      <title>🇬🇧 PicoCTF 2023 - misc/specialer</title>
+      <link>/posts/2023/03/picoctf-2023-misc/specialer/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/picoctf-2023-misc/specialer/</guid>
+      <description>Note Specialer was an even funnier challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
+It was based on the same principle as the Special challenge, bypassing a bash shell filter to read the flag.
+Let&amp;rsquo;s dive into it !
+Description Reception of Special has been cool to say the least. That&amp;#39;s why we made an exclusive version of Special, called Secure Comprehensive Interface for Affecting Linux Empirically Rad, or just &amp;#39;Specialer&amp;#39;.</description>
+    </item>
+    
+    <item>
       <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
       <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
