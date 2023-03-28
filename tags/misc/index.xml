@@ -7,13 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 28 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/misc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/misc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🇬🇧 PicoCTF 2023 - misc/special</title>
-      <link>/posts/2023/02/picoctf-2023-misc/special/</link>
-      <pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate>
+      <link>/posts/2023/03/picoctf-2023-misc/special/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/02/picoctf-2023-misc/special/</guid>
+      <guid>/posts/2023/03/picoctf-2023-misc/special/</guid>
       <description>Note Special was a very fun challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
 I always enjoy bypassing these weird bash filters. It was not different from the previous ones I did, but it was still cool.
 Let&amp;rsquo;s dive into it !

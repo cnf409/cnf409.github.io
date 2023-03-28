@@ -9,6 +9,24 @@
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>bash</title>
+      <link>/tags/bash/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>misc</title>
+      <link>/tags/misc/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>picogym</title>
       <link>/tags/picogym/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
@@ -36,6 +54,24 @@
     </item>
     
     <item>
+      <title>restricted shell</title>
+      <link>/tags/restricted-shell/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/restricted-shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell filter bypass</title>
+      <link>/tags/shell-filter-bypass/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/shell-filter-bypass/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>toctou</title>
       <link>/tags/toctou/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
@@ -59,42 +95,6 @@
       <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
       
       <guid>/tags/rop/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bruteforce</title>
-      <link>/tags/bruteforce/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/bruteforce/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>buffer overflow</title>
-      <link>/tags/buffer-overflow/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/buffer-overflow/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>LFI</title>
-      <link>/tags/lfi/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/lfi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NoSQL</title>
-      <link>/tags/nosql/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/nosql/</guid>
       <description></description>
     </item>
     
