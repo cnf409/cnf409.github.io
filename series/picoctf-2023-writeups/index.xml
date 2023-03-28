@@ -25,5 +25,17 @@ Introduction With our current technology, computers are often faster than humans
 Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into Race Condition attacks to better understand what they are and how they work !</description>
     </item>
     
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - misc/special</title>
+      <link>/posts/2023/02/picoctf-2023-misc/special/</link>
+      <pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/02/picoctf-2023-misc/special/</guid>
+      <description>Note Special was a very fun challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
+I always enjoy bypassing these weird bash filters. It was not different from the previous ones I did, but it was still cool.
+Let&amp;rsquo;s dive into it !
+Description Don&amp;#39;t power users get tired of making spelling mistakes in the shell? Not anymore! Enter Special, the Spell Checked Interface for Affecting Linux. Now, every word is properly spelled and capitalized.</description>
+    </item>
+    
   </channel>
 </rss>

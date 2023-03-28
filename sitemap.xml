@@ -86,6 +86,21 @@
     <loc>/tags/web/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/posts/2023/02/picoctf-2023-misc/special/</loc>
+    <lastmod>2023-02-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/bash/</loc>
+    <lastmod>2023-02-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/misc/</loc>
+    <lastmod>2023-02-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/restricted-shell/</loc>
+    <lastmod>2023-02-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/shell-filter-bypass/</loc>
+    <lastmod>2023-02-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/posts/2023/02/lactf-2023-pwn/rickroll/</loc>
     <lastmod>2023-02-23T00:00:00+00:00</lastmod>
   </url><url>
@@ -195,9 +210,6 @@
     <lastmod>2022-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/ctf/</loc>
-    <lastmod>2022-12-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/misc/</loc>
     <lastmod>2022-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/series/nahamconctf-2022-writeups/</loc>

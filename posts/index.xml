@@ -720,6 +720,57 @@ Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo
         </item>
         
         <item>
+            <title>🇬🇧 PicoCTF 2023 - misc/special</title>
+            <link>/posts/2023/02/picoctf-2023-misc/special/</link>
+            <pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2023/02/picoctf-2023-misc/special/</guid>
+            <description>Note Special was a very fun challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
+I always enjoy bypassing these weird bash filters. It was not different from the previous ones I did, but it was still cool.
+Let&amp;rsquo;s dive into it !
+Description Don&amp;#39;t power users get tired of making spelling mistakes in the shell? Not anymore! Enter Special, the Spell Checked Interface for Affecting Linux. Now, every word is properly spelled and capitalized.</description>
+            <content type="html"><![CDATA[<h2 id="note">Note</h2>
+<p><em>Special</em> was a very fun challenge from the <em>general skills</em> category (which is PicoCTF&rsquo;s <em>misc</em> category).</p>
+<p>I always enjoy bypassing these weird bash filters. It was not different from the previous ones I did, but it was still cool.</p>
+<p>Let&rsquo;s dive into it !</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Don&#39;t power users get tired of making spelling mistakes in the shell? 
+</span></span><span style="display:flex;"><span>Not anymore! Enter Special, the Spell Checked Interface for Affecting Linux. 
+</span></span><span style="display:flex;"><span>Now, every word is properly spelled and capitalized... automatically and behind-the-scenes! 
+</span></span><span style="display:flex;"><span>Be the first to test Special in beta, and feel free to tell us all about how Special streamlines every development process that you face. 
+</span></span><span style="display:flex;"><span>When your co-workers see your amazing shell interface, just tell them: That&#39;s Special (TM) Start your instance to see connection details. 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ssh -p 59874 ctf-player@saturn.picoctf.net
+</span></span><span style="display:flex;"><span>The password is ******
+</span></span></code></pre></div><h2 id="poking-around">Poking around</h2>
+<p>We&rsquo;re given a username, a password and a port so we can <code>ssh</code> to the machine, so let&rsquo;s do it</p>
+<p>Once we&rsquo;re connected, the first thing we notice is this:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326701-3499cd16-19a3-4251-acb0-81d26b41d09b.png" alt="2023-03-28-192950_150x64_scrot"></p>
+<p>Instead of the classic <code>username@hostname:~$</code>, it&rsquo;s written <code>Special$</code>. That indicates that we&rsquo;re not on a <em>typical</em> bash shell.</p>
+<p>Let&rsquo;s start poking around to see what we <em>can</em> and <em>can&rsquo;t</em> do. We&rsquo;ll start by trying <code>whoami</code>, <code>pwd</code> and <code>ls</code>:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326731-0db2b74c-d35c-4dc5-be54-eb2424d8e161.png" alt="2023-03-28-193349_239x233_scrot"></p>
+<p>As you can see, there is some kind of spell checker that prevents us from executing commands (<em>pwd</em> becomes <em>Pod</em>, <em>whoami</em> becomes <em>Whom</em> etc&hellip;).</p>
+<h2 id="bypassing-the-filter">Bypassing the filter</h2>
+<p>Let&rsquo;s try executing <code>ls</code> again but inside of a <a href="https://blog.wplauncher.com/what-is-in-linux/">command substitution</a>:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326750-58da2eb2-e9c2-4559-a124-d76aacd1f6a3.png" alt="2023-03-28-193630_257x73_scrot"></p>
+<p>This time, it says that <em>blargh</em> wasn&rsquo;t found&hellip; weird, did our <em>ls</em> become <em>blargh</em> ?</p>
+<p>No, since <em>command subsitution</em> returns the output of the command, <em>blargh</em> is actually the first folder returned by the <code>ls</code>.</p>
+<p>Alright, the next step is knowing what&rsquo;s inside of it, let&rsquo;s try the same trick:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326794-39c25852-928b-4f33-b556-b39add3f7033.png" alt="2023-03-28-193844_370x70_scrot"></p>
+<p>And that didn&rsquo;t work&hellip; It seems that the space messed up the command, but hopefully there is a trick to avoid putting spaces in the command: <a href="https://www.oreilly.com/library/view/learning-linux-shell/9781785286216/ch08s13.html">The IFS environment variable</a></p>
+<p>Let&rsquo;s see if it works when we replace our space by <code>$IFS</code>:</p>
+<blockquote>
+<p>To prevent the variable from becoming <code>$IFSblargh</code> when we call it, we can <a href="https://stackoverflow.com/questions/27472540/difference-between-and-in-bash">put it in brackets</a></p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326832-c4a3346f-3e57-4c50-b9c7-9c8d05feee44.png" alt="2023-03-28-194235_278x69_scrot"></p>
+<p>Alright, it worked and we now know where the flag is !</p>
+<p>The last step is reading the content of <code>flag.txt</code>, which shouldn&rsquo;t be a problem since we now know how to avoid using spaces:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326865-b18d1a81-3200-49da-bec4-bf8cd58b27b0.png" alt="2023-03-28-194430_611x77_scrot"></p>
+<p>And we got it ! GGs</p>
+]]></content>
+        </item>
+        
+        <item>
             <title>🇬🇧 LACTF 2023 - pwn/rickroll</title>
             <link>/posts/2023/02/lactf-2023-pwn/rickroll/</link>
             <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>

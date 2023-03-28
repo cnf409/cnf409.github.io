@@ -83,6 +83,18 @@ Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo
     </item>
     
     <item>
+      <title>🇬🇧 PicoCTF 2023 - misc/special</title>
+      <link>/posts/2023/02/picoctf-2023-misc/special/</link>
+      <pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/02/picoctf-2023-misc/special/</guid>
+      <description>Note Special was a very fun challenge from the general skills category (which is PicoCTF&amp;rsquo;s misc category).
+I always enjoy bypassing these weird bash filters. It was not different from the previous ones I did, but it was still cool.
+Let&amp;rsquo;s dive into it !
+Description Don&amp;#39;t power users get tired of making spelling mistakes in the shell? Not anymore! Enter Special, the Spell Checked Interface for Affecting Linux. Now, every word is properly spelled and capitalized.</description>
+    </item>
+    
+    <item>
       <title>🇬🇧 LACTF 2023 - pwn/rickroll</title>
       <link>/posts/2023/02/lactf-2023-pwn/rickroll/</link>
       <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
@@ -114,20 +126,6 @@ checksec bot_patched &amp;amp;&amp;amp; file bot_patched [*] &amp;#39;/home/conf
       <description>Note First pwn challenge of this CTF. It&amp;rsquo;s pretty easy because it only consists in overwriting a variable on the stack to make a condition valid and print the flag.
 Description If I gaslight you enough, you won&amp;#39;t be able to get my flag! :) Note: The attached binary is the exact same as the one executing on the remote server. Dockerfile, gatekeep.c, gatekeep
 File information checksec gatekeep &amp;amp;&amp;amp; file gatekeep [*] &amp;#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled gatekeep: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.</description>
-    </item>
-    
-    <item>
-      <title>📗 HackTheBox - Photobomb</title>
-      <link>/posts/2023/02/hackthebox-photobomb/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/02/hackthebox-photobomb/</guid>
-      <description>Table of contents Recon
-Foothold
-Privilege Escalation
-Note Il s&amp;rsquo;agit de la toute première room que j&amp;rsquo;ai flag sur HTB, il y a de ça 3 ou 4 mois. Elle était correcte, vous allez encore un peu pouvoir apprécier mon superbe Ubuntu riced on gnome (c&amp;rsquo;est une horreur).
-Recon La page est assez sobre, avec un lien et.. c&amp;rsquo;est tout
-Le lien nous envoie vers /printer, qui nous demande un username et un mot de passe</description>
     </item>
     
   </channel>
