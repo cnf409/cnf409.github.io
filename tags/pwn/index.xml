@@ -7,7 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 12 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
+      <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/what-is-a-race-condition-attack/</guid>
+      <description>Table of contents Introduction
+Time of check, Time of use
+Example
+How to avoid these attacks
+Conclusion
+Further documentation
+Prerequisites none
+Introduction With our current technology, computers are often faster than humans at doing things in general. Today, we&amp;rsquo;re going to show that with the right timing, this speed becomes pretty useless&amp;hellip;
+Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into Race Condition attacks to better understand what they are and how they work !</description>
+    </item>
+    
     <item>
       <title>🇫🇷 ROPEmporium - ret2csu (x64)</title>
       <link>/posts/2023/03/ropemporium-ret2csu-x64/</link>
@@ -107,16 +124,6 @@ Description On completing our usual checks for interesting strings and symbols i
       <guid>/posts/2023/01/ropemporium-callme-x64/</guid>
       <description>Note Troisième exo de ROPEmporium, un peu plus court que les deux précédents puisqu&amp;rsquo;il reprend des concepts qu&amp;rsquo;on connaît déjà donc pas trop de difficulté. Par contre un petit problème au niveau de la consigne il me semble.
 Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur discord pour me le dire.
-Si vous ne comprenez pas quelque chose, je vous invite à regarder la série dans l&amp;rsquo;ordre.</description>
-    </item>
-    
-    <item>
-      <title>🇫🇷 ROPEmporium - split (x64)</title>
-      <link>/posts/2023/01/ropemporium-split-x64/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/01/ropemporium-split-x64/</guid>
-      <description>Note Deuxième exercice de ROPEmporium, un tout petit peu plus complexe que le précédent mais il reste très accessible. Je vais essayer une fois de plus d&amp;rsquo;expliquer le plus clairement possible ce que j&amp;rsquo;ai fait pour le réussir. Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur discord pour me le dire.
 Si vous ne comprenez pas quelque chose, je vous invite à regarder la série dans l&amp;rsquo;ordre.</description>
     </item>
     

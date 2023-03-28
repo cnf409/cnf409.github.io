@@ -6,8 +6,138 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Sun, 12 Mar 2023 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
+            <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
+            <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2023/03/what-is-a-race-condition-attack/</guid>
+            <description>Table of contents Introduction
+Time of check, Time of use
+Example
+How to avoid these attacks
+Conclusion
+Further documentation
+Prerequisites none
+Introduction With our current technology, computers are often faster than humans at doing things in general. Today, we&amp;rsquo;re going to show that with the right timing, this speed becomes pretty useless&amp;hellip;
+Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into Race Condition attacks to better understand what they are and how they work !</description>
+            <content type="html"><![CDATA[<h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="#introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#time-of-check-time-of-use">Time of check, Time of use</a></p>
+</li>
+<li>
+<p><a href="#example">Example</a></p>
+</li>
+<li>
+<p><a href="#how-to-avoid-these-attacks">How to avoid these attacks</a></p>
+</li>
+<li>
+<p><a href="#conclusion">Conclusion</a></p>
+</li>
+<li>
+<p><a href="#further-documentation">Further documentation</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="prerequisites">Prerequisites</h1>
+<p><em>none</em></p>
+<h1 id="introduction">Introduction</h1>
+<p>With our current technology, computers are often faster than humans at doing things in general. Today, we&rsquo;re going to show that with the right timing, this speed becomes pretty useless&hellip;</p>
+<p>Of course, we are not actually going to be faster than the computer, but let&rsquo;s dive into <strong>Race Condition attacks</strong> to better understand what they are and how they work !</p>
+<p>First of all, we&rsquo;ll go through what is known as <em>Time of check</em> and <em>Time of use</em>, then, we&rsquo;ll illustrate this attack with an example taken from a CTF. In the last part, we&rsquo;ll briefly see how they can be spotted, and thus avoided.</p>
+<h1 id="time-of-check-time-of-use">Time of check, Time of use</h1>
+<p><strong>Time Of Check To Time Of Use</strong> (also known as <em>TOCTOU</em> or <em>TOCTTOU</em>) is a class of software bugs caused by a race condition.</p>
+<p>This kind of bugs occur when a resource (such as a file) is checked then modified before it is used thus making the check useless or invalid. They usually happen when the status changes, either maliciously or unintentionally and they often lead to <em>Privilege Escalation</em>, allowing the user to read or modify files they shouldn&rsquo;t be able to.</p>
+<p>They are also very difficult to detect, but we&rsquo;ll go over that in the last part.</p>
+<h1 id="example">Example</h1>
+<p>To illustrate my topic, we are going to take a challenge from <em>PicoCTF 2023</em> called &ldquo;tic-tac&rdquo;.</p>
+<p>We are given this <code>.cpp</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fstream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/stat.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Usage: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> argv[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &lt;filename&gt;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  std<span style="color:#f92672">::</span>string filename <span style="color:#f92672">=</span> argv[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>  std<span style="color:#f92672">::</span>ifstream file(filename);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">stat</span> statbuf;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Check the file&#39;s status information.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (stat(filename.c_str(), <span style="color:#f92672">&amp;</span>statbuf) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: Could not retrieve file information&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Check the file&#39;s owner.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (statbuf.st_uid <span style="color:#f92672">!=</span> getuid()) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: you don&#39;t own this file&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Read the contents of the file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (file.is_open()) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string line;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (getline(file, line)) {
+</span></span><span style="display:flex;"><span>      std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> line <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Error: Could not open file&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>If you want to try this code locally, you can copy it and compile it using <code>g++</code></p>
+</blockquote>
+<p>This program is going to read the file passed as the first argument. First, it checks the file&rsquo;s status information, then, <strong>it checks if the user is the file&rsquo;s owner</strong>. If both these checks pass, it reads the content of the specified file.</p>
+<p>This is a very classic case of <em>Race Condition</em>. Our goal is to read <code>flag.txt</code>.</p>
+<p>Here&rsquo;s what we are going to do:</p>
+<ul>
+<li>First, create a <code>fake_flag.txt</code> file.</li>
+<li>Then, make a <em>symbolic link</em> to this file.</li>
+<li>Finally, make a <code>while</code> loop that keeps switching the <em>symbolic link</em> between the <code>fake_flag.txt</code> and the <code>flag.txt</code> files.</li>
+</ul>
+<p>With a little luck, the loop will change the <em>symlink</em> right after the check is passed, and thus the program will read <code>flag.txt</code>.</p>
+<p>Alright, first, let&rsquo;s create the <code>fake_flag.txt</code> file and make our <em>symlink</em>.</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324512-0a660668-a0b6-480c-9e85-588565d283fc.png" alt="2023-03-17-182749_1914x325_scrot"></p>
+<p>By doing <code>ls -la</code>, we can see that our <code>exploit</code> is pointing to the <code>fake_flag.txt</code> file.</p>
+<p>Then, let&rsquo;s make our loop and put it in the background:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324640-ff779217-0745-4528-b91a-9caa51823e19.png" alt="2023-03-17-182949_1911x969_scrot"></p>
+<p>We can check it is working by running <code>ls -la</code> again and seeing if the <em>symlink</em> changes.</p>
+<p>Now, we could try to launch the process manually but that would be very annoying, so we can also make a loop for that:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324689-c0346748-4a03-46db-a6fc-02c39fad40f8.png" alt="2023-03-17-183348_843x308_scrot"></p>
+<p>This is not mandatory, but it just saves you time because you can&rsquo;t guess the timing for the check.</p>
+<p>Let&rsquo;s run this, and see if it works:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324726-7e25cdd0-a5ef-4916-a7a6-5914c8bd78ca.png" alt="2023-03-17-183510_993x982_scrot"></p>
+<p>As you can see, it failed a lot of times but it worked once and that&rsquo;s all we need !</p>
+<p>Here&rsquo;s a scheme that recaps what happenned (if you can&rsquo;t see it, right click &amp; open image):</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324757-daa63488-0b9b-4356-a71f-65a34e21de63.png" alt="Untitled Diagram drawio(1)"></p>
+<h1 id="how-to-avoid-these-attacks">How to avoid these attacks</h1>
+<p>As I said it in the first part, this kind of attack is hard to detect and to mitigate. The root cause of many TOCTTOU vulnerabilities lies in the lack of concurrency control in an operating system&rsquo;s file-system API and so it&rsquo;s not a problem that&rsquo;s easy to resolve. The challenge therefore is ensuring the file system state, managed by the operating system, cannot change between two system calls.</p>
+<p>There is no global patch for these attacks, the first challenge is obviously to identify them, but patching them is rather hard. A technique could be <em>locking the file</em> before it is checked to ensure it&rsquo;s not getting modified during the process.</p>
+<p>Another technique could be to use error handling: we could use a <em>try/catch</em> that would <em>try</em> to read the specified file, and <em>catch</em> the error if the user can&rsquo;t read it.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p><em>Race Condition</em> attacks are theorically simple and easy to understand, but they can be very dangerous because of their difficulty in being identified and the risks to which they expose the system. Hopefully, there are some ways to avoid them, so make sure to secure your program.</p>
+<p>Thank you for reading this post, if you have any questions feel free to contact me on <a href="https://discord.com/users/254689803822563348">discord</a>.</p>
+<h1 id="further-documentation">Further documentation</h1>
+<p>-&gt; <a href="https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use">https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use</a></p>
+<p>-&gt; <a href="https://www.techtarget.com/searchsecurity/answer/How-to-mitigate-the-risk-of-a-TOCTTOU-attack">https://www.techtarget.com/searchsecurity/answer/How-to-mitigate-the-risk-of-a-TOCTTOU-attack</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>🇫🇷 ROPEmporium - ret2csu (x64)</title>

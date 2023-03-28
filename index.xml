@@ -7,7 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 12 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
+      <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/what-is-a-race-condition-attack/</guid>
+      <description>Table of contents Introduction
+Time of check, Time of use
+Example
+How to avoid these attacks
+Conclusion
+Further documentation
+Prerequisites none
+Introduction With our current technology, computers are often faster than humans at doing things in general. Today, we&amp;rsquo;re going to show that with the right timing, this speed becomes pretty useless&amp;hellip;
+Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into Race Condition attacks to better understand what they are and how they work !</description>
+    </item>
+    
     <item>
       <title>🇫🇷 ROPEmporium - ret2csu (x64)</title>
       <link>/posts/2023/03/ropemporium-ret2csu-x64/</link>
@@ -111,22 +128,6 @@ Privilege Escalation
 Note Il s&amp;rsquo;agit de la toute première room que j&amp;rsquo;ai flag sur HTB, il y a de ça 3 ou 4 mois. Elle était correcte, vous allez encore un peu pouvoir apprécier mon superbe Ubuntu riced on gnome (c&amp;rsquo;est une horreur).
 Recon La page est assez sobre, avec un lien et.. c&amp;rsquo;est tout
 Le lien nous envoie vers /printer, qui nous demande un username et un mot de passe</description>
-    </item>
-    
-    <item>
-      <title>📙 HackTheBox - UpDown</title>
-      <link>/posts/2023/01/hackthebox-updown/</link>
-      <pubDate>Sat, 21 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/01/hackthebox-updown/</guid>
-      <description>Table of contents Recon
-Foothold
-Lateral Move
-Privilege Escalation
-Note Deuxième writeup sur HTB, il a lui aussi été fait il y a longtemps donc c&amp;rsquo;est possible que j&amp;rsquo;ai dit des bêtises, et il y a beaucoup de screens.
-Néanmoins, c&amp;rsquo;était un room assez sympathique avec une méchanique bien trouvée, je l&amp;rsquo;ai bien aimée.
-Recon Comme d’habitude, on lance:
-nmap -A siteisup.htb Aucun port anormal d’ouvert, on va donc se concentrer sur le site et le résultat du dirbuster</description>
     </item>
     
   </channel>

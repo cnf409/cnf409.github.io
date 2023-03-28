@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PicoCTF 2023 Writeups on conflict</title>
+    <link>/series/picoctf-2023-writeups/</link>
+    <description>Recent content in PicoCTF 2023 Writeups on conflict</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/series/picoctf-2023-writeups/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
+      <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/what-is-a-race-condition-attack/</guid>
+      <description>Table of contents Introduction
+Time of check, Time of use
+Example
+How to avoid these attacks
+Conclusion
+Further documentation
+Prerequisites none
+Introduction With our current technology, computers are often faster than humans at doing things in general. Today, we&amp;rsquo;re going to show that with the right timing, this speed becomes pretty useless&amp;hellip;
+Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into Race Condition attacks to better understand what they are and how they work !</description>
+    </item>
+    
+  </channel>
+</rss>
