@@ -39,9 +39,9 @@
 
 
 <meta itemprop="name" content="🇬🇧 PicoCTF 2023 - binexp/hijacking">
-<meta itemprop="description" content="200 pts"><meta itemprop="datePublished" content="2023-03-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2023-03-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="495"><meta itemprop="image" content="/"/>
+<meta itemprop="description" content="200 pts"><meta itemprop="datePublished" content="2023-03-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-03-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="497"><meta itemprop="image" content="/"/>
 <meta itemprop="keywords" content="binary exploitation,python,privesc,library hijacking," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="/"/>
@@ -55,9 +55,9 @@
 <meta property="og:description" content="200 pts" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/2023/03/picoctf-2023-binexp/hijacking/" /><meta property="og:image" content="/"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-03-28T00:00:00+00:00" />
-<meta property="og:see_also" content="/posts/2023/03/picoctf-2023-misc/special/" /><meta property="og:see_also" content="/posts/2023/03/picoctf-2023-misc/specialer/" /><meta property="og:see_also" content="/posts/2023/03/what-is-a-race-condition-attack/" />
+<meta property="article:published_time" content="2023-03-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-03-29T00:00:00+00:00" />
+<meta property="og:see_also" content="/posts/2023/03/picoctf-2023-web/java-code-analysis/" /><meta property="og:see_also" content="/posts/2023/03/picoctf-2023-misc/special/" /><meta property="og:see_also" content="/posts/2023/03/picoctf-2023-misc/specialer/" /><meta property="og:see_also" content="/posts/2023/03/what-is-a-race-condition-attack/" />
 
 
 
@@ -65,7 +65,7 @@
 
 
 
-    <meta property="article:published_time" content="2023-03-28 00:00:00 &#43;0000 UTC" />
+    <meta property="article:published_time" content="2023-03-29 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -183,7 +183,8 @@
 </span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;.server.py&#34;</span>, line <span style="color:#ae81ff">7</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>    host_info <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>gethostbyaddr(ip) 
 </span></span><span style="display:flex;"><span>socket<span style="color:#f92672">.</span>gaierror: [Errno <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>] No address associated <span style="color:#66d9ef">with</span> hostname
-</span></span></code></pre></div><p>There seems to be an error with the script, it also seems it is using the <code>socket</code> library. Since we have access to the <code>vim</code> command, we <em>hijack</em> the <em>socket library</em> and execute malicious python code with <em>sudo</em> privileges (since we can run the command with sudo)</p>
+</span></span></code></pre></div><h2 id="library-hijacking">Library Hijacking</h2>
+<p>There seems to be an error with the script, it also seems it is using the <code>socket</code> library. Since we have access to the <code>vim</code> command, we <em>hijack</em> the <em>socket library</em> and execute malicious python code with <em>sudo</em> privileges (since we can run the command with sudo)</p>
 <p>Le&rsquo;s first take a look at the code to make sure the library is actually imported:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> base64
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
@@ -240,7 +241,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        495 Words
+        497 Words
       </p>
 
       <p>
@@ -251,7 +252,7 @@
           <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
         
-          2023-28-03 02:00
+          2023-29-03 02:00
         
 
          
@@ -358,6 +359,13 @@
         
 
         <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="/posts/2023/03/picoctf-2023-web/java-code-analysis/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</span>
+                </a>
+            </span>
             
 
             

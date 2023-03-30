@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jwt on conflict</title>
+    <link>/tags/jwt/</link>
+    <description>Recent content in jwt on conflict</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Thu, 30 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/jwt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</title>
+      <link>/posts/2023/03/picoctf-2023-web/java-code-analysis/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/03/picoctf-2023-web/java-code-analysis/</guid>
+      <description>Note Java Code Analysis!?! was a web exploitation challenge from PicoCTF 2023.
+I have done a bunch of JWT challenges, especially on https://root-me.org and I&amp;rsquo;m starting to like exploiting these tokens. Anyways, it was a fun challenge with some basic code analysis and JWT exploiting.
+Description BookShelf Pico, my premium online book-reading service. I believe that my website is super secure. I challenge you to prove me wrong by reading the &amp;#39;Flag&amp;#39; book!</description>
+    </item>
+    
+  </channel>
+</rss>
