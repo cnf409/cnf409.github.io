@@ -2,10 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/posts/2023/03/picoctf-2023-web/java-code-analysis/</loc>
-    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
+    <loc>/posts/2023/04/hackthebox-broscience/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/file-upload/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/fuzzing/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/hackthebox-writeups/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/lfi/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/linux/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/php-unserialize/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/privilege-escalation/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/2023/03/picoctf-2023-web/java-code-analysis/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/java/</loc>
@@ -15,15 +48,6 @@
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/series/picoctf-2023-writeups/</loc>
-    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/series/</loc>
-    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/web/</loc>
@@ -110,9 +134,6 @@
     <loc>/tags/buffer-overflow/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/lfi/</loc>
-    <lastmod>2023-03-11T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/nosql/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
@@ -152,13 +173,7 @@
     <loc>/tags/command-injection/</loc>
     <lastmod>2023-02-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/series/hackthebox-writeups/</loc>
-    <lastmod>2023-02-13T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/js/</loc>
-    <lastmod>2023-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/linux/</loc>
     <lastmod>2023-02-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/path-hijacking/</loc>
@@ -170,13 +185,7 @@
     <loc>/tags/cve/</loc>
     <lastmod>2023-01-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/tags/file-upload/</loc>
-    <lastmod>2023-01-21T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/filters-bypass/</loc>
-    <lastmod>2023-01-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/fuzzing/</loc>
     <lastmod>2023-01-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2023/01/hackthebox-shoppy/</loc>

@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 30 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>📙 HackTheBox - BroScience</title>
+      <link>/posts/2023/04/hackthebox-broscience/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/04/hackthebox-broscience/</guid>
+      <description>Table of contents Fuzzing
+Foothold
+Privilege Escalation
+broscience.htb Difficulty: Medium OS: Linux Link: https://app.hackthebox.com/machines/BroScience Note Super room, j&amp;rsquo;ai beaucoup aimé, un foothold que j&amp;rsquo;ai trouvé assez dur avec beaucoup d&amp;rsquo;analyse de code. En revanche la privesc est beaucoup trop facile, mais globalement c&amp;rsquo;était cool 👍
+Fuzzing nmap -sC -sV broscience.htb Starting Nmap 7.80 ( https://nmap.org ) at 2023-02-01 19:19 CET Nmap scan report for broscience.htb (10.10.11.195) Host is up (0.24s latency).</description>
+    </item>
+    
     <item>
       <title>🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</title>
       <link>/posts/2023/03/picoctf-2023-web/java-code-analysis/</link>
@@ -115,17 +128,6 @@ Description Hey what do you think about my blog? Hint: where are password&amp;rs
 Recon The main page is a beautiful default blog page, nothing much to do here
 If we look around and try to see posts, we can see that they&amp;rsquo;re fetched through a GET parameter:
 Exploitation This kind of parameter is usually vulnerable to LFI, which would allow us to render any file from the server.</description>
-    </item>
-    
-    <item>
-      <title>🇬🇧 RushCTF 2023 - web/secure-vault-v2</title>
-      <link>/posts/2023/03/rushctf-2023-web/secure-vault-v2/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/03/rushctf-2023-web/secure-vault-v2/</guid>
-      <description>Note First web challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.
-Description My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck Hint: SAY NO TO &amp;hellip;
-Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo;say no to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do NoSQL Injection.</description>
     </item>
     
   </channel>

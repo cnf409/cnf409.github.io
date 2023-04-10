@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 30 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HackTheBox Writeups</title>
+      <link>/series/hackthebox-writeups/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/series/hackthebox-writeups/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>PicoCTF 2023 Writeups</title>
       <link>/series/picoctf-2023-writeups/</link>
@@ -50,15 +59,6 @@
       <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
       
       <guid>/series/lactf-2023-writeups/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HackTheBox Writeups</title>
-      <link>/series/hackthebox-writeups/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/series/hackthebox-writeups/</guid>
       <description></description>
     </item>
     
