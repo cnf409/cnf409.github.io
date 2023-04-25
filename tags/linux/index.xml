@@ -10,10 +10,10 @@
     <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>📙 HackTheBox - BroScience</title>
-      <link>/posts/2023/04/hackthebox-broscience/</link>
+      <link>/htb/broscience/</link>
       <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/04/hackthebox-broscience/</guid>
+      <guid>/htb/broscience/</guid>
       <description>Table of contents Fuzzing
 Foothold
 Privilege Escalation
@@ -23,10 +23,10 @@ Fuzzing nmap -sC -sV broscience.htb Starting Nmap 7.80 ( https://nmap.org ) at 2
     
     <item>
       <title>📗 HackTheBox - Photobomb</title>
-      <link>/posts/2023/02/hackthebox-photobomb/</link>
+      <link>/htb/photobomb/</link>
       <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/02/hackthebox-photobomb/</guid>
+      <guid>/htb/photobomb/</guid>
       <description>Table of contents Recon
 Foothold
 Privilege Escalation
@@ -37,10 +37,10 @@ Le lien nous envoie vers /printer, qui nous demande un username et un mot de pas
     
     <item>
       <title>📙 HackTheBox - UpDown</title>
-      <link>/posts/2023/01/hackthebox-updown/</link>
+      <link>/htb/updown/</link>
       <pubDate>Sat, 21 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-updown/</guid>
+      <guid>/htb/updown/</guid>
       <description>Table of contents Recon
 Foothold
 Lateral Move
@@ -53,10 +53,10 @@ nmap -A siteisup.htb Aucun port anormal d’ouvert, on va donc se concentrer sur
     
     <item>
       <title>📗 HackTheBox - Shoppy</title>
-      <link>/posts/2023/01/hackthebox-shoppy/</link>
+      <link>/htb/shoppy/</link>
       <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-shoppy/</guid>
+      <guid>/htb/shoppy/</guid>
       <description>Table of contents Recon
 Foothold
 Lateral Move
@@ -67,10 +67,10 @@ Vous allez aussi pouvoir voir à quoi ressemblait mon mAgniFiQuE Ubuntu à cette
     
     <item>
       <title>📙 HackTheBox - Ambassador</title>
-      <link>/posts/2023/01/hackthebox-ambassador/</link>
+      <link>/htb/ambassador/</link>
       <pubDate>Wed, 04 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-ambassador/</guid>
+      <guid>/htb/ambassador/</guid>
       <description>Table of contents Recon
 Foothold
 Privilege Escalation

@@ -10,10 +10,10 @@
     <lastBuildDate>Wed, 04 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/consul/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>📙 HackTheBox - Ambassador</title>
-      <link>/posts/2023/01/hackthebox-ambassador/</link>
+      <link>/htb/ambassador/</link>
       <pubDate>Wed, 04 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-ambassador/</guid>
+      <guid>/htb/ambassador/</guid>
       <description>Table of contents Recon
 Foothold
 Privilege Escalation

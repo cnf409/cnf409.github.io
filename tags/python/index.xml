@@ -10,10 +10,10 @@
     <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🇬🇧 PicoCTF 2023 - binexp/hijacking</title>
-      <link>/invis/picoctf2023-hijacking/</link>
+      <link>/trash/picoctf2023-hijacking/</link>
       <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/invis/picoctf2023-hijacking/</guid>
+      <guid>/trash/picoctf2023-hijacking/</guid>
       <description>Note Hijacking was a binary exploitation challenge from PicoCTF 2023.
 It was interesting and I always enjoy these privilege escalation exploits. They are very common in HackTheBox and TryHackMe boxes, so it&amp;rsquo;s useful to know about them.
 Description Getting root access can allow you to read the flag. Luckily there is a python file that you might like to play with. Through Social engineering, we&amp;#39;ve got the credentials to use on the server.</description>

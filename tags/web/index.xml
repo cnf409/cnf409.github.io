@@ -21,10 +21,10 @@ Description BookShelf Pico, my premium online book-reading service. I believe th
     
     <item>
       <title>🇬🇧 RushCTF 2023 - web/blog</title>
-      <link>/invis/rushctf2023-blog/</link>
+      <link>/trash/rushctf2023-blog/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/invis/rushctf2023-blog/</guid>
+      <guid>/trash/rushctf2023-blog/</guid>
       <description>Note Second web challenge from the RushCTF 2023.
 Description Hey what do you think about my blog? Hint: where are password&amp;rsquo;s stored?
 Recon The main page is a beautiful default blog page, nothing much to do here
@@ -34,10 +34,10 @@ Exploitation This kind of parameter is usually vulnerable to LFI, which would al
     
     <item>
       <title>🇬🇧 RushCTF 2023 - web/secure-vault-v2</title>
-      <link>/invis/rushctf2023-securevaultv2/</link>
+      <link>/trash/rushctf2023-securevaultv2/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/invis/rushctf2023-securevaultv2/</guid>
+      <guid>/trash/rushctf2023-securevaultv2/</guid>
       <description>Note First web challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.
 Description My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck Hint: SAY NO TO &amp;hellip;
 Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo;say no to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do NoSQL Injection.</description>

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/posts/2023/04/hackthebox-broscience/</loc>
+    <loc>/htb/broscience/</loc>
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/</loc>
@@ -17,6 +17,9 @@
     <loc>/series/hackthebox-writeups/</loc>
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/htb/</loc>
+    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/lfi/</loc>
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
@@ -24,9 +27,6 @@
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/php-unserialize/</loc>
-    <lastmod>2023-04-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/privilege-escalation/</loc>
@@ -50,16 +50,16 @@
     <loc>/series/picoctf-2023-writeups/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/web/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/picoctf2023-hijacking/</loc>
+    <loc>/trash/picoctf2023-hijacking/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/binary-exploitation/</loc>
-    <lastmod>2023-03-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/invis/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/library-hijacking/</loc>
@@ -69,6 +69,9 @@
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/python/</loc>
+    <lastmod>2023-03-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/trash/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2023/03/picoctf-2023-misc/special/</loc>
@@ -119,16 +122,16 @@
     <loc>/series/ropemporium-x64-series/</loc>
     <lastmod>2023-03-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/rushctf2023-onyo/</loc>
+    <loc>/trash/rushctf2023-onyo/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/rushctf2023-poune/</loc>
+    <loc>/trash/rushctf2023-poune/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/rushctf2023-blog/</loc>
+    <loc>/trash/rushctf2023-blog/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/rushctf2023-securevaultv2/</loc>
+    <loc>/trash/rushctf2023-securevaultv2/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/bruteforce/</loc>
@@ -164,10 +167,10 @@
     <loc>/posts/2023/02/lactf-2023-pwn/bot/</loc>
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/invis/lactf2023-gatekeep/</loc>
+    <loc>/trash/lactf2023-gatekeep/</loc>
     <lastmod>2023-02-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/02/hackthebox-photobomb/</loc>
+    <loc>/htb/photobomb/</loc>
     <lastmod>2023-02-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/burpsuite/</loc>
@@ -182,7 +185,7 @@
     <loc>/tags/path-hijacking/</loc>
     <lastmod>2023-02-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/01/hackthebox-updown/</loc>
+    <loc>/htb/updown/</loc>
     <lastmod>2023-01-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/cve/</loc>
@@ -191,7 +194,7 @@
     <loc>/tags/filters-bypass/</loc>
     <lastmod>2023-01-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/01/hackthebox-shoppy/</loc>
+    <loc>/htb/shoppy/</loc>
     <lastmod>2023-01-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/docker-escape/</loc>
@@ -215,7 +218,7 @@
     <loc>/posts/2023/01/ropemporium-badchars-x64/</loc>
     <lastmod>2023-01-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/01/hackthebox-ambassador/</loc>
+    <loc>/htb/ambassador/</loc>
     <lastmod>2023-01-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/consul/</loc>

@@ -10,10 +10,10 @@
     <lastBuildDate>Sat, 21 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cve/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>📙 HackTheBox - UpDown</title>
-      <link>/posts/2023/01/hackthebox-updown/</link>
+      <link>/htb/updown/</link>
       <pubDate>Sat, 21 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-updown/</guid>
+      <guid>/htb/updown/</guid>
       <description>Table of contents Recon
 Foothold
 Lateral Move
@@ -26,10 +26,10 @@ nmap -A siteisup.htb Aucun port anormal d’ouvert, on va donc se concentrer sur
     
     <item>
       <title>📙 HackTheBox - Ambassador</title>
-      <link>/posts/2023/01/hackthebox-ambassador/</link>
+      <link>/htb/ambassador/</link>
       <pubDate>Wed, 04 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/01/hackthebox-ambassador/</guid>
+      <guid>/htb/ambassador/</guid>
       <description>Table of contents Recon
 Foothold
 Privilege Escalation

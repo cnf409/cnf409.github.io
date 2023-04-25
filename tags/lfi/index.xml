@@ -10,10 +10,10 @@
     <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/lfi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>📙 HackTheBox - BroScience</title>
-      <link>/posts/2023/04/hackthebox-broscience/</link>
+      <link>/htb/broscience/</link>
       <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/04/hackthebox-broscience/</guid>
+      <guid>/htb/broscience/</guid>
       <description>Table of contents Fuzzing
 Foothold
 Privilege Escalation
@@ -23,10 +23,10 @@ Fuzzing nmap -sC -sV broscience.htb Starting Nmap 7.80 ( https://nmap.org ) at 2
     
     <item>
       <title>🇬🇧 RushCTF 2023 - web/blog</title>
-      <link>/invis/rushctf2023-blog/</link>
+      <link>/trash/rushctf2023-blog/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/invis/rushctf2023-blog/</guid>
+      <guid>/trash/rushctf2023-blog/</guid>
       <description>Note Second web challenge from the RushCTF 2023.
 Description Hey what do you think about my blog? Hint: where are password&amp;rsquo;s stored?
 Recon The main page is a beautiful default blog page, nothing much to do here
