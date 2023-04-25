@@ -23,10 +23,10 @@ Fuzzing nmap -sC -sV broscience.htb Starting Nmap 7.80 ( https://nmap.org ) at 2
     
     <item>
       <title>🇬🇧 RushCTF 2023 - web/blog</title>
-      <link>/posts/2023/03/rushctf-2023-web/blog/</link>
+      <link>/invis/rushctf2023-blog/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/03/rushctf-2023-web/blog/</guid>
+      <guid>/invis/rushctf2023-blog/</guid>
       <description>Note Second web challenge from the RushCTF 2023.
 Description Hey what do you think about my blog? Hint: where are password&amp;rsquo;s stored?
 Recon The main page is a beautiful default blog page, nothing much to do here

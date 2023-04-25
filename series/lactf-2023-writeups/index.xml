@@ -33,10 +33,10 @@ checksec bot_patched &amp;amp;&amp;amp; file bot_patched [*] &amp;#39;/home/conf
     
     <item>
       <title>🇬🇧 LACTF 2023 - pwn/gatekeep</title>
-      <link>/posts/2023/02/lactf-2023-pwn/gatekeep/</link>
+      <link>/invis/lactf2023-gatekeep/</link>
       <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/02/lactf-2023-pwn/gatekeep/</guid>
+      <guid>/invis/lactf2023-gatekeep/</guid>
       <description>Note First pwn challenge of this CTF. It&amp;rsquo;s pretty easy because it only consists in overwriting a variable on the stack to make a condition valid and print the flag.
 Description If I gaslight you enough, you won&amp;#39;t be able to get my flag! :) Note: The attached binary is the exact same as the one executing on the remote server. Dockerfile, gatekeep.c, gatekeep
 File information checksec gatekeep &amp;amp;&amp;amp; file gatekeep [*] &amp;#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled gatekeep: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.</description>

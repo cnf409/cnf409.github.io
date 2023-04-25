@@ -10,10 +10,10 @@
     <lastBuildDate>Sat, 11 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/nosql-injection/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🇬🇧 RushCTF 2023 - web/secure-vault-v2</title>
-      <link>/posts/2023/03/rushctf-2023-web/secure-vault-v2/</link>
+      <link>/invis/rushctf2023-securevaultv2/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       
-      <guid>/posts/2023/03/rushctf-2023-web/secure-vault-v2/</guid>
+      <guid>/invis/rushctf2023-securevaultv2/</guid>
       <description>Note First web challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.
 Description My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck Hint: SAY NO TO &amp;hellip;
 Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo;say no to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do NoSQL Injection.</description>

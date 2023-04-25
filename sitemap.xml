@@ -53,10 +53,13 @@
     <loc>/tags/web/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/picoctf-2023-binexp/hijacking/</loc>
+    <loc>/invis/picoctf2023-hijacking/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/binary-exploitation/</loc>
+    <lastmod>2023-03-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/invis/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/library-hijacking/</loc>
@@ -116,16 +119,16 @@
     <loc>/series/ropemporium-x64-series/</loc>
     <lastmod>2023-03-12T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/rushctf-2023-pwn/onyo/</loc>
+    <loc>/invis/rushctf2023-onyo/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/rushctf-2023-pwn/poune/</loc>
+    <loc>/invis/rushctf2023-poune/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/rushctf-2023-web/blog/</loc>
+    <loc>/invis/rushctf2023-blog/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/rushctf-2023-web/secure-vault-v2/</loc>
+    <loc>/invis/rushctf2023-securevaultv2/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/bruteforce/</loc>
@@ -161,7 +164,7 @@
     <loc>/posts/2023/02/lactf-2023-pwn/bot/</loc>
     <lastmod>2023-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/02/lactf-2023-pwn/gatekeep/</loc>
+    <loc>/invis/lactf2023-gatekeep/</loc>
     <lastmod>2023-02-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2023/02/hackthebox-photobomb/</loc>

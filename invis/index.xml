@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>RushCTF 2023 Writeups on conflict</title>
-    <link>/series/rushctf-2023-writeups/</link>
-    <description>Recent content in RushCTF 2023 Writeups on conflict</description>
+    <title>Invis on conflict</title>
+    <link>/invis/</link>
+    <description>Recent content in Invis on conflict</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 11 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/series/rushctf-2023-writeups/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="/invis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - binexp/hijacking</title>
+      <link>/invis/picoctf2023-hijacking/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/invis/picoctf2023-hijacking/</guid>
+      <description>Note Hijacking was a binary exploitation challenge from PicoCTF 2023.
+It was interesting and I always enjoy these privilege escalation exploits. They are very common in HackTheBox and TryHackMe boxes, so it&amp;rsquo;s useful to know about them.
+Description Getting root access can allow you to read the flag. Luckily there is a python file that you might like to play with. Through Social engineering, we&amp;#39;ve got the credentials to use on the server.</description>
+    </item>
+    
     <item>
       <title>🇬🇧 RushCTF 2023 - pwn/onyo</title>
       <link>/invis/rushctf2023-onyo/</link>
@@ -52,6 +63,17 @@ Exploitation This kind of parameter is usually vulnerable to LFI, which would al
       <description>Note First web challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.
 Description My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck Hint: SAY NO TO &amp;hellip;
 Recon Since the description talks about SQL, and the hint tells us to &amp;ldquo;say no to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do NoSQL Injection.</description>
+    </item>
+    
+    <item>
+      <title>🇬🇧 LACTF 2023 - pwn/gatekeep</title>
+      <link>/invis/lactf2023-gatekeep/</link>
+      <pubDate>Wed, 15 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/invis/lactf2023-gatekeep/</guid>
+      <description>Note First pwn challenge of this CTF. It&amp;rsquo;s pretty easy because it only consists in overwriting a variable on the stack to make a condition valid and print the flag.
+Description If I gaslight you enough, you won&amp;#39;t be able to get my flag! :) Note: The attached binary is the exact same as the one executing on the remote server. Dockerfile, gatekeep.c, gatekeep
+File information checksec gatekeep &amp;amp;&amp;amp; file gatekeep [*] &amp;#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: PIE enabled gatekeep: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.</description>
     </item>
     
   </channel>
