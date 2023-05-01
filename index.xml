@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 FCSC 2023 - pwn/robot</title>
+      <link>/posts/2023/04/fcsc-2023-pwn/robot/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/04/fcsc-2023-pwn/robot/</guid>
+      <description>Note robot était un challenge de pwn issu du FCSC 2023. Globalement un très bon challenge, et surtout une très bonne initiation à l&amp;rsquo;exploitation heap puisque je n&amp;rsquo;en avais jamais fait !
+Description La startup _FunWithRobots &amp;amp; Co._ souhaite proposer un service interactif, qui tourne sur un serveur distant et qui simule un robot avec beaucoup de réalisme. Mais la veille de l&amp;#39;inauguration, le chef de projet se souvient d&amp;#39;une vague mention concernant des exigences de sécurité.</description>
+    </item>
+    
     <item>
       <title>📙 HackTheBox - BroScience</title>
       <link>/htb/broscience/</link>
@@ -115,19 +125,6 @@ File information checksec chall &amp;amp;&amp;amp; file chall [*] &amp;#39;/home
       <description>Note Writeup for the first pwn challenge from the RushCTF 2023.
 Description Hello kind sir! Can you read flag.txt? poune.zip
 File information checksec chall &amp;amp;&amp;amp; file chall [*] &amp;#39;/home/conflict/ctfs/rushctf2023/pwn/poune/chall&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) chall: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f24ec1597edb178ec5b862b44e5fbcb92df3137, for GNU/Linux 3.2.0, not stripped So, we&amp;rsquo;re going to work on a 64 bits non-stripped dynamically linked executable, with NX enabled.</description>
-    </item>
-    
-    <item>
-      <title>🇬🇧 RushCTF 2023 - web/blog</title>
-      <link>/trash/rushctf2023-blog/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/trash/rushctf2023-blog/</guid>
-      <description>Note Second web challenge from the RushCTF 2023.
-Description Hey what do you think about my blog? Hint: where are password&amp;rsquo;s stored?
-Recon The main page is a beautiful default blog page, nothing much to do here
-If we look around and try to see posts, we can see that they&amp;rsquo;re fetched through a GET parameter:
-Exploitation This kind of parameter is usually vulnerable to LFI, which would allow us to render any file from the server.</description>
     </item>
     
   </channel>

@@ -7,7 +7,34 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 10 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gdb</title>
+      <link>/tags/gdb/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/gdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>heap</title>
+      <link>/tags/heap/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/heap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pwn</title>
+      <link>/tags/pwn/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pwn/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>file upload</title>
       <link>/tags/file-upload/</link>
@@ -68,33 +95,6 @@
       <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
       
       <guid>/tags/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>jwt</title>
-      <link>/tags/jwt/</link>
-      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/jwt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>web</title>
-      <link>/tags/web/</link>
-      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/web/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>binary exploitation</title>
-      <link>/tags/binary-exploitation/</link>
-      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/binary-exploitation/</guid>
       <description></description>
     </item>
     

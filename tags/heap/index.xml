@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>heap on conflict</title>
+    <link>/tags/heap/</link>
+    <description>Recent content in heap on conflict</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/heap/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 FCSC 2023 - pwn/robot</title>
+      <link>/posts/2023/04/fcsc-2023-pwn/robot/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/04/fcsc-2023-pwn/robot/</guid>
+      <description>Note robot était un challenge de pwn issu du FCSC 2023. Globalement un très bon challenge, et surtout une très bonne initiation à l&amp;rsquo;exploitation heap puisque je n&amp;rsquo;en avais jamais fait !
+Description La startup _FunWithRobots &amp;amp; Co._ souhaite proposer un service interactif, qui tourne sur un serveur distant et qui simule un robot avec beaucoup de réalisme. Mais la veille de l&amp;#39;inauguration, le chef de projet se souvient d&amp;#39;une vague mention concernant des exigences de sécurité.</description>
+    </item>
+    
+  </channel>
+</rss>
