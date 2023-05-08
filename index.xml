@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
+      <link>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</guid>
+      <description>Note VIP at LIBC était un challenge de pwn issu du PwnMe CTF 2023. Un challenge d&amp;rsquo;intro (??) très sympa, avec un petit plus qui lui permet de se démarquer des classiques ret2libc.
+Description Sooo I heard that if you were VIP, you could access some specific features! Maybe one of those features can be used to get inside their system? Author: Zerotistic#0001 vip_at_libc.tgz
+Analyse du fichier On a le binaire et la libc qui va avec, ça nous indique déjà qu&amp;rsquo;on va probablement devoir interagir avec.</description>
+    </item>
+    
     <item>
       <title>🇫🇷 FCSC 2023 - pwn/robot</title>
       <link>/posts/2023/04/fcsc-2023-pwn/robot/</link>
@@ -114,17 +125,6 @@ Comme d&amp;rsquo;habitude, si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hés
       <description>Note Writeup for the second pwn challenge from the RushCTF 2023.
 Description Hello frend! Can you read flag.txt? onyo.zip
 File information checksec chall &amp;amp;&amp;amp; file chall [*] &amp;#39;/home/conflict/ctfs/rushctf2023/pwn/onyo/chall&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) chall: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=838c3ab2792a09b81c8259f7b86265675b60d80e, for GNU/Linux 3.2.0, not stripped So, we&amp;rsquo;re going to work on a 64 bits non-stripped dynamically linked executable, with NX enabled.</description>
-    </item>
-    
-    <item>
-      <title>🇬🇧 RushCTF 2023 - pwn/poune</title>
-      <link>/trash/rushctf2023-poune/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/trash/rushctf2023-poune/</guid>
-      <description>Note Writeup for the first pwn challenge from the RushCTF 2023.
-Description Hello kind sir! Can you read flag.txt? poune.zip
-File information checksec chall &amp;amp;&amp;amp; file chall [*] &amp;#39;/home/conflict/ctfs/rushctf2023/pwn/poune/chall&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) chall: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6f24ec1597edb178ec5b862b44e5fbcb92df3137, for GNU/Linux 3.2.0, not stripped So, we&amp;rsquo;re going to work on a 64 bits non-stripped dynamically linked executable, with NX enabled.</description>
     </item>
     
   </channel>

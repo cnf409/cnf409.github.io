@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
+      <link>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</guid>
+      <description>Note VIP at LIBC était un challenge de pwn issu du PwnMe CTF 2023. Un challenge d&amp;rsquo;intro (??) très sympa, avec un petit plus qui lui permet de se démarquer des classiques ret2libc.
+Description Sooo I heard that if you were VIP, you could access some specific features! Maybe one of those features can be used to get inside their system? Author: Zerotistic#0001 vip_at_libc.tgz
+Analyse du fichier On a le binaire et la libc qui va avec, ça nous indique déjà qu&amp;rsquo;on va probablement devoir interagir avec.</description>
+    </item>
+    
     <item>
       <title>🇫🇷 FCSC 2023 - pwn/robot</title>
       <link>/posts/2023/04/fcsc-2023-pwn/robot/</link>
@@ -112,18 +123,6 @@ File information checksec gatekeep &amp;amp;&amp;amp; file gatekeep [*] &amp;#39
 Comme d&amp;rsquo;habitude, si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur discord pour me le dire.
 Si vous ne comprenez pas quelque chose, je vous invite à regarder la série dans l&amp;rsquo;ordre.
 Et je vous conseille fortement de lire l&amp;rsquo;exercice précédent pour mieux comprendre ce que je fais ici puisque la méchanique principale est la même.</description>
-    </item>
-    
-    <item>
-      <title>🇫🇷 ROPEmporium - write4 (x64)</title>
-      <link>/posts/2023/01/ropemporium-write4-x64/</link>
-      <pubDate>Tue, 03 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/2023/01/ropemporium-write4-x64/</guid>
-      <description>Note Quatrième exo de ROPEmporium, il introduit une nouvelle méchanique et nous pousse à utiliser un nouveau type de gadget, très intéressant
-Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur discord pour me le dire.
-Si vous ne comprenez pas quelque chose, je vous invite à regarder la série dans l&amp;rsquo;ordre.
-Description On completing our usual checks for interesting strings and symbols in this binary we&amp;#39;re confronted with the stark truth that our favourite string &amp;#34;/bin/cat flag.</description>
     </item>
     
   </channel>

