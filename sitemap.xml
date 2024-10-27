@@ -5,6 +5,12 @@
     <loc>/posts/2024/10/heroctf-2024-pwn/bankrupst/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/posts/2024/10/heroctf-2024-pwn/heappie/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/buffer-overflow/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
@@ -15,6 +21,9 @@
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/logic-bug/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/pointer-overwrite/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/</loc>
@@ -174,9 +183,6 @@
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/bruteforce/</loc>
-    <lastmod>2023-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/buffer-overflow/</loc>
     <lastmod>2023-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/nosql/</loc>

