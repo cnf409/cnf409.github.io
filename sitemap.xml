@@ -2,22 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/2024/10/heroctf-2024-pwn/bankrupst/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/</loc>
-    <lastmod>2028-10-27T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/heap/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/heroctf-2024-writeups/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/logic-bug/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/</loc>
-    <lastmod>2028-10-27T00:00:00+00:00</lastmod>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/pwn/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/uaf/</loc>
+    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/bof/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/logic-bug/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/pwn/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/series/pwnme-2023-writeups/</loc>
@@ -29,12 +47,6 @@
     <loc>/tags/ret2main/</loc>
     <lastmod>2023-05-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/series/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2023-05-08T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/posts/2023/04/fcsc-2023-pwn/robot/</loc>
     <lastmod>2023-04-30T00:00:00+00:00</lastmod>
   </url><url>
@@ -42,9 +54,6 @@
     <lastmod>2023-04-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/gdb/</loc>
-    <lastmod>2023-04-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/heap/</loc>
     <lastmod>2023-04-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/htb/broscience/</loc>

@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HeroCTF 2024 Writeups</title>
+      <link>/series/heroctf-2024-writeups/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/series/heroctf-2024-writeups/</guid>
+      <description></description>
+    </item>
     <item>
       <title>PwnMe 2023 Writeups</title>
       <link>/series/pwnme-2023-writeups/</link>

