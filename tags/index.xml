@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on conflict</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Heap</title>
+      <link>/tags/heap/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/heap/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Logic Bug</title>
+      <link>/tags/logic-bug/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/logic-bug/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pwn</title>
+      <link>/tags/pwn/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/pwn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uaf</title>
+      <link>/tags/uaf/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/tags/uaf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bof</title>
+      <link>/tags/bof/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/bof/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ret2libc</title>
+      <link>/tags/ret2libc/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/ret2libc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ret2main</title>
+      <link>/tags/ret2main/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/ret2main/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gdb</title>
+      <link>/tags/gdb/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/gdb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>File Upload</title>
+      <link>/tags/file-upload/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/file-upload/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fuzzing</title>
+      <link>/tags/fuzzing/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/fuzzing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LFI</title>
+      <link>/tags/lfi/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/lfi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>/tags/linux/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Php Unserialize</title>
+      <link>/tags/php-unserialize/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/php-unserialize/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privilege Escalation</title>
+      <link>/tags/privilege-escalation/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/privilege-escalation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Java</title>
+      <link>/tags/java/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/java/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Jwt</title>
+      <link>/tags/jwt/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/jwt/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web</title>
+      <link>/tags/web/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/web/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Binary Exploitation</title>
+      <link>/tags/binary-exploitation/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/binary-exploitation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Library Hijacking</title>
+      <link>/tags/library-hijacking/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/library-hijacking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privesc</title>
+      <link>/tags/privesc/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/privesc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>/tags/python/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bash</title>
+      <link>/tags/bash/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/bash/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Misc</title>
+      <link>/tags/misc/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/misc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Picogym</title>
+      <link>/tags/picogym/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/picogym/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Race Condition</title>
+      <link>/tags/race-condition/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/race-condition/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Restricted Shell</title>
+      <link>/tags/restricted-shell/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/restricted-shell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shell Filter Bypass</title>
+      <link>/tags/shell-filter-bypass/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/shell-filter-bypass/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Toctou</title>
+      <link>/tags/toctou/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/toctou/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ret2csu</title>
+      <link>/tags/ret2csu/</link>
+      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/ret2csu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rop</title>
+      <link>/tags/rop/</link>
+      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/rop/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bruteforce</title>
+      <link>/tags/bruteforce/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/bruteforce/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Buffer Overflow</title>
+      <link>/tags/buffer-overflow/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/buffer-overflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NoSQL</title>
+      <link>/tags/nosql/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/nosql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NoSQL Injection</title>
+      <link>/tags/nosql-injection/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/nosql-injection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pwntools</title>
+      <link>/tags/pwntools/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/pwntools/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ret2win</title>
+      <link>/tags/ret2win/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/ret2win/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Format String</title>
+      <link>/tags/format-string/</link>
+      <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/format-string/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Burpsuite</title>
+      <link>/tags/burpsuite/</link>
+      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/burpsuite/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Command Injection</title>
+      <link>/tags/command-injection/</link>
+      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/command-injection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Js</title>
+      <link>/tags/js/</link>
+      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/js/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Path Hijacking</title>
+      <link>/tags/path-hijacking/</link>
+      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/path-hijacking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cve</title>
+      <link>/tags/cve/</link>
+      <pubDate>Sat, 21 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/tags/cve/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

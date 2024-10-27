@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Picogym on conflict</title>
+    <link>/tags/picogym/</link>
+    <description>Recent content in Picogym on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/picogym/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 What is: &#34;A Race Condition Attack&#34;</title>
+      <link>/posts/2023/03/what-is-a-race-condition-attack/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/03/what-is-a-race-condition-attack/</guid>
+      <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;&#xA;&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#time-of-check-time-of-use&#34;&gt;Time of check, Time of use&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#example&#34;&gt;Example&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#how-to-avoid-these-attacks&#34;&gt;How to avoid these attacks&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/03/what-is-a-race-condition-attack/#further-documentation&#34;&gt;Further documentation&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;none&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;With our current technology, computers are often faster than humans at doing things in general. Today, we&amp;rsquo;re going to show that with the right timing, this speed becomes pretty useless&amp;hellip;&lt;/p&gt;&#xA;&lt;p&gt;Of course, we are not actually going to be faster than the computer, but let&amp;rsquo;s dive into &lt;strong&gt;Race Condition attacks&lt;/strong&gt; to better understand what they are and how they work !&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

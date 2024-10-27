@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on conflict</title>
+    <link>/series/</link>
+    <description>Recent content in Series on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HeroCTF 2024 Writeups</title>
+      <link>/series/heroctf-2024-writeups/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>/series/heroctf-2024-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PwnMe 2023 Writeups</title>
+      <link>/series/pwnme-2023-writeups/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      <guid>/series/pwnme-2023-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>FCSC 2023 Writeups</title>
+      <link>/series/fcsc-2023-writeups/</link>
+      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/series/fcsc-2023-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>HackTheBox Writeups</title>
+      <link>/series/hackthebox-writeups/</link>
+      <pubDate>Mon, 10 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>/series/hackthebox-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PicoCTF 2023 Writeups</title>
+      <link>/series/picoctf-2023-writeups/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/series/picoctf-2023-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Educative Posts</title>
+      <link>/series/educative-posts/</link>
+      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/series/educative-posts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ROPEmporium X64 Series</title>
+      <link>/series/ropemporium-x64-series/</link>
+      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/series/ropemporium-x64-series/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>RushCTF 2023 Writeups</title>
+      <link>/series/rushctf-2023-writeups/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/series/rushctf-2023-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LACTF 2023 Writeups</title>
+      <link>/series/lactf-2023-writeups/</link>
+      <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/series/lactf-2023-writeups/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NahamConCTF 2022 Writeups</title>
+      <link>/series/nahamconctf-2022-writeups/</link>
+      <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>/series/nahamconctf-2022-writeups/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

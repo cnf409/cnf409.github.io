@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ret2libc on conflict</title>
+    <link>/tags/ret2libc/</link>
+    <description>Recent content in Ret2libc on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Mon, 08 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/ret2libc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 PwnMe 2023 - pwn/vip_at_libc</title>
+      <link>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</link>
+      <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/05/pwnme-2023-pwn/vip_at_libc/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;&lt;em&gt;VIP at LIBC&lt;/em&gt; était un challenge de pwn issu du &lt;strong&gt;PwnMe CTF 2023&lt;/strong&gt;. Un challenge &lt;em&gt;d&amp;rsquo;intro&lt;/em&gt; (??) très sympa, avec un petit plus qui lui permet de se démarquer des classiques &lt;code&gt;ret2libc&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Sooo I heard that if you were VIP, you could access some specific features!  &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Maybe one of those features can be used to get inside their system?  &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Author: Zerotistic#0001&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://ctf.pwnme.fr/api/assets/vip_at_libc.tgz&#34;&gt;&lt;code&gt;vip_at_libc.tgz&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;analyse-du-fichier&#34;&gt;Analyse du fichier&lt;/h2&gt;&#xA;&lt;p&gt;On a le binaire et la &lt;code&gt;libc&lt;/code&gt; qui va avec, ça nous indique déjà qu&amp;rsquo;on va probablement devoir interagir avec.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

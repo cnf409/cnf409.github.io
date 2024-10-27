@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Type Juggling on conflict</title>
+    <link>/tags/type-juggling/</link>
+    <description>Recent content in Type Juggling on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 07 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/type-juggling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 What is: &#34;Type Juggling&#34;</title>
+      <link>/posts/2023/01/what-is-type-juggling/</link>
+      <pubDate>Sat, 07 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/01/what-is-type-juggling/</guid>
+      <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;&#xA;&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#comparisons-in-php&#34;&gt;Comparisons in PHP&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#what-causes-the-vulnerability&#34;&gt;What causes the vulnerability&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#semi-patched&#34;&gt;Semi-Patched&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#better-example&#34;&gt;Better example&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#how-to-avoid-type-juggling-issues&#34;&gt;How to avoid type juggling issues&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/posts/2023/01/what-is-type-juggling/#further-documentation&#34;&gt;Further documentation&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Know basic PHP&lt;/li&gt;&#xA;&lt;li&gt;Be familiar with the concept of value &amp;ldquo;types&amp;rdquo; (string, integer, float&amp;hellip;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;PHP is a very famous and flexible backend programming language that aims to facilitate developer&amp;rsquo;s lives. Unfortunately, this flexibility can sometimes lead to more or less critical vulnerabilities.&lt;/p&gt;&#xA;&lt;p&gt;In PHP, &lt;strong&gt;type juggling&lt;/strong&gt; is a functionnality that allows developers to be more flexible when they use the language, but it can also be dangerous when it&amp;rsquo;s not used carefully. There are a ton of challenges about this subject so I hope this article will help you to understand it better.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

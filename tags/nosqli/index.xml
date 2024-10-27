@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nosqli on conflict</title>
+    <link>/tags/nosqli/</link>
+    <description>Recent content in Nosqli on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 14 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/nosqli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>📗 HackTheBox - Shoppy</title>
+      <link>/htb/shoppy/</link>
+      <pubDate>Sat, 14 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/htb/shoppy/</guid>
+      <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;&#xA;&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/shoppy/#recon&#34;&gt;Recon&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/shoppy/#foothold&#34;&gt;Foothold&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/shoppy/#lateral-move&#34;&gt;Lateral Move&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/shoppy/#privilege-escalation&#34;&gt;Privilege Escalation&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;note&#34;&gt;Note&lt;/h1&gt;&#xA;&lt;p&gt;Il s&amp;rsquo;agit d&amp;rsquo;un des premiers write-ups que j&amp;rsquo;ai écrit de ma vie, j&amp;rsquo;ai attendu que la machine &lt;em&gt;retire&lt;/em&gt; avant de le poster. C&amp;rsquo;est possible que je n&amp;rsquo;utilise pas les bons termes à certains endroit, je n&amp;rsquo;ai pas relu tout le write-up pour me corriger (j&amp;rsquo;ai bien trop la flemme).&lt;/p&gt;&#xA;&lt;p&gt;Vous allez aussi pouvoir voir à quoi ressemblait mon m&lt;em&gt;A&lt;/em&gt;g&lt;code&gt;n&lt;/code&gt;i&lt;strong&gt;F&lt;/strong&gt;&lt;em&gt;i&lt;/em&gt;Qu&lt;strong&gt;E&lt;/strong&gt; Ubuntu à cette époque (pas si lointaine)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

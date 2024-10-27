@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ROPEmporium X64 Series on conflict</title>
+    <link>/series/ropemporium-x64-series/</link>
+    <description>Recent content in ROPEmporium X64 Series on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 12 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/series/ropemporium-x64-series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 ROPEmporium - ret2csu (x64)</title>
+      <link>/posts/2023/03/ropemporium-ret2csu-x64/</link>
+      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/03/ropemporium-ret2csu-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Dernier exercice de ROPEmporium, j&amp;rsquo;ai effectivement sauté &lt;em&gt;fluff&lt;/em&gt; et &lt;em&gt;pivot&lt;/em&gt; puisque je voulais apprendre cette technique car je l&amp;rsquo;ai rencontrée lors d&amp;rsquo;un CTF. Je reviendrai peut-être sur &lt;em&gt;pivot&lt;/em&gt; mais je ne pense pas faire &lt;em&gt;fluff&lt;/em&gt; puisqu&amp;rsquo;il est bien trop &lt;strong&gt;chiant&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Je vais essayer d&amp;rsquo;expliquer au mieux ce que j&amp;rsquo;ai compris du &lt;strong&gt;ret2csu&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Comme d&amp;rsquo;habitude, si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇫🇷 ROPEmporium - badchars (x64)</title>
+      <link>/posts/2023/01/ropemporium-badchars-x64/</link>
+      <pubDate>Wed, 04 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/01/ropemporium-badchars-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Cinquièment exo de ROPemporium, je le trouve moins sympa que les autres. Il reprend le principe du challenge précédent, mais il introduit un nouveau gadget pour contourner le &amp;ldquo;filtre&amp;rdquo;: le &lt;code&gt;xor&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;Comme d&amp;rsquo;habitude, si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;&#xA;&lt;p&gt;Si vous ne comprenez pas quelque chose, je vous invite à &lt;a href=&#34;/series/ropemporium-x64-series/&#34;&gt;regarder la série dans l&amp;rsquo;ordre&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Et je vous conseille fortement de lire l&amp;rsquo;exercice précédent pour mieux comprendre ce que je fais ici puisque la méchanique principale est la même.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇫🇷 ROPEmporium - write4 (x64)</title>
+      <link>/posts/2023/01/ropemporium-write4-x64/</link>
+      <pubDate>Tue, 03 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/01/ropemporium-write4-x64/</guid>
+      <description>&lt;h1 id=&#34;note&#34;&gt;Note&lt;/h1&gt;&#xA;&lt;p&gt;Quatrième exo de ROPEmporium, il introduit une nouvelle méchanique et nous pousse à utiliser un nouveau type de gadget, très intéressant&lt;/p&gt;&#xA;&lt;p&gt;Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;&#xA;&lt;p&gt;Si vous ne comprenez pas quelque chose, je vous invite à &lt;a href=&#34;/series/ropemporium-x64-series/&#34;&gt;regarder la série dans l&amp;rsquo;ordre&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;On completing our usual checks for interesting strings and symbols in this binary we&amp;#39;re confronted with the stark truth that our favourite string &amp;#34;/bin/cat flag.txt&amp;#34; is not present this time. &#xA;Although you&amp;#39;ll see later that there are other ways around this problem, such as resolving dynamically loaded libraries and using the strings present in those, we&amp;#39;ll stick to the challenge goal which is learning how to get data into the target process&amp;#39;s virtual address space via the magic of ROP.&#xA;&#xA;Important!&#xA;A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like &amp;#34;flag.txt&amp;#34;) as the 1st argument. &#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;&#xA;&lt;p&gt;Avant de commencer à regarder dans l&amp;rsquo;executable, il faut savoir à quoi on s&amp;rsquo;attaque, on va utiliser &lt;code&gt;file&lt;/code&gt; pour avoir des informations sur le fichier, puis &lt;code&gt;checksec&lt;/code&gt; pour voir les éventuelles sécuritées avec lesquelles il a été compilé&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇫🇷 ROPEmporium - callme (x64)</title>
+      <link>/posts/2023/01/ropemporium-callme-x64/</link>
+      <pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/01/ropemporium-callme-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Troisième exo de ROPEmporium, un peu plus court que les deux précédents puisqu&amp;rsquo;il reprend des concepts qu&amp;rsquo;on connaît déjà donc pas trop de difficulté. Par contre un petit problème au niveau de la consigne il me semble.&lt;/p&gt;&#xA;&lt;p&gt;Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;&#xA;&lt;p&gt;Si vous ne comprenez pas quelque chose, je vous invite à &lt;a href=&#34;/series/ropemporium-x64-series/&#34;&gt;regarder la série dans l&amp;rsquo;ordre&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;&#xA;&lt;p&gt;Avant de commencer à regarder dans l&amp;rsquo;executable, il faut savoir à quoi on s&amp;rsquo;attaque, on va utiliser &lt;code&gt;file&lt;/code&gt; pour avoir des informations sur le fichier, puis &lt;code&gt;checksec&lt;/code&gt; pour voir les éventuelles sécuritées avec lesquelles il a été compilé&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇫🇷 ROPEmporium - split (x64)</title>
+      <link>/posts/2023/01/ropemporium-split-x64/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/01/ropemporium-split-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Deuxième exercice de ROPEmporium, un tout petit peu plus complexe que le précédent mais il reste très accessible. Je vais essayer une fois de plus d&amp;rsquo;expliquer le plus clairement possible ce que j&amp;rsquo;ai fait pour le réussir. Si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;&#xA;&lt;p&gt;Si vous ne comprenez pas quelque chose, je vous invite à &lt;a href=&#34;/series/ropemporium-x64-series/&#34;&gt;regarder la série dans l&amp;rsquo;ordre&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;&#xA;&lt;p&gt;Avant de commencer à regarder dans l&amp;rsquo;executable, il faut savoir à quoi on s&amp;rsquo;attaque, on va utiliser &lt;code&gt;file&lt;/code&gt; pour avoir des informations sur le fichier, puis &lt;code&gt;checksec&lt;/code&gt; pour voir les éventuelles sécuritées avec lesquelles il a été compilé&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇫🇷 ROPEmporium - ret2win (x64)</title>
+      <link>/posts/2022/12/ropemporium-ret2win-x64/</link>
+      <pubDate>Sat, 31 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>/posts/2022/12/ropemporium-ret2win-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Je suis actuellement entrain d&amp;rsquo;apprendre le pwn donc il est possible que je fasse des erreurs ou que je dise des choses fausses dans ce post, si vous en voyez n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;&#xA;&lt;p&gt;Avant de commencer à regarder dans l&amp;rsquo;executable, il faut savoir à quoi on s&amp;rsquo;attaque, on va utiliser &lt;code&gt;file&lt;/code&gt; pour avoir des informations sur le fichier, puis &lt;code&gt;checksec&lt;/code&gt; pour voir les éventuelles sécuritées avec lesquelles il a été compilé&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bruteforce on conflict</title>
+    <link>/tags/bruteforce/</link>
+    <description>Recent content in Bruteforce on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 11 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/bruteforce/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 RushCTF 2023 - web/secure-vault-v2</title>
+      <link>/trash/rushctf2023-securevaultv2/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/trash/rushctf2023-securevaultv2/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;First &lt;code&gt;web&lt;/code&gt; challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hint: &lt;em&gt;SAY NO TO &amp;hellip;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;&#xA;&lt;p&gt;Since the description talks about SQL, and the hint tells us to &amp;ldquo;say &lt;em&gt;no&lt;/em&gt; to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do &lt;code&gt;NoSQL Injection&lt;/code&gt;. Now, the goal si not only to bypass the login, but to get the admin&amp;rsquo;s password.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

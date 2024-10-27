@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NahamConCTF 2023 Writeups on conflict</title>
+    <link>/series/nahamconctf-2023-writeups/</link>
+    <description>Recent content in NahamConCTF 2023 Writeups on conflict</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Thu, 22 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="/series/nahamconctf-2023-writeups/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 NahamCon CTF 2022 (writeups)</title>
+      <link>/posts/2022/12/nahamcon-ctf-2022-writeups/</link>
+      <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/2022/12/nahamcon-ctf-2022-writeups/</guid>
+      <description>Technical Support Author: @JohnHammond#6971 Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server! Go on the discord, in the #nahamcon-ctf-general channel, and we can see this in the channel description
+flag → flag{a98373a74abb8c5ebb8f5192e034a91c}</description>
+    </item>
+    
+  </channel>
+</rss>

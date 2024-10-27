@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ret2csu on conflict</title>
+    <link>/tags/ret2csu/</link>
+    <description>Recent content in Ret2csu on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 12 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/ret2csu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 ROPEmporium - ret2csu (x64)</title>
+      <link>/posts/2023/03/ropemporium-ret2csu-x64/</link>
+      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/03/ropemporium-ret2csu-x64/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Dernier exercice de ROPEmporium, j&amp;rsquo;ai effectivement sauté &lt;em&gt;fluff&lt;/em&gt; et &lt;em&gt;pivot&lt;/em&gt; puisque je voulais apprendre cette technique car je l&amp;rsquo;ai rencontrée lors d&amp;rsquo;un CTF. Je reviendrai peut-être sur &lt;em&gt;pivot&lt;/em&gt; mais je ne pense pas faire &lt;em&gt;fluff&lt;/em&gt; puisqu&amp;rsquo;il est bien trop &lt;strong&gt;chiant&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Je vais essayer d&amp;rsquo;expliquer au mieux ce que j&amp;rsquo;ai compris du &lt;strong&gt;ret2csu&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Comme d&amp;rsquo;habitude, si j&amp;rsquo;ai fait des erreurs, n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; pour me le dire.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

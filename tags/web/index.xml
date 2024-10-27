@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on conflict</title>
+    <link>/tags/web/</link>
+    <description>Recent content in Web on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Thu, 30 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</title>
+      <link>/posts/2023/03/picoctf-2023-web/java-code-analysis/</link>
+      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/posts/2023/03/picoctf-2023-web/java-code-analysis/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;&lt;em&gt;Java Code Analysis!?!&lt;/em&gt; was a &lt;em&gt;web exploitation&lt;/em&gt; challenge from &lt;strong&gt;PicoCTF 2023&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I have done a bunch of &lt;em&gt;JWT&lt;/em&gt; challenges, especially on &lt;a href=&#34;https://root-me.org&#34;&gt;https://root-me.org&lt;/a&gt; and I&amp;rsquo;m starting to like exploiting these tokens. Anyways, it was a fun challenge with some basic code analysis and JWT exploiting.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BookShelf Pico, my premium online book-reading service. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;I believe that my website is super secure. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;I challenge you to prove me wrong by reading the &amp;#39;Flag&amp;#39; book! &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Here are the credentials to get you started:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-   Username: &amp;#34;user&amp;#34;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-   Password: &amp;#34;user&amp;#34;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://artifacts.picoctf.net/c/480/bookshelf-pico.zip&#34;&gt;&lt;code&gt;source_code.zip&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇬🇧 RushCTF 2023 - web/blog</title>
+      <link>/trash/rushctf2023-blog/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/trash/rushctf2023-blog/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Second &lt;code&gt;web&lt;/code&gt; challenge from the RushCTF 2023.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Hey what do you think about my blog?&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hint: &lt;em&gt;where are password&amp;rsquo;s stored?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;&#xA;&lt;p&gt;The main page is a &lt;em&gt;beautiful&lt;/em&gt; default blog page, nothing much to do here&lt;/p&gt;&#xA;&lt;p&gt;&lt;img alt=&#34;2023-03-12-003427_1888x1030_scrot&#34; src=&#34;https://user-images.githubusercontent.com/77807503/224516453-be5b743f-0d4a-47bb-8a19-cae106a40c40.png&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;If we look around and try to see posts, we can see that they&amp;rsquo;re fetched through a &lt;code&gt;GET&lt;/code&gt; parameter:&lt;/p&gt;&#xA;&lt;p&gt;&lt;img alt=&#34;2023-03-12-003540_421x34_scrot&#34; src=&#34;https://user-images.githubusercontent.com/77807503/224516457-5465e06b-aa33-492b-8447-62f59bbf0de7.png&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;exploitation&#34;&gt;Exploitation&lt;/h2&gt;&#xA;&lt;p&gt;This kind of parameter is usually vulnerable to &lt;code&gt;LFI&lt;/code&gt;,  which would allow us to render any file from the server. Since the hint talks about where the passwords are stored, let&amp;rsquo;s try to read &lt;code&gt;/etc/passwd&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇬🇧 RushCTF 2023 - web/secure-vault-v2</title>
+      <link>/trash/rushctf2023-securevaultv2/</link>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/trash/rushctf2023-securevaultv2/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;First &lt;code&gt;web&lt;/code&gt; challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hint: &lt;em&gt;SAY NO TO &amp;hellip;&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;&#xA;&lt;p&gt;Since the description talks about SQL, and the hint tells us to &amp;ldquo;say &lt;em&gt;no&lt;/em&gt; to &amp;hellip;&amp;rdquo; we can assume that we&amp;rsquo;re going to do &lt;code&gt;NoSQL Injection&lt;/code&gt;. Now, the goal si not only to bypass the login, but to get the admin&amp;rsquo;s password.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>🇬🇧 NahamCon CTF 2022 (writeups)</title>
+      <link>/posts/2022/12/nahamcon-ctf-2022-writeups/</link>
+      <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>/posts/2022/12/nahamcon-ctf-2022-writeups/</guid>
+      <description>&lt;h1 id=&#34;technical-support&#34;&gt;Technical Support&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Go on the discord, in the &lt;a href=&#34;https://discord.com/channels/598608711186907146/1053097744241283142&#34;&gt;#nahamcon-ctf-general&lt;/a&gt; channel, and we can see this in the channel description&lt;/p&gt;&#xA;&lt;p&gt;&lt;img alt=&#34;2022-12-17-172256_1335x78_scrot&#34; src=&#34;https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;flag → &lt;strong&gt;flag{a98373a74abb8c5ebb8f5192e034a91c}&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;babys-first-heartbleed&#34;&gt;Baby’s First Heartbleed&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Start the machine, and connect to it using nc&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

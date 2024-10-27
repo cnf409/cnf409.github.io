@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Js on conflict</title>
+    <link>/tags/js/</link>
+    <description>Recent content in Js on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Mon, 13 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/js/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>📗 HackTheBox - Photobomb</title>
+      <link>/htb/photobomb/</link>
+      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
+      <guid>/htb/photobomb/</guid>
+      <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of contents&lt;/h3&gt;&#xA;&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/photobomb/#recon&#34;&gt;Recon&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/photobomb/#foothold&#34;&gt;Foothold&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;/htb/photobomb/#privilege-escalation&#34;&gt;Privilege Escalation&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;note&#34;&gt;Note&lt;/h1&gt;&#xA;&lt;p&gt;Il s&amp;rsquo;agit de la toute première room que j&amp;rsquo;ai flag sur HTB, il y a de ça 3 ou 4 mois. Elle était correcte, vous allez encore un peu pouvoir apprécier mon superbe Ubuntu riced on gnome (c&amp;rsquo;est une horreur).&lt;/p&gt;&#xA;&lt;h1 id=&#34;recon&#34;&gt;Recon&lt;/h1&gt;&#xA;&lt;p&gt;&lt;img alt=&#34;page.png&#34; src=&#34;https://i.ibb.co/KGVjb2V/image.png&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;La page est assez sobre, avec un lien et.. c&amp;rsquo;est tout&lt;/p&gt;&#xA;&lt;p&gt;Le lien nous envoie vers &lt;code&gt;/printer&lt;/code&gt;, qui nous demande un username et un mot de passe&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

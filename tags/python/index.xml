@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on conflict</title>
+    <link>/tags/python/</link>
+    <description>Recent content in Python on conflict</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 29 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇬🇧 PicoCTF 2023 - binexp/hijacking</title>
+      <link>/trash/picoctf2023-hijacking/</link>
+      <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
+      <guid>/trash/picoctf2023-hijacking/</guid>
+      <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;&lt;em&gt;Hijacking&lt;/em&gt; was a &lt;em&gt;binary exploitation&lt;/em&gt; challenge from &lt;strong&gt;PicoCTF 2023&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;It was interesting and I always enjoy these privilege escalation exploits. They are very common in &lt;em&gt;HackTheBox&lt;/em&gt; and &lt;em&gt;TryHackMe&lt;/em&gt; boxes, so it&amp;rsquo;s useful to know about them.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getting root access can allow you to read the flag. Luckily there is a python file that you might like to play with. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Through Social engineering, we&amp;#39;ve got the credentials to use on the server. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;SSH is running on the server.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[Login creds]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;&#xA;&lt;p&gt;Once we&amp;rsquo;re connected to the machine, we can start looking for privilege escalation vectors.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

