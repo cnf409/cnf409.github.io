@@ -200,8 +200,7 @@
 </span></span></code></pre></div><p>Alright, it is importing three libraries, but we&rsquo;ll focus on the <code>socket</code> lib since it&rsquo;s the one causing the error.</p>
 <p>The script is calling the <code>gethostbyaddr</code> method from <code>socket</code>. If we <em>hijack</em> the library and replace this function with our own code, we should be able to read the flag file.</p>
 <blockquote>
-<p>When using <code>import</code> in python, the script will first look for the library you want to import <strong>in the current working directory</strong> and then in the libraries directory.</p>
-</blockquote>
+<p>When using <code>import</code> in python, the script will first look for the library you want to import <strong>in the current working directory</strong> and then in the libraries directory.</p></blockquote>
 <p>By creating a <code>socket.py</code> file in the same directory as the <code>.server.py</code>, it should import our malicious script instead of the actual library.</p>
 <p>In the <code>socket.py</code> file, we can use this script that will create a new shell instance with the sudo privileges:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os 
@@ -211,7 +210,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>
 </span></span></code></pre></div><p>Since the function is called with an argument, we have to define it with a parameter. We use the <code>os</code> library to execute the <code>bash -p</code> command, thus creating a new shell keeping the privileges the script was executed with (thanks to the <code>-p</code>).</p>
 <p>Now, we only need to run the <code>.server.py</code> with <code>sudo</code> privileges and get the flag:</p>
-<p><img alt="2023-03-29-001606_693x336_scrot" src="https://user-images.githubusercontent.com/77807503/228379682-d2f3c3fa-fabb-47c0-bfa7-4515a328635f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228379682-d2f3c3fa-fabb-47c0-bfa7-4515a328635f.png" alt="2023-03-29-001606_693x336_scrot"></p>
 <p>GGs !</p>
 
             </div>

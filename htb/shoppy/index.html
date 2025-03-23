@@ -178,58 +178,57 @@
 <h1 id="recon">Recon</h1>
 <p>On arrive sur une page vide, avec un timer de 349 jours, et un message &ldquo;<em>Shoppy beta coming soon ! Stay tuned for beta access !</em>&rdquo;</p>
 <p>Il s&rsquo;agit donc d&rsquo;une application qui n&rsquo;est pas encore déployée, on peut s&rsquo;attendre à un docker ou quelque chose du type</p>
-<p><img alt="page.png" src="https://i.ibb.co/qJVWWzd/image.png"></p>
+<p><img src="https://i.ibb.co/qJVWWzd/image.png" alt="page.png"></p>
 <p>On lance un dirbuster pour essayer de trouver des directories sur le site, et un wfuzz pour les sous domaines</p>
 <p>Le dirbuster nous donne <code>http://shoppy.htb/admin</code> et <code>http://shoppy.htb/login</code></p>
 <p>Le wfuzz nous donne <code>http://mattermost.shoppy.htb</code></p>
-<p><img alt="dirbwfuzz.png" src="https://i.ibb.co/JtgYkcL/image.png"></p>
+<p><img src="https://i.ibb.co/JtgYkcL/image.png" alt="dirbwfuzz.png"></p>
 <h1 id="foothold">Foothold</h1>
 <p>On commence par aller voir le <strong>/login</strong>, c&rsquo;est un form de connection classique avec un input et un username</p>
 <p>On peut tenter une injection SQL: <code>username=admin' or1=1--</code> et <code>password=admin</code></p>
 <p>La requête prend beaucoup de temps, puis le serveur me renvoie un gateway timeout&hellip;</p>
 <p>On tente cette fois une injection NoSQL: <code>username=admin'||'1==1</code> &amp; <code>password=admin</code></p>
 <p>Et&hellip;.. on est connectés en tant qu&rsquo;admin</p>
-<p><img alt="admin.png" src="https://i.ibb.co/ySNrqtN/image.png"></p>
+<p><img src="https://i.ibb.co/ySNrqtN/image.png" alt="admin.png"></p>
 <p>On est redirigés sur le <strong>/admin</strong>, qui est&hellip; vide</p>
 <p>Il y a quand même un bouton <em>Search for users</em>, qui redirige vers <code>/admin/search-users</code></p>
-<p><img alt="panel.png" src="https://i.ibb.co/KKxp5Dc/image.png"></p>
+<p><img src="https://i.ibb.co/KKxp5Dc/image.png" alt="panel.png"></p>
 <p>On a juste un input, en partant du principe que c&rsquo;est le même backend qui gère ça aussi, j&rsquo;entre la même injection NoSQL que pour le login, qui renverra <code>True</code>, soit <strong>tout les utilisateurs</strong>
 J&rsquo;entre donc <code>a'||'1==1</code> dans l&rsquo;input, et j&rsquo;appuie sur le bouton Download export qui apparaît</p>
-<p><img alt="search.png" src="https://i.ibb.co/c3qhSFn/image.png"></p>
+<p><img src="https://i.ibb.co/c3qhSFn/image.png" alt="search.png"></p>
 <p>On voit <strong>deux utilisateurs</strong>: <code>admin</code> et <code>josh</code></p>
 <p>On a aussi les deux hash de leurs mot de passe, en md5</p>
-<p><img alt="export.png" src="https://i.ibb.co/vQmY4PT/image.png"></p>
+<p><img src="https://i.ibb.co/vQmY4PT/image.png" alt="export.png"></p>
 <p>Qui dit hash, dit hashcat, on prend le hash de josh, et on lance hashcat  avec le hash <code>6ebcea65320589ca4f2f1ce039975995</code> et rockyou en wordlist</p>
-<p><img alt="hashcat.png" src="https://i.ibb.co/FDXvRGf/image.png"></p>
+<p><img src="https://i.ibb.co/FDXvRGf/image.png" alt="hashcat.png"></p>
 <p>On a maintenant le mot de passe de josh</p>
 <blockquote>
-<p>Note: Je suis allé me connecter au /admin avec ses logins, ça a fonctionné mais il avait le même panel que l&rsquo;utilisateur admin</p>
-</blockquote>
+<p>Note: Je suis allé me connecter au /admin avec ses logins, ça a fonctionné mais il avait le même panel que l&rsquo;utilisateur admin</p></blockquote>
 <p>Je vais sur le mattermost pour me connecter avec le compte de <strong>josh</strong></p>
-<p><img alt="mattermost.png" src="https://i.ibb.co/2WRgD8Q/image.png"></p>
+<p><img src="https://i.ibb.co/2WRgD8Q/image.png" alt="mattermost.png"></p>
 <p>En se balandant un peu sur le mattermost, on trouve un channel privé &ldquo;deploy machine&rdquo;, dans lequel on trouve des identifiants, probabelement pour se connecter au ssh de la machine</p>
-<p><img alt="ssh.png" src="https://i.ibb.co/qxJn844/image.png"></p>
+<p><img src="https://i.ibb.co/qxJn844/image.png" alt="ssh.png"></p>
 <h1 id="lateral-move">Lateral Move</h1>
 <p><code>ssh jaeger@10.10.11.180</code></p>
 <p>On est connectés au SSH, on <code>cat user.txt</code> pour flag le user</p>
-<p><img alt="user.png" src="https://i.ibb.co/MgZ5hHH/image.png"></p>
+<p><img src="https://i.ibb.co/MgZ5hHH/image.png" alt="user.png"></p>
 <p>On fait un <code>sudo -l</code> pour voir si on a des accès particuliers</p>
-<p><img alt="sudol.png" src="https://i.ibb.co/j47VCt5/image.png"></p>
+<p><img src="https://i.ibb.co/j47VCt5/image.png" alt="sudol.png"></p>
 <p>On voit qu&rsquo;on peut éxécuter password-manager en tant que deploy sur la machine, on va d&rsquo;abord aller voir ce qu&rsquo;il y a dans ce dernier</p>
 <p><code>cat /home/deploy/password-manager</code></p>
-<p><img alt="password.png" src="https://i.ibb.co/F3kZKzF/image.png"></p>
+<p><img src="https://i.ibb.co/F3kZKzF/image.png" alt="password.png"></p>
 <p>C&rsquo;est très peu lisible puisqu&rsquo;il s&rsquo;agit d&rsquo;un ELF mais on voit, sur la ligne au milieu du screen, que si on entre <strong>Sample</strong> quand il demande le password, il nous autorise l&rsquo;accès</p>
 <p>On va donc lancer password-manager en tant que deploy puis entrer le mot de passe</p>
 <p><code>sudo -u deploy /home/deploy/password-manager</code></p>
-<p><img alt="deploy.png" src="https://i.ibb.co/DkK0WfM/image.png"></p>
+<p><img src="https://i.ibb.co/DkK0WfM/image.png" alt="deploy.png"></p>
 <p>On a les identifiants de l&rsquo;user deploy, on va s&rsquo;y connecter</p>
 <h1 id="privilege-escalation">Privilege Escalation</h1>
 <p>Une fois connecté, on voit, en faisant <code>id</code> que deploy est dans le groupe <strong>docker</strong></p>
-<p><img alt="docker.png" src="https://i.ibb.co/xYBk7x5/image.png"></p>
+<p><img src="https://i.ibb.co/xYBk7x5/image.png" alt="docker.png"></p>
 <p>On va donc partir sur une docker escape, qu&rsquo;on récupère sur GTFObins:</p>
 <p><code>docker run -v /:/mnt --rm -it alpine chroot /mnt sh</code></p>
-<p><img alt="root.png" src="https://i.ibb.co/hCQpDDz/image.png"></p>
-<h6 id="back-to-top"><a href="/"><em>back to top</em></a></h6>
+<p><img src="https://i.ibb.co/hCQpDDz/image.png" alt="root.png"></p>
+<h6 id="back-to-top"><a href=""><em>back to top</em></a></h6>
 
             </div>
         </article>

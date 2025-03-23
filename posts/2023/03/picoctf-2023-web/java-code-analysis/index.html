@@ -181,29 +181,28 @@
 </span></span></code></pre></div><p><a href="https://artifacts.picoctf.net/c/480/bookshelf-pico.zip"><code>source_code.zip</code></a></p>
 <h2 id="recon">Recon</h2>
 <p>When we go to the website, we see this login form and we can also create an account, but we won&rsquo;t need to because we&rsquo;re given credentials in the challenge description.</p>
-<p><img alt="2023-03-30-180704_1881x426_scrot" src="https://user-images.githubusercontent.com/77807503/228906618-f7e07832-594b-4ec8-a484-bdc170d9062f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906618-f7e07832-594b-4ec8-a484-bdc170d9062f.png" alt="2023-03-30-180704_1881x426_scrot"></p>
 <p>Once we&rsquo;re logged in, we get redirected to the website&rsquo;s main page. There are three books, a <em>free</em> one, a <em>premium</em> one and an <em>admin</em> one which is the flag.</p>
-<p><img alt="2023-03-30-180819_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228906658-76f5a884-458d-4079-af6d-04c83c50fd68.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906658-76f5a884-458d-4079-af6d-04c83c50fd68.png" alt="2023-03-30-180819_1888x1030_scrot"></p>
 <p>Alright, let&rsquo;s take a look around the website and its source code to see if we can find any interesting stuff&hellip;</p>
 <p>In the <strong>local storage</strong>, we find an <code>auth-token</code> and a <code>token-payload</code> keys:</p>
-<p><img alt="2023-03-30-181052_1667x78_scrot" src="https://user-images.githubusercontent.com/77807503/228906671-36740450-8abd-417c-8bfd-e43591495c3a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906671-36740450-8abd-417c-8bfd-e43591495c3a.png" alt="2023-03-30-181052_1667x78_scrot"></p>
 <p>The <code>token-payload</code> looks like it specifies our <em>role</em>, which is supposedly the value we should change to become <em>admin</em>, let&rsquo;s try to change it manually and refresh the page:</p>
-<p><img alt="2023-03-30-181253_251x286_scrot" src="https://user-images.githubusercontent.com/77807503/228906726-ff512dad-6763-4368-9bda-e377a220aa1d.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906726-ff512dad-6763-4368-9bda-e377a220aa1d.png" alt="2023-03-30-181253_251x286_scrot"></p>
 <p>At the top right corner of the page, the &ldquo;<em>Free</em>&rdquo; became &ldquo;<em>Admin</em>&rdquo; and we now have access to the <strong>Admin Dashboard</strong>, let&rsquo;s take a look at this:</p>
-<p><img alt="2023-03-30-181357_1877x516_scrot" src="https://user-images.githubusercontent.com/77807503/228906770-517f3a75-64fc-41c8-8ff8-52527432ce72.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906770-517f3a75-64fc-41c8-8ff8-52527432ce72.png" alt="2023-03-30-181357_1877x516_scrot"></p>
 <p>It seems we can delete the books, but that&rsquo;s not what we want to do, we only need to read the <em>Flag</em> book&hellip; maybe we can now read it since we&rsquo;re an <em>admin</em> ?</p>
-<p><img alt="2023-03-30-181505_287x82_scrot" src="https://user-images.githubusercontent.com/77807503/228906785-75bdcb23-09ff-4a2e-856f-dd7de1854c4a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906785-75bdcb23-09ff-4a2e-856f-dd7de1854c4a.png" alt="2023-03-30-181505_287x82_scrot"></p>
 <p>Of course not ! That would have been way too easy&hellip; Time to take a look at this jwt:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiRnJlZSIsImlzcyI6ImJvb2tzaGVsZiIsImV4c
 </span></span><span style="display:flex;"><span>CI6MTY4MDc5NzI5NCwiaWF0IjoxNjgwMTkyNDk0LCJ1c2VySWQiOjEsImVtYWlsIjoidXNlciJ9.LsB8gkkevf
 </span></span><span style="display:flex;"><span>0hJiLP6HOTdzvakaT_yRXofg3mH_gTJls
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
-<p><img alt="2023-03-30-181624_1196x680_scrot" src="https://user-images.githubusercontent.com/77807503/228906810-1feeddc4-2f88-477e-b591-f497f8a2e2ee.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906810-1feeddc4-2f88-477e-b591-f497f8a2e2ee.png" alt="2023-03-30-181624_1196x680_scrot"></p>
 <p>By pasting it into <a href="https://jwt.io">https://jwt.io</a>, we learn a little bit more about what is stored in this token. It seems like the <code>token-payload</code> actually corresponds to the <code>JWT</code>&rsquo;s payload (obviously).</p>
 <p>Alright, so we can assume we also need to modify the <code>JWT</code> to modify our role..</p>
 <blockquote>
-<p>I&rsquo;ve tried the basic exploits such as <em>None</em> alg and cracking the but none of them worked</p>
-</blockquote>
+<p>I&rsquo;ve tried the basic exploits such as <em>None</em> alg and cracking the but none of them worked</p></blockquote>
 <p>Time to take a look at the source code !</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> build<span style="color:#f92672">.</span>gradle
@@ -377,8 +376,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>This is the <em>key</em> used to sign all the generated <code>JWTs</code>, with this, we can create and modify <code>JWT</code> as we want, and thus we can modify our <em>role</em> on the website.</p>
 <blockquote>
-<p>Strangely the key is also visible in the <code>SecretGenerator.java</code> file:</p>
-</blockquote>
+<p>Strangely the key is also visible in the <code>SecretGenerator.java</code> file:</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> io.github.nandandesai.pico.security;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> io.github.nandandesai.pico.configs.UserDataPaths;
@@ -428,27 +426,26 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>Now that we have the key, we can modify our <em>token</em> with the <em>admin</em> role and sign it with the key <em>1234</em>.</p>
 <blockquote>
-<p>Be careful, you should also change the <code>userId</code> field to <code>0</code> since the admin&rsquo;s <code>userId</code> is not <code>1</code></p>
-</blockquote>
-<p><img alt="2023-03-30-183618_1194x787_scrot" src="https://user-images.githubusercontent.com/77807503/228906908-84ac83e7-d690-400b-b8ba-f7d4d46cdf79.png"></p>
+<p>Be careful, you should also change the <code>userId</code> field to <code>0</code> since the admin&rsquo;s <code>userId</code> is not <code>1</code></p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906908-84ac83e7-d690-400b-b8ba-f7d4d46cdf79.png" alt="2023-03-30-183618_1194x787_scrot"></p>
 <p>We can now copy the new token and modify the <code>auth-token</code> key value with it, then refresh the page and we should be <em>admin</em> !</p>
-<p><img alt="2023-03-30-183151_1877x668_scrot" src="https://user-images.githubusercontent.com/77807503/228906936-fbc5429e-c1f9-484f-890e-db4b317461fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906936-fbc5429e-c1f9-484f-890e-db4b317461fc.png" alt="2023-03-30-183151_1877x668_scrot"></p>
 <p>It seems like it worked, because the <strong>Admin Dashboard</strong> looks different, we can now modify users.</p>
 <p>Let&rsquo;s try to read the <em>Flag book</em> !</p>
-<p><img alt="2023-03-30-183235_279x65_scrot" src="https://user-images.githubusercontent.com/77807503/228906964-b40231fb-b6e4-493b-95c5-ff6fc4b50f32.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228906964-b40231fb-b6e4-493b-95c5-ff6fc4b50f32.png" alt="2023-03-30-183235_279x65_scrot"></p>
 <p>Whaaat? Why?</p>
 <p>I don&rsquo;t know, but we can try to modify the &ldquo;<em>User</em>&rdquo; user&rsquo;s permissions to <em>Admin</em> and see if <em>he</em> can read the book:</p>
-<p><img alt="2023-03-30-183347_1360x353_scrot" src="https://user-images.githubusercontent.com/77807503/228907040-d44ddbe1-6cb4-44ca-9f1b-03211b5dc33f.png"></p>
-<p><img alt="2023-03-30-183501_306x65_scrot" src="https://user-images.githubusercontent.com/77807503/228907066-4cac6dc5-4bae-4a68-b1c3-289fc53b3c25.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907040-d44ddbe1-6cb4-44ca-9f1b-03211b5dc33f.png" alt="2023-03-30-183347_1360x353_scrot"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907066-4cac6dc5-4bae-4a68-b1c3-289fc53b3c25.png" alt="2023-03-30-183501_306x65_scrot"></p>
 <p>Now we can clear our <em>Local Storage</em> so the <em>JWT</em> we created gets refreshed and we should be able to read the <em>Flag</em>&hellip;</p>
-<p><img alt="2023-03-30-183813_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907160-077c5e8a-ffe7-4dd7-b896-b45a99b56922.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907160-077c5e8a-ffe7-4dd7-b896-b45a99b56922.png" alt="2023-03-30-183813_1888x1030_scrot"></p>
 <p>And it worked ! GGs !</p>
 <h2 id="ctf-conclusion">CTF Conclusion</h2>
 <p>That writeup will be my last one for this edition of the CTF (because I don&rsquo;t think making a writeup on the other challenges I&rsquo;ve flagged is useful)</p>
 <p>This was a very fun CTF - even though I would have enjoyed more <code>pwn</code> challenges :c</p>
 <p>Me and my team ended up <strong>404/6924</strong> which is great ! Thanks to all my mates and to the organizers, see you next year !</p>
-<p><img alt="2023-03-28-201238_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907187-09b35317-6a5f-48f4-9610-ac767af96c5e.png"></p>
-<p><img alt="2023-03-28-201252_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/228907199-34db4a2f-b1ce-4b8c-a236-d96ea3c14992.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907187-09b35317-6a5f-48f4-9610-ac767af96c5e.png" alt="2023-03-28-201238_1888x1030_scrot"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228907199-34db4a2f-b1ce-4b8c-a236-d96ea3c14992.png" alt="2023-03-28-201252_1888x1030_scrot"></p>
 
       </div>
     </article>

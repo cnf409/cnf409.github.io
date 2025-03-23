@@ -246,8 +246,7 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><blockquote>
-<p>If you want to try this code locally, you can copy it and compile it using <code>g++</code></p>
-</blockquote>
+<p>If you want to try this code locally, you can copy it and compile it using <code>g++</code></p></blockquote>
 <p>This program is going to read the file passed as the first argument. First, it checks the file&rsquo;s status information, then, <strong>it checks if the user is the file&rsquo;s owner</strong>. If both these checks pass, it reads the content of the specified file.</p>
 <p>This is a very classic case of <em>Race Condition</em>. Our goal is to read <code>flag.txt</code>.</p>
 <p>Here&rsquo;s what we are going to do:</p>
@@ -258,19 +257,19 @@
 </ul>
 <p>With a little luck, the loop will change the <em>symlink</em> right after the check is passed, and thus the program will read <code>flag.txt</code>.</p>
 <p>Alright, first, let&rsquo;s create the <code>fake_flag.txt</code> file and make our <em>symlink</em>.</p>
-<p><img alt="2023-03-17-182749_1914x325_scrot" src="https://user-images.githubusercontent.com/77807503/228324512-0a660668-a0b6-480c-9e85-588565d283fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324512-0a660668-a0b6-480c-9e85-588565d283fc.png" alt="2023-03-17-182749_1914x325_scrot"></p>
 <p>By doing <code>ls -la</code>, we can see that our <code>exploit</code> is pointing to the <code>fake_flag.txt</code> file.</p>
 <p>Then, let&rsquo;s make our loop and put it in the background:</p>
-<p><img alt="2023-03-17-182949_1911x969_scrot" src="https://user-images.githubusercontent.com/77807503/228324640-ff779217-0745-4528-b91a-9caa51823e19.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324640-ff779217-0745-4528-b91a-9caa51823e19.png" alt="2023-03-17-182949_1911x969_scrot"></p>
 <p>We can check it is working by running <code>ls -la</code> again and seeing if the <em>symlink</em> changes.</p>
 <p>Now, we could try to launch the process manually but that would be very annoying, so we can also make a loop for that:</p>
-<p><img alt="2023-03-17-183348_843x308_scrot" src="https://user-images.githubusercontent.com/77807503/228324689-c0346748-4a03-46db-a6fc-02c39fad40f8.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324689-c0346748-4a03-46db-a6fc-02c39fad40f8.png" alt="2023-03-17-183348_843x308_scrot"></p>
 <p>This is not mandatory, but it just saves you time because you can&rsquo;t guess the timing for the check.</p>
 <p>Let&rsquo;s run this, and see if it works:</p>
-<p><img alt="2023-03-17-183510_993x982_scrot" src="https://user-images.githubusercontent.com/77807503/228324726-7e25cdd0-a5ef-4916-a7a6-5914c8bd78ca.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324726-7e25cdd0-a5ef-4916-a7a6-5914c8bd78ca.png" alt="2023-03-17-183510_993x982_scrot"></p>
 <p>As you can see, it failed a lot of times but it worked once and that&rsquo;s all we need !</p>
 <p>Here&rsquo;s a scheme that recaps what happenned (if you can&rsquo;t see it, right click &amp; open image):</p>
-<p><img alt="Untitled Diagram drawio(1)" src="https://user-images.githubusercontent.com/77807503/228324757-daa63488-0b9b-4356-a71f-65a34e21de63.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228324757-daa63488-0b9b-4356-a71f-65a34e21de63.png" alt="Untitled Diagram drawio(1)"></p>
 <h1 id="how-to-avoid-these-attacks">How to avoid these attacks</h1>
 <p>As I said it in the first part, this kind of attack is hard to detect and to mitigate. The root cause of many TOCTTOU vulnerabilities lies in the lack of concurrency control in an operating system&rsquo;s file-system API and so it&rsquo;s not a problem that&rsquo;s easy to resolve. The challenge therefore is ensuring the file system state, managed by the operating system, cannot change between two system calls.</p>
 <p>There is no global patch for these attacks, the first challenge is obviously to identify them, but patching them is rather hard. A technique could be <em>locking the file</em> before it is checked to ensure it&rsquo;s not getting modified during the process.</p>

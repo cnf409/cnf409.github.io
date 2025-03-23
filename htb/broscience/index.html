@@ -229,10 +229,10 @@
 <p>Si on se rend sur l&rsquo;url <a href="https://broscience.htb/includes/img.php?path=bench.png">https://broscience.htb/includes/img.php?path=bench.png</a>, on voit bel et bien l&rsquo;image. Essayons une <code>LFI</code> via le paramètre <code>path</code>:</p>
 <h1 id="foothold">Foothold</h1>
 <p><code>?path=../../../../etc/passwd</code> ne fonctionne pas, le site détecte l&rsquo;attaque et nous met un message d&rsquo;erreur</p>
-<p><img alt="2023-02-01-193302_769x109_scrot" src="https://user-images.githubusercontent.com/77807503/216157328-50bb6555-2006-4838-8fdd-35ddc1c676f4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157328-50bb6555-2006-4838-8fdd-35ddc1c676f4.png" alt="2023-02-01-193302_769x109_scrot"></p>
 <p>Ce message me fait grandement penser à un challenge que j&rsquo;ai pu faire au paravant, je ne sait pas si il s&rsquo;agit d&rsquo;un WAF ou d&rsquo;un filtre connu mais en tout cas je sais comment le contourner</p>
 <p><code>?path=..%252F..%252F..%252F..%252Fetc%252Fpasswd</code> nous affiche une nouvelle page</p>
-<p><img alt="2023-02-01-193521_1387x113_scrot" src="https://user-images.githubusercontent.com/77807503/216157349-42c1b15f-bea9-467e-a5f9-6aaf1459987a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157349-42c1b15f-bea9-467e-a5f9-6aaf1459987a.png" alt="2023-02-01-193521_1387x113_scrot"></p>
 <p>Même si elle ne nous a pas donné le contenu du fichier que nous voulions lire, elle prouve que la <code>LFI</code> a fonctionné. Un <strong>double encoding</strong> nous a donc permis de contourner le filtre.</p>
 <p>De plus, ce message d&rsquo;erreur est affiché seulement car mon navigateur croit qu&rsquo;il est entrain de lire une image, pour avoir le vrai contenu du fichier, il faut l&rsquo;enregistrer puis le lire via un <code>cat</code> par exemple.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cat img<span style="color:#f92672">.</span>png
@@ -340,9 +340,9 @@
 </span></span></code></pre></div><p>J&rsquo;ai essayé pas mal de choses après ça mais je n&rsquo;ai rien trouvé d&rsquo;utile à faire avec ces identifiants</p>
 <p>Puisque nous sommes &ldquo;bloqués&rdquo;, nous allons tester la dernière fonctionnalité du site: le <code>login</code>/<code>register</code></p>
 <p>Créeons-nous un compte:</p>
-<p><img alt="2023-02-01-195130_810x440_scrot" src="https://user-images.githubusercontent.com/77807503/216157375-0472c36a-4312-4c45-8859-059157f81711.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157375-0472c36a-4312-4c45-8859-059157f81711.png" alt="2023-02-01-195130_810x440_scrot"></p>
 <p>Il a bel et bien été crée, maintenant connectons nous:</p>
-<p><img alt="2023-02-01-195149_782x309_scrot" src="https://user-images.githubusercontent.com/77807503/216157387-deec7d5e-3a1d-44b0-85d2-6874cf77339a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157387-deec7d5e-3a1d-44b0-85d2-6874cf77339a.png" alt="2023-02-01-195149_782x309_scrot"></p>
 <p>Il nous dit que le compte n&rsquo;est pas activé, et bien évidemment, je  n&rsquo;ai reçu aucun email.</p>
 <p>Il va donc falloir trouver un moyen d&rsquo;activer notre compte, commeçons par retourner sur le code de <code>index.php</code>.</p>
 <p>On voit qu&rsquo;il <code>include</code> aussi un fichier appelé <code>utils.php</code>, récupérons son contenu</p>
@@ -544,7 +544,7 @@
 <p>Dans toute cette pagaille, on trouve notre réponse</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">https</span><span style="color:#f92672">://</span><span style="color:#f92672">broscience</span>.<span style="color:#a6e22e">htb</span><span style="color:#f92672">/</span><span style="color:#f92672">activate</span>.<span style="color:#a6e22e">php</span><span style="color:#f92672">?</span><span style="color:#f92672">code</span><span style="color:#f92672">=</span>{<span style="color:#960050;background-color:#1e0010">$activation_code</span>}
 </span></span></code></pre></div><p>Maintenant, nous n&rsquo;avons plus qu&rsquo;à créer un compte, intercépter la requête et voir la réponse pour avoir la date exacte de création du compte, puis créer un code d&rsquo;activation qui correspond et l&rsquo;utiliser.</p>
-<p><img alt="2023-02-01-201911_1592x482_scrot" src="https://user-images.githubusercontent.com/77807503/216157414-fb374035-98c3-4818-b143-44d1b58b8bf9.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157414-fb374035-98c3-4818-b143-44d1b58b8bf9.png" alt="2023-02-01-201911_1592x482_scrot"></p>
 <p>On garde la date de côté: <code>Wed, 01 Feb 2023 19:19:02 GMT</code></p>
 <p>La <code>timestamp</code> correspondant à cette date est <code>1675279142</code> (via <a href="https://www.epochconverter.com/">https://www.epochconverter.com/</a>)</p>
 <p>On crée un fichier <code>.php</code> localement dans lequel on modifie la fonction:</p>
@@ -607,7 +607,7 @@
 </span></span></code></pre></div><p>Puis on met notre cookie, et on refresh la page</p>
 <p>Elle va être horrible et toute blanche puisque c&rsquo;est le cookie qui est sensé permettre de gérer le theme, mais ce n&rsquo;est pas grave</p>
 <p>On visite <a href="https://broscience.htb/revshell.php">https://broscience.htb/revshell.php</a> pour que notre script soit executé, et on reçoit la connection sur le <code>netcat</code></p>
-<p><img alt="2023-02-01-204310_1917x655_scrot" src="https://user-images.githubusercontent.com/77807503/216157456-afec9240-6f5d-4234-8479-d316e64b453b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157456-afec9240-6f5d-4234-8479-d316e64b453b.png" alt="2023-02-01-204310_1917x655_scrot"></p>
 <p><em>On peut aussi confirmer qu&rsquo;il a bien lu le contenu de notre reverse shell car on voit les connections sur le serveur <code>python</code></em></p>
 <h1 id="privilege-escalation">Privilege Escalation</h1>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> export TERM<span style="color:#f92672">=</span>xterm
@@ -642,7 +642,7 @@
 </span></span><span style="display:flex;"><span>                      -p option is supplied at startup, the effective user id is not reset.  Turning this option off causes the effective user and group ids to be set to the real user
 </span></span><span style="display:flex;"><span>                      and group ids.
 </span></span></code></pre></div><p>On peut donc donc éxecuter la commande <code>bash -p</code> pour qu&rsquo;il garde les privilèges, càd <code>sudo</code></p>
-<p><img alt="2023-02-01-204653_896x446_scrot" src="https://user-images.githubusercontent.com/77807503/216157475-8497878a-e038-4a9f-8dec-ed5205986008.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/216157475-8497878a-e038-4a9f-8dec-ed5205986008.png" alt="2023-02-01-204653_896x446_scrot"></p>
 <p>gg!</p>
 
             </div>

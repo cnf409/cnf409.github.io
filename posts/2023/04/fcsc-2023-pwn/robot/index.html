@@ -187,7 +187,7 @@
 </span></span><span style="display:flex;"><span>    PIE:      PIE enabled
 </span></span></code></pre></div><p>On voit donc qu&rsquo;on va s&rsquo;attaquer à un <em>ELF</em> en <em>64 bits</em> protégé par toutes les protections (comme dit dans la desc).</p>
 <p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
-<p><img alt="2023-05-01-191537_656x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506504-7fc953da-3707-4499-b570-08c3526eec6e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506504-7fc953da-3707-4499-b570-08c3526eec6e.png" alt="2023-05-01-191537_656x191_scrot"></p>
 <p>On a plusieurs options, mais on peut les rassembler en 3 catégories:</p>
 <ul>
 <li>Les options <strong>1</strong> et <strong>4</strong> vont a priori nous permettre d&rsquo;allouer des chunks (via <em>malloc</em>) pour créer le robot et le mode d&rsquo;emploi</li>
@@ -384,11 +384,11 @@
 </span></span></code></pre></div><p>On voit qu&rsquo;elle va <em>print</em> du texte (plus ou moins inutile), appeller la fonction <code>move</code> de la struct &ldquo;Robot&rdquo;, en ensuite <strong>free le chunk</strong>. On remarque qu&rsquo;il ne supprime pas le <em>pointeur</em>, une fois que le robot est &ldquo;cassé&rdquo;, il existe toujours un pointeur vers le chunk qui a été <em>free()</em> et le contenu du chunk sera toujours existant.</p>
 <p>C&rsquo;est ici un cas assez classique de <strong>Use-After-Free</strong> (UAF). Il faut maintenant trouver un moyen de leak des valeurs de la <em>heap</em>.</p>
 <p>On peut commencer par regarder le chunk dans <code>pwndbg</code>. On lance le programme puis on crée un robot avec n&rsquo;importe quel nom:</p>
-<p><img alt="2023-05-01-193724_830x462_scrot" src="https://user-images.githubusercontent.com/77807503/235506542-72f6ef85-da08-4b99-aa76-c5f759805dd4.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506542-72f6ef85-da08-4b99-aa76-c5f759805dd4.png" alt="2023-05-01-193724_830x462_scrot"></p>
 <p>Maintenant, on fait <strong>CTRL+C</strong> pour interrompre le programme et pouvoir inspecter la <strong>heap</strong>. On va utiliser la commande <em>vis</em> et chercher notre chunk.</p>
-<p><img alt="2023-05-01-193807_1069x1036_scrot" src="https://user-images.githubusercontent.com/77807503/235506564-9c19d43e-f9fb-4c77-b9e5-40dc36fcb91e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506564-9c19d43e-f9fb-4c77-b9e5-40dc36fcb91e.png" alt="2023-05-01-193807_1069x1036_scrot"></p>
 <p>Juste avant le <em>Top chunk</em>, on voit notre <em>Robot</em>, qu&rsquo;on reconnaît graĉe au &ldquo;ChatGPT&rdquo; (le nom donné au robot). On peut donc aussi voir que le chunk ne contient pas seulement le nom du robot, deux autres adresses s&rsquo;y trouvent - on va voir à quoi elles correspondent.</p>
-<p><img alt="2023-05-01-193935_1082x180_scrot" src="https://user-images.githubusercontent.com/77807503/235506579-0b63fc28-4acd-424c-b3dd-eb183e7b732c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506579-0b63fc28-4acd-424c-b3dd-eb183e7b732c.png" alt="2023-05-01-193935_1082x180_scrot"></p>
 <p>Il s&rsquo;agit des deux fonctions de la <em>Struct</em> ajoutées au moment où on crée notre Robot. Ce sont ces adresses que nous voulont <em>leak</em>.</p>
 <p>Pour le faire, les options <strong>4</strong> et <strong>5</strong> vont nous être utiles. L&rsquo;option <strong>4</strong> nous permet de <em>malloc</em> un chunk d&rsquo;une taille de <strong>32</strong>, et puisque nous savons que nous avons un <strong>Use-After-Free</strong>, ce chunk prendra la place dans l&rsquo;ancien chunk <em>Robot</em> si le robot est détruit avant la création du manuel. Enfin, on pourra lire le manuel avec l&rsquo;option <strong>5</strong>, et puisque cette option lit <em>32 chars</em>, elle va aussi lire les deux adresses qui étaient présentes après le nom du robot.</p>
 <h3 id="tldr-leak">TLDR: Leak</h3>
@@ -479,7 +479,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
 </span></span></code></pre></div><p>On commence par créer quelques fonctions qui nous facilitent la communication avec l&rsquo;executable, puis on récupère le leak dans une variable. On peut vérifier le bon fonctionnement du script avec <code>pwndbg</code>:</p>
-<p><img alt="2023-05-01-195650_1363x191_scrot" src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png" alt="2023-05-01-195650_1363x191_scrot"></p>
 <p>Le script crée un robot avec un nom de <strong>16</strong> chars, le détruit, puis crée un mode d&rsquo;emploi de <strong>16</strong> chars (pour ne pas réecrire les adresses des variables), et lis le manuel pour avoir les <em>leaks</em>. On voit que l&rsquo;adresse affichée est bien celle de la fonction <em>roll</em>.</p>
 <p>En faisant cette fonction, on comprend quelle est la deuxième partie de l&rsquo;exploit: réecrire la valeur d&rsquo;une fonction pour l&rsquo;appeller et obtenir le flag. Mais alors, quelle fonction <strong>de la struct</strong> réecrire, et par quoi?</p>
 <p>L&rsquo;option <strong>2</strong> nous permet de &ldquo;faire parler le robot&rdquo;, concrètement, elle appelle la fonction <code>makeNoise</code>, ce serait donc un bon candidat à réecrire puisqu&rsquo;il ne se passe rien de plus dans cette option.</p>

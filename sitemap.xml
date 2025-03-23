@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/buffer-overflow/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/cyberapocalypse-2025-writeups/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/pwn/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/stack-canary-bypass/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2025-03-23T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/posts/2024/10/heroctf-2024-pwn/bankrupst/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2024/10/heroctf-2024-pwn/heappie/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/buffer-overflow/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/heap/</loc>
@@ -24,18 +45,6 @@
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/pointer-overwrite/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/pwn/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/series/</loc>
-    <lastmod>2024-10-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2024-10-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/uaf/</loc>

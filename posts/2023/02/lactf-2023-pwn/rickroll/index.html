@@ -218,8 +218,7 @@
 </span></span></code></pre></div><p>This shows that the program is vulnerable to <em>format string exploit</em>. So we will be able to leak addresses from the <code>stack</code> and eventually modify some <code>entries</code>.</p>
 <p>If we start thinking about our exploit here, we quickly see we&rsquo;re going to be stuck&hellip; There is no win function so we have to <em>make</em> our way to a shell, but to do that we would need to have a leak of the <code>libc</code>&hellip; That&rsquo;s not a problem since we know there is a <em>format string vulnerability</em>, but the main function doesn&rsquo;t loop so we only have one input to leak <code>libc</code> and overwrite a <code>libc</code> entry&hellip; this is impossible</p>
 <blockquote>
-<p>I struggled <strong>a lot</strong> on this step, I couldn&rsquo;t figure out how to loop main somehow&hellip; And I ended up seeing something interesting</p>
-</blockquote>
+<p>I struggled <strong>a lot</strong> on this step, I couldn&rsquo;t figure out how to loop main somehow&hellip; And I ended up seeing something interesting</p></blockquote>
 <p>By taking a look at the <code>main</code> function in the <em>executable</em> (and not the <code>.c</code> file) by disassembling it, we see that the last <code>printf</code> was replaced by a <code>puts</code> (probably by the compiler)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main 
 </span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function main:
@@ -337,8 +336,7 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> x<span style="color:#f92672">/</span>x <span style="color:#ae81ff">0x7ffff7da3d90</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x7ffff7da3d90</span> <span style="color:#f92672">&lt;</span>__libc_start_call_main<span style="color:#f92672">+</span><span style="color:#ae81ff">128</span><span style="color:#f92672">&gt;</span>:	<span style="color:#ae81ff">0x89</span>
 </span></span></code></pre></div><blockquote>
-<p>After realising that the <em>remote</em> address at position 39 looks something like <code>0x40xxxx</code>, I poked around and tried to find where the libc address was. This usually happens because the stack layout is not the same locally and remotely and sometimes the position is a bit different</p>
-</blockquote>
+<p>After realising that the <em>remote</em> address at position 39 looks something like <code>0x40xxxx</code>, I poked around and tried to find where the libc address was. This usually happens because the stack layout is not the same locally and remotely and sometimes the position is a bit different</p></blockquote>
 <p>We can complete our exploit with the leak:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
@@ -417,8 +415,7 @@
 </span></span><span style="display:flex;"><span>  [rdx] <span style="color:#f92672">==</span> NULL <span style="color:#f92672">||</span> rdx <span style="color:#f92672">==</span> NULL
 </span></span></code></pre></div><p>Let&rsquo;s try them one by one until we find one that works</p>
 <blockquote>
-<p>I had to re-do the <code>AAAA %p %p %p</code> trick because the input had moved from <code>6th</code> to <code>8th</code> position</p>
-</blockquote>
+<p>I had to re-do the <code>AAAA %p %p %p</code> trick because the input had moved from <code>6th</code> to <code>8th</code> position</p></blockquote>
 <p>After testing them one by one, I figured the last one works.</p>
 <h2 id="final-payload">Final Payload</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
@@ -496,7 +493,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>We can make sure that it works:</p>
-<p><img alt="2023-02-23-183836_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/220987066-220419b3-d8c3-4fd2-97e5-745f98a78f1f.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/220987066-220419b3-d8c3-4fd2-97e5-745f98a78f1f.png" alt="2023-02-23-183836_1888x1030_scrot"></p>
 <p>And it does, gg!</p>
 <p><em>flag -&gt; lactf{printf_gave_me_up_and_let_me_down}</em></p>
 

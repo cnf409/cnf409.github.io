@@ -283,12 +283,11 @@
 </span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span></code></pre></div><p>When comparing the two values, PHP will turn 123456789.0000000000 into an integer because it has no decimal value. The condition will then return <code>True</code>, which is mathematically correct but could allow an attacker to bypass length restrictions</p>
 <p>Here is a table that shows the different results when a <strong>loose comparison</strong> (when PHP uses type juggling) occurs in <strong>PHP 7.X</strong></p>
-<p><img alt="Pasted image 20230107010517" src="https://user-images.githubusercontent.com/77807503/211122304-a2f5f310-ddbb-4b71-b8e2-63d9406de2d9.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/211122304-a2f5f310-ddbb-4b71-b8e2-63d9406de2d9.png" alt="Pasted image 20230107010517"></p>
 <h1 id="better-example">Better example</h1>
 <p>I will use a &ldquo;PHP Type juggling&rdquo; challenge I made as an example for this part.</p>
 <blockquote>
-<p>I will try to explain the code as much as I can, so don&rsquo;t worry if you&rsquo;re not comfortable with PHP.</p>
-</blockquote>
+<p>I will try to explain the code as much as I can, so don&rsquo;t worry if you&rsquo;re not comfortable with PHP.</p></blockquote>
 <p>Here is the backend of a login page:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
 </span></span><span style="display:flex;"><span>
@@ -319,8 +318,7 @@
 </span></span></span></code></pre></div><p>First, we make sure that the two POST parameters (used to pass the username and the password) are not empty. This line is not vulnerable.</p>
 <p>The vulnerability is in the next condition, the one that checks the password. The <strong>strcmp</strong> function is used to compare a randomly generated password with the user&rsquo;s input.</p>
 <blockquote>
-<p>We compare the input with a randomly generated password because the goal of this challenge is not to figure out what the password is but rather to bypass the condition</p>
-</blockquote>
+<p>We compare the input with a randomly generated password because the goal of this challenge is not to figure out what the password is but rather to bypass the condition</p></blockquote>
 <p>The <strong>strcmp</strong> function compares two strings and returns <code>0</code> if they are equal. To know if they are, we have to check if the function returned <code>0</code> or not.</p>
 <p>What we can see is that this verification is made using a <strong>loose comparison</strong> (only two = were used)</p>
 <p>And you should know that <strong>strcmp</strong> returns <code>NULL</code> if one of the two passed arguments is not a string. Knowing that, we just have to enter something else than a string for the password, and the function will return <code>NULL</code></p>

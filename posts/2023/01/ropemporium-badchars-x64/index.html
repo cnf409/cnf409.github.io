@@ -200,7 +200,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>On va le lancer pour voir ce qu&rsquo;il fait concrètement:</p>
-<p><img alt="2023-01-29-174453_1698x557_scrot" src="https://user-images.githubusercontent.com/77807503/215351090-d424b61d-309b-4fc7-94b5-2c42cb11dfd3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/215351090-d424b61d-309b-4fc7-94b5-2c42cb11dfd3.png" alt="2023-01-29-174453_1698x557_scrot"></p>
 <p>On voit que si on entre un nombre élevé de bytes dans l&rsquo;input le programme plante (<code>segfault</code>), ce qui veut dire qu&rsquo;on a commencé à overwrite des registres.</p>
 <p>Je vais passer assez vite sur la première partie de l&rsquo;exploit puisque c&rsquo;est la même chose que l&rsquo;<a href="/posts/2023/01/ropemporium-badchars-x64/#write4">exo précédent</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass pwnme
@@ -341,8 +341,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 <h1 id="final-payload">Final Payload</h1>
 <p>Voici donc notre payload:</p>
 <blockquote>
-<p>Note: j&rsquo;ai dû ajouter 8 à l&rsquo;adresse de <code>.data</code> puisque sinon il y avait un badchar dans l&rsquo;adresse elle même et elle se faisait filtrer</p>
-</blockquote>
+<p>Note: j&rsquo;ai dû ajouter 8 à l&rsquo;adresse de <code>.data</code> puisque sinon il y avait un badchar dans l&rsquo;adresse elle même et elle se faisait filtrer</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -414,7 +413,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 </span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>On peut tester le payload pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-01-29-202357_1179x660_scrot" src="https://user-images.githubusercontent.com/77807503/215351100-c463126a-5839-44ef-a4c8-a94397eca44c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/215351100-c463126a-5839-44ef-a4c8-a94397eca44c.png" alt="2023-01-29-202357_1179x660_scrot"></p>
 <p>Et il fonctionne ! gg !</p>
 
       </div>

@@ -182,10 +182,10 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ssh -p 53888 ctf-player@saturn.picoctf.net. The password is *****
 </span></span></code></pre></div><h2 id="poking-around">Poking around</h2>
-<p><img alt="2023-03-28-202047_139x26_scrot" src="https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334746-be91a5d6-6f85-4359-b602-bab18110617e.png" alt="2023-03-28-202047_139x26_scrot"></p>
 <p>Same as for the previous challenge, this indicates that we are not on a <em>typical</em> shell.</p>
 <p>Let&rsquo;s start poking around to see what we <em>can</em> and <em>can&rsquo;t</em> do. We&rsquo;ll start by trying <code>whoami</code>, <code>pwd</code> and <code>ls</code>:</p>
-<p><img alt="2023-03-28-202313_340x142_scrot" src="https://user-images.githubusercontent.com/77807503/228334765-40458e85-d3be-4ffb-a34f-1f2f89264b0a.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334765-40458e85-d3be-4ffb-a34f-1f2f89264b0a.png" alt="2023-03-28-202313_340x142_scrot"></p>
 <p>As you can see, only <code>pwd</code> works. This command is not useful but it shows that there is no filter, some commands are just not available.</p>
 <p>To list all the available commands, we can use the <code>compgen -c</code> command.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&lt;...&gt;
@@ -214,22 +214,20 @@
 </span></span></code></pre></div><h2 id="bypassing-the-filter">Bypassing the filter</h2>
 <p>Among all of these, we can see one very interesting command: <code>echo</code>.</p>
 <p>Indeed, we can use <code>echo</code> to act as a <code>ls</code> by doing <code>echo *</code>:</p>
-<p><img alt="2023-03-28-202552_177x43_scrot" src="https://user-images.githubusercontent.com/77807503/228334799-5dc7e5fd-fabc-4505-9adc-f44b5923e956.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334799-5dc7e5fd-fabc-4505-9adc-f44b5923e956.png" alt="2023-03-28-202552_177x43_scrot"></p>
 <blockquote>
-<p>Fun fact: Since we have access to the <code>alias</code> command, we can make an alias for <code>ls</code> to artificially make it work again:</p>
-</blockquote>
-<p><img alt="2023-03-28-202627_284x68_scrot" src="https://user-images.githubusercontent.com/77807503/228334826-65a55a9d-d883-4e93-9e8a-1d234e2236c4.png"></p>
+<p>Fun fact: Since we have access to the <code>alias</code> command, we can make an alias for <code>ls</code> to artificially make it work again:</p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334826-65a55a9d-d883-4e93-9e8a-1d234e2236c4.png" alt="2023-03-28-202627_284x68_scrot"></p>
 <p>We see three folders: <code>abra</code>, <code>ala</code> and <code>sim</code>.</p>
 <p>Since we have access to the <code>cd</code> command, we can use it to go into them and list their content.</p>
 <p>Let&rsquo;s try to list the content of the <code>ala</code> folder:</p>
-<p><img alt="2023-03-28-202910_197x67_scrot" src="https://user-images.githubusercontent.com/77807503/228334862-c8db64e5-09c2-4097-9720-403cebabb0db.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334862-c8db64e5-09c2-4097-9720-403cebabb0db.png" alt="2023-03-28-202910_197x67_scrot"></p>
 <p>There are two text files and we don&rsquo;t have access to <code>cat</code>, <code>head</code> or <code>tail</code>&hellip; but that&rsquo;s ok, because we have access to <code>echo</code> !</p>
 <p>Here is the trick to read a file with the <code>echo</code> command: <code>echo &quot;$(&lt;kazam.txt)&quot;</code></p>
-<p><img alt="2023-03-28-203032_681x44_scrot" src="https://user-images.githubusercontent.com/77807503/228334887-fc7cc2c0-33a3-4c4e-a039-319e498c9f5c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228334887-fc7cc2c0-33a3-4c4e-a039-319e498c9f5c.png" alt="2023-03-28-203032_681x44_scrot"></p>
 <p>As you can see, it worked ! GGs</p>
 <blockquote>
-<p>There are other text files in the other directories, but they&rsquo;re just rabbit holes</p>
-</blockquote>
+<p>There are other text files in the other directories, but they&rsquo;re just rabbit holes</p></blockquote>
 
       </div>
     </article>

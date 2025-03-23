@@ -159,12 +159,12 @@
 </span></span></code></pre></div><p>Hint: <em>where are password&rsquo;s stored?</em></p>
 <h2 id="recon">Recon</h2>
 <p>The main page is a <em>beautiful</em> default blog page, nothing much to do here</p>
-<p><img alt="2023-03-12-003427_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/224516453-be5b743f-0d4a-47bb-8a19-cae106a40c40.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516453-be5b743f-0d4a-47bb-8a19-cae106a40c40.png" alt="2023-03-12-003427_1888x1030_scrot"></p>
 <p>If we look around and try to see posts, we can see that they&rsquo;re fetched through a <code>GET</code> parameter:</p>
-<p><img alt="2023-03-12-003540_421x34_scrot" src="https://user-images.githubusercontent.com/77807503/224516457-5465e06b-aa33-492b-8447-62f59bbf0de7.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516457-5465e06b-aa33-492b-8447-62f59bbf0de7.png" alt="2023-03-12-003540_421x34_scrot"></p>
 <h2 id="exploitation">Exploitation</h2>
 <p>This kind of parameter is usually vulnerable to <code>LFI</code>,  which would allow us to render any file from the server. Since the hint talks about where the passwords are stored, let&rsquo;s try to read <code>/etc/passwd</code></p>
-<p><img alt="2023-03-12-003717_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/224516461-ef01b07e-98be-4007-ad05-3eb0bc7d38e3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516461-ef01b07e-98be-4007-ad05-3eb0bc7d38e3.png" alt="2023-03-12-003717_1888x1030_scrot"></p>
 <p>We can see it worked correctly, and we got the flag ! GG !</p>
 
             </div>

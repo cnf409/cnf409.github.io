@@ -187,16 +187,16 @@
 </span></span><span style="display:flex;"><span>    PIE:      No PIE (<span style="color:#ae81ff">0x400000</span>)
 </span></span></code></pre></div><p>Il s&rsquo;agit d&rsquo;un <em>ELF</em> en <em>64 bits</em> protégé par <code>NX</code>.</p>
 <p>On va le run pour avoir une idée de ce qu&rsquo;il fait:</p>
-<p><img alt="2023-05-08-112543_973x101_scrot" src="https://user-images.githubusercontent.com/77807503/236800594-665593f0-e38e-4ab0-bb6b-fd1d948e559b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800594-665593f0-e38e-4ab0-bb6b-fd1d948e559b.png" alt="2023-05-08-112543_973x101_scrot"></p>
 <p>Il nous demande notre username, puis on accède à un menu avec <strong>4 options</strong></p>
-<p><img alt="2023-05-08-112550_1094x371_scrot" src="https://user-images.githubusercontent.com/77807503/236800637-b28d55d1-7239-43b6-8776-4d97c4bfef1e.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800637-b28d55d1-7239-43b6-8776-4d97c4bfef1e.png" alt="2023-05-08-112550_1094x371_scrot"></p>
 <p>On va lancer <code>Ghidra</code> pour comprendre un peut mieux comment le programme fonctionne.</p>
 <h4 id="main">Main</h4>
-<p><img alt="2023-05-08-113209_749x501_scrot" src="https://user-images.githubusercontent.com/77807503/236800688-3e10c0a5-e92d-45c2-9bb0-c0414fc562b6.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800688-3e10c0a5-e92d-45c2-9bb0-c0414fc562b6.png" alt="2023-05-08-113209_749x501_scrot"></p>
 <p>Après avoir renommé le variable de <em>buffer</em>, on voit qu&rsquo;il n&rsquo;y a a priori pas de vulnérabilité dans la fonction <code>main()</code>, le <em>buffer</em> dans lequel est stocké l&rsquo;username est de la même taille que le <code>fgets()</code> donc ça me paraît bon.</p>
 <p>On voit qu&rsquo;elle appelle une fonction <code>menu()</code>, on va s&rsquo;y intéresser</p>
 <h4 id="menu">Menu</h4>
-<p><img alt="2023-05-08-113854_514x764_scrot" src="https://user-images.githubusercontent.com/77807503/236800701-5cb4532d-49b2-4d8e-bb84-d296055a4512.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800701-5cb4532d-49b2-4d8e-bb84-d296055a4512.png" alt="2023-05-08-113854_514x764_scrot"></p>
 <p>Après avoir renommé les variables <em>buffer</em> et <em>money</em> (qui stockent l&rsquo;argent de l&rsquo;utilisateur), on regarde les différentes options:</p>
 <ol>
 <li>Affiche l&rsquo;argent de l&rsquo;utilisateur</li>
@@ -206,14 +206,14 @@
 </ol>
 <p>On va regarder un peu les fonctions unes par unes et voir si on peut trouver des vuln</p>
 <h4 id="buy_ticket">buy_ticket</h4>
-<p><img alt="2023-05-08-114712_687x573_scrot" src="https://user-images.githubusercontent.com/77807503/236800786-67e9c5cc-7cd2-414f-8c90-91ef85b7cc0b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800786-67e9c5cc-7cd2-414f-8c90-91ef85b7cc0b.png" alt="2023-05-08-114712_687x573_scrot"></p>
 <p>Après s&rsquo;être faits rickroll de plein fouet, on peut s&rsquo;attarder sur la manière dont le choix de quantité. En effet, <strong>la fonction ne vérifie pas si notre input est négatif</strong>, en entrant un nombre négatif dans l&rsquo;input de quantité, notre <em>money</em> va augmenter au lieu de diminuer (comme elle le devrait si on achetait une quantité positive).</p>
 <p>Ok, on sait comment abuser d&rsquo;un <em>logic bug</em> pour avoir de l&rsquo;argent infini, maintenant il faut savoir à quoi il va nous servir</p>
 <h4 id="buy_vip_ticket">buy_vip_ticket</h4>
-<p><img alt="2023-05-08-115648_570x636_scrot" src="https://user-images.githubusercontent.com/77807503/236800808-03d6ca0b-1619-4917-a82b-766fdee8589c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800808-03d6ca0b-1619-4917-a82b-766fdee8589c.png" alt="2023-05-08-115648_570x636_scrot"></p>
 <p>Si l&rsquo;utilisateur a sufisamment d&rsquo;argent, un <em>input</em> lui permet de confirmer l&rsquo;action et il devient <strong>VIP</strong></p>
 <h4 id="access_lounge">access_lounge</h4>
-<p><img alt="2023-05-08-120254_520x411_scrot" src="https://user-images.githubusercontent.com/77807503/236800827-964fb1c7-5102-45a7-9b31-77b0aa5d4214.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/236800827-964fb1c7-5102-45a7-9b31-77b0aa5d4214.png" alt="2023-05-08-120254_520x411_scrot"></p>
 <p>Cette dernière fonction n&rsquo;est accessible que si nous sommes <strong>VIP</strong>, mais puisque nous avons un bug pour le devenir, ce n&rsquo;est pas un problème.</p>
 <p>Et nous avons enfin notre vuln ! Le <code>fgets</code> lit <code>0x100</code> bytes et les stocke quand un <em>buffer</em> de <code>16</code> bytes, on a donc ici une <em>buffer overflow</em>.</p>
 <h2 id="tldr-vulnérabilités">TLDR: Vulnérabilités</h2>
@@ -226,8 +226,7 @@
 <p>La première étape de notre exploit va donc être d&rsquo;avoir accès au salon <strong>VIP</strong> pour avoir la <code>BOF</code>, puis grâce à cette dernière on va <em>leak</em> une adresse de la <code>libc</code> et retourner au <code>main</code>, puis réaccéder au <strong>VIP</strong> et appeller <code>system</code> via la <em>BOF</em>.</p>
 <p><code>Logic bug -&gt; ret2main (with leaks) -&gt; ret2system</code></p>
 <blockquote>
-<p>Je ne montrerai pas dans ce post comment récupérer les différentes adresses statiques, je vous invite à aller voir mes posts de pwn précédents si ça vous initéresse</p>
-</blockquote>
+<p>Je ne montrerai pas dans ce post comment récupérer les différentes adresses statiques, je vous invite à aller voir mes posts de pwn précédents si ça vous initéresse</p></blockquote>
 <h2 id="exploit">Exploit</h2>
 <p>Voici mon exploit final:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>

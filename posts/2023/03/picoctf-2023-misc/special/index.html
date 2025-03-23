@@ -184,27 +184,26 @@
 </span></span></code></pre></div><h2 id="poking-around">Poking around</h2>
 <p>We&rsquo;re given a username, a password and a port so we can <code>ssh</code> to the machine, so let&rsquo;s do it</p>
 <p>Once we&rsquo;re connected, the first thing we notice is this:</p>
-<p><img alt="2023-03-28-192950_150x64_scrot" src="https://user-images.githubusercontent.com/77807503/228326701-3499cd16-19a3-4251-acb0-81d26b41d09b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326701-3499cd16-19a3-4251-acb0-81d26b41d09b.png" alt="2023-03-28-192950_150x64_scrot"></p>
 <p>Instead of the classic <code>username@hostname:~$</code>, it&rsquo;s written <code>Special$</code>. That indicates that we&rsquo;re not on a <em>typical</em> bash shell.</p>
 <p>Let&rsquo;s start poking around to see what we <em>can</em> and <em>can&rsquo;t</em> do. We&rsquo;ll start by trying <code>whoami</code>, <code>pwd</code> and <code>ls</code>:</p>
-<p><img alt="2023-03-28-193349_239x233_scrot" src="https://user-images.githubusercontent.com/77807503/228326731-0db2b74c-d35c-4dc5-be54-eb2424d8e161.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326731-0db2b74c-d35c-4dc5-be54-eb2424d8e161.png" alt="2023-03-28-193349_239x233_scrot"></p>
 <p>As you can see, there is some kind of spell checker that prevents us from executing commands (<em>pwd</em> becomes <em>Pod</em>, <em>whoami</em> becomes <em>Whom</em> etc&hellip;).</p>
 <h2 id="bypassing-the-filter">Bypassing the filter</h2>
 <p>Let&rsquo;s try executing <code>ls</code> again but inside of a <a href="https://blog.wplauncher.com/what-is-in-linux/">command substitution</a>:</p>
-<p><img alt="2023-03-28-193630_257x73_scrot" src="https://user-images.githubusercontent.com/77807503/228326750-58da2eb2-e9c2-4559-a124-d76aacd1f6a3.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326750-58da2eb2-e9c2-4559-a124-d76aacd1f6a3.png" alt="2023-03-28-193630_257x73_scrot"></p>
 <p>This time, it says that <em>blargh</em> wasn&rsquo;t found&hellip; weird, did our <em>ls</em> become <em>blargh</em> ?</p>
 <p>No, since <em>command subsitution</em> returns the output of the command, <em>blargh</em> is actually the first folder returned by the <code>ls</code>.</p>
 <p>Alright, the next step is knowing what&rsquo;s inside of it, let&rsquo;s try the same trick:</p>
-<p><img alt="2023-03-28-193844_370x70_scrot" src="https://user-images.githubusercontent.com/77807503/228326794-39c25852-928b-4f33-b556-b39add3f7033.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326794-39c25852-928b-4f33-b556-b39add3f7033.png" alt="2023-03-28-193844_370x70_scrot"></p>
 <p>And that didn&rsquo;t work&hellip; It seems that the space messed up the command, but hopefully there is a trick to avoid putting spaces in the command: <a href="https://www.oreilly.com/library/view/learning-linux-shell/9781785286216/ch08s13.html">The IFS environment variable</a></p>
 <p>Let&rsquo;s see if it works when we replace our space by <code>$IFS</code>:</p>
 <blockquote>
-<p>To prevent the variable from becoming <code>$IFSblargh</code> when we call it, we can <a href="https://stackoverflow.com/questions/27472540/difference-between-and-in-bash">put it in brackets</a></p>
-</blockquote>
-<p><img alt="2023-03-28-194235_278x69_scrot" src="https://user-images.githubusercontent.com/77807503/228326832-c4a3346f-3e57-4c50-b9c7-9c8d05feee44.png"></p>
+<p>To prevent the variable from becoming <code>$IFSblargh</code> when we call it, we can <a href="https://stackoverflow.com/questions/27472540/difference-between-and-in-bash">put it in brackets</a></p></blockquote>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326832-c4a3346f-3e57-4c50-b9c7-9c8d05feee44.png" alt="2023-03-28-194235_278x69_scrot"></p>
 <p>Alright, it worked and we now know where the flag is !</p>
 <p>The last step is reading the content of <code>flag.txt</code>, which shouldn&rsquo;t be a problem since we now know how to avoid using spaces:</p>
-<p><img alt="2023-03-28-194430_611x77_scrot" src="https://user-images.githubusercontent.com/77807503/228326865-b18d1a81-3200-49da-bec4-bf8cd58b27b0.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/228326865-b18d1a81-3200-49da-bec4-bf8cd58b27b0.png" alt="2023-03-28-194430_611x77_scrot"></p>
 <p>And we got it ! GGs</p>
 
       </div>

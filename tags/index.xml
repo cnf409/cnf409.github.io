@@ -7,13 +7,27 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 27 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Buffer Overflow</title>
       <link>/tags/buffer-overflow/</link>
-      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
       <guid>/tags/buffer-overflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pwn</title>
+      <link>/tags/pwn/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/pwn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stack Canary Bypass</title>
+      <link>/tags/stack-canary-bypass/</link>
+      <pubDate>Sun, 23 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/stack-canary-bypass/</guid>
       <description></description>
     </item>
     <item>
@@ -35,13 +49,6 @@
       <link>/tags/pointer-overwrite/</link>
       <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
       <guid>/tags/pointer-overwrite/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pwn</title>
-      <link>/tags/pwn/</link>
-      <pubDate>Sun, 27 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>/tags/pwn/</guid>
       <description></description>
     </item>
     <item>
@@ -294,13 +301,6 @@
       <link>/tags/js/</link>
       <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
       <guid>/tags/js/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Path Hijacking</title>
-      <link>/tags/path-hijacking/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/path-hijacking/</guid>
       <description></description>
     </item>
   </channel>

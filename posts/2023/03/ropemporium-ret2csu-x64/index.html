@@ -274,8 +274,7 @@
 <p>Vous l&rsquo;avez peut-être remarqué, mais le dernier <code>mov</code> est un <code>mov edi, r13d</code> et non pas un <code>mov rdi, r13</code>, on devra donc re-modifier la valeur de <code>rdi</code> après ceci mais ce n&rsquo;est pas un problème puisque nous avons un <code>pop rdi ; ret</code> pour le faire.</p>
 <p>Commençons notre exploit avec tout d&rsquo;abord le padding et la première partie:</p>
 <blockquote>
-<p>Je n&rsquo;explique pas comment trouver les adresses utilisées puisque je pars du principe que vous avez vu les précédents writeups et que vous savez le faire, si ce n&rsquo;est pas le cas vous pouvez allez voir les premiers exercices</p>
-</blockquote>
+<p>Je n&rsquo;explique pas comment trouver les adresses utilisées puisque je pars du principe que vous avez vu les précédents writeups et que vous savez le faire, si ce n&rsquo;est pas le cas vous pouvez allez voir les premiers exercices</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
@@ -412,7 +411,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>On peut vérifier qu&rsquo;il fonctionne:</p>
-<p><img alt="2023-03-12-233951_1013x653_scrot" src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png" alt="2023-03-12-233951_1013x653_scrot"></p>
 <p>GG !</p>
 
       </div>

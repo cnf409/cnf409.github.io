@@ -162,11 +162,11 @@
 <h2 id="recon">Recon</h2>
 <p>Since the description talks about SQL, and the hint tells us to &ldquo;say <em>no</em> to &hellip;&rdquo; we can assume that we&rsquo;re going to do <code>NoSQL Injection</code>. Now, the goal si not only to bypass the login, but to get the admin&rsquo;s password.</p>
 <p>Let&rsquo;s first take a look at the website:</p>
-<p><img alt="2023-03-12-001203_1888x1030_scrot" src="https://user-images.githubusercontent.com/77807503/224516417-018f996b-f2bc-4923-a1d9-027e3de9161b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516417-018f996b-f2bc-4923-a1d9-027e3de9161b.png" alt="2023-03-12-001203_1888x1030_scrot"></p>
 <p>There is not much going around here, just the login form with two inputs, let&rsquo;s capture the login request and play around with it.</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>After taking a look at <a href="https://book.hacktricks.xyz/pentesting-web/nosql-injection">this page</a>, I came up with this payload that allowed me to connect to the page:</p>
-<p><img alt="2023-03-12-001307_1166x455_scrot" src="https://user-images.githubusercontent.com/77807503/224516430-762081ce-70cf-42e0-b5c5-8b42dae14e36.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516430-762081ce-70cf-42e0-b5c5-8b42dae14e36.png" alt="2023-03-12-001307_1166x455_scrot"></p>
 <p>But remember, the goal is not to connect, but to get the admin&rsquo;s password.</p>
 <p>Now that we know we can manipulate the NoSQL request, we can use <code>[$regex]</code> on the password and bruteforce each character. Let&rsquo;s make a python script to automate this.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
@@ -194,11 +194,11 @@
 </span></span><span style="display:flex;"><span>			flag <span style="color:#f92672">+=</span> char
 </span></span><span style="display:flex;"><span>			print(char,<span style="color:#e6db74">&#34;is in the flag -- current flag:&#34;</span>,flag)
 </span></span></code></pre></div><p>Alright, let&rsquo;s test it (took about 5 minutes):</p>
-<p><img alt="2023-03-12-002954_1899x678_scrot" src="https://user-images.githubusercontent.com/77807503/224516438-8b536928-3ebd-4a57-9bb6-6a90c4fe3d42.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516438-8b536928-3ebd-4a57-9bb6-6a90c4fe3d42.png" alt="2023-03-12-002954_1899x678_scrot"></p>
 <p>And it worked! GG !</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>That is the end of this very nice, beginner-friendly CTF. I enjoyed it a lot and learned some new things.</p>
-<p><img alt="profile.png" src="https://user-images.githubusercontent.com/77807503/224516532-95858ee7-5de0-4d6c-a2d5-567caf642c94.png"></p>
+<p><img src="https://user-images.githubusercontent.com/77807503/224516532-95858ee7-5de0-4d6c-a2d5-567caf642c94.png" alt="profile.png"></p>
 
             </div>
         </article>
