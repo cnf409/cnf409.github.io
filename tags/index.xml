@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 23 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Code Analysis</title>
+      <link>/tags/code-analysis/</link>
+      <pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/code-analysis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Debugging</title>
+      <link>/tags/debugging/</link>
+      <pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/debugging/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reverse</title>
+      <link>/tags/reverse/</link>
+      <pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/reverse/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Buffer Overflow</title>
       <link>/tags/buffer-overflow/</link>
@@ -280,27 +301,6 @@
       <link>/tags/format-string/</link>
       <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
       <guid>/tags/format-string/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Burpsuite</title>
-      <link>/tags/burpsuite/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/burpsuite/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Command Injection</title>
-      <link>/tags/command-injection/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/command-injection/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Js</title>
-      <link>/tags/js/</link>
-      <pubDate>Mon, 13 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/js/</guid>
       <description></description>
     </item>
   </channel>
