@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="500 pts -&gt; 480 pts" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek, web3, remix, blockchain, walkthrough" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/2025/04/retropixel-2025-web3/entrypoint/" />
+
+
+    <title>
+        
+            🇬🇧 RetroPixel 2025 - web3/entrypoint :: conflict  — cybersecurity blog
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="🇬🇧 RetroPixel 2025 - web3/entrypoint">
+  <meta itemprop="description" content="500 pts -&gt; 480 pts">
+  <meta itemprop="datePublished" content="2025-04-02T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-04-02T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1246">
+  <meta itemprop="image" content="/">
+  <meta itemprop="keywords" content="Web3,Remix,Blockchain,Walkthrough">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/">
+  <meta name="twitter:title" content="🇬🇧 RetroPixel 2025 - web3/entrypoint">
+  <meta name="twitter:description" content="500 pts -&gt; 480 pts">
+
+
+
+    <meta property="og:url" content="/posts/2025/04/retropixel-2025-web3/entrypoint/">
+  <meta property="og:site_name" content="conflict">
+  <meta property="og:title" content="🇬🇧 RetroPixel 2025 - web3/entrypoint">
+  <meta property="og:description" content="500 pts -&gt; 480 pts">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-02T00:00:00+00:00">
+    <meta property="article:tag" content="Web3">
+    <meta property="article:tag" content="Remix">
+    <meta property="article:tag" content="Blockchain">
+    <meta property="article:tag" content="Walkthrough">
+    <meta property="og:image" content="/">
+      <meta property="og:see_also" content="/posts/2025/03/cyberapocalypse-2025-rev/endless_cycle/">
+      <meta property="og:see_also" content="/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2025-04-02 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                cnf409</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        6 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="/posts/2025/04/retropixel-2025-web3/entrypoint/">🇬🇧 RetroPixel 2025 - web3/entrypoint</a>
+      </h1>
+
+      
+        <div class="post-excerpt">500 pts -&gt; 480 pts</div>
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <h3 id="table-of-contents">Table of contents</h3>
+<hr>
+<ul>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#file-information">File Information</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#getting-the-connection-information">Getting the connection information</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#what-is-a-rpc">What is a RPC?</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#connecting-metamask">Connecting Metamask</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#setting-up-remix-ide">Setting up Remix IDE</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#solving-the-challenge">Solving the challenge</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#what-is-a-gwei">What is a &ldquo;gwei&rdquo;?</a></p>
+</li>
+<li>
+<p><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#conclusion">Conclusion</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="note">Note</h2>
+<p>Writeup for the first <code>web3</code> challenge from RetroPixel 2025. This CTF was organized by Ynov Bordeaux&rsquo;s SSI Lab and was really fun to tackle. It was my first time diving into web3 challenges, and I learned a ton along the way!</p>
+<h2 id="description">Description</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>No description for this challenge.
+</span></span></code></pre></div><h2 id="file-information">File information</h2>
+<p>We were given an <code>entrypoint.sol</code> file. Let&rsquo;s check it out:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// SPDX-License-Identifier: UNLICENSED</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pragma</span> <span style="color:#a6e22e">solidity</span> <span style="color:#ae81ff">0.7.0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">contract</span> <span style="color:#a6e22e">entrypoint</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">address</span> <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">owner</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mapping</span>(<span style="color:#a6e22e">address</span> =&gt; <span style="color:#66d9ef">uint</span>) <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">bank</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">step1</span> = <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">step2</span> = <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">step3</span> = <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">constructor</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">owner</span> = <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">function</span> <span style="color:#a6e22e">Welcome</span>() <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">returns</span> (<span style="color:#66d9ef">string</span> <span style="color:#a6e22e">memory</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(
+</span></span><span style="display:flex;"><span>            !<span style="color:#a6e22e">step1</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Already welcomed. Next step: call eleven_is_prime(true).&#34;</span>
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">step1</span> = <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Welcome! Next, call eleven_is_prime(true).&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">function</span> <span style="color:#a6e22e">eleven_is_prime</span>(<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">_prime</span>) <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">returns</span> (<span style="color:#66d9ef">string</span> <span style="color:#a6e22e">memory</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">step1</span>, <span style="color:#e6db74">&#34;Call welcome() first.&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(
+</span></span><span style="display:flex;"><span>            !<span style="color:#a6e22e">step2</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Already proven that 11 is prime. Next step: deposit 100 gwei.&#34;</span>
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">_prime</span>, <span style="color:#e6db74">&#34;We only accept that 11 is prime in this lesson.&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">step2</span> = <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Great! Now call deposit() with at least 100 gwei.&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">function</span> <span style="color:#a6e22e">deposit</span>() <span style="color:#a6e22e">public</span> <span style="color:#a6e22e">payable</span> <span style="color:#a6e22e">returns</span> (<span style="color:#66d9ef">string</span> <span style="color:#a6e22e">memory</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">100</span> <span style="color:#a6e22e">gwei</span>, <span style="color:#e6db74">&#34;Insufficient amount&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">step3</span> = <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bank</span>[<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Thanks for depositing! Now send at least 1000 gwei directly to this contract address.&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">receive</span>() <span style="color:#a6e22e">external</span> <span style="color:#a6e22e">payable</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">step1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">step2</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">step3</span>, <span style="color:#e6db74">&#34;Complete the previous steps first.&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">require</span>(<span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1000</span> <span style="color:#a6e22e">gwei</span>, <span style="color:#e6db74">&#34;Insufficient amount, at least 1000 gwei required to claim ownership.&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">owner</span> = <span style="color:#a6e22e">msg</span>.<span style="color:#a6e22e">sender</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is the source code of the smart contract we need to exploit to snag the flag.</p>
+<p>Looking at it, we can see there are 4 key steps:</p>
+<ul>
+<li>Call <code>welcome()</code></li>
+<li>Call <code>eleven_is_prime(true)</code></li>
+<li>Call <code>deposit()</code> with at least <code>100 gwei</code></li>
+<li>Send at least <code>1000 gwei</code> directly to the contract</li>
+</ul>
+<p>After completing these steps, we should become the owner of the contract and be able to claim the flag.</p>
+<h2 id="getting-the-connection-information">Getting the connection information</h2>
+<p>After deploying an instance and connecting with <code>netcat</code>, we&rsquo;re presented with this interface:</p>
+<p><img src="https://i.ibb.co/nqXcRMY0/2025-04-02-201950-811x260-scrot.png" alt="nc interface"></p>
+<p>We have two options: get the connection information or get the flag.</p>
+<p>Choosing the first option gives us the <strong>RPC URL</strong>, a <strong>Private Key</strong> with its associated <strong>Address</strong>, and the <strong>Contract&rsquo;s Address</strong>.</p>
+<hr>
+<h4 id="what-is-a-rpc">What is a RPC?</h4>
+<p>An RPC (Remote Procedure Call) acts like a bridge connecting your applications to a blockchain network. Think of it as a messenger service that lets you talk to the blockchain without needing to understand all its complex technical details.</p>
+<p>When you want to check your crypto balance, send tokens, or interact with a smart contract, your app needs to communicate with the blockchain somehow. The RPC provides standardized methods (like &ldquo;get balance&rdquo; or &ldquo;send transaction&rdquo;) that your application can use.</p>
+<hr>
+<p>Now that we have the connection details, let&rsquo;s set up our environment.</p>
+<h2 id="connecting-metamask">Connecting Metamask</h2>
+<p>First, we need to connect to the wallet via Metamask. Here&rsquo;s how:</p>
+<ol>
+<li>At the top of the Metamask window, click your account name (the one with the downward arrow next to it)</li>
+</ol>
+<p><img src="https://i.ibb.co/BKBN1wrX/2025-04-02-215620-160x120-scrot.png" alt="metamask account"></p>
+<ol start="2">
+<li>Click &ldquo;Add account or hardware wallet&rdquo;</li>
+</ol>
+<p><img src="https://i.ibb.co/RkQ665d0/2025-04-02-215630-323x313-scrot.png" alt="add acconut"></p>
+<ol start="3">
+<li>Click &ldquo;Import account&rdquo;</li>
+</ol>
+<p><img src="https://i.ibb.co/KzctMDkc/2025-04-02-215642-315x189-scrot.png" alt="import account"></p>
+<ol start="4">
+<li>Enter the private key we were given</li>
+</ol>
+<p><img src="https://i.ibb.co/hRwzmFLS/2025-04-02-215709-301x330-scrot.png" alt="private key"></p>
+<p>Now that we&rsquo;re connected to the wallet, we need to use the right network:</p>
+<ol>
+<li>In the top left corner of Metamask, click the Ethereum icon</li>
+</ol>
+<p><img src="https://i.ibb.co/PBRTrXD/2025-04-02-215845-192x64-scrot.png" alt="eth mainnet"></p>
+<ol start="2">
+<li>Click &ldquo;Add a custom network&rdquo;</li>
+</ol>
+<p><img src="https://i.ibb.co/NddLGg9k/2025-04-02-215859-321x163-scrot.png" alt="custom network"></p>
+<ol start="3">
+<li>Enter any network name, like &ldquo;CTF Network&rdquo;</li>
+<li>Add the RPC URL (in our case, <code>http://entry.labossi.xyz:33063</code>)</li>
+<li>For the chain ID, use <code>1337</code> or <code>7331</code></li>
+<li>Enter <code>ETH</code> for the symbol</li>
+</ol>
+<p><img src="https://i.ibb.co/Kjs5cY00/2025-04-02-215933-306x435-scrot.png" alt="network settings"></p>
+<ol start="7">
+<li>Save the network and switch to it</li>
+</ol>
+<p><img src="https://i.ibb.co/4wwFrCM7/2025-04-02-212849-1185x382-scrot.png" alt="metamask"></p>
+<p>If you suddenly see you&rsquo;re <strong>RICH</strong>, it worked! If not, you either messed something up or the RPC isn&rsquo;t working right.</p>
+<h2 id="setting-up-remix-ide">Setting up Remix IDE</h2>
+<p>I chose to use <em>Remix IDE</em> for this challenge. There are many ways to interact with smart contracts, but I find this one simple and clear for beginners like me.</p>
+<h3 id="creating--compiling-the-file">Creating &amp; Compiling the file</h3>
+<p>First, we need to import the file into <em>Remix</em> and compile it with the correct version:</p>
+<p><img src="https://i.ibb.co/Zzpht6ns/2025-04-02-202455-868x303-scrot.png" alt="remix ide"></p>
+<p>We can see there&rsquo;s an error with the version, but we&rsquo;ll change it in the compiler settings before compiling:</p>
+<p><img src="https://i.ibb.co/8nTwgzcv/2025-04-02-202509-347x659-scrot.png" alt="compiler"></p>
+<p>The green checkmark indicates that the file has been compiled properly. Now we need to head to the &ldquo;Deploy and Run transactions&rdquo; page to start interacting with the contract.</p>
+<h3 id="interacting-with-the-contract">Interacting with the contract</h3>
+<p>In the &ldquo;Deploy and Run transactions&rdquo; menu, there are a few things to do before we can communicate with the contract:</p>
+<ol>
+<li>Set the environment to Metamask</li>
+<li>Verify that the account is the right one</li>
+<li>Fill the &ldquo;Load contract from address&rdquo; field with the given <strong>Contract Address</strong></li>
+<li>Connect to the contract by clicking &ldquo;At address&rdquo;</li>
+</ol>
+<p><img src="https://i.ibb.co/mr6xLpfH/2025-04-02-202535-346x883-scrot.png" alt="deploy"></p>
+<p>In the deployed contracts section, we can now see our contract and the available interactions:</p>
+<p><img src="https://i.ibb.co/5gpJrLNj/2025-04-02-203109-276x481-scrot.png" alt="actions"></p>
+<p>Time to start interacting with it!</p>
+<h2 id="solving-the-challenge">Solving the challenge</h2>
+<p>For each interaction, a Metamask popup will ask us to confirm the transaction. We&rsquo;ll then need to wait for the transaction to be processed.</p>
+<p>Let&rsquo;s start by calling <code>welcome()</code> by clicking the associated button in <em>Remix</em>. After confirming the transaction and waiting a few seconds, we see this message in the console:</p>
+<p><img src="https://i.ibb.co/r2sKkP23/2025-04-02-214115-938x73-scrot.png" alt="console"></p>
+<p>This indicates that the transaction was successful, meaning <code>welcome()</code> has been called and the <code>step1</code> variable is now set to <code>True</code>.</p>
+<p>The second step is calling <code>eleven_is_prime</code> with the <code>True</code> parameter. After confirming this transaction and getting confirmation, <code>step2</code> is also set to <code>True</code>.</p>
+<p>The third step is calling the <code>deposit()</code> function with at least 100 <code>gwei</code>.</p>
+<hr>
+<h4 id="what-is-a-gwei">What is a &ldquo;gwei&rdquo;?</h4>
+<p>Gwei (pronounced &ldquo;giga-wei&rdquo;) is a denomination of Ether (ETH), the cryptocurrency used on the Ethereum blockchain. 1 Gwei equals 0.000000001 ETH, or one billionth of an Ether.</p>
+<p>Gwei is primarily important because it&rsquo;s the standard unit used to measure gas prices in Ethereum transactions. When you send a transaction on Ethereum, you pay a fee to network validators in the form of &ldquo;gas&rdquo;. This fee is calculated by multiplying the gas used by the gas price, which is typically expressed in Gwei.</p>
+<hr>
+<p>To do this, we need to set a specific value in the &ldquo;Value&rdquo; field in <em>Remix</em>:</p>
+<p><img src="https://i.ibb.co/DfsjC14q/2025-04-02-203130-274x495-scrot.png" alt="value"></p>
+<p>Pressing <code>deposit</code> and confirming the transaction will set <code>step3</code> to <code>True</code>.</p>
+<p>The last step is to trigger the <code>receive()</code> function so we can become the contract&rsquo;s owner. There&rsquo;s no button in <em>Remix</em> for this function.</p>
+<p>This is because the <code>receive()</code> function is triggered automatically when the contract receives a transaction. So for the last step, we&rsquo;ll use Metamask directly to send at least <code>1000 gwei</code> to the contract.</p>
+<p><code>1000 gwei</code> = <code>0.000001 ETH</code></p>
+<p>In Metamask, click &ldquo;Send&rdquo; and enter the <strong>Contract&rsquo;s Address</strong> (in our case, <code>0x0aa32BA9ac382Efc405702e6B5FcAFf272AEa36a</code>).</p>
+<p>In the amount field, enter <code>0.000001 ETH</code> and confirm the transaction.</p>
+<p><img src="https://i.ibb.co/fY0qqNFJ/2025-04-02-220424-352x221-scrot.png" alt="send"></p>
+<p>After this, we should be the contract&rsquo;s owner. We can verify this by clicking the <code>owner</code> button in <em>Remix</em>. It will display the owner&rsquo;s address. If it matches the address given by the RPC, then we&rsquo;re now the owner.</p>
+<p>We can now reconnect to the RPC and type &ldquo;2&rdquo; to get the flag. It will check if we&rsquo;re the contract&rsquo;s owner, and if we are, it&rsquo;ll display the flag.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Even though this challenge didn&rsquo;t exploit any vulnerability, it was a great introduction to web3, and I learned a lot doing it. I&rsquo;ve tried to explain it as clearly as possible so others looking to get into web3 can understand the process.</p>
+<p>If I missed anything or made any mistakes, feel free to reach out to me on Discord.</p>
+<p>Thanks for reading!</p>
+<h4 id="back-to-top"><a href="/posts/2025/04/retropixel-2025-web3/entrypoint/#table-of-contents">back to top</a></h4>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/web3/">web3</a></span>
+        <span class="tag"><a href="/tags/remix/">remix</a></span>
+        <span class="tag"><a href="/tags/blockchain/">blockchain</a></span>
+        <span class="tag"><a href="/tags/walkthrough/">walkthrough</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1246 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2025-02-04 02:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;caption=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;canonicalUrl=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;body=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f&amp;media=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f;description=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;summary=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;source=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f&amp;resubmit=true&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f;title=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint%20%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f&amp;t=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ac%f0%9f%87%a7%20RetroPixel%202025%20-%20web3%2fentrypoint&amp;url=%2fposts%2f2025%2f04%2fretropixel-2025-web3%2fentrypoint%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="/posts/2025/03/cyberapocalypse-2025-rev/endless_cycle/">
+                    <span class="button__text">🇬🇧 CyberApocalypse 2025 - rev/endless_cycle</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+
+
+
+
+    </body>
+</html>

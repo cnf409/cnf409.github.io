@@ -2,31 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/2025/04/retropixel-2025-web3/entrypoint/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/blockchain/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/cyberapocalypse-2025-writeups/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/remix/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/walkthrough/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/web3/</loc>
+    <lastmod>2025-04-02T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/posts/2025/03/cyberapocalypse-2025-rev/endless_cycle/</loc>
     <lastmod>2025-03-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/code-analysis/</loc>
     <lastmod>2025-03-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2025-03-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/series/cyberapocalypse-2025-writeups/</loc>
-    <lastmod>2025-03-25T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/debugging/</loc>
     <lastmod>2025-03-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/</loc>
-    <lastmod>2025-03-25T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/reverse/</loc>
-    <lastmod>2025-03-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/series/</loc>
-    <lastmod>2025-03-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2025-03-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/</loc>

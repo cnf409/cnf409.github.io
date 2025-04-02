@@ -7,8 +7,36 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 25 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blockchain</title>
+      <link>/tags/blockchain/</link>
+      <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/blockchain/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Remix</title>
+      <link>/tags/remix/</link>
+      <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/remix/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Walkthrough</title>
+      <link>/tags/walkthrough/</link>
+      <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/walkthrough/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web3</title>
+      <link>/tags/web3/</link>
+      <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/web3/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Code Analysis</title>
       <link>/tags/code-analysis/</link>
@@ -273,34 +301,6 @@
       <link>/tags/nosql/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       <guid>/tags/nosql/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>NoSQL Injection</title>
-      <link>/tags/nosql-injection/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/nosql-injection/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Pwntools</title>
-      <link>/tags/pwntools/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/pwntools/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Ret2win</title>
-      <link>/tags/ret2win/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/ret2win/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Format String</title>
-      <link>/tags/format-string/</link>
-      <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/format-string/</guid>
       <description></description>
     </item>
   </channel>
