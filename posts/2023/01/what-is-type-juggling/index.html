@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -204,84 +208,84 @@
 <p>I will first explain in more detail what <strong>type juggling</strong> is, why it can cause security issues and then we will see a better and more concrete example of an exploit that abuses it.</p>
 <h1 id="comparisons-in-php">Comparisons in PHP</h1>
 <p>PHP has a functionnality called <strong>type juggling</strong>, which means that when you compare two values, PHP will change one&rsquo;s type to match the other&rsquo;s. For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;1&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>This code compares a <strong>string</strong> with an <strong>integer</strong> and indicates if the values are equal or not.</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>This code compares a <strong>string</strong> with an <strong>integer</strong> and indicates if the values are equal or not.</p>
 <p>In this case, the script will return <code>True</code>, and that is thanks to <strong>type juggling</strong></p>
 <p>When running the code, PHP will convert the <strong>string</strong> to an <strong>integer</strong> to be able to compare the two values. This condition can also we written like this</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>
 </span></span></code></pre></div><p>And that is <code>True</code></p>
 <p>This functionnality can really make your life easier when you&rsquo;re working with multiple variables types and user inputs, but it can also be very dangerous, so use it carefully.</p>
 <h1 id="what-causes-the-vulnerability">What causes the vulnerability</h1>
 <p>It is actually very simple and logical, probably even for someone that doesn&rsquo;t know PHP. Let&rsquo;s take the same example as before and tweak it a little bit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;1 2 3 foo&#34;</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;1 2 3 foo&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>Now, what do you think this code will return ?</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>Now, what do you think this code will return ?</p>
 <p>Well, because of type juggling, it will return <code>True</code> &ndash; but that&rsquo;s false, right?</p>
 <p>Yes, and no&hellip; What happens when the comparison is made is that PHP takes an integer from the string, and compares it with 1. And because our string contains &ldquo;1&rdquo;, the condition is <code>True</code></p>
 <p>What happens if we remove the &ldquo;1&rdquo; from the string ?</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;2 3 foo&#34;</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;2 3 foo&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>This time, the condition will be <code>False</code> because PHP won&rsquo;t find &ldquo;1&rdquo; in the given string.</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>This time, the condition will be <code>False</code> because PHP won&rsquo;t find &ldquo;1&rdquo; in the given string.</p>
 <p>But it doesn&rsquo;t end there, here is what happens if instead of comparing a string to 1, we compare it to 0:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;Hello World&#34;</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;Hello World&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>In this case, the condition will be <code>True</code> because PHP is going to change the type of the string to an integer, which will be equal to 0 because <strong>a string doesn&rsquo;t have &ldquo;an integer value&rdquo;</strong> and 0 is the default value.</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>In this case, the condition will be <code>True</code> because PHP is going to change the type of the string to an integer, which will be equal to 0 because <strong>a string doesn&rsquo;t have &ldquo;an integer value&rdquo;</strong> and 0 is the default value.</p>
 <h1 id="semi-patched">Semi-Patched</h1>
 <p>Every example I just showed you works in PHP 7.X, but that is not the latest PHP version, 8.X is.</p>
 <p>This new version added, among other things, modifications regarding <strong>type juggling</strong>. To make it as simple as I can, they made the functionnality &ldquo;smarter&rdquo; by changing the way value&rsquo;s types are modified.</p>
 <p>Let me explain this with an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;Hello World&#34;</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;Hello World&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>In PHP 8.X, instead of trying to make &ldquo;Hello World&rdquo; an integer, PHP will make 0 a string (thus making it &ldquo;0&rdquo;) and the condition will look like this in the end:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;Hello World&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;0&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>In PHP 8.X, instead of trying to make &ldquo;Hello World&rdquo; an integer, PHP will make 0 a string (thus making it &ldquo;0&rdquo;) and the condition will look like this in the end:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#f1fa8c">&#34;Hello World&#34;</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;0&#34;</span>)
 </span></span></code></pre></div><p>And that will return <code>False</code></p>
 <p>But this part would not be called &ldquo;Semi-Patched&rdquo; if the problem was fully solved. Here is another example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#ae81ff">123456789</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">123456789.0000000000</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;True&#34;</span>;
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;False&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#bd93f9">123456789</span> <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">123456789.0000000000</span>){
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;True&#34;</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;False&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>When comparing the two values, PHP will turn 123456789.0000000000 into an integer because it has no decimal value. The condition will then return <code>True</code>, which is mathematically correct but could allow an attacker to bypass length restrictions</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>When comparing the two values, PHP will turn 123456789.0000000000 into an integer because it has no decimal value. The condition will then return <code>True</code>, which is mathematically correct but could allow an attacker to bypass length restrictions</p>
 <p>Here is a table that shows the different results when a <strong>loose comparison</strong> (when PHP uses type juggling) occurs in <strong>PHP 7.X</strong></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/211122304-a2f5f310-ddbb-4b71-b8e2-63d9406de2d9.png" alt="Pasted image 20230107010517"></p>
 <h1 id="better-example">Better example</h1>
@@ -289,33 +293,33 @@
 <blockquote>
 <p>I will try to explain the code as much as I can, so don&rsquo;t worry if you&rsquo;re not comfortable with PHP.</p></blockquote>
 <p>Here is the backend of a login page:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">session_start</span>();
+</span></span><span style="display:flex;"><span>session_start();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;password&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;username&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(isset(<span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;password&#39;</span>]) <span style="color:#ff79c6">&amp;&amp;</span> isset(<span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;username&#39;</span>])
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	$username <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;username&#39;</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">$username</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;username&#39;</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>($username <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;admin&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">strcmp</span>(<span style="color:#a6e22e">bin2hex</span>(<span style="color:#a6e22e">openssl_random_pseudo_bytes</span>(<span style="color:#ae81ff">10</span>)),$_POST[<span style="color:#e6db74">&#39;password&#39;</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$username</span> <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#34;admin&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span> strcmp(bin2hex(openssl_random_pseudo_bytes(<span style="color:#bd93f9">10</span>)),<span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;password&#39;</span>]) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	{
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		$_SESSION[<span style="color:#e6db74">&#39;isAdmin&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#8be9fd;font-style:italic">$_SESSION</span>[<span style="color:#f1fa8c">&#39;isAdmin&#39;</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">header</span>(<span style="color:#e6db74">&#39;Location:admin.php&#39;</span>);
+</span></span><span style="display:flex;"><span>		header(<span style="color:#f1fa8c">&#39;Location:admin.php&#39;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>	} <span style="color:#ff79c6">else</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">header</span>(<span style="color:#e6db74">&#39;Location:index.php?error=credentials&#39;</span>);
+</span></span><span style="display:flex;"><span>		header(<span style="color:#f1fa8c">&#39;Location:index.php?error=credentials&#39;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>First, we make sure that the two POST parameters (used to pass the username and the password) are not empty. This line is not vulnerable.</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>First, we make sure that the two POST parameters (used to pass the username and the password) are not empty. This line is not vulnerable.</p>
 <p>The vulnerability is in the next condition, the one that checks the password. The <strong>strcmp</strong> function is used to compare a randomly generated password with the user&rsquo;s input.</p>
 <blockquote>
 <p>We compare the input with a randomly generated password because the goal of this challenge is not to figure out what the password is but rather to bypass the condition</p></blockquote>

@@ -1,0 +1,108 @@
+pre {
+  background: linear-gradient(to right, rgba(25, 25, 35, 0.9), rgba(40, 35, 65, 0.9)) !important;
+  border: 1px solid rgba(0, 240, 255, 0.3) !important;
+  border-left: 3px solid #f700ff !important;
+  border-radius: 0 8px 8px 0 !important;
+  box-shadow: 0 0 15px rgba(247, 0, 255, 0.2) !important;
+  position: relative;
+  overflow: auto !important;
+  margin: 2em 0 !important;
+  max-width: 100% !important;
+  padding: 1.5em !important;
+}
+
+pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: rgba(20, 20, 35, 0.6);
+}
+
+pre::-webkit-scrollbar-track {
+  background: rgba(30, 30, 45, 0.5);
+  border-radius: 0 0 8px 0;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f700ff, #00f0ff);
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #00f0ff, #f700ff);
+}
+
+pre code {
+  color: #f0f0f0 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+  text-shadow: 0 0 5px rgba(10, 255, 255, 0.2) !important;
+  background: transparent !important;
+}
+
+div.code-toolbar > .toolbar {
+  top: 0.3em !important;
+  right: 0.3em !important;
+  z-index: 10 !important;
+}
+
+div.code-toolbar > .toolbar .toolbar-item > button,
+div.code-toolbar > .toolbar .toolbar-item > a,
+div.code-toolbar > .toolbar .toolbar-item > span {
+  background: linear-gradient(to right, rgba(247, 0, 255, 0.8), rgba(0, 240, 255, 0.8)) !important;
+  color: #000 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+  font-size: 0.7rem !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  font-weight: bold !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+div.code-toolbar > .toolbar .toolbar-item > button:hover,
+div.code-toolbar > .toolbar .toolbar-item > a:hover, {
+  background: linear-gradient(to left, rgba(247, 0, 255, 0.9), rgba(0, 240, 255, 0.9)) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5) !important;
+}
+
+.token.comment, .token.prolog, .token.doctype, .token.cdata {
+  color: #787878 !important;
+  font-style: italic !important;
+}
+
+.token.punctuation {
+  color: #00e6e6 !important;
+}
+
+.token.tag, .token.boolean, .token.number, .token.deleted {
+  color: #ff7edb !important;
+}
+
+.token.keyword, .token.property, .token.selector, .token.constant, .token.symbol, .token.builtin {
+  color: #ffcc00 !important;
+  text-shadow: 0 0 2px rgba(255, 204, 0, 0.3) !important;
+}
+
+.token.string, .token.char, .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string, .token.variable, .token.inserted {
+  color: #00ff9c !important;
+}
+
+.token.function {
+  color: #36f9f6 !important;
+  font-weight: bold !important;
+}
+
+.token.regex, .token.important {
+  color: #ff7edb !important;
+}
+
+.token.important, .token.bold {
+  font-weight: bold !important;
+}
+
+.token.italic {
+  font-style: italic !important;
+}

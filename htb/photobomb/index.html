@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -190,18 +194,18 @@
 <p>On voit 3 paramètres: la photo, le filetype et enfin les dimensions</p>
 <p>Si on change manuellement les dimensions dans la requête à <code>100x100</code>, le site nous télécharge une version de l&rsquo;image en <code>100x100</code>, on comprend donc que l&rsquo;image est générée dynamiquement au moment de la requête</p>
 <p>On peut imaginer une commande du style</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo -type filetype -size dimensions
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo -type filetype -size dimensions
 </span></span></code></pre></div><p>Où bien sûr nos trois arguments sont passés par la requête.</p>
 <p>En partant donc ce cela et en assumant qu&rsquo;il s&rsquo;agit d&rsquo;une commande bash, on peut tenter une code execution en ajoutant un <code>;</code> à la fin d&rsquo;un des paramètres.</p>
 <p>Le problème, c&rsquo;est que nous ne savons pas lequel des 3 paramètres est le dernier de la commande. On va donc tenter sur chacun des paramètres jusqu&rsquo;à trouver lequel est mis en dernier, pour que la commande ressemble par exemple à:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo.png -type png -dimensions 100x100;id
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo.png -type png -dimensions 100x100;id
 </span></span></code></pre></div><p>Cette ligne va éxecuter deux commandes: <code>generateImage</code> et <code>id</code></p>
 <p><img src="https://i.ibb.co/V2GXWbj/image.png" alt="req1.png"></p>
 <p>Le site renvoie un <code>500</code>, car il n&rsquo;a pas trouvé l&rsquo;image, l&rsquo;argument <code>photo</code> n&rsquo;est donc pas injectable.</p>
 <p>On enlève le payload sur ce dernier, et on renvoie la requête</p>
 <p><img src="https://i.ibb.co/L9CJLMX/image.png" alt="req2.png"></p>
 <p>Nouvelle réponse <code>500</code>, cette fois les dimensions sont invalides. En revanche, il n&rsquo;a rien dit sur le <code>filetype</code>, on sait donc maintenant que notre commande ressemble plutôt à:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo.png -dimensions 100x100 -type png;id
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>generateImage -path photo.png -dimensions 100x100 -type png;id
 </span></span></code></pre></div><p>Pour vérifier ça, on héberge rapidement un serveur python qu&rsquo;on va curl via notre payload</p>
 <p><img src="https://i.ibb.co/hXx07gC/image.png" alt="hack.png"></p>
 <p>Et ça fonctionne, on a reçu la requête sur notre serveur, on a donc notre code execution.</p>

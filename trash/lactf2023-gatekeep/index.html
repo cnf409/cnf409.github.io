@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -153,86 +157,86 @@
                 <h2 id="note">Note</h2>
 <p>First <code>pwn</code> challenge of this CTF. It&rsquo;s pretty easy because it only consists in overwriting a variable on the stack to make a condition valid and print the flag.</p>
 <h2 id="description">Description</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>If I gaslight you enough, you won&#39;t be able to get my flag! :)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>If I gaslight you enough, you won&#39;t be able to get my flag! :)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Note: The attached binary is the exact same as the one executing on the remote server.
 </span></span></code></pre></div><p><a href="https://lactf-challs.storage.googleapis.com/uploads/7013cbe3f634d74f93f7a29bd24010d91068455ac8d9fb16f173d9f14b0bc5fe/Dockerfile"><code>Dockerfile</code></a>, <a href="https://lactf-challs.storage.googleapis.com/uploads/c87fb83bcc4c5a69bf031715477fa5022ff4e0fbde0f3de64b055ab9c02fe6e9/gatekeep.c"><code>gatekeep.c</code></a>, <a href="https://lactf-challs.storage.googleapis.com/uploads/552482ce75bc7e3ee7d6c5d951c19a52c00f9711f8c79e89e6547dacafbfa051/gatekeep"><code>gatekeep</code></a></p>
 <h2 id="file-information">File information</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">checksec</span> <span style="color:#f92672">gatekeep</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">file</span> <span style="color:#f92672">gatekeep</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">checksec</span> <span style="color:#ff79c6">gatekeep</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">file</span> <span style="color:#ff79c6">gatekeep</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[*]</span> <span style="color:#e6db74">&#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Arch</span><span style="color:#f92672">:</span>     <span style="color:#f92672">amd64-64-little</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">RELRO</span><span style="color:#f92672">:</span>    <span style="color:#f92672">Partial</span> <span style="color:#f92672">RELRO</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Stack</span><span style="color:#f92672">:</span>    <span style="color:#f92672">No</span> <span style="color:#f92672">canary</span> <span style="color:#f92672">found</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">NX</span><span style="color:#f92672">:</span>       <span style="color:#f92672">NX</span> <span style="color:#f92672">enabled</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">PIE</span><span style="color:#f92672">:</span>      <span style="color:#f92672">PIE</span> <span style="color:#f92672">enabled</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">gatekeep</span><span style="color:#f92672">:</span> <span style="color:#f92672">ELF</span> <span style="color:#f92672">64-bit</span> <span style="color:#f92672">LSB</span> <span style="color:#f92672">pie</span> <span style="color:#f92672">executable</span><span style="color:#f92672">,</span> <span style="color:#f92672">x86-64</span><span style="color:#f92672">,</span> <span style="color:#f92672">version</span> <span style="color:#f92672">1</span> <span style="color:#f92672">(</span><span style="color:#f92672">SYSV</span><span style="color:#f92672">),</span> <span style="color:#f92672">dynamically</span> <span style="color:#f92672">linked</span><span style="color:#f92672">,</span> <span style="color:#f92672">interpreter</span> <span style="color:#f92672">/</span><span style="color:#f92672">lib64</span><span style="color:#f92672">/</span><span style="color:#f92672">ld-linux-x86-64</span>.<span style="color:#a6e22e">so</span>.<span style="color:#a6e22e">2</span><span style="color:#f92672">,</span> <span style="color:#f92672">BuildID</span><span style="color:#f92672">[</span><span style="color:#f92672">sha1</span><span style="color:#f92672">]=</span><span style="color:#f92672">80c46fdc485592ada59a02cc96b63fc03e9c6434</span><span style="color:#f92672">,</span> <span style="color:#f92672">for</span> <span style="color:#f92672">GNU</span><span style="color:#f92672">/</span><span style="color:#f92672">Linux</span> <span style="color:#f92672">3</span>.<span style="color:#a6e22e">2</span>.<span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> <span style="color:#f92672">not</span> <span style="color:#f92672">stripped</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">[*]</span> <span style="color:#f1fa8c">&#39;/home/conflict/ctfs/lactf2023/gatekeep/gatekeep&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Arch</span><span style="color:#ff79c6">:</span>     <span style="color:#ff79c6">amd64-64-little</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">RELRO</span><span style="color:#ff79c6">:</span>    <span style="color:#ff79c6">Partial</span> <span style="color:#ff79c6">RELRO</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">Stack</span><span style="color:#ff79c6">:</span>    <span style="color:#ff79c6">No</span> <span style="color:#ff79c6">canary</span> <span style="color:#ff79c6">found</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">NX</span><span style="color:#ff79c6">:</span>       <span style="color:#ff79c6">NX</span> <span style="color:#ff79c6">enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">PIE</span><span style="color:#ff79c6">:</span>      <span style="color:#ff79c6">PIE</span> <span style="color:#ff79c6">enabled</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">gatekeep</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">ELF</span> <span style="color:#ff79c6">64-bit</span> <span style="color:#ff79c6">LSB</span> <span style="color:#ff79c6">pie</span> <span style="color:#ff79c6">executable</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">x86-64</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">version</span> <span style="color:#ff79c6">1</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">SYSV</span><span style="color:#ff79c6">),</span> <span style="color:#ff79c6">dynamically</span> <span style="color:#ff79c6">linked</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">interpreter</span> <span style="color:#ff79c6">/</span><span style="color:#ff79c6">lib64</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">ld-linux-x86-64</span>.<span style="color:#50fa7b">so</span>.<span style="color:#50fa7b">2</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">BuildID</span><span style="color:#ff79c6">[</span><span style="color:#ff79c6">sha1</span><span style="color:#ff79c6">]=</span><span style="color:#ff79c6">80c46fdc485592ada59a02cc96b63fc03e9c6434</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">GNU</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">Linux</span> <span style="color:#ff79c6">3</span>.<span style="color:#50fa7b">2</span>.<span style="color:#50fa7b">0</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">stripped</span>
 </span></span></code></pre></div><p>So, we&rsquo;re going to work on a 64 bits non-stripped dynamically linked executable, with <code>PIE</code> and <code>NX</code> enabled, but they are irrelevant to achieve our goal.</p>
 <p>For the source code, there is no need to decompile the file or to struggle with some pseudo-code because we have the <code>.c</code> file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_flag</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> flag[<span style="color:#ae81ff">256</span>];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdio.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdlib.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;unistd.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;fcntl.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;string.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6"></span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">print_flag</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> flag[<span style="color:#bd93f9">256</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    FILE<span style="color:#f92672">*</span> flagfile <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;flag.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>    FILE<span style="color:#ff79c6">*</span> flagfile <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fopen</span>(<span style="color:#f1fa8c">&#34;flag.txt&#34;</span>, <span style="color:#f1fa8c">&#34;r&#34;</span>);
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (flagfile <span style="color:#f92672">==</span> NULL) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Cannot read flag.txt.&#34;</span>);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fgets</span>(flag, <span style="color:#ae81ff">256</span>, flagfile);
-</span></span><span style="display:flex;"><span>        flag[<span style="color:#a6e22e">strcspn</span>(flag, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(flag);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (flagfile <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span>(<span style="color:#f1fa8c">&#34;Cannot read flag.txt.&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">fgets</span>(flag, <span style="color:#bd93f9">256</span>, flagfile);
+</span></span><span style="display:flex;"><span>        flag[<span style="color:#50fa7b">strcspn</span>(flag, <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>)] <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;\0&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span>(flag);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">check</span>(){
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">15</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> pass[<span style="color:#ae81ff">10</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> access <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">check</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> input[<span style="color:#bd93f9">15</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> pass[<span style="color:#bd93f9">10</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> access <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// If my password is random, I can gatekeep my flag! :)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> data <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>(<span style="color:#e6db74">&#34;/dev/urandom&#34;</span>, O_RDONLY);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (data <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// If my password is random, I can gatekeep my flag! :)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd">int</span> data <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">open</span>(<span style="color:#f1fa8c">&#34;/dev/urandom&#34;</span>, O_RDONLY);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Can&#39;t access /dev/urandom.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Can&#39;t access /dev/urandom.</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">exit</span>(<span style="color:#bd93f9">1</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">ssize_t</span> result <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(data, pass, <span style="color:#66d9ef">sizeof</span> pass);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (result <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd">ssize_t</span> result <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">read</span>(data, pass, <span style="color:#ff79c6">sizeof</span> pass);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (result <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span>)
 </span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Data not received from /dev/urandom</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Data not received from /dev/urandom</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">exit</span>(<span style="color:#bd93f9">1</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">close</span>(data);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">close</span>(data);
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Password:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">gets</span>(input);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Password:</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">gets</span>(input);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">strcmp</span>(input, pass)) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;I swore that was the right password ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#50fa7b">strcmp</span>(input, pass)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;I swore that was the right password ...</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        access <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        access <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(access) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Guess I couldn&#39;t gaslight you!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">print_flag</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(access) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Guess I couldn&#39;t gaslight you!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">print_flag</span>();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setbuf</span>(stdout, NULL);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;If I gaslight you enough, you won&#39;t be able to guess my password! :)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">check</span>();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">setbuf</span>(stdout, <span style="color:#8be9fd;font-style:italic">NULL</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;If I gaslight you enough, you won&#39;t be able to guess my password! :)</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">check</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
 <p>Here, we can see a <code>print_flag()</code> function that will read and print out our flag, so that&rsquo;s the function we want to call</p>
@@ -241,12 +245,12 @@
 <p>Finally, if <code>access</code> is not <code>null</code>, it prints the flag.</p>
 <p>Since we know we can overflow the buffer thanks to <code>gets()</code>, we will be able to overwrite variables on the stack, including <code>access</code>. The goal here is going to be to change its value to anything that is not <code>null</code>.</p>
 <p>To find out how many characters we will enter, we have two options, but the easiest one would be to read the source code and figure out how many bytes the previous variables take.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">15</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> pass[<span style="color:#ae81ff">10</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> access <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> input[<span style="color:#bd93f9">15</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> pass[<span style="color:#bd93f9">10</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> access <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span></code></pre></div><p>Here we can see two variables initialised before the <code>access</code> (I know there is also a <code>flag[256]</code> buffer but it is only initialised when <code>print_flag()</code> is called). They take <code>25 bytes</code> in total so we can assume that if we enter <code>30 bytes</code> we should overwrite <code>access</code>.</p>
 <p>For the exploit, there is no need to use <code>pwntools</code>, we&rsquo;re just going to connect via <code>netcat</code> and send the payload manually.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -c <span style="color:#e6db74">&#34;print(&#39;A&#39;*30)&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -c <span style="color:#f1fa8c">&#34;print(&#39;A&#39;*30)&#34;</span>
 </span></span><span style="display:flex;"><span>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </span></span></code></pre></div><p><img src="https://user-images.githubusercontent.com/77807503/220713416-8280c40e-9c8a-49b3-9d23-49bba0cfb64e.png" alt="2023-02-14-184628_717x712_scrot"></p>
 <p><em>flag -&gt; lactf{sCr3am1nG_cRy1Ng_tHr0w1ng_uP}</em></p>

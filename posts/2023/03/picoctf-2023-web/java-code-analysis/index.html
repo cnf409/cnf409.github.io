@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -171,7 +175,7 @@
 <p><em>Java Code Analysis!?!</em> was a <em>web exploitation</em> challenge from <strong>PicoCTF 2023</strong>.</p>
 <p>I have done a bunch of <em>JWT</em> challenges, especially on <a href="https://root-me.org">https://root-me.org</a> and I&rsquo;m starting to like exploiting these tokens. Anyways, it was a fun challenge with some basic code analysis and JWT exploiting.</p>
 <h2 id="description">Description</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>BookShelf Pico, my premium online book-reading service. 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>BookShelf Pico, my premium online book-reading service. 
 </span></span><span style="display:flex;"><span>I believe that my website is super secure. 
 </span></span><span style="display:flex;"><span>I challenge you to prove me wrong by reading the &#39;Flag&#39; book! 
 </span></span><span style="display:flex;"><span>Here are the credentials to get you started:
@@ -194,7 +198,7 @@
 <p>It seems we can delete the books, but that&rsquo;s not what we want to do, we only need to read the <em>Flag</em> book&hellip; maybe we can now read it since we&rsquo;re an <em>admin</em> ?</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/228906785-75bdcb23-09ff-4a2e-856f-dd7de1854c4a.png" alt="2023-03-30-181505_287x82_scrot"></p>
 <p>Of course not ! That would have been way too easy&hellip; Time to take a look at this jwt:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiRnJlZSIsImlzcyI6ImJvb2tzaGVsZiIsImV4c
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiRnJlZSIsImlzcyI6ImJvb2tzaGVsZiIsImV4c
 </span></span><span style="display:flex;"><span>CI6MTY4MDc5NzI5NCwiaWF0IjoxNjgwMTkyNDk0LCJ1c2VySWQiOjEsImVtYWlsIjoidXNlciJ9.LsB8gkkevf
 </span></span><span style="display:flex;"><span>0hJiLP6HOTdzvakaT_yRXofg3mH_gTJls
 </span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
@@ -204,225 +208,225 @@
 <blockquote>
 <p>I&rsquo;ve tried the basic exploits such as <em>None</em> alg and cracking the but none of them worked</p></blockquote>
 <p>Time to take a look at the source code !</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">.</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> build<span style="color:#f92672">.</span>gradle
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> gradle
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> wrapper
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">├──</span> gradle<span style="color:#f92672">-</span>wrapper<span style="color:#f92672">.</span>jar
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">└──</span> gradle<span style="color:#f92672">-</span>wrapper<span style="color:#f92672">.</span>properties
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> gradlew
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> gradlew<span style="color:#f92672">.</span>bat
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> README<span style="color:#f92672">.</span>md
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> settings<span style="color:#f92672">.</span>gradle
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">├──</span> src
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> main
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> io
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">└──</span> github
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">└──</span> nandandesai
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>               <span style="color:#960050;background-color:#1e0010">└──</span> pico
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> BookShelfBaseServerApplication<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> configs
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookShelfConfig<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserDataPaths<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> controllers
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookController<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> GeneralErrorController<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserController<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> dto
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookDto<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> PDF<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> Photo<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> requests
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> AddBookRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> AddUserPhotoRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> UpdateUserPasswordRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> UpdateUserRoleRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> UserLoginRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserSignUpRequest<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> responses
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> ErrorResponse<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> Response<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> ResponseType<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> RoleDto<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserDto<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> exceptions
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> CommonExceptionHandler<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> DuplicateEntityException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> InternalServerException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> LoginFailedException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> ResourceNotFoundException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> ValidationExceptionHandler<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> ValidationException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> models
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> Book<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> Role<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> User<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> repositories
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookRepository<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> RoleRepository<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserRepository<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> security
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookPdfAccessCheck<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> JwtService<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> models
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> JwtUserInfo<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> UserAuthority<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserSecurityDetails<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> ReauthenticationFilter<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> SecretGenerator<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> SecurityConfig<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> TokenException<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserSecurityDetailsService<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> services
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> BookService<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> UserService<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">├──</span> utils
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> FileOperation<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                   <span style="color:#960050;background-color:#1e0010">└──</span> validators
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> ImageConstraintValidator<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> PasswordConstraintValidator<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> PathConstraintValidator<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> PdfConstraintValidator<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> ValidImage<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> ValidPassword<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">├──</span> ValidPath<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>                       <span style="color:#960050;background-color:#1e0010">└──</span> ValidPdf<span style="color:#f92672">.</span>java
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> resources
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">├──</span> application<span style="color:#f92672">.</span>properties
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">├──</span> data<span style="color:#f92672">.</span>sql
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">├──</span> public
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> <span style="color:#ae81ff">3</span>rdpartylicenses<span style="color:#f92672">.</span>txt
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> assets
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> logo<span style="color:#f92672">.</span>png
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> pdf<span style="color:#f92672">.</span>worker<span style="color:#f92672">.</span>es5<span style="color:#f92672">.</span>v2<span style="color:#ae81ff">.5.207</span><span style="color:#f92672">.</span>js
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> favicon<span style="color:#f92672">.</span>ico
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> index<span style="color:#f92672">.</span>html
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> main<span style="color:#f92672">.</span>e4577fe86905373d4f38<span style="color:#f92672">.</span>js
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> <span style="color:#f92672">&lt;...&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">├──</span> runtime<span style="color:#f92672">.</span>acf0dec4155e77772545<span style="color:#f92672">.</span>js
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> styles<span style="color:#ae81ff">.8170</span>aebc9f7ad1381e97<span style="color:#f92672">.</span>css
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>       <span style="color:#960050;background-color:#1e0010">└──</span> static
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">│</span>           <span style="color:#960050;background-color:#1e0010">└──</span> error<span style="color:#f92672">.</span>html
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">│</span>   <span style="color:#960050;background-color:#1e0010">└──</span> <span style="color:#f92672">&lt;...&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">└──</span> <span style="color:#f92672">&lt;...&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">.</span>
+</span></span><span style="display:flex;"><span>├── build<span style="color:#ff79c6">.</span>gradle
+</span></span><span style="display:flex;"><span>├── gradle
+</span></span><span style="display:flex;"><span>│   └── wrapper
+</span></span><span style="display:flex;"><span>│       ├── gradle<span style="color:#ff79c6">-</span>wrapper<span style="color:#ff79c6">.</span>jar
+</span></span><span style="display:flex;"><span>│       └── gradle<span style="color:#ff79c6">-</span>wrapper<span style="color:#ff79c6">.</span>properties
+</span></span><span style="display:flex;"><span>├── gradlew
+</span></span><span style="display:flex;"><span>├── gradlew<span style="color:#ff79c6">.</span>bat
+</span></span><span style="display:flex;"><span>├── README<span style="color:#ff79c6">.</span>md
+</span></span><span style="display:flex;"><span>├── settings<span style="color:#ff79c6">.</span>gradle
+</span></span><span style="display:flex;"><span>├── src
+</span></span><span style="display:flex;"><span>│   ├── main
+</span></span><span style="display:flex;"><span>│   │   ├── java
+</span></span><span style="display:flex;"><span>│   │   │   └── io
+</span></span><span style="display:flex;"><span>│   │   │       └── github
+</span></span><span style="display:flex;"><span>│   │   │           └── nandandesai
+</span></span><span style="display:flex;"><span>│   │   │               └── pico
+</span></span><span style="display:flex;"><span>│   │   │                   ├── BookShelfBaseServerApplication<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── configs
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookShelfConfig<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserDataPaths<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── controllers
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookController<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── GeneralErrorController<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserController<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── dto
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookDto<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── PDF<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── Photo<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── requests
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── AddBookRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── AddUserPhotoRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── UpdateUserPasswordRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── UpdateUserRoleRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── UserLoginRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   └── UserSignUpRequest<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── responses
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── ErrorResponse<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── Response<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   └── ResponseType<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── RoleDto<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserDto<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── exceptions
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── CommonExceptionHandler<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── DuplicateEntityException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── InternalServerException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── LoginFailedException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── ResourceNotFoundException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── ValidationExceptionHandler<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── ValidationException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── models
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── Book<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── Role<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── User<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── repositories
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookRepository<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── RoleRepository<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserRepository<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── security
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookPdfAccessCheck<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── JwtService<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── models
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── JwtUserInfo<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   ├── UserAuthority<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   │   └── UserSecurityDetails<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── ReauthenticationFilter<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── SecretGenerator<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── SecurityConfig<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── TokenException<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserSecurityDetailsService<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── services
+</span></span><span style="display:flex;"><span>│   │   │                   │   ├── BookService<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── UserService<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   ├── utils
+</span></span><span style="display:flex;"><span>│   │   │                   │   └── FileOperation<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                   └── validators
+</span></span><span style="display:flex;"><span>│   │   │                       ├── ImageConstraintValidator<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── PasswordConstraintValidator<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── PathConstraintValidator<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── PdfConstraintValidator<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── ValidImage<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── ValidPassword<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       ├── ValidPath<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   │                       └── ValidPdf<span style="color:#ff79c6">.</span>java
+</span></span><span style="display:flex;"><span>│   │   └── resources
+</span></span><span style="display:flex;"><span>│   │       ├── application<span style="color:#ff79c6">.</span>properties
+</span></span><span style="display:flex;"><span>│   │       ├── data<span style="color:#ff79c6">.</span>sql
+</span></span><span style="display:flex;"><span>│   │       ├── public
+</span></span><span style="display:flex;"><span>│   │       │   ├── <span style="color:#bd93f9">3</span>rdpartylicenses<span style="color:#ff79c6">.</span>txt
+</span></span><span style="display:flex;"><span>│   │       │   ├── assets
+</span></span><span style="display:flex;"><span>│   │       │   │   ├── logo<span style="color:#ff79c6">.</span>png
+</span></span><span style="display:flex;"><span>│   │       │   │   └── pdf<span style="color:#ff79c6">.</span>worker<span style="color:#ff79c6">.</span>es5<span style="color:#ff79c6">.</span>v2<span style="color:#bd93f9">.5.207</span><span style="color:#ff79c6">.</span>js
+</span></span><span style="display:flex;"><span>│   │       │   ├── favicon<span style="color:#ff79c6">.</span>ico
+</span></span><span style="display:flex;"><span>│   │       │   ├── index<span style="color:#ff79c6">.</span>html
+</span></span><span style="display:flex;"><span>│   │       │   ├── main<span style="color:#ff79c6">.</span>e4577fe86905373d4f38<span style="color:#ff79c6">.</span>js
+</span></span><span style="display:flex;"><span>│   │       │   ├── <span style="color:#ff79c6">&lt;...&gt;</span>
+</span></span><span style="display:flex;"><span>│   │       │   ├── runtime<span style="color:#ff79c6">.</span>acf0dec4155e77772545<span style="color:#ff79c6">.</span>js
+</span></span><span style="display:flex;"><span>│   │       │   └── styles<span style="color:#bd93f9">.8170</span>aebc9f7ad1381e97<span style="color:#ff79c6">.</span>css
+</span></span><span style="display:flex;"><span>│   │       └── static
+</span></span><span style="display:flex;"><span>│   │           └── error<span style="color:#ff79c6">.</span>html
+</span></span><span style="display:flex;"><span>│   └── <span style="color:#ff79c6">&lt;...&gt;</span>
+</span></span><span style="display:flex;"><span>└── <span style="color:#ff79c6">&lt;...&gt;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">37</span> directories, <span style="color:#ae81ff">109</span> files
+</span></span><span style="display:flex;"><span><span style="color:#bd93f9">37</span> directories, <span style="color:#bd93f9">109</span> files
 </span></span></code></pre></div><p>That&rsquo;s a lot of files, but it seems like the only useful directory here is <code>src/main/java/io/github/nandandesai/pico</code>.</p>
 <p>In the <code>security</code> directory, we see two interesting files: <code>JwtService.java</code> and <code>SecretGenerator.java</code>.</p>
 <p>Let&rsquo;s take a look at them, first, <code>JwtService.java</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> io.github.nandandesai.pico.security;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> io.github.nandandesai.pico.security;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.auth0.jwt.JWT;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.auth0.jwt.JWTVerifier;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.auth0.jwt.algorithms.Algorithm;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.auth0.jwt.exceptions.JWTVerificationException;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.auth0.jwt.interfaces.DecodedJWT;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> io.github.nandandesai.pico.security.models.JwtUserInfo;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Autowired;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.stereotype.Service;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.auth0.jwt.JWT;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.auth0.jwt.JWTVerifier;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.auth0.jwt.algorithms.Algorithm;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.auth0.jwt.exceptions.JWTVerificationException;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> com.auth0.jwt.interfaces.DecodedJWT;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.github.nandandesai.pico.security.models.JwtUserInfo;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.stereotype.Service;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Calendar;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Date;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Calendar;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.util.Date;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JwtService</span> {
+</span></span><span style="display:flex;"><span>@Service
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">JwtService</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String SECRET_KEY;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">final</span> String SECRET_KEY;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CLAIM_KEY_USER_ID <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;userId&#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CLAIM_KEY_EMAIL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;email&#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CLAIM_KEY_ROLE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;role&#34;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String ISSUER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bookshelf&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String CLAIM_KEY_USER_ID <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;userId&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String CLAIM_KEY_EMAIL <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;email&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String CLAIM_KEY_ROLE <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;role&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String ISSUER <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;bookshelf&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">JwtService</span>(SecretGenerator secretGenerator){
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SECRET_KEY</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1234&#34;</span>
+</span></span><span style="display:flex;"><span>    @Autowired
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#50fa7b">JwtService</span>(SecretGenerator secretGenerator){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">this</span>.<span style="color:#50fa7b">SECRET_KEY</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;1234&#34;</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">createToken</span>(Integer userId, String email, String role){
-</span></span><span style="display:flex;"><span>        Algorithm algorithm <span style="color:#f92672">=</span> Algorithm.<span style="color:#a6e22e">HMAC256</span>(SECRET_KEY);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">createToken</span>(Integer userId, String email, String role){
+</span></span><span style="display:flex;"><span>        Algorithm algorithm <span style="color:#ff79c6">=</span> Algorithm.<span style="color:#50fa7b">HMAC256</span>(SECRET_KEY);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        Calendar expiration <span style="color:#f92672">=</span> Calendar.<span style="color:#a6e22e">getInstance</span>();
-</span></span><span style="display:flex;"><span>        expiration.<span style="color:#a6e22e">add</span>(Calendar.<span style="color:#a6e22e">DATE</span>, 7); <span style="color:#75715e">//expires after 7 days</span>
+</span></span><span style="display:flex;"><span>        Calendar expiration <span style="color:#ff79c6">=</span> Calendar.<span style="color:#50fa7b">getInstance</span>();
+</span></span><span style="display:flex;"><span>        expiration.<span style="color:#50fa7b">add</span>(Calendar.<span style="color:#50fa7b">DATE</span>, 7); <span style="color:#6272a4">//expires after 7 days</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JWT.<span style="color:#a6e22e">create</span>()
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withIssuer</span>(ISSUER)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withIssuedAt</span>(<span style="color:#66d9ef">new</span> Date())
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withExpiresAt</span>(expiration.<span style="color:#a6e22e">getTime</span>())
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withClaim</span>(CLAIM_KEY_USER_ID, userId)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withClaim</span>(CLAIM_KEY_EMAIL, email)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withClaim</span>(CLAIM_KEY_ROLE, role)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">sign</span>(algorithm);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> JWT.<span style="color:#50fa7b">create</span>()
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withIssuer</span>(ISSUER)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withIssuedAt</span>(<span style="color:#ff79c6">new</span> Date())
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withExpiresAt</span>(expiration.<span style="color:#50fa7b">getTime</span>())
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withClaim</span>(CLAIM_KEY_USER_ID, userId)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withClaim</span>(CLAIM_KEY_EMAIL, email)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withClaim</span>(CLAIM_KEY_ROLE, role)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">sign</span>(algorithm);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> JwtUserInfo <span style="color:#a6e22e">decodeToken</span>(String token) <span style="color:#66d9ef">throws</span> JWTVerificationException {
-</span></span><span style="display:flex;"><span>        Algorithm algorithm <span style="color:#f92672">=</span> Algorithm.<span style="color:#a6e22e">HMAC256</span>(SECRET_KEY);
-</span></span><span style="display:flex;"><span>        JWTVerifier verifier <span style="color:#f92672">=</span> JWT.<span style="color:#a6e22e">require</span>(algorithm)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withIssuer</span>(ISSUER)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">build</span>();
-</span></span><span style="display:flex;"><span>        DecodedJWT jwt <span style="color:#f92672">=</span> verifier.<span style="color:#a6e22e">verify</span>(token);
-</span></span><span style="display:flex;"><span>        Integer userId <span style="color:#f92672">=</span> jwt.<span style="color:#a6e22e">getClaim</span>(CLAIM_KEY_USER_ID).<span style="color:#a6e22e">asInt</span>();
-</span></span><span style="display:flex;"><span>        String email <span style="color:#f92672">=</span> jwt.<span style="color:#a6e22e">getClaim</span>(CLAIM_KEY_EMAIL).<span style="color:#a6e22e">asString</span>();
-</span></span><span style="display:flex;"><span>        String role <span style="color:#f92672">=</span> jwt.<span style="color:#a6e22e">getClaim</span>(CLAIM_KEY_ROLE).<span style="color:#a6e22e">asString</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> JwtUserInfo().<span style="color:#a6e22e">setEmail</span>(email)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">setRole</span>(role)
-</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">setUserId</span>(userId);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> JwtUserInfo <span style="color:#50fa7b">decodeToken</span>(String token) <span style="color:#8be9fd;font-style:italic">throws</span> JWTVerificationException {
+</span></span><span style="display:flex;"><span>        Algorithm algorithm <span style="color:#ff79c6">=</span> Algorithm.<span style="color:#50fa7b">HMAC256</span>(SECRET_KEY);
+</span></span><span style="display:flex;"><span>        JWTVerifier verifier <span style="color:#ff79c6">=</span> JWT.<span style="color:#50fa7b">require</span>(algorithm)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">withIssuer</span>(ISSUER)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">build</span>();
+</span></span><span style="display:flex;"><span>        DecodedJWT jwt <span style="color:#ff79c6">=</span> verifier.<span style="color:#50fa7b">verify</span>(token);
+</span></span><span style="display:flex;"><span>        Integer userId <span style="color:#ff79c6">=</span> jwt.<span style="color:#50fa7b">getClaim</span>(CLAIM_KEY_USER_ID).<span style="color:#50fa7b">asInt</span>();
+</span></span><span style="display:flex;"><span>        String email <span style="color:#ff79c6">=</span> jwt.<span style="color:#50fa7b">getClaim</span>(CLAIM_KEY_EMAIL).<span style="color:#50fa7b">asString</span>();
+</span></span><span style="display:flex;"><span>        String role <span style="color:#ff79c6">=</span> jwt.<span style="color:#50fa7b">getClaim</span>(CLAIM_KEY_ROLE).<span style="color:#50fa7b">asString</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> JwtUserInfo().<span style="color:#50fa7b">setEmail</span>(email)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">setRole</span>(role)
+</span></span><span style="display:flex;"><span>                .<span style="color:#50fa7b">setUserId</span>(userId);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>One line is especially important:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">JwtService</span>(SecretGenerator secretGenerator){
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SECRET_KEY</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1234&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#50fa7b">JwtService</span>(SecretGenerator secretGenerator){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">this</span>.<span style="color:#50fa7b">SECRET_KEY</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;1234&#34;</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>This is the <em>key</em> used to sign all the generated <code>JWTs</code>, with this, we can create and modify <code>JWT</code> as we want, and thus we can modify our <em>role</em> on the website.</p>
 <blockquote>
 <p>Strangely the key is also visible in the <code>SecretGenerator.java</code> file:</p></blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> io.github.nandandesai.pico.security;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> io.github.nandandesai.pico.security;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> io.github.nandandesai.pico.configs.UserDataPaths;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> io.github.nandandesai.pico.utils.FileOperation;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.Logger;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.LoggerFactory;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.beans.factory.annotation.Autowired;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.stereotype.Service;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.github.nandandesai.pico.configs.UserDataPaths;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.github.nandandesai.pico.utils.FileOperation;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.slf4j.Logger;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.slf4j.LoggerFactory;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.beans.factory.annotation.Autowired;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.springframework.stereotype.Service;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.charset.Charset;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.io.IOException;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.nio.charset.Charset;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SecretGenerator</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Logger logger <span style="color:#f92672">=</span> LoggerFactory.<span style="color:#a6e22e">getLogger</span>(SecretGenerator.<span style="color:#a6e22e">class</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String SERVER_SECRET_FILENAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;server_secret.txt&#34;</span>;
+</span></span><span style="display:flex;"><span>@Service
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">SecretGenerator</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> Logger logger <span style="color:#ff79c6">=</span> LoggerFactory.<span style="color:#50fa7b">getLogger</span>(SecretGenerator.<span style="color:#50fa7b">class</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String SERVER_SECRET_FILENAME <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;server_secret.txt&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> UserDataPaths userDataPaths;
+</span></span><span style="display:flex;"><span>    @Autowired
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> UserDataPaths userDataPaths;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">generateRandomString</span>(<span style="color:#66d9ef">int</span> len) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// not so random</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;1234&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> String <span style="color:#50fa7b">generateRandomString</span>(<span style="color:#8be9fd">int</span> len) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// not so random</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;1234&#34;</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    String <span style="color:#a6e22e">getServerSecret</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
-</span></span><span style="display:flex;"><span>            String secret <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String(FileOperation.<span style="color:#a6e22e">readFile</span>(userDataPaths.<span style="color:#a6e22e">getCurrentJarPath</span>(), SERVER_SECRET_FILENAME), Charset.<span style="color:#a6e22e">defaultCharset</span>());
-</span></span><span style="display:flex;"><span>            logger.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;Server secret successfully read from the filesystem. Using the same for this runtime.&#34;</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> secret;
-</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">catch</span> (IOException e){
-</span></span><span style="display:flex;"><span>            logger.<span style="color:#a6e22e">info</span>(SERVER_SECRET_FILENAME<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; file doesn&#39;t exists or something went wrong in reading that file. Generating a new secret for the server.&#34;</span>);
-</span></span><span style="display:flex;"><span>            String newSecret <span style="color:#f92672">=</span> generateRandomString(32);
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> {
-</span></span><span style="display:flex;"><span>                FileOperation.<span style="color:#a6e22e">writeFile</span>(userDataPaths.<span style="color:#a6e22e">getCurrentJarPath</span>(), SERVER_SECRET_FILENAME, newSecret.<span style="color:#a6e22e">getBytes</span>());
-</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">catch</span> (IOException ex) {
-</span></span><span style="display:flex;"><span>                ex.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>    String <span style="color:#50fa7b">getServerSecret</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">try</span> {
+</span></span><span style="display:flex;"><span>            String secret <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> String(FileOperation.<span style="color:#50fa7b">readFile</span>(userDataPaths.<span style="color:#50fa7b">getCurrentJarPath</span>(), SERVER_SECRET_FILENAME), Charset.<span style="color:#50fa7b">defaultCharset</span>());
+</span></span><span style="display:flex;"><span>            logger.<span style="color:#50fa7b">info</span>(<span style="color:#f1fa8c">&#34;Server secret successfully read from the filesystem. Using the same for this runtime.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> secret;
+</span></span><span style="display:flex;"><span>        }<span style="color:#ff79c6">catch</span> (IOException e){
+</span></span><span style="display:flex;"><span>            logger.<span style="color:#50fa7b">info</span>(SERVER_SECRET_FILENAME<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34; file doesn&#39;t exists or something went wrong in reading that file. Generating a new secret for the server.&#34;</span>);
+</span></span><span style="display:flex;"><span>            String newSecret <span style="color:#ff79c6">=</span> generateRandomString(32);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">try</span> {
+</span></span><span style="display:flex;"><span>                FileOperation.<span style="color:#50fa7b">writeFile</span>(userDataPaths.<span style="color:#50fa7b">getCurrentJarPath</span>(), SERVER_SECRET_FILENAME, newSecret.<span style="color:#50fa7b">getBytes</span>());
+</span></span><span style="display:flex;"><span>            } <span style="color:#ff79c6">catch</span> (IOException ex) {
+</span></span><span style="display:flex;"><span>                ex.<span style="color:#50fa7b">printStackTrace</span>();
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            logger.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;Newly generated secret is now written to the filesystem for persistence.&#34;</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> newSecret;
+</span></span><span style="display:flex;"><span>            logger.<span style="color:#50fa7b">info</span>(<span style="color:#f1fa8c">&#34;Newly generated secret is now written to the filesystem for persistence.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span> newSecret;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">generateRandomString</span>(<span style="color:#66d9ef">int</span> len) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// not so random</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;1234&#34;</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> String <span style="color:#50fa7b">generateRandomString</span>(<span style="color:#8be9fd">int</span> len) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// not so random</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;1234&#34;</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>Now that we have the key, we can modify our <em>token</em> with the <em>admin</em> role and sign it with the key <em>1234</em>.</p>
 <blockquote>

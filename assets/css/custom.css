@@ -1,0 +1,33 @@
+/* Style global du bloc de code */
+pre {
+  background-color: #282a36 !important; /* fond Dracula */
+  color: #f8f8f2; /* texte clair */
+  padding: 1rem;
+  border-radius: 10px;
+  border: none;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  box-shadow: 0 0 10px #ff79c6; /* petit effet neon rose */
+}
+
+/* Style inline code */
+code {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* Si les balises sont imbriquées (souvent <pre><code>) */
+pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.95rem;
+}
+
+/* Optionnel : scrollbar stylée */
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #ff79c6;
+  border-radius: 4px;
+}

