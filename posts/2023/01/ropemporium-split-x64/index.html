@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Deuxième exercice de ropemporium.com" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, rop" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, pwn, rop" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/posts/2023/01/ropemporium-split-x64/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-01T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-01T00:00:00+00:00">
   <meta itemprop="wordCount" content="1396">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Pwn,Rop">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="🇫🇷 ROPEmporium - split (x64)">
   <meta name="twitter:description" content="Deuxième exercice de ropemporium.com">
 
@@ -65,7 +65,7 @@
     <meta property="article:modified_time" content="2023-01-01T00:00:00+00:00">
     <meta property="article:tag" content="Pwn">
     <meta property="article:tag" content="Rop">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/posts/2023/03/ropemporium-ret2csu-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-badchars-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-write4-x64/">
@@ -104,7 +104,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -299,7 +299,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">0x40084a</span>: <span style="color:#e6db74">&#34;/bin/ls&#34;</span>
 </span></span></code></pre></div><p>Cette fonction va donc éxecuter la commande <code>ls</code> via <code>system</code>, pas très utile&hellip; En revanche, on va pouvoir utiliser l&rsquo;adresse de l&rsquo;appel de la fonction <code>system</code> plus tard, alors gardons la de côté (<code>0x0040074b</code>)</p>
 <p>Maintenant qu&rsquo;on va pouvoir appeller system, il faut trouver un string qu&rsquo;on va lui donner en argument, de préférence soit un <code>/bin/sh</code> pour avoir un shell, ou un <code>/bin/cat flag.txt</code> pour directement lire le flag. Regardons la liste des strings de l&rsquo;executable</p>
-<pre tabindex="0"><code>strings -t x split                                                                                                       ✔ ╱ took 6s  ╱ at 15:21:31  
+<pre class="mermaid">strings -t x split                                                                                                       ✔ ╱ took 6s  ╱ at 15:21:31  
     238 /lib64/ld-linux-x86-64.so.2
     3b1 libc.so.6
     3bb puts
@@ -321,7 +321,7 @@
     810 Contriving a reason to ask user for data...
     83f Thank you!
     84a /bin/ls
-    917 ;*3$&#34;
+    917 ;*3$"
    1060 /bin/cat flag.txt
    1072 GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
    1731 crtstuff.c
@@ -387,7 +387,8 @@
    1a81 .data
    1a87 .bss
    1a8c .comment
-</code></pre><p>On voit un <code>/bin/cat flag.txt</code> situé à l&rsquo;offset <code>1060</code>. C&rsquo;est le string qu&rsquo;on va passer comme argument à <code>system</code>, mais pour ça, il va nous falloir son adresse. Puisque c&rsquo;est un string, il est situé dans la section <code>.data</code>. Essayons de trouver où elle se situe avec <code>pwndbg</code>. Pour ce faire, on peut utiliser la commande <code>readelf</code>, puis grep <code>.data</code></p>
+</pre>
+<p>On voit un <code>/bin/cat flag.txt</code> situé à l&rsquo;offset <code>1060</code>. C&rsquo;est le string qu&rsquo;on va passer comme argument à <code>system</code>, mais pour ça, il va nous falloir son adresse. Puisque c&rsquo;est un string, il est situé dans la section <code>.data</code>. Essayons de trouver où elle se situe avec <code>pwndbg</code>. Pour ce faire, on peut utiliser la commande <code>readelf</code>, puis grep <code>.data</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>readelf <span style="color:#f92672">-</span>s split <span style="color:#f92672">|</span> grep <span style="color:#f92672">.</span>data
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">15</span>: <span style="color:#ae81ff">00000000004007e0</span>     <span style="color:#ae81ff">0</span> SECTION LOCAL  DEFAULT   <span style="color:#ae81ff">15</span> <span style="color:#f92672">.</span>rodata
@@ -617,7 +618,7 @@
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -645,6 +646,30 @@
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

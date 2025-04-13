@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Medium / Linux" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, linux, fuzzing, file upload, filters bypass, cve" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, linux, fuzzing, file upload, filters bypass, cve" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/htb/updown/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-21T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-21T00:00:00+00:00">
   <meta itemprop="wordCount" content="1091">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Linux,Fuzzing,File Upload,Filters Bypass,Cve">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="📙 HackTheBox - UpDown">
   <meta name="twitter:description" content="Medium / Linux">
 
@@ -68,7 +68,7 @@
     <meta property="article:tag" content="File Upload">
     <meta property="article:tag" content="Filters Bypass">
     <meta property="article:tag" content="Cve">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/htb/broscience/">
       <meta property="og:see_also" content="/htb/photobomb/">
       <meta property="og:see_also" content="/htb/shoppy/">
@@ -106,7 +106,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -178,27 +178,33 @@
 <p>Néanmoins, c&rsquo;était un room assez sympathique avec une méchanique bien trouvée, je l&rsquo;ai bien aimée.</p>
 <h1 id="recon">Recon</h1>
 <p>Comme d’habitude, on lance:</p>
-<pre tabindex="0"><code>nmap -A siteisup.htb
-</code></pre><p><img src="https://user-images.githubusercontent.com/77807503/206527826-488caf7c-940b-47c7-8a76-00864772cff0.png" alt="2022-12-08-174744_930x1026_scrot"></p>
+<pre class="mermaid">nmap -A siteisup.htb
+</pre>
+<p><img src="https://user-images.githubusercontent.com/77807503/206527826-488caf7c-940b-47c7-8a76-00864772cff0.png" alt="2022-12-08-174744_930x1026_scrot"></p>
 <p>Aucun port anormal d’ouvert, on va donc se concentrer sur le site et le résultat du <strong>dirbuster</strong></p>
-<pre tabindex="0"><code>dirb http://siteisup.htb
-</code></pre><p><img src="https://user-images.githubusercontent.com/77807503/206527923-48203d18-d216-456d-8a4c-ddee1251a001.png" alt="2022-12-08-175753_930x1026_scrot"></p>
+<pre class="mermaid">dirb http://siteisup.htb
+</pre>
+<p><img src="https://user-images.githubusercontent.com/77807503/206527923-48203d18-d216-456d-8a4c-ddee1251a001.png" alt="2022-12-08-175753_930x1026_scrot"></p>
 <p>Bon là c’est assez évident, le <strong>/.git</strong> a rien à faire ici, donc on va utiliser <code>git-dumper</code> pour récupérer tout les fichiers qui s&rsquo;y trouvent</p>
-<pre tabindex="0"><code>git-dumper http://siteisup.htb/dev/.git/ git/
-</code></pre><p>On se retrouve donc avec ceci</p>
+<pre class="mermaid">git-dumper http://siteisup.htb/dev/.git/ git/
+</pre>
+<p>On se retrouve donc avec ceci</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206528038-8f13afd8-4545-49c8-8fcc-33529f0fa675.png" alt="2022-12-08-180406_949x511_scrot"></p>
 <p>On affiche la liste des commits faits au repo</p>
-<pre tabindex="0"><code>git log
-</code></pre><p><img src="https://user-images.githubusercontent.com/77807503/206528076-8f395db5-a2a8-46e8-ba09-23af28c14d2d.png" alt="2022-12-08-180622_1920x1080_scrot"></p>
+<pre class="mermaid">git log
+</pre>
+<p><img src="https://user-images.githubusercontent.com/77807503/206528076-8f395db5-a2a8-46e8-ba09-23af28c14d2d.png" alt="2022-12-08-180622_1920x1080_scrot"></p>
 <p>Il y en a beaucoup, mais le seul qui sort du lot est le “<strong>New technique in header to protect our dev vhost</strong>.”</p>
 <p>Regardons les modifications qu’ont apportées ce commit</p>
-<pre tabindex="0"><code>git show 8812785e31c879261050e72e20f298ae8c43b565
-</code></pre><p>On voit que c’est une modification du <code>.htaccess</code>, qui change les settings du serveur pour que seules les connections avec le header <code>Special-Dev: only4dev</code> soient acceptées</p>
+<pre class="mermaid">git show 8812785e31c879261050e72e20f298ae8c43b565
+</pre>
+<p>On voit que c’est une modification du <code>.htaccess</code>, qui change les settings du serveur pour que seules les connections avec le header <code>Special-Dev: only4dev</code> soient acceptées</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206528162-4af06057-14dc-426c-9b21-29a4c197ca1a.png" alt="2022-12-08-180809_751x369_scrot"></p>
 <p>Mais le serveur principal fonctionnait très bien sans ce header, donc le <code>.htacces</code> doit probablement agir sur un sous domaine</p>
 <p>On va donc fuzz les sous domaines</p>
-<pre tabindex="0"><code>ffuf -c -w /usr/share/wfuzz/wordlist/general/common.txt -u &#34;http://siteisup.htb&#34; -H &#34;Host: FUZZ.siteisup.htb&#34; -fs 1131
-</code></pre><p><img src="https://user-images.githubusercontent.com/77807503/206528465-39209d8b-75f6-4fef-8744-8811f5ea0ac6.png" alt="2022-12-08-181009_1888x1032_scrot"></p>
+<pre class="mermaid">ffuf -c -w /usr/share/wfuzz/wordlist/general/common.txt -u "http://siteisup.htb" -H "Host: FUZZ.siteisup.htb" -fs 1131
+</pre>
+<p><img src="https://user-images.githubusercontent.com/77807503/206528465-39209d8b-75f6-4fef-8744-8811f5ea0ac6.png" alt="2022-12-08-181009_1888x1032_scrot"></p>
 <p>Il existe donc un sous domaine: <code>dev.siteisup.htb</code></p>
 <p>Pour s’y rendre, on active le proxy burpsuite, puis on désactive l’intercepter</p>
 <p>On crée ensuite un <em>Match and Replace</em> dans les options du proxy, qui va ajouter le header à toutes nos requêtes</p>
@@ -344,16 +350,19 @@
 <p>On lance notre netcat, on upload le fichier puis on le visite&hellip;</p>
 <h1 id="lateral-move">Lateral Move</h1>
 <p>Maintenant qu&rsquo;on est connectés à la machine, routine classique pour stabiliser le shell</p>
-<pre tabindex="0"><code>python3 -c ‘import pty;pty.spawn(”/bin/bash”)’
-</code></pre><pre tabindex="0"><code>export TERM=xterm
-</code></pre><p>Et on se contentera de ça !</p>
+<pre class="mermaid">python3 -c ‘import pty;pty.spawn(”/bin/bash”)’
+</pre>
+<pre class="mermaid">export TERM=xterm
+</pre>
+<p>Et on se contentera de ça !</p>
 <p>En regardant dans le home de developer, il y a un dossier “<code>dev</code>”, dans lequel se trouve un <code>siteisup_test.py</code> et un <code>siteisup</code></p>
 <p>En faisant un <code>ls -la</code>, on voit que le fichier <code>siteisup</code> a le <code>setuid bit</code>, ce qui veux dire qu’il est executé en tant que l’owner du fichier, soit en tant que <code>developer</code></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206529938-755d3c14-48bb-4964-a103-942fd86565a1.png" alt="2022-12-08-183857_930x1026_scrot"></p>
 <p>Partons du principe qu&rsquo;il s&rsquo;agit seulement d&rsquo;une version compilée du .py qui se trouve dans le même répertoire</p>
 <p>Il retourne cette erreur au lancement:</p>
-<pre tabindex="0"><code>SyntaxError: Missing parentheses in call to &#39;print&#39;. Did you mean print(&#34;Website is up&#34;)?
-</code></pre><p>On peut cat le <code>.py</code> pour essayer de comprendre un peu mieux ce qu&rsquo;il se passe:</p>
+<pre class="mermaid">SyntaxError: Missing parentheses in call to 'print'. Did you mean print("Website is up")?
+</pre>
+<p>On peut cat le <code>.py</code> pour essayer de comprendre un peu mieux ce qu&rsquo;il se passe:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Enter URL here:&#34;</span>)
@@ -373,14 +382,17 @@
 <p>En essayant le même payload mais cette fois dans l&rsquo;input du binaire, ça fonctionne, et on a la clé de <code>developer</code></p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206530137-52159fbe-e846-4f61-8bdc-478e6316566d.png" alt="2022-12-08-184731_1888x1032_scrot"></p>
 <p>On save la clé localement puis on met à jour ses permissions pour pouvoir l&rsquo;utiliser avec la commande <code>ssh</code></p>
-<pre tabindex="0"><code>chmod 700 id_rsa.key
-</code></pre><p>On se <code>ssh</code> en tant que <code>developer</code></p>
-<pre tabindex="0"><code>ssh -i id_rsa.key developer@siteisup.htb
-</code></pre><p><img src="https://user-images.githubusercontent.com/77807503/206532498-83e17824-9b76-40cb-9054-4ce86793ade0.png" alt="2022-12-08-184929_1888x1032_scrot"></p>
+<pre class="mermaid">chmod 700 id_rsa.key
+</pre>
+<p>On se <code>ssh</code> en tant que <code>developer</code></p>
+<pre class="mermaid">ssh -i id_rsa.key developer@siteisup.htb
+</pre>
+<p><img src="https://user-images.githubusercontent.com/77807503/206532498-83e17824-9b76-40cb-9054-4ce86793ade0.png" alt="2022-12-08-184929_1888x1032_scrot"></p>
 <h1 id="privilege-escalation">Privilege escalation</h1>
 <p>Le root étant extrêmement facile, on va pouvoir passer assez vite dessus</p>
-<pre tabindex="0"><code>sudo -l
-</code></pre><p>Cela nous montre que <code>developer</code> peut utiliser le binaire <code>/usr/local/bin/easy_install</code> avec <code>sudo</code></p>
+<pre class="mermaid">sudo -l
+</pre>
+<p>Cela nous montre que <code>developer</code> peut utiliser le binaire <code>/usr/local/bin/easy_install</code> avec <code>sudo</code></p>
 <p>On trouve <a href="https://gtfobins.github.io/gtfobins/easy_install/#sudo">cet exploit</a> sur GTFOBins</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/206530338-5c55b870-ef6c-47a2-951d-36b88ba6f0d1.png" alt="2022-12-08-185201_1888x1032_scrot"></p>
 <h6 id="back-to-top"><a href=""><em>back to top</em></a></h6>
@@ -414,7 +426,7 @@
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -442,6 +454,30 @@
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Quatrième exercice de ropemporium.com" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, rop" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, pwn, rop" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/posts/2023/01/ropemporium-write4-x64/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-03T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-03T00:00:00+00:00">
   <meta itemprop="wordCount" content="1486">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Pwn,Rop">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="🇫🇷 ROPEmporium - write4 (x64)">
   <meta name="twitter:description" content="Quatrième exercice de ropemporium.com">
 
@@ -65,7 +65,7 @@
     <meta property="article:modified_time" content="2023-01-03T00:00:00+00:00">
     <meta property="article:tag" content="Pwn">
     <meta property="article:tag" content="Rop">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/posts/2023/03/ropemporium-ret2csu-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-badchars-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-callme-x64/">
@@ -104,7 +104,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -172,12 +172,13 @@
 <p>Si j&rsquo;ai fait des erreurs, n&rsquo;hésitez pas à me contacter sur <a href="https://discord.com/users/254689803822563348">discord</a> pour me le dire.</p>
 <p>Si vous ne comprenez pas quelque chose, je vous invite à <a href="/series/ropemporium-x64-series/">regarder la série dans l&rsquo;ordre</a>.</p>
 <h2 id="description">Description</h2>
-<pre tabindex="0"><code>On completing our usual checks for interesting strings and symbols in this binary we&#39;re confronted with the stark truth that our favourite string &#34;/bin/cat flag.txt&#34; is not present this time. 
-Although you&#39;ll see later that there are other ways around this problem, such as resolving dynamically loaded libraries and using the strings present in those, we&#39;ll stick to the challenge goal which is learning how to get data into the target process&#39;s virtual address space via the magic of ROP.
+<pre class="mermaid">On completing our usual checks for interesting strings and symbols in this binary we're confronted with the stark truth that our favourite string "/bin/cat flag.txt" is not present this time. 
+Although you'll see later that there are other ways around this problem, such as resolving dynamically loaded libraries and using the strings present in those, we'll stick to the challenge goal which is learning how to get data into the target process's virtual address space via the magic of ROP.
 
 Important!
-A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like &#34;flag.txt&#34;) as the 1st argument. 
-</code></pre><h2 id="file-information">File information</h2>
+A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like "flag.txt") as the 1st argument. 
+</pre>
+<h2 id="file-information">File information</h2>
 <p>Avant de commencer à regarder dans l&rsquo;executable, il faut savoir à quoi on s&rsquo;attaque, on va utiliser <code>file</code> pour avoir des informations sur le fichier, puis <code>checksec</code> pour voir les éventuelles sécuritées avec lesquelles il a été compilé</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">file</span> <span style="color:#f92672">write4</span>
 </span></span><span style="display:flex;"><span>
@@ -539,7 +540,7 @@ Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -567,6 +568,30 @@ Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

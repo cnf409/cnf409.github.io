@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Cinquième exercice de ropemporium.com" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, rop" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, pwn, rop" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/posts/2023/01/ropemporium-badchars-x64/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-04T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-04T00:00:00+00:00">
   <meta itemprop="wordCount" content="1627">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Pwn,Rop">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="🇫🇷 ROPEmporium - badchars (x64)">
   <meta name="twitter:description" content="Cinquième exercice de ropemporium.com">
 
@@ -65,7 +65,7 @@
     <meta property="article:modified_time" content="2023-01-04T00:00:00+00:00">
     <meta property="article:tag" content="Pwn">
     <meta property="article:tag" content="Rop">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/posts/2023/03/ropemporium-ret2csu-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-write4-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-callme-x64/">
@@ -104,7 +104,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -173,16 +173,17 @@
 <p>Si vous ne comprenez pas quelque chose, je vous invite à <a href="/series/ropemporium-x64-series/">regarder la série dans l&rsquo;ordre</a>.</p>
 <p>Et je vous conseille fortement de lire l&rsquo;exercice précédent pour mieux comprendre ce que je fais ici puisque la méchanique principale est la même.</p>
 <h2 id="description">Description</h2>
-<pre tabindex="0"><code>The good, the bad
+<pre class="mermaid">The good, the bad
 
-Dealing with bad characters is frequently necessary in exploit development, you&#39;ve probably had to deal with them before while encoding shellcode. &#34;Badchars&#34; are the reason that encoders such as shikata-ga-nai exist. When constructing your ROP chain remember that the badchars apply to every character you use, not just parameters but addresses too. To mitigate the need for too much RE the binary will list its badchars when you run it.
+Dealing with bad characters is frequently necessary in exploit development, you've probably had to deal with them before while encoding shellcode. "Badchars" are the reason that encoders such as shikata-ga-nai exist. When constructing your ROP chain remember that the badchars apply to every character you use, not just parameters but addresses too. To mitigate the need for too much RE the binary will list its badchars when you run it.
 Options
 
-ropper has a bad characters option to help you avoid using gadgets whose address will terminate your chain prematurely, it will certainly come in handy. Note that the amount of garbage data you&#39;ll need to send to the ARM challenge is slightly different.
+ropper has a bad characters option to help you avoid using gadgets whose address will terminate your chain prematurely, it will certainly come in handy. Note that the amount of garbage data you'll need to send to the ARM challenge is slightly different.
 Moar XOR
 
-You&#39;ll still need to deal with writing a string into memory, similar to the write4 challenge, that may have badchars in it. Once your string is in memory and intact, just use the print_file() method to print the contents of the flag file, just like in the last challenge. Think about how we&#39;re going to overcome the badchars issue; should we try to avoid them entirely, or could we use gadgets to change our string once it&#39;s in memory? 
-</code></pre><h2 id="file-information">File information</h2>
+You'll still need to deal with writing a string into memory, similar to the write4 challenge, that may have badchars in it. Once your string is in memory and intact, just use the print_file() method to print the contents of the flag file, just like in the last challenge. Think about how we're going to overcome the badchars issue; should we try to avoid them entirely, or could we use gadgets to change our string once it's in memory? 
+</pre>
+<h2 id="file-information">File information</h2>
 <p>Avant de commencer à regarder dans l&rsquo;executable, il faut savoir à quoi on s&rsquo;attaque, on va utiliser <code>file</code> pour avoir des informations sur le fichier, puis <code>checksec</code> pour voir les éventuelles sécuritées avec lesquelles il a été compilé</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">file</span> <span style="color:#f92672">badchars</span>
 </span></span><span style="display:flex;"><span>
@@ -595,7 +596,7 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -623,6 +624,30 @@ You&#39;ll still need to deal with writing a string into memory, similar to the 
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Troisième exercice de ropemporium.com" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, pwn, rop" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, pwn, rop" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/posts/2023/01/ropemporium-callme-x64/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-02T00:00:00+00:00">
   <meta itemprop="wordCount" content="1126">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Pwn,Rop">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="🇫🇷 ROPEmporium - callme (x64)">
   <meta name="twitter:description" content="Troisième exercice de ropemporium.com">
 
@@ -65,7 +65,7 @@
     <meta property="article:modified_time" content="2023-01-02T00:00:00+00:00">
     <meta property="article:tag" content="Pwn">
     <meta property="article:tag" content="Rop">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/posts/2023/03/ropemporium-ret2csu-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-badchars-x64/">
       <meta property="og:see_also" content="/posts/2023/01/ropemporium-write4-x64/">
@@ -104,7 +104,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -189,11 +189,12 @@ Maintenant le <code>checksec</code></p>
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>Voici la description:</p>
-<pre tabindex="0"><code>You must call the callme_one(), callme_two() and callme_three() functions in that order, each with the arguments 0xdeadbeef, 0xcafebabe, 0xd00df00d 
+<pre class="mermaid">You must call the callme_one(), callme_two() and callme_three() functions in that order, each with the arguments 0xdeadbeef, 0xcafebabe, 0xd00df00d 
 e.g. callme_one(0xdeadbeef, 0xcafebabe, 0xd00df00d) to print the flag. 
 
 For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef, 0xcafebabecafebabe, 0xd00df00dd00df00d)
-</code></pre><p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
+</pre>
+<p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png" alt="2023-01-15-150610_1072x508_scrot"></p>
 <p>Comme pour le précédent, on voit qu&rsquo;on peut overflow le buffer en envoyant un nombre conséquent de bytes. Désassemblons le <code>main</code> pour voir plus clairement ce qu&rsquo;il se passe:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#f92672">&gt;</span> disass main
@@ -580,7 +581,7 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -608,6 +609,30 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

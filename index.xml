@@ -227,18 +227,18 @@
       <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;Je suis actuellement entrain d&amp;rsquo;apprendre le pwn donc il est possible que je fasse des erreurs ou que je dise des choses fausses dans ce post, si vous en voyez n&amp;rsquo;hésitez pas à me contacter sur &lt;a href=&#34;https://discord.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;file-information&#34;&gt;File information&lt;/h2&gt;&#xA;&lt;p&gt;Avant de commencer à regarder dans l&amp;rsquo;executable, il faut savoir à quoi on s&amp;rsquo;attaque, on va utiliser &lt;code&gt;file&lt;/code&gt; pour avoir des informations sur le fichier, puis &lt;code&gt;checksec&lt;/code&gt; pour voir les éventuelles sécuritées avec lesquelles il a été compilé&lt;/p&gt;</description>
     </item>
     <item>
-      <title></title>
-      <link>/contact/</link>
-      <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
-      <guid>/contact/</guid>
-      <description>&lt;h2 id=&#34;heading&#34;&gt;👋&lt;/h2&gt;&#xA;&lt;p&gt;Etudiant en B1 Cyber à Ynov Bordeaux.&lt;/p&gt;&#xA;&lt;h2 id=&#34;heading-1&#34;&gt;📮&lt;/h2&gt;&#xA;&lt;p&gt;Vous pouvez me contacter par &lt;a href=&#34;https://discordapp.com/users/254689803822563348&#34;&gt;discord&lt;/a&gt; ou sur &lt;a href=&#34;https://twitter.com/cnf409&#34;&gt;twitter&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>🇬🇧 NahamCon CTF 2022 (writeups)</title>
       <link>/posts/2022/12/nahamcon-ctf-2022-writeups/</link>
       <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
       <guid>/posts/2022/12/nahamcon-ctf-2022-writeups/</guid>
       <description>&lt;h1 id=&#34;technical-support&#34;&gt;Technical Support&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Go on the discord, in the &lt;a href=&#34;https://discord.com/channels/598608711186907146/1053097744241283142&#34;&gt;#nahamcon-ctf-general&lt;/a&gt; channel, and we can see this in the channel description&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png&#34; alt=&#34;2022-12-17-172256_1335x78_scrot&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;flag → &lt;strong&gt;flag{a98373a74abb8c5ebb8f5192e034a91c}&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;babys-first-heartbleed&#34;&gt;Baby’s First Heartbleed&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Start the machine, and connect to it using nc&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>$ whoami</title>
+      <link>/contact/</link>
+      <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>/contact/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;p&gt;📍 &lt;strong&gt;Location:&lt;/strong&gt; Bordeaux, FR&lt;/p&gt;&#xA;&lt;p&gt;📅 &lt;strong&gt;Birthdate:&lt;/strong&gt; 18/06/2007&lt;/p&gt;&#xA;&lt;p&gt;🎓 &lt;strong&gt;Status:&lt;/strong&gt; Cybersecurity Bachelor @ Ynov Bordeaux&lt;/p&gt;&#xA;&lt;p&gt;💻 &lt;strong&gt;Specialties:&lt;/strong&gt; offensive security, low-level&lt;/p&gt;&#xA;&lt;p&gt;🔧 &lt;strong&gt;Skills:&lt;/strong&gt; breakin&amp;rsquo; stuff&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;[+] other_interests:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;🏎️ cars&lt;/li&gt;&#xA;&lt;li&gt;👟 fashion&lt;/li&gt;&#xA;&lt;li&gt;🧴 perfumery&lt;/li&gt;&#xA;&lt;li&gt;⌚ watches&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;📡 &lt;strong&gt;Connections:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Discord:&lt;/strong&gt; &lt;a href=&#34;https://discordapp.com/users/254689803822563348&#34;&gt;informaticien&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Twitter:&lt;/strong&gt; &lt;a href=&#34;https://twitter.com/cnf409&#34;&gt;@cnf409&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h6 id=&#34;netrunnin-beyond-the-blackwall&#34;&gt;netrunnin&amp;rsquo; beyond the blackwall&lt;/h6&gt;</description>
     </item>
   </channel>
 </rss>
