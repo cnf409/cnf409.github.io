@@ -128,7 +128,7 @@
     <loc>/tags/privilege-escalation/</loc>
     <lastmod>2023-04-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2023/03/picoctf-2023-web/java-code-analysis/</loc>
+    <loc>/trash/picoctf2023-java-code-analysis/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/java/</loc>
@@ -138,6 +138,9 @@
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/series/picoctf-2023-writeups/</loc>
+    <lastmod>2023-03-30T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/trash/</loc>
     <lastmod>2023-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/web/</loc>
@@ -156,9 +159,6 @@
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/python/</loc>
-    <lastmod>2023-03-29T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/trash/</loc>
     <lastmod>2023-03-29T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/2023/03/picoctf-2023-misc/special/</loc>
@@ -326,7 +326,7 @@
     <loc>/posts/2022/12/ropemporium-ret2win-x64/</loc>
     <lastmod>2022-12-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/2022/12/nahamcon-ctf-2022-writeups/</loc>
+    <loc>/trash/nahamcon2022/</loc>
     <lastmod>2022-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/contact/</loc>

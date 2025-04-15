@@ -11,9 +11,9 @@
     <atom:link href="/tags/web/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>🇬🇧 PicoCTF 2023 - web/Java Code Analysis!?!</title>
-      <link>/posts/2023/03/picoctf-2023-web/java-code-analysis/</link>
+      <link>/trash/picoctf2023-java-code-analysis/</link>
       <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/posts/2023/03/picoctf-2023-web/java-code-analysis/</guid>
+      <guid>/trash/picoctf2023-java-code-analysis/</guid>
       <description>&lt;h2 id=&#34;note&#34;&gt;Note&lt;/h2&gt;&#xA;&lt;p&gt;&lt;em&gt;Java Code Analysis!?!&lt;/em&gt; was a &lt;em&gt;web exploitation&lt;/em&gt; challenge from &lt;strong&gt;PicoCTF 2023&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I have done a bunch of &lt;em&gt;JWT&lt;/em&gt; challenges, especially on &lt;a href=&#34;https://root-me.org&#34;&gt;https://root-me.org&lt;/a&gt; and I&amp;rsquo;m starting to like exploiting these tokens. Anyways, it was a fun challenge with some basic code analysis and JWT exploiting.&lt;/p&gt;&#xA;&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BookShelf Pico, my premium online book-reading service. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;I believe that my website is super secure. &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;I challenge you to prove me wrong by reading the &amp;#39;Flag&amp;#39; book! &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Here are the credentials to get you started:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-   Username: &amp;#34;user&amp;#34;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-   Password: &amp;#34;user&amp;#34;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;https://artifacts.picoctf.net/c/480/bookshelf-pico.zip&#34;&gt;&lt;code&gt;source_code.zip&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
@@ -32,9 +32,9 @@
     </item>
     <item>
       <title>🇬🇧 NahamCon CTF 2022 (writeups)</title>
-      <link>/posts/2022/12/nahamcon-ctf-2022-writeups/</link>
+      <link>/trash/nahamcon2022/</link>
       <pubDate>Thu, 22 Dec 2022 00:00:00 +0000</pubDate>
-      <guid>/posts/2022/12/nahamcon-ctf-2022-writeups/</guid>
+      <guid>/trash/nahamcon2022/</guid>
       <description>&lt;h1 id=&#34;technical-support&#34;&gt;Technical Support&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord in the #nahamcon-ctf-general channel! You might just find a flag on the Discord server!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Go on the discord, in the &lt;a href=&#34;https://discord.com/channels/598608711186907146/1053097744241283142&#34;&gt;#nahamcon-ctf-general&lt;/a&gt; channel, and we can see this in the channel description&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://user-images.githubusercontent.com/77807503/208268333-6871e3b0-8a49-4c33-bf8d-0766711216c9.png&#34; alt=&#34;2022-12-17-172256_1335x78_scrot&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;flag → &lt;strong&gt;flag{a98373a74abb8c5ebb8f5192e034a91c}&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;babys-first-heartbleed&#34;&gt;Baby’s First Heartbleed&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Author: @JohnHammond#6971&#xA;&#xA;Hey kids!! Wanna learn how to hack??!?! Start here to foster your curiosity!&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Start the machine, and connect to it using nc&lt;/p&gt;</description>
     </item>
   </channel>
