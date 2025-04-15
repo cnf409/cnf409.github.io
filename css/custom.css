@@ -289,11 +289,13 @@ tr:hover td {
 .menu a {
   position: relative;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
 
 .menu a:hover {
   color: var(--cyberpunk-secondary);
   text-shadow: 0 0 5px var(--cyberpunk-secondary);
+  text-decoration: none;
 }
 
 .menu a::after {
