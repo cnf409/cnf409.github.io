@@ -380,6 +380,321 @@
         </item>
         
         <item>
+            <title>🇫🇷 FCSC 2025 - speedrun/polygraph</title>
+            <link>/posts/2025/04/fcsc-2025-speedrun/polygraph/</link>
+            <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2025/04/fcsc-2025-speedrun/polygraph/</guid>
+            <description>&lt;h3 id=&#34;sommaire&#34;&gt;Sommaire&lt;/h3&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#description-du-challenge&#34;&gt;Description du challenge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#analyse-initiale&#34;&gt;Analyse initiale&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#informations-sur-le-binaire&#34;&gt;Informations sur le binaire&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#points-dentr%c3%a9e-cl%c3%a9s&#34;&gt;Points d&amp;rsquo;entrée clés&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#reverse-engineering-de-la-vm&#34;&gt;Reverse engineering de la VM&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#structure-du-microcode&#34;&gt;Structure du microcode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#registres-et-acc%c3%a8s-m%c3%a9moire&#34;&gt;Registres et accès mémoire&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#jeu-dinstructions&#34;&gt;Jeu d&amp;rsquo;instructions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#mod%c3%a9lisation-et-r%c3%a9solution-symbolique&#34;&gt;Modélisation et résolution symbolique&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#choix-de-lapproche&#34;&gt;Choix de l&amp;rsquo;approche&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#construction-du-solveur&#34;&gt;Construction du solveur&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#g%c3%a9n%c3%a9ration-du-flag-final&#34;&gt;Génération du flag final&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Voici le writeup d&amp;rsquo;un challenge de reverse engineering / speedrun du FCSC 2025. Ce challenge simule une machine virtuelle personnalisée exécutant un microcode qui vérifie la validité d&amp;rsquo;une entrée.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h3 id="sommaire">Sommaire</h3>
+<hr>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#introduction">Introduction</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#description-du-challenge">Description du challenge</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#analyse-initiale">Analyse initiale</a>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#informations-sur-le-binaire">Informations sur le binaire</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#points-dentr%c3%a9e-cl%c3%a9s">Points d&rsquo;entrée clés</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#reverse-engineering-de-la-vm">Reverse engineering de la VM</a>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#structure-du-microcode">Structure du microcode</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#registres-et-acc%c3%a8s-m%c3%a9moire">Registres et accès mémoire</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#jeu-dinstructions">Jeu d&rsquo;instructions</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#mod%c3%a9lisation-et-r%c3%a9solution-symbolique">Modélisation et résolution symbolique</a>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#choix-de-lapproche">Choix de l&rsquo;approche</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#construction-du-solveur">Construction du solveur</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#g%c3%a9n%c3%a9ration-du-flag-final">Génération du flag final</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#conclusion">Conclusion</a></li>
+</ul>
+<hr>
+<h2 id="introduction">Introduction</h2>
+<p>Voici le writeup d&rsquo;un challenge de reverse engineering / speedrun du FCSC 2025. Ce challenge simule une machine virtuelle personnalisée exécutant un microcode qui vérifie la validité d&rsquo;une entrée.</p>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Vous nous aviez dit que vous connaissiez le secret. Si cela est bien le cas alors il n&#39;y aura aucun problème. Sinon...
+</span></span></code></pre></div><h2 id="analyse-initiale">Analyse initiale</h2>
+<h3 id="informations-sur-le-binaire">Informations sur le binaire</h3>
+<p>On nous donne un exécutable Windows 64 bits :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">file</span> <span style="color:#ff79c6">polygraph</span>.<span style="color:#50fa7b">exe</span><span style="color:#ff79c6">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">polygraph</span>.<span style="color:#50fa7b">exe</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">PE32</span><span style="color:#ff79c6">+</span> <span style="color:#ff79c6">executable</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">console</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">x86-64</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">MS</span> <span style="color:#ff79c6">Windows</span>
+</span></span></code></pre></div><p>Le binaire est un PE32+ partiellement strippé.</p>
+<h3 id="points-dentrée-clés">Points d&rsquo;entrée clés</h3>
+<ul>
+<li>Le programme lit l&rsquo;entrée utilisateur via <code>gets_s(input, 0x11)</code>, limitant ainsi l&rsquo;entrée à 16 octets maximum.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#50fa7b">gets_s</span>(input,<span style="color:#bd93f9">0x11</span>);
+</span></span></code></pre></div><ul>
+<li>Initialisation d&rsquo;un tableau global de registres à zéro :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>_registers_start <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">ZEXT816</span>(<span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span>_DAT_140005f70 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span></code></pre></div><ul>
+<li>Interprétation d&rsquo;un microcode composé de 773 instructions, chacune codée sur 3 octets :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>microcode_size <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0x305</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>opcode <span style="color:#ff79c6">=</span> microcode[<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0xb</span>) {
+</span></span><span style="display:flex;"><span>	  uVar1 <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#8be9fd;font-style:italic">LAB_140001286</span>:
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">+</span> uVar1;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x16</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">-</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x2c</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">&lt;&lt;</span> (microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1f</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x37</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">&gt;&gt;</span> (microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1f</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x42</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">*</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(<span style="color:#8be9fd">int</span> <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x4d</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">|</span>
+</span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)microcode[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x58</span>) {
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">*</span>(uint <span style="color:#ff79c6">*</span>)(<span style="color:#ff79c6">&amp;</span>registers_start <span style="color:#ff79c6">+</span> (ulonglong)<span style="color:#ff79c6">*</span>microcode <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">4</span>) <span style="color:#ff79c6">=</span> (uint)(byte)input[microcode[<span style="color:#bd93f9">1</span>]];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (opcode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">99</span>) {
+</span></span><span style="display:flex;"><span>	  uVar1 <span style="color:#ff79c6">=</span> (uint)microcode[<span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span>	  <span style="color:#ff79c6">goto</span> LAB_140001286;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	microcode <span style="color:#ff79c6">=</span> microcode <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">3</span>;
+</span></span><span style="display:flex;"><span>	microcode_size <span style="color:#ff79c6">=</span> microcode_size <span style="color:#ff79c6">+</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">while</span> (microcode_size <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>);
+</span></span></code></pre></div><ul>
+<li>Vérification et affichage du flag :</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (_registers_start <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>		iVar2 <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">sha256_hash</span>(input);
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">if</span> (iVar2 <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>		  <span style="color:#50fa7b">puts</span>(<span style="color:#f1fa8c">&#34;Something went wrong.&#34;</span>);
+</span></span><span style="display:flex;"><span>		  <span style="color:#ff79c6">goto</span> LAB_14000131d;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#50fa7b">custom_print</span>(<span style="color:#f1fa8c">&#34;You</span><span style="color:#f1fa8c">\&#39;</span><span style="color:#f1fa8c">re honest.</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">FCSC{&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>		  <span style="color:#50fa7b">custom_print</span>(<span style="color:#ff79c6">&amp;</span>DAT_140003300,flag_buffer[microcode_size]);
+</span></span><span style="display:flex;"><span>		  microcode_size <span style="color:#ff79c6">=</span> microcode_size <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>	} <span style="color:#ff79c6">while</span> (microcode_size <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0x20</span>);
+</span></span><span style="display:flex;"><span>	_Str <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;}&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="reverse-engineering-de-la-vm">Reverse engineering de la VM</h2>
+<h3 id="structure-du-microcode">Structure du microcode</h3>
+<p>Chaque instruction est un triplet <code>(opcode, dst, src)</code> de 3 octets. Le compteur <code>microcode_size</code> commence à <code>0x305</code> (773 en décimal) et est décrémenté à chaque itération, tandis que le pointeur <code>microcode</code> avance de 3 octets à chaque instruction.</p>
+<p>Cela nous donne la taille totale du microcode : <code>773 * 3 = 2319</code> octets.</p>
+<h3 id="registres-et-accès-mémoire">Registres et accès mémoire</h3>
+<p>Le programme utilise une zone mémoire pour stocker les registres. <code>_registers_start</code> est un pointeur vers le début de cette zone. Tous les registres sont initialisés à zéro avant l&rsquo;exécution du microcode.</p>
+<h3 id="jeu-dinstructions">Jeu d&rsquo;instructions</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Opcode</th>
+          <th>Nom</th>
+          <th>Équivalent en C</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>0x0B</code></td>
+          <td>ADD</td>
+          <td><code>R[dst] = (R[dst] + R[src]) mod 2^32</code></td>
+      </tr>
+      <tr>
+          <td><code>0x16</code></td>
+          <td>SUB</td>
+          <td><code>R[dst] = (R[dst] - R[src]) mod 2^32</code></td>
+      </tr>
+      <tr>
+          <td><code>0x2C</code></td>
+          <td>SHL</td>
+          <td><code>R[dst] &lt;&lt;= (src &amp; 0x1F)</code></td>
+      </tr>
+      <tr>
+          <td><code>0x37</code></td>
+          <td>SHR</td>
+          <td><code>R[dst] = R[dst] &gt;&gt; (src &amp; 0x1F)</code></td>
+      </tr>
+      <tr>
+          <td><code>0x42</code></td>
+          <td>MUL</td>
+          <td><code>R[dst] = (R[dst] * R[src]) mod 2^32</code></td>
+      </tr>
+      <tr>
+          <td><code>0x4D</code></td>
+          <td>OR</td>
+          <td><code>R[dst] = R[dst] OR R[src]</code></td>
+      </tr>
+      <tr>
+          <td><code>0x58</code></td>
+          <td>MOVB</td>
+          <td><code>R[dst] = (uint8_t)input[src]</code> (zero-extend)</td>
+      </tr>
+      <tr>
+          <td><code>0x63</code></td>
+          <td>ADDI</td>
+          <td><code>R[dst] = (R[dst] + imm8) mod 2^32</code></td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>Les opérations <code>mod 2^32</code> indiquent que nous travaillons avec des <code>uint32_t</code> qui subissent un wrap-around, tronquant tout dépassement.</p></blockquote>
+<h2 id="modélisation-et-résolution-symbolique">Modélisation et résolution symbolique</h2>
+<h3 id="choix-de-lapproche">Choix de l&rsquo;approche</h3>
+<p>Pour résoudre ce challenge, nous utiliserons Z3, un solveur SMT, afin de raisonner sur les opérations effectuées par la VM :</p>
+<ul>
+<li><strong>16 <code>BitVec(8)</code></strong> pour représenter les octets de la clé d&rsquo;entrée (16 octets max)</li>
+<li><strong>N <code>BitVec(32)</code></strong> pour les registres, où N est le nombre maximum de registres utilisés</li>
+<li>Contrainte finale : <code>R0 == 0</code> après exécution de toutes les instructions</li>
+</ul>
+<p>Pour déterminer le nombre de registres nécessaires, nous pouvons utiliser ce script :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> struct
+</span></span><span style="display:flex;"><span>code <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">open</span>(<span style="color:#f1fa8c">&#39;microcode.bin&#39;</span>,<span style="color:#f1fa8c">&#39;rb&#39;</span>)<span style="color:#ff79c6">.</span>read()
+</span></span><span style="display:flex;"><span>it <span style="color:#ff79c6">=</span> struct<span style="color:#ff79c6">.</span>iter_unpack(<span style="color:#f1fa8c">&#39;&lt;BBB&#39;</span>, code)
+</span></span><span style="display:flex;"><span>max_idx <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> op, dst, src <span style="color:#ff79c6">in</span> it:
+</span></span><span style="display:flex;"><span>    max_idx <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">max</span>(max_idx, dst, src)
+</span></span><span style="display:flex;"><span>num_registers <span style="color:#ff79c6">=</span> max_idx <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(num_registers)
+</span></span></code></pre></div><p>Ce script nous donne <code>254</code> comme index maximum, donc nous avons besoin de 255 registres (0 à 254).</p>
+<h3 id="construction-du-solveur">Construction du solveur</h3>
+<p><img src="https://i.imgflip.com/9s446o.jpg" alt="troplaflemme"></p>
+<p>Pour gagner du temps, j&rsquo;ai utilisé un émulateur partiellement généré par <em>ChatGPT</em> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> sys<span style="color:#ff79c6">,</span> pathlib<span style="color:#ff79c6">,</span> struct<span style="color:#ff79c6">,</span> z3<span style="color:#ff79c6">,</span> importlib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UINT32 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">32</span>
+</span></span><span style="display:flex;"><span>NB_REG <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">256</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">VMZ3</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> __init__(self, code: <span style="color:#8be9fd;font-style:italic">bytes</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(code) <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">3</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">&#34;Le micro-code doit être un multiple de 3 octets&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>code   <span style="color:#ff79c6">=</span> code
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>key    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;k</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#bd93f9">8</span>) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">16</span>)]
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>reg    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;r</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, UINT32) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(NB_REG)]
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>solver <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>Solver()
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>_build_constraints()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># ---------------- VM operations ---------------- #</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_wrap32</span>(self, expr):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> z3<span style="color:#ff79c6">.</span>Extract(<span style="color:#bd93f9">31</span>, <span style="color:#bd93f9">0</span>, expr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADD</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SUB</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHL</span> (self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">&lt;&lt;</span> imm)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHR</span> (self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>LShR(self<span style="color:#ff79c6">.</span>reg[d], imm)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MUL</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">*</span> self<span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_OR</span>  (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">|</span> self<span style="color:#ff79c6">.</span>reg[s]
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MOVB</span>(self, d, idx): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>ZeroExt(<span style="color:#bd93f9">24</span>, self<span style="color:#ff79c6">.</span>key[idx <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x0F</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADDI</span>(self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> imm)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># ---------------- Build full trace ------------- #</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_build_constraints</span>(self):
+</span></span><span style="display:flex;"><span>        it <span style="color:#ff79c6">=</span> struct<span style="color:#ff79c6">.</span>iter_unpack(<span style="color:#f1fa8c">&#34;&lt;BBB&#34;</span>, self<span style="color:#ff79c6">.</span>code)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> op, dst, src <span style="color:#ff79c6">in</span> it:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span>   op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x0B</span>: self<span style="color:#ff79c6">.</span>_ADD(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x16</span>: self<span style="color:#ff79c6">.</span>_SUB(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x2C</span>: self<span style="color:#ff79c6">.</span>_SHL(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x37</span>: self<span style="color:#ff79c6">.</span>_SHR(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x42</span>: self<span style="color:#ff79c6">.</span>_MUL(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x4D</span>: self<span style="color:#ff79c6">.</span>_OR (dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x58</span>: self<span style="color:#ff79c6">.</span>_MOVB(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x63</span>: self<span style="color:#ff79c6">.</span>_ADDI(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">else</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Opcode inconnu 0x</span><span style="color:#f1fa8c">{</span>op<span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">02X</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4"># condition finale r0 == 0</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>add(self<span style="color:#ff79c6">.</span>reg[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">solve</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>check() <span style="color:#ff79c6">!=</span> z3<span style="color:#ff79c6">.</span>sat:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">raise</span> RuntimeError(<span style="color:#f1fa8c">&#34;Aucune clé trouvée&#34;</span>)
+</span></span><span style="display:flex;"><span>        model <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>model()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">bytes</span>(model<span style="color:#ff79c6">.</span>evaluate(k)<span style="color:#ff79c6">.</span>as_long() <span style="color:#ff79c6">for</span> k <span style="color:#ff79c6">in</span> self<span style="color:#ff79c6">.</span>key)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(sys<span style="color:#ff79c6">.</span>argv) <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">2</span>:
+</span></span><span style="display:flex;"><span>        sys<span style="color:#ff79c6">.</span>exit(<span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    code <span style="color:#ff79c6">=</span> pathlib<span style="color:#ff79c6">.</span>Path(sys<span style="color:#ff79c6">.</span>argv[<span style="color:#bd93f9">1</span>])<span style="color:#ff79c6">.</span>read_bytes()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vm  <span style="color:#ff79c6">=</span> VMZ3(code)
+</span></span><span style="display:flex;"><span>    key <span style="color:#ff79c6">=</span> vm<span style="color:#ff79c6">.</span>solve()
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Clé trouvée (hex) :&#34;</span>, key<span style="color:#ff79c6">.</span>hex())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>Ce script nous donne une clé qui, après traitement par le microcode, satisfait la condition
+<code>R0 == 0</code>.</p>
+<p><img src="https://i.ibb.co/4R7KM9Xq/2025-04-27-212429-798x347-scrot.png" alt="2025-04-27-212429_798x347_scrot.png"></p>
+<h2 id="génération-du-flag-final">Génération du flag final</h2>
+<p>Normalement, exécuter le programme avec la clé trouvée devrait fonctionner. Cependant, comme je travaille sous Linux avec Wine, ça ne fonctionne pas. J&rsquo;ai donc décidé de reproduire la fonction <code>sha256_hash</code> pour calculer le flag :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> binascii
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> hashlib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#ff79c6">=</span> binascii<span style="color:#ff79c6">.</span>unhexlify(<span style="color:#f1fa8c">&#34;2ab857a5fbe0a867bfd8abebf1e9c831&#34;</span>)
+</span></span><span style="display:flex;"><span>digest <span style="color:#ff79c6">=</span> hashlib<span style="color:#ff79c6">.</span>sha256(key)<span style="color:#ff79c6">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;FCSC{</span><span style="color:#f1fa8c">%s</span><span style="color:#f1fa8c">}&#34;</span> <span style="color:#ff79c6">%</span> digest)
+</span></span></code></pre></div><p><img src="https://i.ibb.co/Z645WTyF/2025-04-27-213034-714x474-scrot.png" alt="2025-04-27-213034_714x474_scrot.png"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Ce challenge était particulièrement intéressant et instructif. J&rsquo;ai pu approfondir mes connaissances en reverse engineering et en résolution symbolique. Je pense en revanche qu&rsquo;il aurait mérité une étoile supplémentaire pour la difficulté à produire un émulateur fonctionnel.</p>
+<p><img src="https://i.imgflip.com/9s4423.jpg" alt="memequandmeme"></p>
+<h4 id="back-to-top"><a href="/posts/2025/04/fcsc-2025-speedrun/polygraph/#sommaire">back to top</a></h4>
+]]></content>
+        </item>
+        
+        <item>
             <title>🇬🇧 RetroPixel 2025 - web3/entrypoint</title>
             <link>/posts/2025/04/retropixel-2025-web3/entrypoint/</link>
             <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>

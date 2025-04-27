@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>VM on cnf409&#39;s blog</title>
+    <link>/tags/vm/</link>
+    <description>Recent content in VM on cnf409&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/vm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>🇫🇷 FCSC 2025 - speedrun/polygraph</title>
+      <link>/posts/2025/04/fcsc-2025-speedrun/polygraph/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/posts/2025/04/fcsc-2025-speedrun/polygraph/</guid>
+      <description>&lt;h3 id=&#34;sommaire&#34;&gt;Sommaire&lt;/h3&gt;&#xA;&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#description-du-challenge&#34;&gt;Description du challenge&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#analyse-initiale&#34;&gt;Analyse initiale&lt;/a&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#informations-sur-le-binaire&#34;&gt;Informations sur le binaire&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#points-dentr%c3%a9e-cl%c3%a9s&#34;&gt;Points d&amp;rsquo;entrée clés&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#reverse-engineering-de-la-vm&#34;&gt;Reverse engineering de la VM&lt;/a&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#structure-du-microcode&#34;&gt;Structure du microcode&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#registres-et-acc%c3%a8s-m%c3%a9moire&#34;&gt;Registres et accès mémoire&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#jeu-dinstructions&#34;&gt;Jeu d&amp;rsquo;instructions&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#mod%c3%a9lisation-et-r%c3%a9solution-symbolique&#34;&gt;Modélisation et résolution symbolique&lt;/a&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#choix-de-lapproche&#34;&gt;Choix de l&amp;rsquo;approche&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#construction-du-solveur&#34;&gt;Construction du solveur&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#g%c3%a9n%c3%a9ration-du-flag-final&#34;&gt;Génération du flag final&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;/posts/2025/04/fcsc-2025-speedrun/polygraph/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Voici le writeup d&amp;rsquo;un challenge de reverse engineering / speedrun du FCSC 2025. Ce challenge simule une machine virtuelle personnalisée exécutant un microcode qui vérifie la validité d&amp;rsquo;une entrée.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

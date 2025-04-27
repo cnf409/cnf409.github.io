@@ -31,6 +31,20 @@
       <description></description>
     </item>
     <item>
+      <title>VM</title>
+      <link>/tags/vm/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/vm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows</title>
+      <link>/tags/windows/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/windows/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Blockchain</title>
       <link>/tags/blockchain/</link>
       <pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate>
@@ -287,20 +301,6 @@
       <link>/tags/ret2csu/</link>
       <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
       <guid>/tags/ret2csu/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Rop</title>
-      <link>/tags/rop/</link>
-      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/rop/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Bruteforce</title>
-      <link>/tags/bruteforce/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/bruteforce/</guid>
       <description></description>
     </item>
   </channel>
