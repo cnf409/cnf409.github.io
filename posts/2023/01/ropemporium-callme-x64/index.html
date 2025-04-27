@@ -193,12 +193,11 @@ Maintenant le <code>checksec</code></p>
 </span></span></code></pre></div><p>Comme pour le précédent, <strong>NX</strong> est activé donc pas de shellcode, mais ce n&rsquo;est pas un problème puisque la description de l&rsquo;exercice nous indique exactement quoi faire</p>
 <h2 id="exploitation">Exploitation</h2>
 <p>Voici la description:</p>
-<pre class="mermaid">You must call the callme_one(), callme_two() and callme_three() functions in that order, each with the arguments 0xdeadbeef, 0xcafebabe, 0xd00df00d 
+<pre tabindex="0"><code>You must call the callme_one(), callme_two() and callme_three() functions in that order, each with the arguments 0xdeadbeef, 0xcafebabe, 0xd00df00d 
 e.g. callme_one(0xdeadbeef, 0xcafebabe, 0xd00df00d) to print the flag. 
 
 For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef, 0xcafebabecafebabe, 0xd00df00dd00df00d)
-</pre>
-<p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
+</code></pre><p>On peut quand même le lancer et voir ce qu&rsquo;il fait:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/212548895-0fd03e37-d707-47da-ae38-d1789011bca0.png" alt="2023-01-15-150610_1072x508_scrot"></p>
 <p>Comme pour le précédent, on voit qu&rsquo;on peut overflow le buffer en envoyant un nombre conséquent de bytes. Désassemblons le <code>main</code> pour voir plus clairement ce qu&rsquo;il se passe:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pwndbg<span style="color:#ff79c6">&gt;</span> disass main
@@ -613,30 +612,6 @@ For the x86_64 binary double up those values, e.g. callme_one(0xdeadbeefdeadbeef
 
 
 
-
-<script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
-    const settings = localStorage.getItem("theme") === "dark" ?
-        {
-            startOnLoad: true,
-            theme: "dark",
-            darkMode: true,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-        :
-        {
-            startOnLoad: true,
-            theme: "base",
-            darkMode: false,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-    ;
-    mermaid.initialize(settings);
-</script>
 
     </body>
 </html>

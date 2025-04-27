@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 02 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Crackme</title>
+      <link>/tags/crackme/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/crackme/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gdb</title>
+      <link>/tags/gdb/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/gdb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reverse</title>
+      <link>/tags/reverse/</link>
+      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/reverse/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Blockchain</title>
       <link>/tags/blockchain/</link>
@@ -49,13 +70,6 @@
       <link>/tags/debugging/</link>
       <pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate>
       <guid>/tags/debugging/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Reverse</title>
-      <link>/tags/reverse/</link>
-      <pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>/tags/reverse/</guid>
       <description></description>
     </item>
     <item>
@@ -126,13 +140,6 @@
       <link>/tags/ret2main/</link>
       <pubDate>Mon, 08 May 2023 00:00:00 +0000</pubDate>
       <guid>/tags/ret2main/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Gdb</title>
-      <link>/tags/gdb/</link>
-      <pubDate>Sun, 30 Apr 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/gdb/</guid>
       <description></description>
     </item>
     <item>
@@ -294,13 +301,6 @@
       <link>/tags/bruteforce/</link>
       <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
       <guid>/tags/bruteforce/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>NoSQL</title>
-      <link>/tags/nosql/</link>
-      <pubDate>Sat, 11 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/nosql/</guid>
       <description></description>
     </item>
   </channel>

