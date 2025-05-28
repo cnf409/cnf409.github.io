@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="map[name:conflict]">
+<meta name="description" content="great for gambling addicts" />
+<meta name="keywords" content="cybersecurity blog french hacking rami malek pwn reverse reversing binary exploitation, reverse, misc, osint, web" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="/posts/2025/05/sthack-2025-sthackmillions/" />
+
+
+    <title>
+        
+            🇬🇧 Sthack 2025 - Sthack&#39;Millions :: cnf409&#39;s blog  — cybersecurity
+        
+    </title>
+
+
+
+
+
+  <link rel="stylesheet" href="/main.min.07ea7ac7da67e2e153a7dfa2457bc6a19cca824288d175e223fadc579041bc51.css" integrity="sha256-B&#43;p6x9pn4uFTp9&#43;iRXvGoZzKgkKI0XXiI/rcV5BBvFE=" crossorigin="anonymous">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+
+  <meta itemprop="name" content="🇬🇧 Sthack 2025 - Sthack&#39;Millions">
+  <meta itemprop="description" content="great for gambling addicts">
+  <meta itemprop="datePublished" content="2025-05-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-05-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1573">
+  <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
+  <meta itemprop="keywords" content="Reverse,Misc,Osint,Web">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
+  <meta name="twitter:title" content="🇬🇧 Sthack 2025 - Sthack&#39;Millions">
+  <meta name="twitter:description" content="great for gambling addicts">
+
+
+
+    <meta property="og:url" content="/posts/2025/05/sthack-2025-sthackmillions/">
+  <meta property="og:site_name" content="cnf409&#39;s blog">
+  <meta property="og:title" content="🇬🇧 Sthack 2025 - Sthack&#39;Millions">
+  <meta property="og:description" content="great for gambling addicts">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-05-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-27T00:00:00+00:00">
+    <meta property="article:tag" content="Reverse">
+    <meta property="article:tag" content="Misc">
+    <meta property="article:tag" content="Osint">
+    <meta property="article:tag" content="Web">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
+
+
+
+
+
+
+    <meta property="article:published_time" content="2025-05-27 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">-</span>
+            <span class="logo__text ">
+                conflict</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#527ea9;
+                   animation-duration:0.8s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/contact/">Contact</a></li><li><a href="/htb/">HackTheBox</a></li><li><a href="/posts/">Posts</a></li><li><a href="/series/">Series</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        8 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="/posts/2025/05/sthack-2025-sthackmillions/">🇬🇧 Sthack 2025 - Sthack&rsquo;Millions</a>
+      </h1>
+
+      
+        <div class="post-excerpt">great for gambling addicts</div>
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <h3 id="table-of-contents">Table of Contents</h3>
+<hr>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#introduction">Introduction</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#14---osint">1/4 - OSINT</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#taking-a-look-at-the-machine-itself">Taking a look at the machine</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#searching-up-the-web">Searching the web</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#exploring-the-repository">Exploring the repository</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#24---reverse">2/4 - Reverse</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#inspecting-the-executables">Inspecting the executables</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#static-analysis">Static analysis</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#putting-it-all-together">Putting it all together</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#getting-the-current-seed">Getting the current seed</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#predicting-the-draws">Predicting the draws</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#34---misc">3/4 - Misc (Arbitrary File Read)</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Analysing the QR Code</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Arbitrary File Read</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#44---misc">4/4 - Misc (Jackpot)</a>
+<ul>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Understanding the signature</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Crafting a Jackpot ticket</a></li>
+</ul>
+</li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#conclusion">Conclusion</a></li>
+</ul>
+<hr>
+<h1 id="introduction">Introduction</h1>
+<p><strong>Sthack&rsquo;Millions</strong> was a series of 4 challenges involving <code>OSINT</code>, <code>Reversing</code>, and <code>Misc</code>. It was very interesting, not only because of the challenges themselves (which were very fun to do), but also because the challmakers actually built the machine that went along with the challenge. So we had a physical support, which made the whole experience even cooler.</p>
+<p>The said machine was a classic lottery machine: you could either click &ldquo;Play&rdquo; and make a grid (5 numbers and one bonus number), which would then print out a ticket with a QR code, or check your grid by scanning the QR code and see if you won.</p>
+<p>The final goal of this series was to get the <em>Jackpot</em>, a.k.a. having the correct 5 numbers <strong>and</strong> the bonus number.</p>
+<h1 id="14---osint">1/4 - OSINT</h1>
+<h2 id="taking-a-look-at-the-machine-itself">Taking a look at the machine itself</h2>
+<p>The machine looked like an arcade machine, covered in satirical stickers.</p>
+<p><img src="https://i.ibb.co/x8jNC65R/IMG-1562.jpg" alt="machine_large.png"></p>
+<p>Even though they were funny, most of them were useless, except for one.</p>
+<p><img src="https://i.ibb.co/YBBLBTqG/2025-05-27-135909-153x260-scrot.png" alt="sticker.png"></p>
+<p>Here we have a very useful hint: this machine is powered by a software called <em>Lotogiciel</em>, and it&rsquo;s even trademarked!</p>
+<h2 id="searching-up-the-web">Searching up the web</h2>
+<p>Despite not being a dorking expert, I still tried to search up this keyword but without success.</p>
+<p>It then occurred to me that there aren’t many websites that host source code for software, so I typed <em>Lotogiciel</em> on GitHub, and found something.</p>
+<p><img src="https://i.ibb.co/Y4cjrYMv/2025-05-27-140432-913x279-scrot.png" alt="github.png"></p>
+<p>Since the commit&rsquo;s author is <code>hessman</code>, we can assume this repo is linked to the CTF.</p>
+<h2 id="exploring-the-repository">Exploring the repository</h2>
+<p>We notice two files here that are probably compiled executables.</p>
+<p>The repository has three commits, which is a bit too much for just uploading two files, and not enough for an actual programming project, so let&rsquo;s take a look at them.</p>
+<p><img src="https://i.ibb.co/23jmfHwX/2025-05-27-140916-1473x456-scrot.png" alt="commit.png"></p>
+<p>The second commit, called <em>info</em>, held the flag for the first step of this series!</p>
+<h1 id="24---reverse">2/4 - Reverse</h1>
+<p>Now let&rsquo;s clone the repo and take a look at these two executables.</p>
+<h2 id="inspecting-the-executables">Inspecting the executables</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lotogiciel: ELF 64-bit LSB pie executable, x86-64, version <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>SYSV<span style="color:#ff79c6">)</span>, dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID<span style="color:#ff79c6">[</span>sha1<span style="color:#ff79c6">]=</span>c1977b3e031316cf2b2ef5366d65ae7793a01c03, <span style="color:#ff79c6">for</span> GNU/Linux 4.4.0, not stripped
+</span></span></code></pre></div><p><img src="https://i.imgflip.com/9vbuj9.jpg" alt="meme"></p>
+<p>One of the two executables is compiled for <code>aarch64</code> and the other for <code>x86-64</code>, but they seem to both originate from the same source code (based on the strings).</p>
+<h2 id="static-analysis">Static analysis</h2>
+<p>After renaming most of the variables, here is how the code articulates itself:</p>
+<ul>
+<li>Reads the seed from <code>index.txt</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>  seed_file <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fopen</span>(<span style="color:#f1fa8c">&#34;index.txt&#34;</span>,<span style="color:#f1fa8c">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (seed_file <span style="color:#ff79c6">!=</span> (FILE <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>    read_result <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fgets</span>(seed_buffer,<span style="color:#bd93f9">0x20</span>,seed_file);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (read_result <span style="color:#ff79c6">==</span> (<span style="color:#8be9fd">char</span> <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span></code></pre></div><ul>
+<li>Gets time info, controls and normalizes the seed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>      counter <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">__isoc23_strtol</span>(seed_buffer,<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">10</span>);
+</span></span><span style="display:flex;"><span>      draw_time <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">time</span>((<span style="color:#8be9fd">time_t</span> <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>);
+</span></span><span style="display:flex;"><span>      draw_time_info <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">localtime</span>(<span style="color:#ff79c6">&amp;</span>draw_time);
+</span></span><span style="display:flex;"><span>      current_seed <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&lt;</span> counter) {
+</span></span><span style="display:flex;"><span>        current_seed <span style="color:#ff79c6">=</span> counter;
+</span></span><span style="display:flex;"><span>      }
+</span></span></code></pre></div><ul>
+<li>Generates the numbers</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (current_seed <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">10U</span> <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">3001</span>) {
+</span></span><span style="display:flex;"><span>        num_pointer <span style="color:#ff79c6">=</span> winning_numbers;
+</span></span><span style="display:flex;"><span>        draw_minutes <span style="color:#ff79c6">=</span> draw_time_info<span style="color:#ff79c6">-&gt;</span>tm_min;
+</span></span><span style="display:flex;"><span>        i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>        numbers_ptr <span style="color:#ff79c6">=</span> num_pointer;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>            number <span style="color:#ff79c6">=</span> ((<span style="color:#8be9fd">char</span>)(<span style="color:#ff79c6">&amp;</span>pi_decimals)[i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> current_seed] <span style="color:#ff79c6">+</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">0x30</span> <span style="color:#ff79c6">+</span>
+</span></span><span style="display:flex;"><span>                      ((<span style="color:#8be9fd">char</span>)(<span style="color:#ff79c6">&amp;</span>pi_decimals_2)[i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> current_seed] <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">5</span> <span style="color:#ff79c6">+</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">0xf0</span>) <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">+</span> draw_minutes)
+</span></span><span style="display:flex;"><span>                     <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">49</span> <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">*</span>numbers_ptr <span style="color:#ff79c6">=</span> number;
+</span></span><span style="display:flex;"><span>            puVar2 <span style="color:#ff79c6">=</span> num_pointer;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (i <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span>) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            numbers_ptr <span style="color:#ff79c6">=</span> numbers_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">while</span>( <span style="color:#8be9fd;font-style:italic">true</span> ) {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">*</span>puVar2 <span style="color:#ff79c6">==</span> number) {
+</span></span><span style="display:flex;"><span>              <span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>                number <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd">int</span>)number <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">0x31</span> <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">*</span>numbers_ptr <span style="color:#ff79c6">=</span> number;
+</span></span><span style="display:flex;"><span>              } <span style="color:#ff79c6">while</span> (number <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">*</span>puVar2);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            puVar2 <span style="color:#ff79c6">=</span> puVar2 <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> (numbers_ptr <span style="color:#ff79c6">==</span> puVar2) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>            number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">*</span>numbers_ptr;
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          i <span style="color:#ff79c6">=</span> i <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">if</span> (i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">5</span>) <span style="color:#ff79c6">break</span>;
+</span></span><span style="display:flex;"><span>          numbers_ptr <span style="color:#ff79c6">=</span> numbers_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><blockquote>
+<p>The seed can&rsquo;t be higher than 3000.</p></blockquote>
+<blockquote>
+<p>Numbers can&rsquo;t be higher than 49.</p></blockquote>
+<blockquote>
+<p>There can be no duplicates.</p></blockquote>
+<blockquote>
+<p>Uses the current time to pick numbers from <em>pi</em> decimals.</p></blockquote>
+<ul>
+<li>Prints out the winning numbers</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#ff79c6">do</span> {
+</span></span><span style="display:flex;"><span>          number <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">*</span>num_pointer;
+</span></span><span style="display:flex;"><span>          num_pointer <span style="color:#ff79c6">=</span> num_pointer <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">printf</span>(<span style="color:#f1fa8c">&#34; %02d&#34;</span>,(ulong)number);
+</span></span><span style="display:flex;"><span>        } <span style="color:#ff79c6">while</span> (end_marker <span style="color:#ff79c6">!=</span> num_pointer);
+</span></span></code></pre></div><ul>
+<li>Increments the seed</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        seed_file <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">fopen</span>(<span style="color:#f1fa8c">&#34;index.txt&#34;</span>,<span style="color:#f1fa8c">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (seed_file <span style="color:#ff79c6">!=</span> (FILE <span style="color:#ff79c6">*</span>)<span style="color:#bd93f9">0x0</span>) {
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">fprintf</span>(seed_file,<span style="color:#f1fa8c">&#34;%ld</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>,(current_seed <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">10U</span>) <span style="color:#ff79c6">%</span> <span style="color:#bd93f9">3000</span>);
+</span></span><span style="display:flex;"><span>          <span style="color:#50fa7b">fclose</span>(seed_file);
+</span></span><span style="display:flex;"><span>          uVar1 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">goto</span> LAB_00101304;
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><blockquote>
+<p>The seed is simply incremented by 10.</p></blockquote>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>There are multiple interesting things here that show that the randomness of this generator can be predicted.</p>
+<p>We can run the program with a simple seed <code>1234</code> to check that we understood how it works.</p>
+<p><img src="https://i.ibb.co/ynS8cKkT/2025-05-27-143952-616x44-scrot.png" alt="first_draw.png"></p>
+<p>We indeed get a set of 5 numbers, so that confirms our understanding.</p>
+<p>Some key takeaways:</p>
+<ul>
+<li>
+<p>The next seed is predictable since the program only increments it by 10 on each draw.</p>
+</li>
+<li>
+<p>Seeds can&rsquo;t be higher than <em>3000</em>, which is not a lot and can be bruteforced.</p>
+</li>
+<li>
+<p>The program uses the current time (and the seed) to pick numbers.</p>
+</li>
+</ul>
+<h2 id="getting-the-current-seed">Getting the current seed</h2>
+<p>If we want to predict the next draw&rsquo;s result on the machine, we need to know what seed the last draw used. So let&rsquo;s go check what the last draw was.</p>
+<p><img src="https://i.ibb.co/kg5WGmG5/IMG-1570.jpg" alt="current_draw.png"></p>
+<p>We&rsquo;ll make a script to list all the possible draws at this exact time using <code>faketime</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>DATE_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;2025-05-23 01:11:54&#34;</span> 
+</span></span><span style="display:flex;"><span>START_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>END_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> SEED <span style="color:#ff79c6">in</span> $(seq <span style="color:#f1fa8c">&#34;$START_SEED&#34;</span> <span style="color:#f1fa8c">&#34;$END_SEED&#34;</span>); <span style="color:#ff79c6">do</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#f1fa8c">&#34;$SEED&#34;</span> <span style="color:#ff79c6">&gt;</span> <span style="color:#f1fa8c">&#34;index.txt&#34;</span>
+</span></span><span style="display:flex;"><span>    RESULT<span style="color:#ff79c6">=</span>$(faketime <span style="color:#f1fa8c">&#34;$DATE_STR&#34;</span> <span style="color:#f1fa8c">&#34;./lotogiciel&#34;</span> <span style="color:#bd93f9">2</span><span style="color:#ff79c6">&gt;</span>/dev/null)
+</span></span><span style="display:flex;"><span>    printf <span style="color:#f1fa8c">&#34;%d %s\n&#34;</span> <span style="color:#f1fa8c">&#34;$SEED&#34;</span> <span style="color:#f1fa8c">&#34;$RESULT&#34;</span> <span style="color:#ff79c6">&gt;&gt;</span> <span style="color:#f1fa8c">&#34;results.txt&#34;</span>
+</span></span><span style="display:flex;"><span>done
+</span></span></code></pre></div><p>Now, we have a <code>results.txt</code> file that should contain the draw that happened on the machine at <code>01:11</code> -&gt; [<em>21</em>, <em>11</em>, <em>3</em>, <em>26</em>, <em>16</em>]</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>root@e945e59da411:/app# grep &#34;21 11 03 26 16&#34; results.txt
+</span></span><span style="display:flex;"><span>2360  21 11 03 26 16
+</span></span></code></pre></div><p>Great, we know the seed at <code>01:11</code> was <code>2360</code>!</p>
+<h2 id="predicting-the-draws">Predicting the draws</h2>
+<p>Now we’ll make a script that takes the time of a draw, calculates the corresponding seed, and gives us the result!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span># usage <span style="color:#ff79c6">:</span> .<span style="color:#ff79c6">/</span>automate.sh HH<span style="color:#ff79c6">:</span>MM<span style="color:#ff79c6">:</span>SS
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>REF_DATE<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;2025-05-23&#34;</span>
+</span></span><span style="display:flex;"><span>REF_TIME<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;01:11:54&#34;</span>
+</span></span><span style="display:flex;"><span>REF_SEED<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2360</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>STEP_SEC<span style="color:#ff79c6">=</span>$((<span style="color:#bd93f9">5</span><span style="color:#ff79c6">*</span><span style="color:#bd93f9">60</span>))
+</span></span><span style="display:flex;"><span>SEED_STEP<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>
+</span></span><span style="display:flex;"><span>MODULO<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[[ $# <span style="color:#ff79c6">-</span>lt <span style="color:#bd93f9">1</span> ]] <span style="color:#ff79c6">&amp;&amp;</span> { echo <span style="color:#f1fa8c">&#34;Usage: $0 HH:MM:SS&#34;</span>; exit <span style="color:#bd93f9">1</span>; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TIME_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;$1&#34;</span>
+</span></span><span style="display:flex;"><span>DATE_STR<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;${2:-$REF_DATE}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>t_target<span style="color:#ff79c6">=</span>$(date <span style="color:#ff79c6">-</span>d <span style="color:#f1fa8c">&#34;$DATE_STR $TIME_STR&#34;</span> <span style="color:#ff79c6">+%</span>s)
+</span></span><span style="display:flex;"><span>t_ref<span style="color:#ff79c6">=</span>$(date   <span style="color:#ff79c6">-</span>d <span style="color:#f1fa8c">&#34;$REF_DATE $REF_TIME&#34;</span>  <span style="color:#ff79c6">+%</span>s)
+</span></span><span style="display:flex;"><span>diff<span style="color:#ff79c6">=</span>$((t_target <span style="color:#ff79c6">-</span> t_ref))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>steps<span style="color:#ff79c6">=</span>$((diff <span style="color:#ff79c6">/</span> STEP_SEC))
+</span></span><span style="display:flex;"><span>(( diff <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">&amp;&amp;</span> diff <span style="color:#ff79c6">%</span> STEP_SEC )) <span style="color:#ff79c6">&amp;&amp;</span> (( steps<span style="color:#ff79c6">--</span> ))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>seed<span style="color:#ff79c6">=</span>$(( (REF_SEED <span style="color:#ff79c6">+</span> steps <span style="color:#ff79c6">*</span> SEED_STEP) <span style="color:#ff79c6">%</span> MODULO ))
+</span></span><span style="display:flex;"><span>(( seed <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span> )) <span style="color:#ff79c6">&amp;&amp;</span> seed<span style="color:#ff79c6">=</span>$(( seed <span style="color:#ff79c6">+</span> MODULO ))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#f1fa8c">&#34;$seed&#34;</span> <span style="color:#ff79c6">&gt;</span> index.txt
+</span></span><span style="display:flex;"><span>draw<span style="color:#ff79c6">=</span>$(faketime <span style="color:#f1fa8c">&#34;$DATE_STR $TIME_STR&#34;</span> .<span style="color:#ff79c6">/</span>lotogiciel <span style="color:#bd93f9">2</span><span style="color:#ff79c6">&gt;</span>/dev/null)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>printf <span style="color:#f1fa8c">&#34;Heure  : %s %s\nSeed   : %d\nTirage : %s\n&#34;</span> <span style="color:#ff79c6">\</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f1fa8c">&#34;$DATE_STR&#34;</span> <span style="color:#f1fa8c">&#34;$TIME_STR&#34;</span> <span style="color:#f1fa8c">&#34;$seed&#34;</span> <span style="color:#f1fa8c">&#34;$draw&#34;</span>
+</span></span></code></pre></div><p><img src="https://i.ibb.co/Fq0g14vY/2025-05-27-150653-472x88-scrot.png" alt="winning_draw.png"></p>
+<p>Let’s verify that our script works by playing this grid on the machine and scanning the ticket after the draw.</p>
+<p><img src="https://i.ibb.co/JDZBsqd/IMG-1572.jpg" alt="ticket"></p>
+<h1 id="34---misc">3/4 - Misc</h1>
+<p>We don’t have much else to work on now that we can predict the draws, so let’s dive into the last thing we didn’t look at: the QR code.</p>
+<h2 id="analysing-the-qr-code">Analysing the QR code</h2>
+<p>The ticket’s QR code holds JSON that looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;time&#34;</span>: <span style="color:#f1fa8c">&#34;2025-05-23 20:58:11&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;draw&#34;</span>: <span style="color:#f1fa8c">&#34;2025-05-23 21:00&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;numbers&#34;</span>: [<span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">2</span>, <span style="color:#bd93f9">3</span>, <span style="color:#bd93f9">4</span>, <span style="color:#bd93f9">5</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;chance&#34;</span>: <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;signature&#34;</span>: <span style="color:#f1fa8c">&#34;157e336c88301790fb9058001182257e57fb151f3fdc85492ef0802464827a9e&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;prize&#34;</span>: <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We have three main fields: <code>data</code>, <code>signature</code>, and <code>prize</code>.</p>
+<p>The fact that <code>prize</code> comes after <code>signature</code> hints that it’s not part of the <em>signed</em> data. This means it could maybe be modified.</p>
+<h2 id="arbitrary-file-read">Arbitrary File Read</h2>
+<p>Let’s predict the next winning numbers, make a grid and get the QR code from the ticket.</p>
+<p>Then, modify the <em>JSON</em> to put <code>app.py</code> in the <code>prize</code> field.</p>
+<p><img src="https://i.ibb.co/ksH4hnMT/IMG-1573.png" alt="afr_qr.png"></p>
+<p>Then scan the QR code on the machine. It should see that we have the right numbers and print out the contents of the file named in <code>prize</code> (<code>app.py</code>).</p>
+<p><img src="https://i.ibb.co/M0NmW7b/IMG-1576.jpg" alt="flag_3.png"></p>
+<p>(The flag is commented at the top of the ticket.)</p>
+<p><img src="https://i.imgflip.com/9vbvm4.jpg" alt="meme"></p>
+<h1 id="44---misc">4/4 - Misc</h1>
+<p>Great! We can now read pretty much any file we want on the server, and we know it’s running a Python <em>Flask</em> architecture.</p>
+<p>If you remember, our goal is to have a ticket with all the numbers correct <strong>and</strong> the bonus number. On the machine, we can only select bonus numbers between 1 and 10, but the draw’s bonus numbers are always above 10.</p>
+<p><img src="https://i.ibb.co/TqKNmCn2/IMG-1582.jpg" alt="draws.png"></p>
+<p>So there’s only one way to get the <em>Jackpot</em>: arbitrarily crafting a QR code with the right numbers.</p>
+<p>To do so, we need to know how the <code>signature</code> field works and the key used. But we can read any file, so that will be pretty trivial.</p>
+<p>Let’s read both <code>.env</code> and <code>sign.py</code> files.</p>
+<p><img src="https://i.ibb.co/rR8Fjyfs/IMG-1581.jpg" alt="secret_key.png"></p>
+<p><img src="https://i.ibb.co/vCcn165M/IMG-1583.jpg" alt="sign.py.png"></p>
+<p>It’s a simple <em>HMAC SHA-256</em> signature on the <code>data</code> field. We have the function and the key used by the machine, so we can generate valid signatures.</p>
+<p>Let’s implement this in a small script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> hmac<span style="color:#ff79c6">,</span> hashlib<span style="color:#ff79c6">,</span> json<span style="color:#ff79c6">,</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SECRET <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;3c0a8dfe0420367&#34;</span>
+</span></span><span style="display:flex;"><span>PRIZE  <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;flag.txt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">_sign</span>(payload: <span style="color:#8be9fd;font-style:italic">str</span>) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">str</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> hmac<span style="color:#ff79c6">.</span>new(SECRET<span style="color:#ff79c6">.</span>encode(), payload<span style="color:#ff79c6">.</span>encode(),
+</span></span><span style="display:flex;"><span>                    hashlib<span style="color:#ff79c6">.</span>sha256)<span style="color:#ff79c6">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">pack</span>(data) <span style="color:#ff79c6">-&gt;</span> <span style="color:#8be9fd;font-style:italic">str</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">isinstance</span>(data, <span style="color:#8be9fd;font-style:italic">str</span>):
+</span></span><span style="display:flex;"><span>        data <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(data)
+</span></span><span style="display:flex;"><span>    inner <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>dumps(data, separators<span style="color:#ff79c6">=</span>(<span style="color:#f1fa8c">&#34;, &#34;</span>, <span style="color:#f1fa8c">&#34;: &#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    full <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#34;data&#34;</span>: inner, <span style="color:#f1fa8c">&#34;signature&#34;</span>: _sign(inner), <span style="color:#f1fa8c">&#34;prize&#34;</span>: PRIZE}
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> json<span style="color:#ff79c6">.</span>dumps(full, separators<span style="color:#ff79c6">=</span>(<span style="color:#f1fa8c">&#34;, &#34;</span>, <span style="color:#f1fa8c">&#34;: &#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">__name__</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    payload <span style="color:#ff79c6">=</span> sys<span style="color:#ff79c6">.</span>stdin<span style="color:#ff79c6">.</span>read()<span style="color:#ff79c6">.</span>strip()
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">print</span>(pack(payload <span style="color:#ff79c6">if</span> payload <span style="color:#ff79c6">else</span> {}))
+</span></span></code></pre></div><p><img src="https://i.ibb.co/CpkyDS8D/2025-05-27-155234-954x128-scrot.png" alt="script.py.png"></p>
+<p>Now that we have a valid <em>JSON</em> payload that should give us a <em>Jackpot</em>, let’s put it in a QR code and scan it on the machine!</p>
+<p><img src="https://i.ibb.co/Z65Cj0fm/IMG-1587.jpg" alt="final.png"></p>
+<p>It worked, and we got a beautiful check for completing this challenge!</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This was definitely one of the best challenge series I’ve played. Having a physical machine was a great plus over other challenges, and seeing a whole source code printed on a ticket made my day (or my night, I guess?).</p>
+<p>Thanks to <code>hackdaddy</code> and <code>hessman</code> for creating this series !</p>
+<p><img src="https://i.imgflip.com/9vbw2s.jpg" alt="meme"></p>
+<h4 id="back-to-top"><a href="/posts/2025/05/sthack-2025-sthackmillions/#table-of-contents">back to top</a></h4>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="/tags/reverse/">reverse</a></span>
+        <span class="tag"><a href="/tags/misc/">misc</a></span>
+        <span class="tag"><a href="/tags/osint/">osint</a></span>
+        <span class="tag"><a href="/tags/web/">web</a></span>
+        
+    </p>
+
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1573 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2025-27-05 02:00
+        
+
+         
+          
+        
+      </p>
+    </div>
+      <hr />
+      <div class="sharing-buttons">
+        
+<a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on facebook">
+  <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+  <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
+      <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;caption=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;canonicalUrl=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on tumblr">
+  <div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--small">
+    <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="mailto:?subject=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;body=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+  <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f&amp;media=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f;description=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+  <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;summary=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;source=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+  <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f&amp;resubmit=true&amp;title=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions" target="_blank" rel="noopener" aria-label="" title="Share on reddit">
+  <div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f;title=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions" target="_blank" rel="noopener" aria-label="" title="Share on xing">
+  <div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.188 0c-.517 0-.741.325-.927.66 0 0-7.455 13.224-7.702 13.657.015.024 4.919 9.023 4.919 9.023.17.308.436.66.967.66h3.454c.211 0 .375-.078.463-.22.089-.151.089-.346-.009-.536l-4.879-8.916c-.004-.006-.004-.016 0-.022L22.139.756c.095-.191.097-.387.006-.535C22.056.078 21.894 0 21.686 0h-3.498zM3.648 4.74c-.211 0-.385.074-.473.216-.09.149-.078.339.02.531l2.34 4.05c.004.01.004.016 0 .021L1.86 16.051c-.099.188-.093.381 0 .529.085.142.239.234.45.234h3.461c.518 0 .766-.348.945-.667l3.734-6.609-2.378-4.155c-.172-.315-.434-.659-.962-.659H3.648v.016z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="whatsapp://send?text=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions%20%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+  <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f&amp;t=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions" target="_blank" rel="noopener" aria-label="" title="Share on hacker news">
+  <div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z"/></svg>
+    </div>
+  </div>
+</a>
+
+
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=%f0%9f%87%ac%f0%9f%87%a7%20Sthack%202025%20-%20Sthack%27Millions&amp;url=%2fposts%2f2025%2f05%2fsthack-2025-sthackmillions%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+  <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </div>
+  </div>
+</a>
+
+      </div>
+
+    
+    <div class="pagination">
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="/posts/2025/04/fcsc-2025-rev/coloratops/">
+                    <span class="button__text">🇫🇷 FCSC 2025 - rev/coloratops</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2025</span>
+            <span><a href="/">conflict</a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>framework: <a href="http://gohugo.io">Hugo</a></span><span>in rami malek we trust</span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.ad54ad97364f77ede35def9096b162bb1f0b3973aa50b080f5e82fa147f6882e2a7200d7535adbf9b51bebf939f1c1ca9bbe6be87530092aca720eac4a226fda.js" integrity="sha512-rVStlzZPd&#43;3jXe&#43;QlrFiux8LOXOqULCA9egvoUf2iC4qcgDXU1rb&#43;bUb6/k58cHKm75r6HUwCSrKcg6sSiJv2g=="></script>
+
+
+
+
+    </body>
+</html>

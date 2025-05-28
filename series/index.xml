@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sthack 2025 Writeups</title>
+      <link>/series/sthack-2025-writeups/</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <guid>/series/sthack-2025-writeups/</guid>
+      <description></description>
+    </item>
     <item>
       <title>FCSC 2025 Writeups</title>
       <link>/series/fcsc-2025-writeups/</link>

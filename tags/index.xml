@@ -7,8 +7,36 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 27 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 May 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Misc</title>
+      <link>/tags/misc/</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/misc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Osint</title>
+      <link>/tags/osint/</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/osint/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reverse</title>
+      <link>/tags/reverse/</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/reverse/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web</title>
+      <link>/tags/web/</link>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0000</pubDate>
+      <guid>/tags/web/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Crackme</title>
       <link>/tags/crackme/</link>
@@ -21,13 +49,6 @@
       <link>/tags/gdb/</link>
       <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
       <guid>/tags/gdb/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Reverse</title>
-      <link>/tags/reverse/</link>
-      <pubDate>Sun, 27 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>/tags/reverse/</guid>
       <description></description>
     </item>
     <item>
@@ -213,13 +234,6 @@
       <description></description>
     </item>
     <item>
-      <title>Web</title>
-      <link>/tags/web/</link>
-      <pubDate>Thu, 30 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/web/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Binary Exploitation</title>
       <link>/tags/binary-exploitation/</link>
       <pubDate>Wed, 29 Mar 2023 00:00:00 +0000</pubDate>
@@ -255,13 +269,6 @@
       <description></description>
     </item>
     <item>
-      <title>Misc</title>
-      <link>/tags/misc/</link>
-      <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/misc/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Picogym</title>
       <link>/tags/picogym/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
@@ -294,13 +301,6 @@
       <link>/tags/toctou/</link>
       <pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate>
       <guid>/tags/toctou/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Ret2csu</title>
-      <link>/tags/ret2csu/</link>
-      <pubDate>Sun, 12 Mar 2023 00:00:00 +0000</pubDate>
-      <guid>/tags/ret2csu/</guid>
       <description></description>
     </item>
   </channel>
