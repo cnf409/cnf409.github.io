@@ -43,8 +43,8 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#44---misc&#34;&gt;4/4 - Misc (Jackpot)&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code&#34;&gt;Understanding the signature&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read&#34;&gt;Crafting a Jackpot ticket&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#retrieving-useful-data&#34;&gt;Retrieving useful data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#signing-tickets&#34;&gt;Signing tickets&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;/posts/2025/05/sthack-2025-sthackmillions/#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
@@ -80,8 +80,8 @@
 </li>
 <li><a href="/posts/2025/05/sthack-2025-sthackmillions/#44---misc">4/4 - Misc (Jackpot)</a>
 <ul>
-<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Understanding the signature</a></li>
-<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Crafting a Jackpot ticket</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#retrieving-useful-data">Retrieving useful data</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#signing-tickets">Signing tickets</a></li>
 </ul>
 </li>
 <li><a href="/posts/2025/05/sthack-2025-sthackmillions/#conclusion">Conclusion</a></li>
@@ -300,10 +300,12 @@
 <p><img src="https://i.ibb.co/TqKNmCn2/IMG-1582.jpg" alt="draws.png"></p>
 <p>So there’s only one way to get the <em>Jackpot</em>: arbitrarily crafting a QR code with the right numbers.</p>
 <p>To do so, we need to know how the <code>signature</code> field works and the key used. But we can read any file, so that will be pretty trivial.</p>
+<h2 id="retrieving-useful-data">Retrieving useful data</h2>
 <p>Let’s read both <code>.env</code> and <code>sign.py</code> files.</p>
 <p><img src="https://i.ibb.co/rR8Fjyfs/IMG-1581.jpg" alt="secret_key.png"></p>
 <p><img src="https://i.ibb.co/vCcn165M/IMG-1583.jpg" alt="sign.py.png"></p>
 <p>It’s a simple <em>HMAC SHA-256</em> signature on the <code>data</code> field. We have the function and the key used by the machine, so we can generate valid signatures.</p>
+<h2 id="signing-tickets">Signing tickets</h2>
 <p>Let’s implement this in a small script:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> hmac<span style="color:#ff79c6">,</span> hashlib<span style="color:#ff79c6">,</span> json<span style="color:#ff79c6">,</span> sys

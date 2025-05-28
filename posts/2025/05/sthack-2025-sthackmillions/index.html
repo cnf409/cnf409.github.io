@@ -47,7 +47,7 @@
   <meta itemprop="description" content="great for gambling addicts">
   <meta itemprop="datePublished" content="2025-05-27T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-05-27T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1573">
+  <meta itemprop="wordCount" content="1576">
   <meta itemprop="image" content="https://cdn.discordapp.com/attachments/308594778625409024/1360985845938524375/pfp.jpg?ex=67fd1c57&amp;is=67fbcad7&amp;hm=f07b391f8076f9691faffa4ec3800c74e13f8954a96f8b8f5c5216f38d3a12f1&amp;">
   <meta itemprop="keywords" content="Reverse,Misc,Osint,Web">
 
@@ -196,8 +196,8 @@
 </li>
 <li><a href="/posts/2025/05/sthack-2025-sthackmillions/#44---misc">4/4 - Misc (Jackpot)</a>
 <ul>
-<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#analysing-the-qr-code">Understanding the signature</a></li>
-<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#arbitrary-file-read">Crafting a Jackpot ticket</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#retrieving-useful-data">Retrieving useful data</a></li>
+<li><a href="/posts/2025/05/sthack-2025-sthackmillions/#signing-tickets">Signing tickets</a></li>
 </ul>
 </li>
 <li><a href="/posts/2025/05/sthack-2025-sthackmillions/#conclusion">Conclusion</a></li>
@@ -416,10 +416,12 @@
 <p><img src="https://i.ibb.co/TqKNmCn2/IMG-1582.jpg" alt="draws.png"></p>
 <p>So there’s only one way to get the <em>Jackpot</em>: arbitrarily crafting a QR code with the right numbers.</p>
 <p>To do so, we need to know how the <code>signature</code> field works and the key used. But we can read any file, so that will be pretty trivial.</p>
+<h2 id="retrieving-useful-data">Retrieving useful data</h2>
 <p>Let’s read both <code>.env</code> and <code>sign.py</code> files.</p>
 <p><img src="https://i.ibb.co/rR8Fjyfs/IMG-1581.jpg" alt="secret_key.png"></p>
 <p><img src="https://i.ibb.co/vCcn165M/IMG-1583.jpg" alt="sign.py.png"></p>
 <p>It’s a simple <em>HMAC SHA-256</em> signature on the <code>data</code> field. We have the function and the key used by the machine, so we can generate valid signatures.</p>
+<h2 id="signing-tickets">Signing tickets</h2>
 <p>Let’s implement this in a small script:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#6272a4">#!/usr/bin/env python3</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> hmac<span style="color:#ff79c6">,</span> hashlib<span style="color:#ff79c6">,</span> json<span style="color:#ff79c6">,</span> sys
@@ -479,7 +481,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        1573 Words
+        1576 Words
       </p>
 
       <p>
