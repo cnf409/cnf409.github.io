@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
+
+  <!-- Fonts — remove these two lines if you prefer no external requests -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/tailwind.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/custom.css">
+
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-bg text-body font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header class="site-header sticky top-0 z-50 border-b border-line/60 bg-bg/90 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+
+      <a href="/" class="logo flex items-center gap-0 font-mono font-bold text-lg select-none">
+        <span class="text-muted">─</span>
+        <span class="text-body ml-2">{{ config.site.title }}</span>
+        <span class="logo-cursor ml-0.5 text-cyan">▌</span>
+      </a>
+
+      <nav class="flex items-center gap-5">
+        <a href="/posts/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">posts</a>
+        <a href="/tags/"  class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">tags</a>
+        <a href="/about/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">about</a>
+      </nav>
+
+    </div>
+    <!-- animated neon separator -->
+    <div class="header-line"></div>
+  </header>
+
+  <!-- ── Main ─────────────────────────────────────────────── -->
+  <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-10">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer class="border-t border-line/30 mt-auto">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-dim">
+      <span>{{ config.site.title }} &copy; {{ now.year }}</span>
+      <div class="flex items-center gap-4">
+        {% if config.social.github %}
+          <a href="{{ config.social.github }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">github</a>
+        {% endif %}
+        {% if config.social.twitter %}
+          <a href="{{ config.social.twitter }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">twitter</a>
+        {% endif %}
+        {% if config.social.hackthebox %}
+          <a href="{{ config.social.hackthebox }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">htb</a>
+        {% endif %}
+      </div>
+      <span class="text-dim/50">built with a custom ssg</span>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

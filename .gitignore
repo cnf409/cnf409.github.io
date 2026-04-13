@@ -1,0 +1,8 @@
+public/
+__pycache__/
+*.py[cod]
+.env
+tailwindcss
+tailwindcss-*
+*.css.map
+.DS_Store

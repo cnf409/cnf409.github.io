@@ -1,0 +1,26 @@
+[site]
+title       = "conflict"
+description = "CTF writeups, cybersecurity research, and deep dives"
+base_url    = "https://cnf409.me"
+author      = "conflict"
+
+[site.keywords]
+terms = [
+  "CTF writeups", "exploit development", "pwn", "ROP Emporium",
+  "HackTheBox writeups", "heap exploitation", "format string",
+  "race condition", "reverse engineering", "web exploitation",
+  "SSRF", "RCE", "JWT", "PHP type juggling", "pwntools",
+  "linux privilege escalation", "FCSC", "HeroCTF", "picoCTF",
+]
+
+[build]
+posts_per_page = 15
+drafts         = false
+
+[social]
+twitter   = "https://twitter.com/cnf409"
+github    = "https://github.com/cnf409"
+hackthebox = "https://app.hackthebox.com/users/945301"
+discord   = "https://discord.com/users/254689803822563348"
+rootme    = "https://www.root-me.org/conflict"
+linkedin  = "https://www.linkedin.com/in/vincent-khayat/"

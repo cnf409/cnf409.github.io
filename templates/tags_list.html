@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Tags — {{ config.site.title }}{% endblock %}
+
+{% block content %}
+
+  <h1 class="font-mono text-2xl font-bold text-body mb-8">
+    <span class="text-cyan">~/</span>tags
+  </h1>
+
+  <div class="flex flex-wrap gap-3">
+    {% for tag, tag_slug, count in tags %}
+    <a href="/tags/{{ tag_slug }}/" class="tag-pill">
+      <span class="tag-pill__name">#{{ tag }}</span>
+      <span class="tag-pill__count">{{ count }}</span>
+    </a>
+    {% endfor %}
+  </div>
+
+  {% if not tags %}
+  <p class="font-mono text-muted text-sm">No tags yet.</p>
+  {% endif %}
+
+{% endblock %}

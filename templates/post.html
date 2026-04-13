@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% from "macros.html" import type_badge, difficulty_label %}
+
+{% block title %}{{ post.title }} — {{ config.site.title }}{% endblock %}
+{% block description %}{% if post.type == 'ctf' %}CTF writeup — {{ post.event }} · {{ post.category }}{% elif post.type == 'box' %}Box writeup — {{ post.platform }} · {{ post.os }} · {{ post.difficulty }}{% endif %}{% endblock %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto">
+
+  <!-- ── Post header ─────────────────────────────────────── -->
+  <header class="mb-8">
+    <div class="flex items-center gap-2 mb-3">
+      {{ type_badge(post.type) }}
+      {% if post.type == 'ctf' and post.event %}
+        <a href="/events/{{ post.event_slug }}/" class="font-mono text-xs text-cyan/80 hover:text-cyan transition-colors">
+          {{ post.event }}
+        </a>
+      {% endif %}
+    </div>
+
+    <h1 class="post-title text-2xl sm:text-3xl font-bold text-body mb-4 leading-tight">
+      {{ post.title }}
+    </h1>
+
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted font-mono">
+      {% if post.author %}
+        <span>by <span class="text-body">{{ post.author }}</span></span>
+      {% endif %}
+      {% if post.date_str %}
+        <time datetime="{{ post.date_iso }}" class="text-dim">{{ post.date_str }}</time>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- ── Info card (CTF / Box) ───────────────────────────── -->
+  {% if post.type in ['ctf', 'box'] %}
+  <div class="info-card mb-8">
+    <div class="info-card__label font-mono text-xs font-bold uppercase tracking-widest mb-4
+      {% if post.type == 'ctf' %}text-cyan{% else %}text-magenta{% endif %}">
+      {% if post.type == 'ctf' %}CTF Challenge{% else %}Box Writeup{% endif %}
+    </div>
+    <dl class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3">
+
+      {% if post.type == 'ctf' %}
+        {% if post.event %}
+        <div>
+          <dt class="info-dt">Event</dt>
+          <dd class="info-dd">
+            <a href="/events/{{ post.event_slug }}/" class="text-cyan hover:underline">{{ post.event }}</a>
+          </dd>
+        </div>
+        {% endif %}
+
+        {% if post.category %}
+        <div>
+          <dt class="info-dt">Category</dt>
+          <dd class="info-dd">{{ post.category }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.difficulty or post.stars %}
+        <div>
+          <dt class="info-dt">Difficulty</dt>
+          <dd class="info-dd">{{ difficulty_label(post.difficulty, post.stars) }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.solves is not none %}
+        <div>
+          <dt class="info-dt">Solves</dt>
+          <dd class="info-dd">{{ post.solves }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.challenge_author %}
+        <div>
+          <dt class="info-dt">Author</dt>
+          <dd class="info-dd">
+            {% if post.challenge_author_url %}
+              <a href="{{ post.challenge_author_url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">
+                {{ post.challenge_author }}
+              </a>
+            {% else %}
+              {{ post.challenge_author }}
+            {% endif %}
+          </dd>
+        </div>
+        {% endif %}
+
+        {% if post.rating is not none %}
+        <div>
+          <dt class="info-dt">My rating</dt>
+          <dd class="info-dd">
+            <span class="text-yellow font-semibold">{{ post.rating }}</span>
+            <span class="text-dim">/10</span>
+          </dd>
+        </div>
+        {% endif %}
+
+      {% elif post.type == 'box' %}
+        {% if post.platform %}
+        <div>
+          <dt class="info-dt">Platform</dt>
+          <dd class="info-dd capitalize">{{ post.platform }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.os %}
+        <div>
+          <dt class="info-dt">OS</dt>
+          <dd class="info-dd capitalize">{{ post.os }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.difficulty or post.stars %}
+        <div>
+          <dt class="info-dt">Difficulty</dt>
+          <dd class="info-dd">{{ difficulty_label(post.difficulty, post.stars) }}</dd>
+        </div>
+        {% endif %}
+      {% endif %}
+
+    </dl>
+  </div>
+  {% endif %}
+
+  <!-- ── Cover image ─────────────────────────────────────── -->
+  {% if post.image %}
+  <div class="mb-8 rounded-lg overflow-hidden border border-line">
+    <img src="{{ post.url }}{{ post.image }}" alt="{{ post.title }}" class="w-full object-cover">
+  </div>
+  {% endif %}
+
+  <!-- ── Post content ────────────────────────────────────── -->
+  <div class="post-content prose">
+    {{ post.html | safe }}
+  </div>
+
+  <!-- ── Flag ────────────────────────────────────────────── -->
+  {% if post.flag %}
+  <div class="flag-block mt-10">
+    <div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>
+    <code class="flag-block__value font-mono text-sm">{{ post.flag }}</code>
+  </div>
+  {% endif %}
+
+  <!-- ── Tags ────────────────────────────────────────────── -->
+  {% if post.tags %}
+  <div class="mt-10 pt-6 border-t border-line/40">
+    <div class="flex flex-wrap gap-2">
+      {% for tag in post.tags %}
+        <a href="/tags/{{ tag | lower | replace(' ', '-') }}/" class="tag tag--link">#{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ── Files ───────────────────────────────────────────── -->
+  {% if post.sources or post.solve_files %}
+  <div class="mt-10 pt-6 border-t border-line/40 grid sm:grid-cols-2 gap-6">
+
+    {% if post.sources %}
+    <div class="files-section">
+      <h3 class="files-section__title">
+        <span class="text-cyan">⬇</span> Challenge files
+      </h3>
+      <ul class="files-list">
+        {% for filename in post.sources %}
+        <li>
+          <a href="{{ post.url }}sources/{{ filename }}" class="file-link" download>
+            <span class="file-link__icon">📄</span>
+            <span class="file-link__name font-mono text-sm">{{ filename }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if post.solve_files %}
+    <div class="files-section">
+      <h3 class="files-section__title">
+        <span class="text-magenta">⬇</span> Solve scripts
+      </h3>
+      <ul class="files-list">
+        {% for filename in post.solve_files %}
+        <li>
+          <a href="{{ post.url }}solve/{{ filename }}" class="file-link" download>
+            <span class="file-link__icon">🔧</span>
+            <span class="file-link__name font-mono text-sm">{{ filename }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+</article>
+{% endblock %}

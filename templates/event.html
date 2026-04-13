@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "macros.html" import post_card %}
+
+{% block title %}{{ event }} — {{ config.site.title }}{% endblock %}
+
+{% block content %}
+
+  <div class="mb-8">
+    <p class="font-mono text-xs text-muted mb-1">event</p>
+    <h1 class="font-mono text-2xl font-bold text-body">
+      <span class="text-cyan">⚑</span> {{ event }}
+    </h1>
+    <p class="font-mono text-xs text-dim mt-1">{{ posts | length }} writeup(s)</p>
+  </div>
+
+  <div class="grid gap-3">
+    {% for post in posts %}
+      {{ post_card(post) }}
+    {% endfor %}
+  </div>
+
+{% endblock %}

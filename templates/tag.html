@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "macros.html" import post_card %}
+
+{% block title %}#{{ tag }} — {{ config.site.title }}{% endblock %}
+
+{% block content %}
+
+  <div class="mb-8">
+    <p class="font-mono text-xs text-muted mb-1">tag</p>
+    <h1 class="font-mono text-2xl font-bold text-body">
+      <span class="text-cyan">#</span>{{ tag }}
+    </h1>
+    <p class="font-mono text-xs text-dim mt-1">{{ posts | length }} post(s)</p>
+  </div>
+
+  <div class="grid gap-3">
+    {% for post in posts %}
+      {{ post_card(post) }}
+    {% endfor %}
+  </div>
+
+  <div class="mt-8">
+    <a href="/tags/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">← all tags</a>
+  </div>
+
+{% endblock %}
