@@ -11,10 +11,14 @@ import threading
 import tomllib
 from datetime import date, datetime
 from pathlib import Path
+from urllib.parse import quote
 
 import markdown
 from jinja2 import Environment, FileSystemLoader
+from pygments import highlight
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import TextLexer, get_lexer_by_name, get_lexer_for_filename
+from pygments.util import ClassNotFound
 from slugify import slugify
 
 ROOT          = Path(__file__).resolve().parent
@@ -30,6 +34,13 @@ _LANGUAGE_META = {
     'en': {'label': 'English', 'flag': '/flags/us.svg'},
     'fr': {'label': 'French',  'flag': '/flags/fr.svg'},
 }
+_INLINE_FILE_MAX_BYTES = 100_000
+_PHP_FENCE_RE = re.compile(
+    r'(^|\n)```(?P<lang>php\d*)[^\n]*\n(?P<code>.*?)(?:\n)```(?=\n|$)',
+    re.IGNORECASE | re.DOTALL,
+)
+_HTML_TAG_RE = re.compile(r'(<[^>]+>)')
+_BARE_URL_RE = re.compile(r'https?://[^\s<]+')
 _IMAGE_LINE_RE = re.compile(
     r'^(?P<indent>\s*)\[(?P<alt>[^\]]*)\]\((?P<src>images/[^)\s]+\.(?:png|jpe?g|gif|webp|svg))\)\s*$',
     re.IGNORECASE,
@@ -41,6 +52,14 @@ def load_config() -> dict:
         return tomllib.load(f)
 
 
+def _normalize_toml_frontmatter(raw: str) -> str:
+    return re.sub(
+        r'(?m)^(\s*solves\s*=\s*)\?(\s*(?:#.*)?)$',
+        lambda m: f'{m.group(1)}"?"{m.group(2)}',
+        raw,
+    )
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     if not text.startswith("+++"):
         return {}, text
@@ -48,7 +67,8 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
         end = text.index("+++", 3)
     except ValueError:
         return {}, text
-    return tomllib.loads(text[3:end].strip()), text[end + 3:].strip()
+    frontmatter = _normalize_toml_frontmatter(text[3:end].strip())
+    return tomllib.loads(frontmatter), text[end + 3:].strip()
 
 
 def _terminal_replace(m: re.Match) -> str:
@@ -75,6 +95,17 @@ def _coerce_str_list(raw: object) -> list[str]:
     return []
 
 
+def _split_csv_list(raw: object) -> list[str]:
+    if isinstance(raw, str):
+        return [part.strip() for part in raw.split(',') if part.strip()]
+    if isinstance(raw, (list, tuple)):
+        values: list[str] = []
+        for item in raw:
+            values.extend(_split_csv_list(item))
+        return values
+    return []
+
+
 def _format_date(value: datetime | None) -> str:
     return value.strftime('%b %d, %Y') if value else ''
 
@@ -89,6 +120,54 @@ def _format_date_range(start: datetime | None, end: datetime | None) -> str:
             return f"{start.strftime('%b %d')} - {end.strftime('%b %d, %Y')}"
         return f"{_format_date(start)} - {_format_date(end)}"
     return _format_date(start or end)
+
+
+def _format_file_size(size: int) -> str:
+    if size < 1024:
+        return f'{size} B'
+    if size < 1024 * 1024:
+        return f'{size / 1024:.1f} KB'
+    return f'{size / (1024 * 1024):.1f} MB'
+
+
+def _read_inline_source(path: Path) -> str | None:
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return None
+
+    if len(data) > _INLINE_FILE_MAX_BYTES or b'\x00' in data:
+        return None
+
+    try:
+        return data.decode('utf-8')
+    except UnicodeDecodeError:
+        return None
+
+
+def _highlight_source(filename: str, source: str) -> str:
+    try:
+        lexer = get_lexer_for_filename(filename, source)
+    except ClassNotFound:
+        lexer = TextLexer(stripall=False)
+
+    formatter = HtmlFormatter(style='dracula', cssclass='highlight')
+    return highlight(source, lexer, formatter)
+
+
+def _highlight_php_inline(code: str) -> str:
+    formatter = HtmlFormatter(style='dracula', cssclass='highlight')
+    lexer = get_lexer_by_name('php', startinline=True)
+    return highlight(code, lexer, formatter)
+
+
+def _normalize_php_fences(body: str) -> str:
+    def replace(match: re.Match) -> str:
+        prefix = match.group(1)
+        code = match.group('code')
+        return f"{prefix}\n{_highlight_php_inline(code)}\n"
+
+    return _PHP_FENCE_RE.sub(replace, body)
 
 
 def _normalize_markdown_images(body: str) -> str:
@@ -111,8 +190,83 @@ def _normalize_markdown_images(body: str) -> str:
     return '\n'.join(lines)
 
 
+def _autolink_text_chunk(text: str) -> str:
+    def repl(match: re.Match) -> str:
+        url = match.group(0)
+        trailing = ''
+
+        while url and url[-1] in '.,;!?:':
+            trailing = url[-1] + trailing
+            url = url[:-1]
+
+        while url.endswith(')') and url.count('(') < url.count(')'):
+            trailing = ')' + trailing
+            url = url[:-1]
+
+        return f'<a href="{url}">{url}</a>{trailing}'
+
+    return _BARE_URL_RE.sub(repl, text)
+
+
+def _autolink_html(html: str) -> str:
+    tokens = _HTML_TAG_RE.split(html)
+    out: list[str] = []
+    in_anchor = False
+    in_code = False
+    in_pre = False
+
+    for token in tokens:
+        if not token:
+            continue
+
+        if token.startswith('<'):
+            match = re.match(r'<\s*(/)?\s*([a-zA-Z0-9]+)', token)
+            if match:
+                closing = bool(match.group(1))
+                tag = match.group(2).lower()
+                is_self_closing = token.rstrip().endswith('/>')
+
+                if tag == 'a':
+                    in_anchor = not closing and not is_self_closing
+                elif tag == 'code':
+                    in_code = not closing and not is_self_closing
+                elif tag == 'pre':
+                    in_pre = not closing and not is_self_closing
+
+            out.append(token)
+            continue
+
+        if in_anchor or in_code or in_pre:
+            out.append(token)
+        else:
+            out.append(_autolink_text_chunk(token))
+
+    return ''.join(out)
+
+
+def _blankify_html_links(html: str) -> str:
+    def repl(match: re.Match) -> str:
+        attrs = match.group(1)
+        has_target = re.search(r'\btarget\s*=', attrs, flags=re.IGNORECASE)
+        has_rel = re.search(r'\brel\s*=', attrs, flags=re.IGNORECASE)
+
+        if not has_target:
+            attrs += ' target="_blank"'
+        if not has_rel:
+            attrs += ' rel="noopener"'
+
+        return f'<a{attrs}>'
+
+    return re.sub(r'<a\b([^>]*)>', repl, html, flags=re.IGNORECASE)
+
+
+def _normalize_html_links(html: str) -> str:
+    return _blankify_html_links(_autolink_html(html))
+
+
 def md_to_html(body: str) -> tuple[str, str]:
     body = _normalize_markdown_images(body)
+    body = _normalize_php_fences(body)
     body = _TERMINAL_RE.sub(_terminal_replace, body)
     parser = markdown.Markdown(
         extensions=['fenced_code', 'tables', 'toc', 'codehilite', 'attr_list', 'md_in_html'],
@@ -121,7 +275,7 @@ def md_to_html(body: str) -> tuple[str, str]:
             'toc': {},
         },
     )
-    html = parser.convert(body)
+    html = _normalize_html_links(parser.convert(body))
     return html, parser.toc
 
 
@@ -162,9 +316,25 @@ class Post:
         self.category            = meta.get('category', '')
         self.difficulty          = meta.get('difficulty', '')
         self.stars               = meta.get('stars')
-        self.solves              = meta.get('solves')
+        raw_solves               = meta.get('solves')
+        self.solves              = raw_solves
+        if isinstance(raw_solves, str) and raw_solves.strip() == '?':
+            self.solves_display = '???'
+        elif raw_solves is None:
+            self.solves_display = ''
+        else:
+            self.solves_display = str(raw_solves)
         self.challenge_author    = meta.get('challenge_author', '')
         self.challenge_author_url = meta.get('challenge_author_url', '')
+        author_names = _split_csv_list(self.challenge_author)
+        author_urls = _split_csv_list(self.challenge_author_url)
+        self.challenge_authors = [
+            {
+                'name': name,
+                'url': author_urls[idx] if idx < len(author_urls) else '',
+            }
+            for idx, name in enumerate(author_names)
+        ]
         self.rating              = meta.get('rating')
         self.flag                = meta.get('flag', '')
 
@@ -177,7 +347,22 @@ class Post:
 
     def _list_files(self, subdir: str) -> list[str]:
         d = self.dir / subdir
-        return sorted(f.name for f in d.iterdir() if f.is_file()) if d.exists() else []
+        if not d.exists():
+            return []
+
+        files: list[dict] = []
+        for file_path in sorted((f for f in d.iterdir() if f.is_file()), key=lambda p: p.name.lower()):
+            inline_source = _read_inline_source(file_path)
+            files.append({
+                'name': file_path.name,
+                'size_bytes': file_path.stat().st_size,
+                'size_label': _format_file_size(file_path.stat().st_size),
+                'raw_url': f"/posts/{self.slug}/{subdir}/{quote(file_path.name)}",
+                'viewer_url': f"/posts/{self.slug}/_fileview/{subdir}/{quote(file_path.name)}/" if inline_source is not None else '',
+                'inline_view': inline_source is not None,
+            })
+
+        return files
 
     @property
     def url(self) -> str:
@@ -210,8 +395,10 @@ class Post:
             'url': self.url, 'slug': self.slug,
             'event': self.event, 'event_slug': self.event_slug,
             'category': self.category, 'difficulty': self.difficulty, 'stars': self.stars,
-            'solves': self.solves, 'challenge_author': self.challenge_author,
+            'solves': self.solves, 'solves_display': self.solves_display,
+            'challenge_author': self.challenge_author,
             'challenge_author_url': self.challenge_author_url,
+            'challenge_authors': self.challenge_authors,
             'rating': self.rating, 'flag': self.flag,
             'platform': self.platform, 'os': self.os,
             'description': self.description,
@@ -412,6 +599,36 @@ def build_post_pages(env: Environment, posts: list[Post]) -> None:
                    render(env, 'post.html', post=post.as_dict()))
 
 
+def build_post_file_views(env: Environment, posts: list[Post]) -> None:
+    for post in posts:
+        post_dict = post.as_dict()
+
+        for subdir, files in (('sources', post.sources), ('solve', post.solve_files)):
+            for file_info in files:
+                if not file_info['inline_view']:
+                    continue
+
+                source_path = post.dir / subdir / file_info['name']
+                source = _read_inline_source(source_path)
+                if source is None:
+                    continue
+
+                file_ctx = dict(file_info)
+                file_ctx['kind_label'] = 'Solve script' if subdir == 'solve' else 'Challenge file'
+                file_ctx['kind'] = subdir
+
+                write_page(
+                    PUBLIC_DIR / 'posts' / post.slug / '_fileview' / subdir / file_info['name'] / 'index.html',
+                    render(
+                        env,
+                        'file_view.html',
+                        post=post_dict,
+                        file=file_ctx,
+                        highlighted_code=_highlight_source(file_info['name'], source),
+                    ),
+                )
+
+
 def build_posts_list(env: Environment, posts: list[Post], config: dict) -> None:
     per_page = config.get('build', {}).get('posts_per_page', 15)
     chunks   = [posts[i:i + per_page] for i in range(0, max(len(posts), 1), per_page)]
@@ -586,6 +803,7 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     print('  [+] Building pages...')
     build_index(env, posts)
     build_post_pages(env, posts)
+    build_post_file_views(env, posts)
     build_posts_list(env, posts, config)
     build_tag_pages(env, posts)
     build_event_pages(env, events)

@@ -118,7 +118,16 @@
           {% if post.type == 'ctf' %}
             {% if post.category %}<span>{{ post.category }}</span><span class="text-dim">·</span>{% endif %}
             {{ difficulty_label(post.difficulty, post.stars) }}
-            {% if post.solves is not none %}<span class="text-dim">·</span><span>{{ post.solves }} solves</span>{% endif %}
+            {% if post.solves is not none %}
+              <span class="text-dim">·</span>
+              <span>
+                {% if post.solves_display == '???' %}
+                  ???
+                {% else %}
+                  {{ post.solves_display }} solves
+                {% endif %}
+              </span>
+            {% endif %}
           {% elif post.type == 'box' %}
             {% if post.os %}{{ os_label(post.os) }}<span class="text-dim">·</span>{% endif %}
             {{ difficulty_label(post.difficulty, post.stars) }}
@@ -129,7 +138,7 @@
 
         {% if post.tags %}
         <div class="flex flex-wrap gap-1.5">
-          {% for tag in post.tags[:5] %}
+          {% for tag in post.tags[:7] %}
             <span class="tag">#{{ tag }}</span>
           {% endfor %}
         </div>

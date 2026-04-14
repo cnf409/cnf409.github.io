@@ -158,21 +158,24 @@
         {% if post.solves is not none %}
         <div>
           <dt class="info-dt">Solves</dt>
-          <dd class="info-dd">{{ post.solves }}</dd>
+          <dd class="info-dd">{{ post.solves_display }}</dd>
         </div>
         {% endif %}
 
-        {% if post.challenge_author %}
+        {% if post.challenge_authors %}
         <div>
           <dt class="info-dt">Author</dt>
           <dd class="info-dd">
-            {% if post.challenge_author_url %}
-              <a href="{{ post.challenge_author_url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">
-                {{ post.challenge_author }}
-              </a>
-            {% else %}
-              {{ post.challenge_author }}
-            {% endif %}
+            {% for author in post.challenge_authors %}
+              {% if author.url %}
+                <a href="{{ author.url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">
+                  {{ author.name }}
+                </a>
+              {% else %}
+                {{ author.name }}
+              {% endif %}
+              {% if not loop.last %}, {% endif %}
+            {% endfor %}
           </dd>
         </div>
         {% endif %}
@@ -257,9 +260,16 @@
       <ul class="files-list">
         {% for filename in post.sources %}
         <li>
-          <a href="{{ post.url }}sources/{{ filename }}" class="file-link" download>
+          <a
+            href="{{ filename.viewer_url if filename.inline_view else filename.raw_url }}"
+            class="file-link"
+            {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
+          >
             <span class="file-link__icon">📄</span>
-            <span class="file-link__name font-mono text-sm">{{ filename }}</span>
+            <span class="file-link__name font-mono text-sm">{{ filename.name }}</span>
+            <span class="file-link__meta font-mono text-[11px]">
+              {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
+            </span>
           </a>
         </li>
         {% endfor %}
@@ -275,9 +285,16 @@
       <ul class="files-list">
         {% for filename in post.solve_files %}
         <li>
-          <a href="{{ post.url }}solve/{{ filename }}" class="file-link" download>
+          <a
+            href="{{ filename.viewer_url if filename.inline_view else filename.raw_url }}"
+            class="file-link"
+            {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
+          >
             <span class="file-link__icon">🔧</span>
-            <span class="file-link__name font-mono text-sm">{{ filename }}</span>
+            <span class="file-link__name font-mono text-sm">{{ filename.name }}</span>
+            <span class="file-link__meta font-mono text-[11px]">
+              {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
+            </span>
           </a>
         </li>
         {% endfor %}
