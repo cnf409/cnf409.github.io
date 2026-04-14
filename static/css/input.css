@@ -14,5 +14,5 @@
   --color-green-t: #00ff9c;
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Fira Code', Consolas, monospace;
 }
