@@ -8,16 +8,21 @@
     <span class="text-cyan">~/</span>tags
   </h1>
 
-  <div class="flex flex-wrap gap-3">
-    {% for tag, tag_slug, count in tags %}
-    <a href="/tags/{{ tag_slug }}/" class="tag-pill">
-      <span class="tag-pill__name">#{{ tag }}</span>
-      <span class="tag-pill__count">{{ count }}</span>
-    </a>
+  {% if grouped_tags %}
+    {% for letter, group in grouped_tags %}
+    <div class="mb-7">
+      <h2 class="font-mono text-xs font-bold text-dim uppercase tracking-widest mb-3 pb-1 border-b border-line/30">{{ letter }}</h2>
+      <div class="flex flex-wrap gap-2">
+        {% for tag, tag_slug, count in group %}
+        <a href="/tags/{{ tag_slug }}/" class="tag-pill">
+          <span class="tag-pill__name">#{{ tag }}</span>
+          <span class="tag-pill__count">{{ count }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
     {% endfor %}
-  </div>
-
-  {% if not tags %}
+  {% else %}
   <p class="font-mono text-muted text-sm">No tags yet.</p>
   {% endif %}
 

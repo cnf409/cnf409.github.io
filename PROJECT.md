@@ -14,7 +14,7 @@ Remplace Hugo (v1_blog) pour avoir un contrôle total sur le front-end et des fe
 | Styles | Tailwind CSS (CLI standalone, zéro npm) + `custom.css` pour les effets cyberpunk (glows, glitch, animations) |
 | Markdown | `python-markdown` avec extensions |
 | Dev server | `http.server` Python + `watchdog` (file watcher) + WebSocket (hot reload navigateur) |
-| Déploiement | GitHub Actions → GitHub Pages |
+| Déploiement | Manuel pour l'instant |
 
 ---
 
@@ -56,12 +56,9 @@ blog/
       main.js            ← filtres posts, hot reload dev...
     img/
       pfp.jpg
-  public/                ← output du builder (gitignore, déployé par CI)
+  public/                ← output du builder (gitignore)
   tailwind.config.js
   requirements.txt
-  .github/
-    workflows/
-      build.yml          ← CI/CD GitHub Actions
 ```
 
 ---
@@ -215,20 +212,6 @@ python build.py --serve  # build + dev server avec hot reload
 - `watchdog` surveille `content/`, `templates/`, `static/`
 - Rebuild automatique à chaque changement
 - WebSocket injecté dans les pages pour recharger le navigateur
-
----
-
-## CI/CD (GitHub Actions)
-
-Trigger : `push` sur `main`
-
-Étapes :
-1. `pip install -r requirements.txt`
-2. Téléchargement du binaire Tailwind CLI standalone
-3. `python build.py`
-4. Deploy `public/` → GitHub Pages
-
-Le dossier `public/` est dans `.gitignore` — seul le source est poussé.
 
 ---
 

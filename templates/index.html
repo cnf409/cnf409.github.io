@@ -3,44 +3,39 @@
 
 {% block content %}
 
-  <!-- ── Hero ─────────────────────────────────────────────── -->
-  <section class="mb-14">
-    <h1 class="font-mono text-3xl sm:text-4xl font-bold text-body mb-3">
-      <span class="text-cyan">~</span>/conflict
-    </h1>
-    <p class="text-muted max-w-xl leading-relaxed">
-      CTF writeups, exploit dev, and cybersecurity research.
-      <span class="text-dim">pwn · web · rev · misc</span>
-    </p>
+  <!-- Hero -->
+  <section class="mb-12 flex items-center gap-5 sm:gap-7">
+    {% if about.avatar %}
+    <div class="flex-shrink-0">
+      <img src="{{ about.avatar }}" alt="{{ about.name or config.site.title }}"
+           class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-cyan/20">
+    </div>
+    {% endif %}
+    <div>
+      <h1 class="font-mono text-2xl sm:text-3xl font-bold text-body mb-1">
+        <span class="text-cyan">~</span>/conflict
+      </h1>
+      <p class="text-muted text-sm">security research · CTF player</p>
+    </div>
   </section>
 
-  <!-- ── Pinned posts ──────────────────────────────────────── -->
+  <!-- Pinned posts -->
   {% if pinned %}
-  <section class="mb-12">
-    <h2 class="section-heading mb-5">
-      <span class="text-magenta font-mono text-xs font-bold uppercase tracking-widest">pinned</span>
-    </h2>
-    <div class="grid gap-3">
+  <section>
+    <div class="flex items-center justify-between mb-4">
+      <span class="section-heading text-magenta font-mono text-xs font-bold uppercase tracking-widest">pinned</span>
+      <a href="/posts/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">all posts →</a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {% for post in pinned %}
         {{ post_card(post, featured=true) }}
       {% endfor %}
     </div>
   </section>
+  {% else %}
+  <div class="pt-6">
+    <a href="/posts/" class="font-mono text-sm text-dim hover:text-cyan transition-colors">all posts →</a>
+  </div>
   {% endif %}
-
-  <!-- ── Recent posts ─────────────────────────────────────── -->
-  <section>
-    <div class="flex items-center justify-between mb-5">
-      <h2 class="section-heading">
-        <span class="text-cyan font-mono text-xs font-bold uppercase tracking-widest">recent</span>
-      </h2>
-      <a href="/posts/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">all posts →</a>
-    </div>
-    <div class="grid gap-3">
-      {% for post in recent %}
-        {{ post_card(post) }}
-      {% endfor %}
-    </div>
-  </section>
 
 {% endblock %}
