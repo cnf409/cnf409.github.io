@@ -15,12 +15,28 @@
   </div>
 
   {% if grouped_tags %}
+  <div class="tag-search mb-7">
+    <label for="tag-search-input" class="tag-search__label">Search tags</label>
+    <input
+      id="tag-search-input"
+      type="search"
+      class="tag-search__input"
+      placeholder="search by tag name..."
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+    >
+  </div>
+  {% endif %}
+
+  {% if grouped_tags %}
+    <div id="tag-groups">
     {% for letter, group in grouped_tags %}
-    <section class="tags-group mb-7">
+    <section class="tags-group mb-7" data-tags-group>
       <h2 class="tags-group__letter">{{ letter }}</h2>
       <div class="flex flex-wrap gap-2">
         {% for tag, tag_slug, count in group %}
-        <a href="/tags/{{ tag_slug }}/" class="tag-pill">
+        <a href="/tags/{{ tag_slug }}/" class="tag-pill" data-tag-name="{{ tag | lower }}">
           <span class="tag-pill__name">#{{ tag }}</span>
           <span class="tag-pill__count">{{ count }}</span>
         </a>
@@ -28,8 +44,52 @@
       </div>
     </section>
     {% endfor %}
-  {% else %}
+    </div>
+    <p id="tag-search-empty" class="font-mono text-muted text-sm hidden">No matching tags.</p>
+{% else %}
   <p class="font-mono text-muted text-sm">No tags yet.</p>
   {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    const input = document.querySelector('#tag-search-input');
+    const groups = document.querySelectorAll('[data-tags-group]');
+    const empty = document.querySelector('#tag-search-empty');
+
+    if (!input || !groups.length) return;
+
+    const sync = () => {
+      const query = input.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      groups.forEach((group) => {
+        const tags = group.querySelectorAll('[data-tag-name]');
+        let groupVisible = 0;
+
+        tags.forEach((tag) => {
+          const name = tag.getAttribute('data-tag-name') || '';
+          const match = !query || name.includes(query);
+          tag.style.display = match ? '' : 'none';
+          if (match) {
+            groupVisible += 1;
+            visibleCount += 1;
+          }
+        });
+
+        group.style.display = groupVisible ? '' : 'none';
+      });
+
+      if (empty) {
+        empty.classList.toggle('hidden', visibleCount !== 0);
+      }
+    };
+
+    input.addEventListener('input', sync);
+    input.addEventListener('search', sync);
+    sync();
+  })();
+</script>
 {% endblock %}

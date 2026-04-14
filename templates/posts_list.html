@@ -12,7 +12,6 @@
     <span class="font-mono text-xs text-dim">{{ posts | length }} on this page</span>
   </div>
 
-  <!-- ── Type filters ──────────────────────────────────────── -->
   <div class="flex items-center gap-2 mb-6 flex-wrap" id="filters">
     <button class="filter-btn filter-btn--active" data-filter="all">All</button>
     <button class="filter-btn" data-filter="ctf">CTF</button>
@@ -20,7 +19,6 @@
     <button class="filter-btn" data-filter="post">Post</button>
   </div>
 
-  <!-- ── Post list ─────────────────────────────────────────── -->
   <div class="grid gap-3" id="post-list">
     {% for post in posts %}
       {{ post_card(post) }}
@@ -31,7 +29,6 @@
   <p class="font-mono text-muted text-sm mt-8">No posts yet.</p>
   {% endif %}
 
-  <!-- ── Pagination ────────────────────────────────────────── -->
   {% if total_pages > 1 %}
   <nav class="flex items-center justify-between mt-10 pt-6 border-t border-line/30">
     <div>
@@ -54,10 +51,4 @@
   </nav>
   {% endif %}
 
-{% endblock %}
-
-{% block scripts %}
-<script>
-  // Filter is handled by main.js — no extra script needed here
-</script>
 {% endblock %}

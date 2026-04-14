@@ -35,8 +35,6 @@
       {% endif %}
     </div>
   </header>
-
-  <!-- ── Info card (CTF / Box) ───────────────────────────── -->
   {% if post.type in ['ctf', 'box'] %}
   <div class="info-card mb-8">
     <div class="info-card__label font-mono text-xs font-bold uppercase tracking-widest mb-4
@@ -137,28 +135,20 @@
     </dl>
   </div>
   {% endif %}
-
-  <!-- ── Cover image ─────────────────────────────────────── -->
   {% if post.image %}
   <div class="mb-8 rounded-lg overflow-hidden border border-line">
     <img src="{{ post.url }}{{ post.image }}" alt="{{ post.title }}" class="w-full object-cover">
   </div>
   {% endif %}
-
-  <!-- ── Post content ────────────────────────────────────── -->
   <div class="post-content prose">
     {{ post.html | safe }}
   </div>
-
-  <!-- ── Flag ────────────────────────────────────────────── -->
   {% if post.flag %}
   <div class="flag-block mt-10">
     <div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>
     <code class="flag-block__value font-mono text-sm">{{ post.flag }}</code>
   </div>
   {% endif %}
-
-  <!-- ── Tags ────────────────────────────────────────────── -->
   {% if post.tags %}
   <div class="mt-10 pt-6 border-t border-line/40">
     <div class="flex flex-wrap gap-2">
@@ -168,8 +158,6 @@
     </div>
   </div>
   {% endif %}
-
-  <!-- ── Files ───────────────────────────────────────────── -->
   {% if post.sources or post.solve_files %}
   <div class="mt-10 pt-6 border-t border-line/40 grid sm:grid-cols-2 gap-6">
 

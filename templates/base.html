@@ -7,15 +7,13 @@
   <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
   <link rel="icon" type="image/jpeg" href="/img/pfp.jpg">
 
-  <link rel="stylesheet" href="/css/tailwind.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-  <link rel="stylesheet" href="/css/custom.css">
+  <link rel="stylesheet" href="/css/tailwind.css?v={{ now.strftime('%Y%m%d%H%M%S') }}">
+  <link rel="stylesheet" href="/css/syntax.css?v={{ now.strftime('%Y%m%d%H%M%S') }}">
+  <link rel="stylesheet" href="/css/custom.css?v={{ now.strftime('%Y%m%d%H%M%S') }}">
 
   {% block head %}{% endblock %}
 </head>
 <body class="bg-bg text-body font-sans min-h-screen flex flex-col antialiased">
-
-  <!-- ── Header ───────────────────────────────────────────── -->
   <header class="site-header sticky top-0 z-50 border-b border-line/60 bg-bg/90 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
 
@@ -33,16 +31,13 @@
       </nav>
 
     </div>
-    <!-- animated neon separator -->
     <div class="header-line"></div>
   </header>
 
-  <!-- ── Main ─────────────────────────────────────────────── -->
   <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-10">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ── Footer ───────────────────────────────────────────── -->
   <footer class="border-t border-line/30 mt-auto">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-dim">
       <span>{{ config.site.title }} &copy; {{ now.year }}</span>
@@ -61,7 +56,7 @@
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
+  <script src="/js/main.js?v={{ now.strftime('%Y%m%d%H%M%S') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

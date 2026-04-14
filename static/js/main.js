@@ -1,9 +1,6 @@
-/* main.js — conflict blog */
-
 (function () {
   'use strict';
 
-  // ── Post type filter ──────────────────────────────────────
   function initFilters() {
     const buttons = document.querySelectorAll('[data-filter]');
     const cards   = document.querySelectorAll('#post-list [data-type]');
@@ -13,12 +10,8 @@
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
-
-        // active state
         buttons.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
-
-        // show / hide
         cards.forEach((card) => {
           const match = filter === 'all' || card.dataset.type === filter;
           card.style.display = match ? '' : 'none';
@@ -27,7 +20,6 @@
     });
   }
 
-  // ── Active nav link ───────────────────────────────────────
   function markActiveNav() {
     const path  = window.location.pathname;
     const links = document.querySelectorAll('.nav-link');
@@ -39,7 +31,6 @@
     });
   }
 
-  // ── Copy buttons on code blocks ──────────────────────────
   function initCodeCopy() {
     const blocks = document.querySelectorAll('.highlight, .terminal-block');
     if (!blocks.length) return;
@@ -88,8 +79,6 @@
       block.appendChild(button);
     });
   }
-
-  // ── Init ──────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     markActiveNav();

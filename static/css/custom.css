@@ -319,6 +319,40 @@ html { scroll-behavior: smooth; }
   padding: 0 5px;
 }
 
+.tag-search {
+  display: grid;
+  gap: 0.5rem;
+}
+.tag-search__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.tag-search__input {
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(19,21,26,0.92);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.83rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+.tag-search__input::placeholder {
+  color: var(--dim);
+}
+.tag-search__input:focus {
+  outline: none;
+  border-color: rgba(0,240,255,0.42);
+  box-shadow: 0 0 0 3px rgba(0,240,255,0.08);
+  background: rgba(19,21,26,0.98);
+}
+
 .event-card {
   background: rgba(19,21,26,0.88);
   border: 1px solid var(--line);
