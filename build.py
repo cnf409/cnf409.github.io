@@ -581,7 +581,7 @@ def serve(config: dict) -> None:
 
     print('\n  [✓] http://localhost:8000  (Ctrl-C to stop)\n')
     try:
-        with http.server.ThreadingHTTPServer(('', 8000), _Server) as httpd:
+        with http.server.ThreadingHTTPServer(('0.0.0.0', 8000), _Server) as httpd:
             httpd.serve_forever()
     except KeyboardInterrupt:
         pass

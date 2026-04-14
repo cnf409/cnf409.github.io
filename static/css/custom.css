@@ -710,7 +710,7 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   z-index: 2;
   padding: 0.28rem 0.55rem;
   border: 1px solid rgba(0,240,255,0.3);
-  border-radius: 999px;
+  border-radius: 0;
   background: rgba(13,14,17,0.92);
   color: var(--cyan);
   font-family: 'JetBrains Mono', monospace;
@@ -719,9 +719,6 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s;
-}
-.terminal-block .code-copy-btn {
-  top: 0.45rem;
 }
 .code-copy-btn:hover {
   border-color: rgba(0,240,255,0.55);

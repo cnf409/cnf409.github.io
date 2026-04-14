@@ -32,7 +32,7 @@
   }
 
   function initCodeCopy() {
-    const blocks = document.querySelectorAll('.highlight, .terminal-block');
+    const blocks = document.querySelectorAll('.highlight');
     if (!blocks.length) return;
 
     blocks.forEach((block) => {
