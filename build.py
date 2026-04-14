@@ -16,7 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 from pygments.formatters import HtmlFormatter
 from slugify import slugify
 
-ROOT          = Path(__file__).parent
+ROOT          = Path(__file__).resolve().parent
 CONTENT_DIR   = ROOT / "content"
 EVENTS_DIR    = CONTENT_DIR / "events"
 TEMPLATES_DIR = ROOT / "templates"
@@ -167,8 +167,9 @@ class Post:
         self.rating              = meta.get('rating')
         self.flag                = meta.get('flag', '')
 
-        self.platform = meta.get('platform', '')
-        self.os       = meta.get('os', '')
+        self.platform    = meta.get('platform', '')
+        self.os          = meta.get('os', '')
+        self.description = meta.get('description', '')
 
         self.sources     = self._list_files('sources')
         self.solve_files = self._list_files('solve')
@@ -203,6 +204,7 @@ class Post:
             'challenge_author_url': self.challenge_author_url,
             'rating': self.rating, 'flag': self.flag,
             'platform': self.platform, 'os': self.os,
+            'description': self.description,
             'html': self.html, 'toc': self.toc,
             'sources': self.sources, 'solve_files': self.solve_files,
         }
@@ -548,9 +550,15 @@ def serve(config: dict) -> None:
             self._timer: threading.Timer | None = None
 
         def on_any_event(self, event):
-            if event.is_directory or '.DS_Store' in event.src_path:
+            if event.is_directory:
                 return
-            if str(PUBLIC_DIR) in event.src_path:
+            if event.event_type not in {'modified', 'created', 'deleted', 'moved'}:
+                return
+            raw_paths = [getattr(event, 'src_path', ''), getattr(event, 'dest_path', '')]
+            paths = [Path(p).resolve(strict=False) for p in raw_paths if p]
+            if any(path.name == '.DS_Store' for path in paths):
+                return
+            if any(PUBLIC_DIR == path or PUBLIC_DIR in path.parents for path in paths):
                 return
             if self._timer:
                 self._timer.cancel()
@@ -568,9 +576,10 @@ def serve(config: dict) -> None:
 
     observer = Observer()
     handler  = _Handler()
-    for watch in (CONTENT_DIR, TEMPLATES_DIR, STATIC_DIR, ROOT / 'about.md', CONFIG_FILE):
+    for watch in (CONTENT_DIR, TEMPLATES_DIR, STATIC_DIR):
         if Path(watch).exists():
             observer.schedule(handler, str(watch), recursive=True)
+    observer.schedule(handler, str(ROOT), recursive=False)
     observer.start()
 
     class _Server(http.server.SimpleHTTPRequestHandler):

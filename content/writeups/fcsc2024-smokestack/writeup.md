@@ -15,6 +15,7 @@ challenge_author_url = "https://twitter.com/erdnaxe"
 rating             = 7
 flag               = "FCSC{4_cl4ss1c_r3t2l1bc_w1th_4_tw1st}"
 pinned             = true
+description        = "Classic ret2libc with ASLR — the binary leaks a libc address through a format string, which we use to land system(\"/bin/sh\")."
 +++
 
 ## Overview
