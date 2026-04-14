@@ -58,6 +58,20 @@ html { scroll-behavior: smooth; }
 }
 .logo-cursor { animation: cursorBlink 0.8s step-end infinite; }
 
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.45rem;
+  padding: 0 0.8rem;
+  border-radius: 8px;
+  position: relative;
+  transition: color 0.2s, background-color 0.2s;
+}
+.nav-link:hover {
+  background: rgba(255,255,255,0.03);
+}
+
 @keyframes headerLine {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
@@ -76,7 +90,18 @@ html { scroll-behavior: smooth; }
   40%  { opacity: 1; clip-path: inset(0 0 0 0); transform: skew(0); }
   100% { opacity: 1; clip-path: inset(0 0 0 0); transform: skew(0); }
 }
-.post-title { animation: glitchIn 0.8s ease-out forwards; }
+@keyframes neonFlicker {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  13%  { opacity: 0.35; text-shadow: none; }
+  16%  { opacity: 1; }
+  21%  { opacity: 0.5; text-shadow: none; }
+  26%  { opacity: 1; }
+  62%  { opacity: 1; }
+  66%  { opacity: 0.45; text-shadow: none; }
+  72%  { opacity: 1; }
+  100% { opacity: 1; }
+}
 .post-title-main {
   display: block;
 }
@@ -91,6 +116,7 @@ html { scroll-behavior: smooth; }
   color: var(--cyan);
   text-decoration: none;
   text-shadow: 0 0 14px rgba(0, 240, 255, 0.22);
+  animation: neonFlicker 1.15s linear 1 both;
 }
 .post-event-title:hover { color: #7ff7ff; }
 .post-event-title--box {

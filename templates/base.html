@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
   <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
+  <link rel="icon" type="image/jpeg" href="/img/pfp.jpg">
 
   <link rel="stylesheet" href="/css/tailwind.css">
   <link rel="stylesheet" href="/css/syntax.css">
@@ -24,7 +25,7 @@
         <span class="logo-cursor ml-0.5 text-cyan">▌</span>
       </a>
 
-      <nav class="flex items-center gap-5">
+      <nav class="flex items-center gap-1 sm:gap-2">
         <a href="/posts/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">posts</a>
         <a href="/events/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">events</a>
         <a href="/tags/"  class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">tags</a>
