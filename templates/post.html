@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% from "macros.html" import type_badge, difficulty_label, language_flag %}
+{% from "macros.html" import type_badge, difficulty_label, language_code, os_label %}
 
 {% block title %}{{ post.title }} — {{ config.site.title }}{% endblock %}
 {% block description %}{% if post.type == 'ctf' %}CTF writeup — {{ post.event }} · {{ post.category }}{% elif post.type == 'box' %}Box writeup — {{ post.platform }} · {{ post.os }} · {{ post.difficulty }}{% endif %}{% endblock %}
 
 {% block content %}
 <div class="post-layout">
-<article class="post-main">
+<article class="post-main" id="top">
 
   <header class="mb-8">
     <div class="flex items-center gap-2 mb-3">
@@ -21,13 +21,12 @@
         <div class="post-event-title post-event-title--box">{{ post.platform }}</div>
       {% endif %}
       <div class="post-title-main">
-        {{ language_flag(post, variant='hero') }}
-        <span>{{ post.title }}</span>
+        <span>{{ post.title }} {{ language_code(post, variant='hero') }}</span>
       </div>
     </div>
 
     <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted font-mono">
-      <span>{{ post.language_label }}</span>
+      <span>{{ post.language_code }}</span>
       {% if post.author %}
         <span>by <span class="text-body">{{ post.author }}</span></span>
       {% endif %}
@@ -113,7 +112,7 @@
         {% if post.os %}
         <div>
           <dt class="info-dt">OS</dt>
-          <dd class="info-dd capitalize">{{ post.os }}</dd>
+          <dd class="info-dd">{{ os_label(post.os) }}</dd>
         </div>
         {% endif %}
 
@@ -221,6 +220,7 @@
     <div class="post-toc__content">
       {{ post.toc | safe }}
     </div>
+    <a href="#top" class="post-toc__top">↑ Back to top</a>
   </div>
 </aside>
 {% endif %}

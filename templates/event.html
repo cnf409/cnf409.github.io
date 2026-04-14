@@ -1,22 +1,56 @@
 {% extends "base.html" %}
 {% from "macros.html" import post_card %}
 
-{% block title %}{{ event }} — {{ config.site.title }}{% endblock %}
+{% block title %}{{ event.title }} — {{ config.site.title }}{% endblock %}
 
 {% block content %}
 
-  <div class="mb-8">
-    <p class="font-mono text-xs text-muted mb-1">event</p>
-    <h1 class="font-mono text-2xl font-bold text-body">
-      <span class="text-cyan">⚑</span> {{ event }}
-    </h1>
-    <p class="font-mono text-xs text-dim mt-1">{{ posts | length }} writeup(s)</p>
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div>
+      <p class="font-mono text-xs text-muted mb-1">event</p>
+      <h1 class="font-mono text-2xl font-bold text-body">
+        <span class="text-cyan">~/</span>{{ event.title }}
+      </h1>
+    </div>
+    <p class="font-mono text-xs text-dim">{{ event.writeup_count }} writeup(s)</p>
   </div>
 
+  <section class="event-summary mb-8">
+    <div class="event-summary__grid">
+      {% if event.organizers %}
+      <div>
+        <div class="event-summary__label">Organizers</div>
+        <div class="event-summary__value">{{ event.organizers | join(', ') }}</div>
+      </div>
+      {% endif %}
+      {% if event.organizer_countries %}
+      <div>
+        <div class="event-summary__label">Country</div>
+        <div class="event-summary__value">{{ event.organizer_countries | join(', ') }}</div>
+      </div>
+      {% endif %}
+      {% if event.date_range %}
+      <div>
+        <div class="event-summary__label">Dates</div>
+        <div class="event-summary__value">{{ event.date_range }}</div>
+      </div>
+      {% endif %}
+    </div>
+    {% if event.html %}
+    <div class="post-content event-summary__body">
+      {{ event.html | safe }}
+    </div>
+    {% endif %}
+  </section>
+
   <div class="grid gap-3">
-    {% for post in posts %}
+    {% for post in event.posts %}
       {{ post_card(post) }}
     {% endfor %}
   </div>
+
+  {% if not event.posts %}
+  <p class="font-mono text-muted text-sm mt-8">No writeups yet.</p>
+  {% endif %}
 
 {% endblock %}

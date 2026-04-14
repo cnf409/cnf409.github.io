@@ -18,6 +18,7 @@ from slugify import slugify
 
 ROOT          = Path(__file__).parent
 CONTENT_DIR   = ROOT / "content"
+EVENTS_DIR    = CONTENT_DIR / "events"
 TEMPLATES_DIR = ROOT / "templates"
 STATIC_DIR    = ROOT / "static"
 PUBLIC_DIR    = ROOT / "public"
@@ -28,6 +29,10 @@ _LANGUAGE_META = {
     'en': {'label': 'English', 'flag': '/flags/us.svg'},
     'fr': {'label': 'French',  'flag': '/flags/fr.svg'},
 }
+_IMAGE_LINE_RE = re.compile(
+    r'^(?P<indent>\s*)\[(?P<alt>[^\]]*)\]\((?P<src>images/[^)\s]+\.(?:png|jpe?g|gif|webp|svg))\)\s*$',
+    re.IGNORECASE,
+)
 
 
 def load_config() -> dict:
@@ -50,7 +55,63 @@ def _terminal_replace(m: re.Match) -> str:
     return f'\n<div class="terminal-block"><pre class="terminal-pre"><code>{content}</code></pre></div>\n'
 
 
+def _coerce_datetime(raw: object) -> datetime | None:
+    if isinstance(raw, datetime):
+        return raw
+    if isinstance(raw, date):
+        return datetime(raw.year, raw.month, raw.day)
+    if isinstance(raw, str) and raw.strip():
+        return datetime.fromisoformat(raw.strip())
+    return None
+
+
+def _coerce_str_list(raw: object) -> list[str]:
+    if isinstance(raw, str):
+        text = raw.strip()
+        return [text] if text else []
+    if isinstance(raw, (list, tuple)):
+        return [str(item).strip() for item in raw if str(item).strip()]
+    return []
+
+
+def _format_date(value: datetime | None) -> str:
+    return value.strftime('%b %d, %Y') if value else ''
+
+
+def _format_date_range(start: datetime | None, end: datetime | None) -> str:
+    if start and end:
+        if start.date() == end.date():
+            return _format_date(start)
+        if start.year == end.year and start.month == end.month:
+            return f"{start.strftime('%b %d')} - {end.strftime('%d, %Y')}"
+        if start.year == end.year:
+            return f"{start.strftime('%b %d')} - {end.strftime('%b %d, %Y')}"
+        return f"{_format_date(start)} - {_format_date(end)}"
+    return _format_date(start or end)
+
+
+def _normalize_markdown_images(body: str) -> str:
+    lines: list[str] = []
+    in_fence = False
+
+    for line in body.splitlines():
+        stripped = line.lstrip()
+        if stripped.startswith('```'):
+            in_fence = not in_fence
+            lines.append(line)
+            continue
+
+        if not in_fence and (match := _IMAGE_LINE_RE.match(line)):
+            lines.append(f"{match.group('indent')}![{match.group('alt')}]({match.group('src')})")
+            continue
+
+        lines.append(line)
+
+    return '\n'.join(lines)
+
+
 def md_to_html(body: str) -> tuple[str, str]:
+    body = _normalize_markdown_images(body)
     body = _TERMINAL_RE.sub(_terminal_replace, body)
     parser = markdown.Markdown(
         extensions=['fenced_code', 'tables', 'toc', 'codehilite', 'attr_list', 'md_in_html'],
@@ -81,6 +142,7 @@ class Post:
         self.language = str(meta.get('language', 'en')).strip().lower() or 'en'
         if self.language not in _LANGUAGE_META:
             self.language = 'en'
+        self.language_code  = self.language.upper()
         self.language_label = _LANGUAGE_META[self.language]['label']
         self.language_flag  = _LANGUAGE_META[self.language]['flag']
 
@@ -132,7 +194,7 @@ class Post:
             'title': self.title, 'type': self.type, 'author': self.author,
             'tags': self.tags, 'pinned': self.pinned, 'image': self.image,
             'date_str': self.date_str, 'date_iso': self.date_iso,
-            'language': self.language, 'language_label': self.language_label,
+            'language': self.language, 'language_code': self.language_code, 'language_label': self.language_label,
             'language_flag': self.language_flag,
             'url': self.url, 'slug': self.slug,
             'event': self.event, 'event_slug': self.event_slug,
@@ -143,6 +205,41 @@ class Post:
             'platform': self.platform, 'os': self.os,
             'html': self.html, 'toc': self.toc,
             'sources': self.sources, 'solve_files': self.solve_files,
+        }
+
+
+class Event:
+    def __init__(self, slug: str, meta: dict, html: str, dir_path: Path | None = None) -> None:
+        self.slug = slug
+        self.dir = dir_path
+        self.title = str(meta.get('title', slug.replace('-', ' ').title())).strip()
+        self.organizers = _coerce_str_list(meta.get('organizers', meta.get('organizer', [])))
+        self.organizer_countries = _coerce_str_list(
+            meta.get('organizer_countries', meta.get('organizer_country', []))
+        )
+        self.start_date = _coerce_datetime(meta.get('start_date'))
+        self.end_date = _coerce_datetime(meta.get('end_date'))
+        self.date_range = _format_date_range(self.start_date, self.end_date)
+        self.html = html
+
+    @property
+    def start_date_iso(self) -> str:
+        return self.start_date.strftime('%Y-%m-%d') if self.start_date else ''
+
+    @property
+    def end_date_iso(self) -> str:
+        return self.end_date.strftime('%Y-%m-%d') if self.end_date else ''
+
+    def as_dict(self) -> dict:
+        return {
+            'slug': self.slug,
+            'title': self.title,
+            'organizers': self.organizers,
+            'organizer_countries': self.organizer_countries,
+            'date_range': self.date_range,
+            'start_date_iso': self.start_date_iso,
+            'end_date_iso': self.end_date_iso,
+            'html': self.html,
         }
 
 
@@ -198,6 +295,38 @@ def load_about() -> tuple[dict, str]:
     return {}, '<p>Coming soon.</p>'
 
 
+def load_events() -> dict[str, Event]:
+    events: dict[str, Event] = {}
+    if not EVENTS_DIR.exists():
+        return events
+
+    for item in sorted(EVENTS_DIR.iterdir()):
+        md_file: Path | None = None
+        slug: str | None = None
+        dir_path: Path | None = None
+
+        if item.is_dir() and (item / 'index.md').exists():
+            md_file = item / 'index.md'
+            slug = item.name
+            dir_path = item
+        elif item.is_file() and item.suffix == '.md':
+            md_file = item
+            slug = item.stem
+            dir_path = item.parent
+
+        if not md_file or not slug:
+            continue
+
+        try:
+            meta, body = parse_frontmatter(md_file.read_text(encoding='utf-8'))
+            html, _ = md_to_html(body)
+            events[slug] = Event(slug, meta, html, dir_path)
+        except Exception as exc:
+            print(f'  [!] Skipping event {md_file}: {exc}')
+
+    return events
+
+
 def copy_static() -> None:
     if not STATIC_DIR.exists():
         return
@@ -212,8 +341,20 @@ def copy_static() -> None:
 def copy_post_assets(posts: list[Post]) -> None:
     for post in posts:
         base = PUBLIC_DIR / 'posts' / post.slug
-        for subdir in ('assets', 'sources', 'solve'):
+        for subdir in ('assets', 'images', 'sources', 'solve'):
             src = post.dir / subdir
+            if src.exists():
+                shutil.copytree(src, base / subdir, dirs_exist_ok=True)
+
+
+def copy_event_assets(events: list[dict]) -> None:
+    for event in events:
+        dir_path = event.get('dir_path')
+        if not dir_path:
+            continue
+        base = PUBLIC_DIR / 'events' / event['slug']
+        for subdir in ('assets', 'images'):
+            src = Path(dir_path) / subdir
             if src.exists():
                 shutil.copytree(src, base / subdir, dirs_exist_ok=True)
 
@@ -299,17 +440,53 @@ def build_tag_pages(env: Environment, posts: list[Post]) -> None:
                       grouped_tags=[(letter, grouped_tags[letter]) for letter in sorted(grouped_tags)]))
 
 
-def build_event_pages(env: Environment, posts: list[Post]) -> None:
-    events: dict[str, list[Post]] = {}
+def collect_events(posts: list[Post], event_meta: dict[str, Event]) -> list[dict]:
+    grouped: dict[str, list[Post]] = {}
     for post in posts:
         if post.event:
-            events.setdefault(post.event, []).append(post)
+            grouped.setdefault(post.event_slug, []).append(post)
 
-    for event_name, eposts in events.items():
-        event_slug = slugify(event_name)
-        write_page(PUBLIC_DIR / 'events' / event_slug / 'index.html',
-                   render(env, 'event.html', event=event_name, event_slug=event_slug,
-                          posts=[p.as_dict() for p in eposts]))
+    slugs = sorted(set(grouped) | set(event_meta))
+    events: list[dict] = []
+
+    for slug in slugs:
+        meta = event_meta.get(slug)
+        posts_for_event = sorted(grouped.get(slug, []), key=lambda p: p.date, reverse=True)
+        fallback_title = posts_for_event[0].event if posts_for_event else slug.replace('-', ' ').title()
+        event = (meta.as_dict() if meta else {
+            'slug': slug,
+            'title': fallback_title,
+            'organizers': [],
+            'organizer_countries': [],
+            'date_range': '',
+            'start_date_iso': '',
+            'end_date_iso': '',
+            'html': '',
+        })
+        event['title'] = event.get('title') or fallback_title
+        event['posts'] = [p.as_dict() for p in posts_for_event]
+        event['writeup_count'] = len(posts_for_event)
+        event['dir_path'] = str(meta.dir) if meta and meta.dir else ''
+        latest_post = max((p.date for p in posts_for_event), default=datetime.min)
+        event['sort_date'] = meta.end_date or meta.start_date or latest_post
+        events.append(event)
+
+    return sorted(events, key=lambda e: e['sort_date'], reverse=True)
+
+
+def build_event_pages(env: Environment, events: list[dict]) -> None:
+    for event in events:
+        write_page(
+            PUBLIC_DIR / 'events' / event['slug'] / 'index.html',
+            render(env, 'event.html', event=event),
+        )
+
+
+def build_events_index(env: Environment, events: list[dict]) -> None:
+    write_page(
+        PUBLIC_DIR / 'events' / 'index.html',
+        render(env, 'events_list.html', events=events, event_total=len(events)),
+    )
 
 
 def build_about(env: Environment) -> None:
@@ -327,6 +504,8 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
 
     print('  [+] Discovering content...')
     posts = discover_posts(include_drafts=include_drafts)
+    event_meta = load_events()
+    events = collect_events(posts, event_meta)
     print(f'      {len(posts)} post(s)')
 
     env = make_env(config)
@@ -345,11 +524,13 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     build_post_pages(env, posts)
     build_posts_list(env, posts, config)
     build_tag_pages(env, posts)
-    build_event_pages(env, posts)
+    build_event_pages(env, events)
+    build_events_index(env, events)
     build_about(env)
 
     print('  [+] Post assets...')
     copy_post_assets(posts)
+    copy_event_assets(events)
 
     print('  [✓] Done → public/')
 

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Events — {{ config.site.title }}{% endblock %}
+
+{% block content %}
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div>
+      <p class="font-mono text-xs text-muted mb-1">index</p>
+      <h1 class="font-mono text-2xl font-bold text-body">
+        <span class="text-cyan">~/</span>events
+      </h1>
+    </div>
+    <p class="font-mono text-xs text-dim">{{ event_total }} event(s)</p>
+  </div>
+
+  {% if events %}
+  <div class="grid gap-4">
+    {% for event in events %}
+    <article class="event-card">
+      <a href="/events/{{ event.slug }}/" class="event-card__link">
+        <div class="event-card__top">
+          <h2 class="event-card__title">{{ event.title }}</h2>
+          <span class="event-card__count">{{ event.writeup_count }} writeup(s)</span>
+        </div>
+        <div class="event-card__meta">
+          {% if event.date_range %}<span>{{ event.date_range }}</span>{% endif %}
+          {% if event.organizers %}<span>{{ event.organizers | join(', ') }}</span>{% endif %}
+          {% if event.organizer_countries %}<span>{{ event.organizer_countries | join(', ') }}</span>{% endif %}
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="font-mono text-muted text-sm">No events yet.</p>
+  {% endif %}
+
+{% endblock %}

@@ -8,6 +8,7 @@ tags               = ["pwn", "stack", "ret2libc", "aslr"]
 event              = "FCSC 2024"
 category           = "pwn"
 difficulty         = "medium"
+stars              = 2
 solves             = 38
 challenge_author   = "erdnaxe"
 challenge_author_url = "https://twitter.com/erdnaxe"
