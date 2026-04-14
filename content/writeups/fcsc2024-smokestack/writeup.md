@@ -3,6 +3,7 @@ type               = "ctf"
 title              = "smokestack"
 author             = "conflict"
 date               = "2024-04-14"
+language           = "en"
 tags               = ["pwn", "stack", "ret2libc", "aslr"]
 event              = "FCSC 2024"
 category           = "pwn"

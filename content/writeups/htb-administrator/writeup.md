@@ -3,10 +3,12 @@ type       = "box"
 title      = "Administrator"
 author     = "conflict"
 date       = "2024-11-23"
+language   = "fr"
 tags       = ["windows", "active-directory", "kerberos", "acl-abuse", "dacl"]
 platform   = "hackthebox"
 os         = "windows"
 difficulty = "medium"
+rating     = 8
 pinned     = false
 +++
 

@@ -24,6 +24,10 @@ PUBLIC_DIR    = ROOT / "public"
 CONFIG_FILE   = ROOT / "config.toml"
 
 _TERMINAL_RE = re.compile(r'```terminal\n(.*?)\n```', re.DOTALL)
+_LANGUAGE_META = {
+    'en': {'label': 'English', 'flag': '/flags/us.svg'},
+    'fr': {'label': 'French',  'flag': '/flags/fr.svg'},
+}
 
 
 def load_config() -> dict:
@@ -51,8 +55,8 @@ def md_to_html(body: str) -> tuple[str, str]:
     parser = markdown.Markdown(
         extensions=['fenced_code', 'tables', 'toc', 'codehilite', 'attr_list', 'md_in_html'],
         extension_configs={
-            'codehilite': {'css_class': 'highlight', 'guess_lang': False, 'use_pygments': True},
-            'toc': {'permalink': True},
+            'codehilite': {'css_class': 'highlight', 'guess_lang': True, 'use_pygments': True},
+            'toc': {},
         },
     )
     html = parser.convert(body)
@@ -74,6 +78,11 @@ class Post:
         self.pinned = bool(meta.get('pinned', False))
         self.image  = meta.get('image')
         self.draft  = bool(meta.get('draft', False))
+        self.language = str(meta.get('language', 'en')).strip().lower() or 'en'
+        if self.language not in _LANGUAGE_META:
+            self.language = 'en'
+        self.language_label = _LANGUAGE_META[self.language]['label']
+        self.language_flag  = _LANGUAGE_META[self.language]['flag']
 
         raw = meta.get('date')
         if isinstance(raw, datetime):
@@ -123,6 +132,8 @@ class Post:
             'title': self.title, 'type': self.type, 'author': self.author,
             'tags': self.tags, 'pinned': self.pinned, 'image': self.image,
             'date_str': self.date_str, 'date_iso': self.date_iso,
+            'language': self.language, 'language_label': self.language_label,
+            'language_flag': self.language_flag,
             'url': self.url, 'slug': self.slug,
             'event': self.event, 'event_slug': self.event_slug,
             'category': self.category, 'difficulty': self.difficulty, 'stars': self.stars,

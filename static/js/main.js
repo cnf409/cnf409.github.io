@@ -39,9 +39,60 @@
     });
   }
 
+  // ── Copy buttons on code blocks ──────────────────────────
+  function initCodeCopy() {
+    const blocks = document.querySelectorAll('.highlight, .terminal-block');
+    if (!blocks.length) return;
+
+    blocks.forEach((block) => {
+      if (block.querySelector('.code-copy-btn')) return;
+      const code = block.querySelector('code');
+      if (!code) return;
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'code-copy-btn';
+      button.textContent = 'copy';
+
+      button.addEventListener('click', async () => {
+        const text = code.innerText;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+          }
+
+          button.textContent = 'copied';
+          button.classList.add('is-copied');
+          window.setTimeout(() => {
+            button.textContent = 'copy';
+            button.classList.remove('is-copied');
+          }, 1400);
+        } catch (_) {
+          button.textContent = 'failed';
+          window.setTimeout(() => {
+            button.textContent = 'copy';
+          }, 1400);
+        }
+      });
+
+      block.appendChild(button);
+    });
+  }
+
   // ── Init ──────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     markActiveNav();
+    initCodeCopy();
   });
 })();

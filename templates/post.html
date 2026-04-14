@@ -1,25 +1,33 @@
 {% extends "base.html" %}
-{% from "macros.html" import type_badge, difficulty_label %}
+{% from "macros.html" import type_badge, difficulty_label, language_flag %}
 
 {% block title %}{{ post.title }} — {{ config.site.title }}{% endblock %}
 {% block description %}{% if post.type == 'ctf' %}CTF writeup — {{ post.event }} · {{ post.category }}{% elif post.type == 'box' %}Box writeup — {{ post.platform }} · {{ post.os }} · {{ post.difficulty }}{% endif %}{% endblock %}
 
 {% block content %}
-<article class="max-w-3xl mx-auto">
+<div class="post-layout">
+<article class="post-main">
 
   <header class="mb-8">
     <div class="flex items-center gap-2 mb-3">
       {{ type_badge(post.type) }}
     </div>
 
-    <h1 class="post-title text-2xl sm:text-3xl font-bold text-body mb-4 leading-tight">
+    <div class="post-title text-2xl sm:text-3xl font-bold text-body mb-4 leading-tight">
       {% if post.type == 'ctf' and post.event %}
         <a href="/events/{{ post.event_slug }}/" class="post-event-title">{{ post.event }}</a>
       {% endif %}
-      <span>{{ post.title }}</span>
-    </h1>
+      {% if post.type == 'box' and post.platform %}
+        <div class="post-event-title post-event-title--box">{{ post.platform }}</div>
+      {% endif %}
+      <div class="post-title-main">
+        {{ language_flag(post, variant='hero') }}
+        <span>{{ post.title }}</span>
+      </div>
+    </div>
 
     <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted font-mono">
+      <span>{{ post.language_label }}</span>
       {% if post.author %}
         <span>by <span class="text-body">{{ post.author }}</span></span>
       {% endif %}
@@ -110,9 +118,19 @@
         {% endif %}
 
         {% if post.difficulty or post.stars %}
-        <div>
+      <div>
           <dt class="info-dt">Difficulty</dt>
           <dd class="info-dd">{{ difficulty_label(post.difficulty, post.stars) }}</dd>
+        </div>
+        {% endif %}
+
+        {% if post.rating is not none %}
+        <div>
+          <dt class="info-dt">Personal rating</dt>
+          <dd class="info-dd">
+            <span class="text-yellow font-semibold">{{ post.rating }}</span>
+            <span class="text-dim">/10</span>
+          </dd>
         </div>
         {% endif %}
       {% endif %}
@@ -196,4 +214,15 @@
   {% endif %}
 
 </article>
+{% if post.toc and '<li>' in post.toc %}
+<aside class="post-sidebar">
+  <div class="post-toc">
+    <div class="post-toc__label">Summary</div>
+    <div class="post-toc__content">
+      {{ post.toc | safe }}
+    </div>
+  </div>
+</aside>
+{% endif %}
+</div>
 {% endblock %}

@@ -3,6 +3,7 @@ type   = "post"
 title  = "PHP Type Juggling — what it is and why it matters"
 author = "conflict"
 date   = "2023-01-07"
+language = "en"
 tags   = ["php", "web", "educative", "type-juggling"]
 pinned = false
 +++
@@ -64,6 +65,7 @@ MD5("aabg74560")  = 0e087386482136013740957780965295
 Always use strict comparison (`===`) when comparing security-sensitive values:
 
 ```php
+<?php
 if ($_POST['password'] === $stored_hash) {
     // safe
 }
@@ -72,6 +74,7 @@ if ($_POST['password'] === $stored_hash) {
 Or better, use `password_verify()` which is constant-time and uses `===` internally.
 
 ```php
+<?php
 if (password_verify($_POST['password'], $stored_hash)) {
     // correct and safe
 }
