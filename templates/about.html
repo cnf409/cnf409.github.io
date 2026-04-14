@@ -3,46 +3,50 @@
 {% block title %}About — {{ config.site.title }}{% endblock %}
 
 {% block content %}
-<div class="about-shell max-w-4xl mx-auto">
-  <section class="about-hero mb-10">
-    {% if meta.avatar %}
-    <div class="about-avatar-wrap flex-shrink-0">
-      <img src="{{ meta.avatar }}" alt="{{ meta.name or config.site.title }}"
-           class="about-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover">
-    </div>
-    {% endif %}
-
-    <div class="flex-1 min-w-0">
-      <p class="font-mono text-xs uppercase tracking-[0.3em] text-cyan/70 mb-3">about</p>
-      <h1 class="font-mono text-3xl sm:text-4xl font-bold text-body mb-3">
-        {{ meta.name or config.site.title }}
-      </h1>
-      {% if meta.tagline %}
-        <p class="text-muted max-w-2xl">{{ meta.tagline }}</p>
-      {% endif %}
-      <div class="about-meta mt-4">
-        {% if meta.location %}
-          <span>based in {{ meta.location }}</span>
+<div class="about-shell max-w-5xl mx-auto">
+  <div class="about-layout">
+    <div class="about-main">
+      <section class="about-hero mb-8">
+        {% if meta.avatar %}
+        <div class="about-avatar-wrap flex-shrink-0">
+          <img src="{{ meta.avatar }}" alt="{{ meta.name or config.site.title }}"
+               class="about-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover">
+        </div>
         {% endif %}
-        {% if meta.school %}
-          <span>{{ meta.school }}</span>
-        {% endif %}
-      </div>
-    </div>
-  </section>
 
-  <section class="about-panel mb-8">
-    <div class="post-content about-copy">
-      {{ html | safe }}
-    </div>
-  </section>
+        <div class="flex-1 min-w-0">
+          <p class="font-mono text-xs uppercase tracking-[0.3em] text-cyan/70 mb-3">about</p>
+          <h1 class="font-mono text-3xl sm:text-4xl font-bold text-body mb-3">
+            {{ meta.name or config.site.title }}
+          </h1>
+          {% if meta.tagline %}
+            <p class="text-muted max-w-2xl">{{ meta.tagline }}</p>
+          {% endif %}
+          <div class="about-meta mt-4">
+            {% if meta.location %}
+              <span>📍 based in {{ meta.location }}</span>
+            {% endif %}
+            {% if meta.school %}
+              <span>🎓 {{ meta.school }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </section>
 
-  <section class="about-panel about-panel--soft">
-    <div class="flex items-center justify-between gap-4 mb-5">
-      <h2 class="font-mono text-xs font-bold uppercase tracking-widest text-cyan">Connections</h2>
-      <span class="font-mono text-[11px] text-dim">places you can find me</span>
+      <section class="about-panel">
+        <div class="post-content about-copy">
+          {{ html | safe }}
+        </div>
+      </section>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+    <aside class="about-sidebar">
+      <section class="about-panel about-panel--soft">
+        <div class="mb-5">
+          <h2 class="font-mono text-xs font-bold uppercase tracking-widest text-cyan mb-1">Connections</h2>
+          <span class="font-mono text-[11px] text-dim">places you can find me</span>
+        </div>
+        <div class="grid grid-cols-1 gap-3">
 
       {% if config.social.linkedin %}
       <a href="{{ config.social.linkedin }}" class="social-link" target="_blank" rel="noopener">
@@ -98,7 +102,9 @@
       </a>
       {% endif %}
 
-    </div>
-  </section>
+        </div>
+      </section>
+    </aside>
+  </div>
 </div>
 {% endblock %}

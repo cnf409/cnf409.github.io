@@ -53,15 +53,15 @@
 .post-title { animation: glitchIn 0.8s ease-out forwards; }
 .post-event-title {
   display: block;
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.85rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.95rem;
+  font-size: clamp(1.1rem, 2.3vw, 1.5rem);
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--cyan);
   text-decoration: none;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.18);
+  text-shadow: 0 0 14px rgba(0, 240, 255, 0.22);
 }
 .post-event-title:hover { color: #7ff7ff; }
 
@@ -110,10 +110,11 @@
 }
 .post-card__eyebrow {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  line-height: 1.3;
 }
 .post-card__eyebrow--ctf { color: var(--cyan); }
 .post-card__eyebrow--box { color: var(--magenta); }
@@ -145,6 +146,10 @@
 .post-card__title--featured {
   font-size: 1.08rem;
   line-height: 1.32;
+}
+.post-card__title--list {
+  font-size: 1.05rem;
+  line-height: 1.35;
 }
 .post-card:hover .post-card__title { color: var(--cyan); }
 
@@ -488,6 +493,28 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   .about-hero {
     flex-direction: row;
     align-items: center;
+  }
+}
+.about-layout {
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr) 290px;
+  }
+}
+.about-main {
+  min-width: 0;
+}
+.about-sidebar {
+  min-width: 0;
+}
+@media (min-width: 1024px) {
+  .about-sidebar {
+    position: sticky;
+    top: 5.75rem;
   }
 }
 .about-meta {
