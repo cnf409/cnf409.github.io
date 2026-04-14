@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}404 — Page Not Found — {{ config.site.title }}{% endblock %}
+{% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/404/">{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+
+  <div class="font-mono font-bold select-none mb-6" style="font-size: clamp(4rem, 15vw, 8rem); line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(0,240,255,0.25);">
+    404
+  </div>
+
+  <h1 class="font-mono text-xl sm:text-2xl font-bold text-body mb-3">
+    <span class="text-cyan">~/</span>page-not-found
+  </h1>
+
+  <p class="text-muted text-sm mb-2 max-w-sm">
+    Cette page n'existe pas ou a été déplacée.
+  </p>
+  <p class="text-dim text-xs font-mono mb-10">
+    Il s'agit peut-être d'un draft non encore publié.
+  </p>
+
+  <div class="flex gap-4">
+    <a href="/"       class="home-link">home</a>
+    <a href="/posts/" class="home-link">all posts</a>
+  </div>
+
+</div>
+{% endblock %}

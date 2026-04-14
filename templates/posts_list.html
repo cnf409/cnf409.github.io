@@ -2,6 +2,11 @@
 {% from "macros.html" import post_card %}
 
 {% block title %}Posts — {{ config.site.title }}{% endblock %}
+{% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}{{ canonical_url }}">{% endblock %}
+{% block head %}
+  {% if prev_url %}<link rel="prev" href="{{ config.site.base_url }}{{ prev_url }}">{% endif %}
+  {% if next_url %}<link rel="next" href="{{ config.site.base_url }}{{ next_url }}">{% endif %}
+{% endblock %}
 
 {% block content %}
 

@@ -22,6 +22,12 @@
 {%- endif %}
 
 {% block description %}{{ _desc | e }}{% endblock %}
+{% block keywords %}{{ post.keywords | e }}{% endblock %}
+{% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}{{ post.url }}">{% endblock %}
+{% block hreflang %}
+<link rel="alternate" hreflang="{{ post.language }}" href="{{ config.site.base_url }}{{ post.url }}">
+<link rel="alternate" hreflang="x-default"           href="{{ config.site.base_url }}{{ post.url }}">
+{% endblock %}
 
 {% block og %}
 <!-- Open Graph -->
@@ -47,6 +53,43 @@
 <meta name="twitter:image"       content="{{ _og_image }}">
 <!-- Discord theme color (neon rose) -->
 <meta name="theme-color" content="#ff0080">
+{% endblock %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ post.title | tojson }},
+  "description": {{ _desc | tojson }},
+  "url": {{ (config.site.base_url ~ post.url) | tojson }},
+  "image": {{ _og_image | tojson }},
+  "inLanguage": {{ post.language | tojson }},
+  {% if post.date_iso %}"datePublished": "{{ post.date_iso }}T00:00:00+00:00",{% endif %}
+  "author": {
+    "@type": "Person",
+    "name": {{ config.site.author | tojson }},
+    "url": {{ (config.site.base_url ~ "/about/") | tojson }}
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": {{ config.site.author | tojson }},
+    "url": {{ config.site.base_url | tojson }}
+  }{% if post.tags %},
+  "keywords": {{ post.tags | tojson }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home",  "item": {{ config.site.base_url | tojson }}},
+    {"@type": "ListItem", "position": 2, "name": "Posts", "item": {{ (config.site.base_url ~ "/posts/") | tojson }}},
+    {"@type": "ListItem", "position": 3, "name": {{ post.title | tojson }}, "item": {{ (config.site.base_url ~ post.url) | tojson }}}
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ config.site.title }}{% endblock %}</title>
   <meta name="description" content="{% block description %}{{ config.site.description }}{% endblock %}">
+  <meta name="keywords"    content="{% block keywords %}{{ config.site.keywords.terms | join(', ') | e }}{% endblock %}">
+  <meta name="author"      content="{{ config.site.author | e }}">
+  {% block robots %}<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">{% endblock %}
 
   {% block og %}
   <!-- Open Graph -->
@@ -28,6 +31,9 @@
   <meta name="theme-color" content="#ff0080">
   {% endblock %}
 
+  {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
+  {% block hreflang %}<link rel="alternate" hreflang="x-default" href="{{ config.site.base_url }}/">{% endblock %}
+
   <link rel="icon" type="image/jpeg" href="/img/pfp.jpg">
 
   <link rel="stylesheet" href="/css/tailwind.css?v={{ now.strftime('%Y%m%d%H%M%S') }}">
@@ -35,6 +41,7 @@
   <link rel="stylesheet" href="/css/custom.css?v={{ now.strftime('%Y%m%d%H%M%S') }}">
 
   {% block head %}{% endblock %}
+  {% block jsonld %}{% endblock %}
 </head>
 <body class="bg-bg text-body font-sans min-h-screen flex flex-col antialiased">
   <header class="site-header sticky top-0 z-50 border-b border-line/60 bg-bg/90 backdrop-blur-md">

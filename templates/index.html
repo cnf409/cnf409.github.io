@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 {% from "macros.html" import post_card %}
 
+{% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ config.site.title | tojson }},
+  "url": {{ config.site.base_url | tojson }},
+  "description": {{ config.site.description | tojson }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ config.site.author | tojson }},
+  "url": {{ config.site.base_url | tojson }},
+  "sameAs": [
+    {{ config.social.twitter | tojson }},
+    {{ config.social.github | tojson }},
+    {{ config.social.linkedin | tojson }}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block og %}
 <!-- Open Graph — Homepage -->
 <meta property="og:site_name"   content="{{ config.site.title | e }}">

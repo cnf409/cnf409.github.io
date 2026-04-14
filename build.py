@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import http.server
+import json
 import re
 import shutil
 import subprocess
@@ -190,6 +191,15 @@ class Post:
     def date_iso(self) -> str:
         return '' if self.date == datetime.min else self.date.strftime('%Y-%m-%d')
 
+    @property
+    def keywords(self) -> str:
+        """Auto-generate keywords from tags + contextual metadata."""
+        kws: list[str] = list(self.tags)
+        for extra in (self.event, self.category, self.platform, self.os):
+            if extra and extra not in kws:
+                kws.append(extra)
+        return ', '.join(kws)
+
     def as_dict(self) -> dict:
         return {
             'title': self.title, 'type': self.type, 'author': self.author,
@@ -205,6 +215,7 @@ class Post:
             'rating': self.rating, 'flag': self.flag,
             'platform': self.platform, 'os': self.os,
             'description': self.description,
+            'keywords': self.keywords,
             'html': self.html, 'toc': self.toc,
             'sources': self.sources, 'solve_files': self.solve_files,
         }
@@ -276,6 +287,7 @@ def make_env(config: dict) -> Environment:
     env.globals['config']  = config
     env.globals['now']     = datetime.now()
     env.globals['slugify'] = slugify
+    env.filters['tojson']  = lambda v: json.dumps(v, ensure_ascii=False)
     return env
 
 
@@ -406,12 +418,14 @@ def build_posts_list(env: Environment, posts: list[Post], config: dict) -> None:
     total    = len(chunks)
 
     for i, chunk in enumerate(chunks):
-        page_num = i + 1
-        prev_url = None if i == 0 else ('/posts/' if i == 1 else f'/posts/page/{i}/')
-        next_url = f'/posts/page/{i + 2}/' if page_num < total else None
+        page_num     = i + 1
+        prev_url     = None if i == 0 else ('/posts/' if i == 1 else f'/posts/page/{i}/')
+        next_url     = f'/posts/page/{i + 2}/' if page_num < total else None
+        canonical_url = '/posts/' if page_num == 1 else f'/posts/page/{page_num}/'
         ctx = dict(posts=[p.as_dict() for p in chunk],
                    page_num=page_num, total_pages=total,
-                   prev_url=prev_url, next_url=next_url)
+                   prev_url=prev_url, next_url=next_url,
+                   canonical_url=canonical_url)
         html = render(env, 'posts_list.html', **ctx)
         if i == 0:
             write_page(PUBLIC_DIR / 'posts' / 'index.html', html)
@@ -497,6 +511,54 @@ def build_about(env: Environment) -> None:
                render(env, 'about.html', meta=meta, html=html))
 
 
+def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
+    base = config['site']['base_url'].rstrip('/')
+
+    urls: list[dict] = [
+        {'loc': f'{base}/',        'changefreq': 'weekly',  'priority': '1.0'},
+        {'loc': f'{base}/posts/',  'changefreq': 'weekly',  'priority': '0.8'},
+        {'loc': f'{base}/events/', 'changefreq': 'monthly', 'priority': '0.6'},
+        {'loc': f'{base}/tags/',   'changefreq': 'monthly', 'priority': '0.5'},
+        {'loc': f'{base}/about/',  'changefreq': 'monthly', 'priority': '0.7'},
+    ]
+
+    for post in posts:
+        entry: dict = {'loc': f'{base}{post.url}', 'changefreq': 'monthly', 'priority': '0.9'}
+        if post.date != datetime.min:
+            entry['lastmod'] = post.date.strftime('%Y-%m-%d')
+        urls.append(entry)
+
+    for event in events:
+        urls.append({'loc': f'{base}/events/{event["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6'})
+
+    tags: set[str] = set()
+    for post in posts:
+        tags.update(post.tags)
+    for tag in sorted(tags):
+        urls.append({'loc': f'{base}/tags/{slugify(tag)}/', 'changefreq': 'monthly', 'priority': '0.4'})
+
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for url in urls:
+        lines.append('  <url>')
+        lines.append(f'    <loc>{url["loc"]}</loc>')
+        if 'lastmod' in url:
+            lines.append(f'    <lastmod>{url["lastmod"]}</lastmod>')
+        lines.append(f'    <changefreq>{url["changefreq"]}</changefreq>')
+        lines.append(f'    <priority>{url["priority"]}</priority>')
+        lines.append('  </url>')
+    lines.append('</urlset>')
+
+    (PUBLIC_DIR / 'sitemap.xml').write_text('\n'.join(lines), encoding='utf-8')
+    print('  [+] Sitemap generated')
+
+
+def build_404(env: Environment) -> None:
+    write_page(PUBLIC_DIR / '404.html', render(env, '404.html'))
+
+
 def build(config: dict, clean: bool = False, include_drafts: bool = False) -> None:
     if clean and PUBLIC_DIR.exists():
         shutil.rmtree(PUBLIC_DIR)
@@ -533,6 +595,10 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     print('  [+] Post assets...')
     copy_post_assets(posts)
     copy_event_assets(events)
+
+    print('  [+] Sitemap & 404...')
+    build_sitemap(config, posts, events)
+    build_404(env)
 
     print('  [✓] Done → public/')
 
