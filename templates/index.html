@@ -3,39 +3,40 @@
 
 {% block content %}
 
-  <!-- Hero -->
-  <section class="mb-12 flex items-center gap-5 sm:gap-7">
+  <section class="home-hero">
     {% if about.avatar %}
-    <div class="flex-shrink-0">
+    <div class="home-avatar-wrap flex-shrink-0">
       <img src="{{ about.avatar }}" alt="{{ about.name or config.site.title }}"
-           class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-cyan/20">
+           class="home-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover">
     </div>
     {% endif %}
-    <div>
-      <h1 class="font-mono text-2xl sm:text-3xl font-bold text-body mb-1">
-        <span class="text-cyan">~</span>/conflict
-      </h1>
-      <p class="text-muted text-sm">security research · CTF player</p>
+
+    <div class="home-hero__copy">
+      <p class="font-mono text-xs uppercase tracking-[0.3em] text-cyan/70 mb-3">cybersecurity blog</p>
+      <h1 class="home-hero__title">{{ about.name or config.site.title }}</h1>
+      <p class="home-hero__subtitle">{{ about.tagline or config.site.description }}</p>
+
+      <div class="home-hero__links">
+        <a href="/posts/" class="home-link">all posts</a>
+        <a href="/about/" class="home-link">about</a>
+      </div>
     </div>
   </section>
 
-  <!-- Pinned posts -->
   {% if pinned %}
-  <section>
+  <section class="pt-2">
     <div class="flex items-center justify-between mb-4">
-      <span class="section-heading text-magenta font-mono text-xs font-bold uppercase tracking-widest">pinned</span>
-      <a href="/posts/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">all posts →</a>
+      <span class="section-heading text-magenta font-mono text-xs font-bold uppercase tracking-widest">Pinned</span>
+      <a href="/posts/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">browse all →</a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div class="home-pinned-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       {% for post in pinned %}
         {{ post_card(post, featured=true) }}
       {% endfor %}
     </div>
   </section>
   {% else %}
-  <div class="pt-6">
-    <a href="/posts/" class="font-mono text-sm text-dim hover:text-cyan transition-colors">all posts →</a>
-  </div>
+  <p class="font-mono text-sm text-dim">No pinned posts yet. <a href="/posts/" class="hover:text-cyan transition-colors">Browse all posts</a>.</p>
   {% endif %}
 
 {% endblock %}

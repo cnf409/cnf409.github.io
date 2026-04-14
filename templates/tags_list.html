@@ -4,14 +4,20 @@
 
 {% block content %}
 
-  <h1 class="font-mono text-2xl font-bold text-body mb-8">
-    <span class="text-cyan">~/</span>tags
-  </h1>
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div>
+      <p class="font-mono text-xs text-muted mb-1">index</p>
+      <h1 class="font-mono text-2xl font-bold text-body">
+        <span class="text-cyan">~/</span>tags
+      </h1>
+    </div>
+    <p class="font-mono text-xs text-dim">{{ tag_total }} tag(s), grouped alphabetically</p>
+  </div>
 
   {% if grouped_tags %}
     {% for letter, group in grouped_tags %}
-    <div class="mb-7">
-      <h2 class="font-mono text-xs font-bold text-dim uppercase tracking-widest mb-3 pb-1 border-b border-line/30">{{ letter }}</h2>
+    <section class="tags-group mb-7">
+      <h2 class="tags-group__letter">{{ letter }}</h2>
       <div class="flex flex-wrap gap-2">
         {% for tag, tag_slug, count in group %}
         <a href="/tags/{{ tag_slug }}/" class="tag-pill">
@@ -20,7 +26,7 @@
         </a>
         {% endfor %}
       </div>
-    </div>
+    </section>
     {% endfor %}
   {% else %}
   <p class="font-mono text-muted text-sm">No tags yet.</p>

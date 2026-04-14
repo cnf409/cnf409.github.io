@@ -178,6 +178,15 @@ def render(env: Environment, template: str, **ctx) -> str:
     return env.get_template(template).render(**ctx)
 
 
+def load_about() -> tuple[dict, str]:
+    about_file = ROOT / 'about.md'
+    if about_file.exists():
+        meta, body = parse_frontmatter(about_file.read_text(encoding='utf-8'))
+        html, _    = md_to_html(body)
+        return meta, html
+    return {}, '<p>Coming soon.</p>'
+
+
 def copy_static() -> None:
     if not STATIC_DIR.exists():
         return
@@ -226,9 +235,9 @@ def run_tailwind() -> None:
 
 
 def build_index(env: Environment, posts: list[Post]) -> None:
-    pinned = [p.as_dict() for p in posts if p.pinned]
-    recent = [p.as_dict() for p in posts if not p.pinned][:10]
-    write_page(PUBLIC_DIR / 'index.html', render(env, 'index.html', pinned=pinned, recent=recent))
+    about_meta, _ = load_about()
+    pinned = [p.as_dict() for p in posts if p.pinned][:4]
+    write_page(PUBLIC_DIR / 'index.html', render(env, 'index.html', about=about_meta, pinned=pinned))
 
 
 def build_post_pages(env: Environment, posts: list[Post]) -> None:
@@ -268,9 +277,15 @@ def build_tag_pages(env: Environment, posts: list[Post]) -> None:
                           posts=[p.as_dict() for p in tposts]))
 
     all_tags = sorted(tags, key=str.lower)
+    grouped_tags: dict[str, list[tuple[str, str, int]]] = {}
+    for tag in all_tags:
+        letter = tag[0].upper() if tag and tag[0].isalnum() else '#'
+        grouped_tags.setdefault(letter, []).append((tag, slugify(tag), len(tags[tag])))
+
     write_page(PUBLIC_DIR / 'tags' / 'index.html',
                render(env, 'tags_list.html',
-                      tags=[(t, slugify(t), len(tags[t])) for t in all_tags]))
+                      tag_total=len(all_tags),
+                      grouped_tags=[(letter, grouped_tags[letter]) for letter in sorted(grouped_tags)]))
 
 
 def build_event_pages(env: Environment, posts: list[Post]) -> None:
@@ -287,12 +302,7 @@ def build_event_pages(env: Environment, posts: list[Post]) -> None:
 
 
 def build_about(env: Environment) -> None:
-    about_file = ROOT / 'about.md'
-    if about_file.exists():
-        meta, body = parse_frontmatter(about_file.read_text(encoding='utf-8'))
-        html, _    = md_to_html(body)
-    else:
-        meta, html = {}, '<p>Coming soon.</p>'
+    meta, html = load_about()
     write_page(PUBLIC_DIR / 'about' / 'index.html',
                render(env, 'about.html', meta=meta, html=html))
 

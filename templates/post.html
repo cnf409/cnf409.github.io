@@ -7,19 +7,16 @@
 {% block content %}
 <article class="max-w-3xl mx-auto">
 
-  <!-- ── Post header ─────────────────────────────────────── -->
   <header class="mb-8">
     <div class="flex items-center gap-2 mb-3">
       {{ type_badge(post.type) }}
-      {% if post.type == 'ctf' and post.event %}
-        <a href="/events/{{ post.event_slug }}/" class="font-mono text-xs text-cyan/80 hover:text-cyan transition-colors">
-          {{ post.event }}
-        </a>
-      {% endif %}
     </div>
 
     <h1 class="post-title text-2xl sm:text-3xl font-bold text-body mb-4 leading-tight">
-      {{ post.title }}
+      {% if post.type == 'ctf' and post.event %}
+        <a href="/events/{{ post.event_slug }}/" class="post-event-title">{{ post.event }}</a>
+      {% endif %}
+      <span>{{ post.title }}</span>
     </h1>
 
     <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted font-mono">
