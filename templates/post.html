@@ -42,6 +42,7 @@
 <meta property="og:image:height" content="400">
 <!-- Article metadata (LinkedIn, Facebook) -->
 {% if post.date_iso %}<meta property="article:published_time" content="{{ post.date_iso }}T00:00:00+00:00">{% endif %}
+{% if post.last_updated_iso %}<meta property="article:modified_time" content="{{ post.last_updated_iso }}T00:00:00+00:00">{% endif %}
 {% for tag in post.tags %}<meta property="article:tag" content="{{ tag | e }}">
 {% endfor %}
 <!-- Twitter / X -->
@@ -66,6 +67,7 @@
   "image": {{ _og_image | tojson }},
   "inLanguage": {{ post.language | tojson }},
   {% if post.date_iso %}"datePublished": "{{ post.date_iso }}T00:00:00+00:00",{% endif %}
+  {% if post.last_updated_iso %}"dateModified": "{{ post.last_updated_iso }}T00:00:00+00:00",{% endif %}
   "author": {
     "@type": "Person",
     "name": {{ config.site.author | tojson }},
@@ -121,6 +123,35 @@
       {% if post.date_str %}
         <time datetime="{{ post.date_iso }}" class="text-dim">{{ post.date_str }}</time>
       {% endif %}
+    </div>
+
+    <div class="post-tools">
+      <div class="post-tools__meta">
+        {% if post.type in ['ctf', 'box'] %}
+        <span class="post-tools__pill">
+          <span class="post-tools__pill-icon" aria-hidden="true">⏱</span>
+          <span>{{ post.reading_time_label }}</span>
+        </span>
+        {% endif %}
+        {% if post.type in ['ctf', 'box'] and post.last_updated_iso %}
+        <time datetime="{{ post.last_updated_iso }}" class="post-tools__pill">
+          <span class="post-tools__pill-icon" aria-hidden="true">↻</span>
+          <span>updated {{ post.last_updated_str }}</span>
+        </time>
+        {% endif %}
+      </div>
+
+      <div class="post-tools__actions">
+        <button
+          type="button"
+          class="post-share-btn"
+          data-share-post
+          data-share-title="{{ post.title }} — {{ config.site.title }}"
+          data-default-label="share">
+          <span class="post-share-btn__icon" aria-hidden="true">↗</span>
+          <span data-button-label>share</span>
+        </button>
+      </div>
     </div>
   </header>
   {% if post.type in ['ctf', 'box'] %}
@@ -303,6 +334,47 @@
     {% endif %}
 
   </div>
+  {% endif %}
+
+  {% if newer_post or older_post %}
+  <section class="post-end-nav">
+    <div class="post-end-nav__intro">
+      <h2 class="post-end-nav__title">Keep Reading</h2>
+      <p class="post-end-nav__copy">Jump to the next article without going back to the archive.</p>
+    </div>
+
+    <div class="post-end-nav__grid{% if not newer_post or not older_post %} post-end-nav__grid--single{% endif %}">
+      {% if newer_post %}
+      <a href="{{ newer_post.url }}" class="post-end-nav-card post-end-nav-card--newer">
+        <span class="post-end-nav-card__direction">← newer</span>
+        <div class="post-end-nav-card__meta">
+          <span>{{ newer_post.type | upper }}</span>
+          {% if newer_post.context_label %}<span>{{ newer_post.context_label }}</span>{% endif %}
+          {% if newer_post.date_str %}<span>{{ newer_post.date_str }}</span>{% endif %}
+        </div>
+        <h3 class="post-end-nav-card__title">{{ newer_post.title }}</h3>
+        {% if newer_post.description or newer_post.excerpt %}
+        <p class="post-end-nav-card__copy">{{ newer_post.description or newer_post.excerpt }}</p>
+        {% endif %}
+      </a>
+      {% endif %}
+
+      {% if older_post %}
+      <a href="{{ older_post.url }}" class="post-end-nav-card post-end-nav-card--older">
+        <span class="post-end-nav-card__direction">older →</span>
+        <div class="post-end-nav-card__meta">
+          <span>{{ older_post.type | upper }}</span>
+          {% if older_post.context_label %}<span>{{ older_post.context_label }}</span>{% endif %}
+          {% if older_post.date_str %}<span>{{ older_post.date_str }}</span>{% endif %}
+        </div>
+        <h3 class="post-end-nav-card__title">{{ older_post.title }}</h3>
+        {% if older_post.description or older_post.excerpt %}
+        <p class="post-end-nav-card__copy">{{ older_post.description or older_post.excerpt }}</p>
+        {% endif %}
+      </a>
+      {% endif %}
+    </div>
+  </section>
   {% endif %}
 
 </article>

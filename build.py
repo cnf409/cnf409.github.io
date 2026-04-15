@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import http.server
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -10,6 +11,7 @@ import sys
 import threading
 import tomllib
 from datetime import date, datetime
+from html import unescape as html_unescape
 from pathlib import Path
 from urllib.parse import quote
 
@@ -46,6 +48,13 @@ _IMAGE_LINE_RE = re.compile(
     re.IGNORECASE,
 )
 _FLAG_MARKER_RE = re.compile(r'\[\[!FLAG\]\]')
+_FENCED_CODE_RE = re.compile(r'```.*?```', re.DOTALL)
+_INLINE_CODE_RE = re.compile(r'`([^`]+)`')
+_MARKDOWN_IMAGE_RE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+_MARKDOWN_LINK_RE = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+_WORD_RE = re.compile(r"\b[\w'-]+\b", re.UNICODE)
+_WHITESPACE_RE = re.compile(r'\s+')
+_GIT_DATE_CACHE: dict[Path, datetime | None] = {}
 
 
 def load_config() -> dict:
@@ -143,6 +152,82 @@ def _format_file_size(size: int) -> str:
     if size < 1024 * 1024:
         return f'{size / 1024:.1f} KB'
     return f'{size / (1024 * 1024):.1f} MB'
+
+
+def _normalize_whitespace(text: str) -> str:
+    return _WHITESPACE_RE.sub(' ', text).strip()
+
+
+def _markdown_to_text(body: str) -> str:
+    text = _FENCED_CODE_RE.sub(' ', body)
+    text = _MARKDOWN_IMAGE_RE.sub(lambda m: m.group(1) or ' ', text)
+    text = _MARKDOWN_LINK_RE.sub(lambda m: m.group(1), text)
+    text = _INLINE_CODE_RE.sub(lambda m: m.group(1), text)
+    text = _FLAG_MARKER_RE.sub(' ', text)
+    text = _HTML_TAG_RE.sub(' ', text)
+    text = re.sub(r'(?m)^\s{0,3}#{1,6}\s*', '', text)
+    text = re.sub(r'(?m)^\s*[-*+]\s+', '', text)
+    text = re.sub(r'(?m)^\s*\d+\.\s+', '', text)
+    text = re.sub(r'(?m)^\s*>\s?', '', text)
+    return _normalize_whitespace(html_unescape(text))
+
+
+def _count_reading_words(body: str) -> int:
+    return len(_WORD_RE.findall(_markdown_to_text(body)))
+
+
+def _estimate_reading_time(body: str) -> int:
+    return max(1, math.ceil(_count_reading_words(body) / 220))
+
+
+def _make_excerpt(body: str, fallback: str = '', limit: int = 170) -> str:
+    text = _markdown_to_text(body) or fallback.strip()
+    if not text or len(text) <= limit:
+        return text
+
+    shortened = text[:limit].rsplit(' ', 1)[0].strip()
+    return f'{shortened}…' if shortened else f'{text[:limit].strip()}…'
+
+
+def _path_mtime(path: Path) -> datetime | None:
+    try:
+        return datetime.fromtimestamp(path.stat().st_mtime)
+    except OSError:
+        return None
+
+
+def _git_last_commit_date(path: Path) -> datetime | None:
+    path = path.resolve()
+    if path in _GIT_DATE_CACHE:
+        return _GIT_DATE_CACHE[path]
+
+    try:
+        rel_path = path.relative_to(ROOT)
+    except ValueError:
+        rel_path = path
+
+    try:
+        proc = subprocess.run(
+            ['git', '-C', str(ROOT), 'log', '-1', '--format=%cs', '--', str(rel_path)],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError:
+        _GIT_DATE_CACHE[path] = None
+        return None
+
+    output = proc.stdout.strip()
+    if proc.returncode == 0 and output:
+        try:
+            committed_at = datetime.fromisoformat(output)
+            _GIT_DATE_CACHE[path] = committed_at
+            return committed_at
+        except ValueError:
+            pass
+
+    _GIT_DATE_CACHE[path] = None
+    return None
 
 
 def _read_inline_source(path: Path) -> str | None:
@@ -308,11 +393,22 @@ def md_to_html(body: str, flag: str = '') -> tuple[str, str, bool]:
 
 
 class Post:
-    def __init__(self, meta: dict, html: str, toc: str, dir_path: Path, flag_inline: bool = False) -> None:
+    def __init__(
+        self,
+        meta: dict,
+        html: str,
+        toc: str,
+        dir_path: Path,
+        source_path: Path,
+        raw_body: str,
+        flag_inline: bool = False,
+    ) -> None:
         self.meta  = meta
         self.html  = html
         self.toc   = toc
         self.dir   = dir_path
+        self.source_path = source_path
+        self.raw_body = raw_body
         self.slug  = dir_path.name
         self.flag_inline = flag_inline
 
@@ -339,6 +435,15 @@ class Post:
             self.date = datetime.fromisoformat(raw)
         else:
             self.date = datetime.min
+
+        raw_last_updated = meta.get('updated', meta.get('last_updated'))
+        self.last_updated = (
+            _coerce_datetime(raw_last_updated)
+            or _git_last_commit_date(source_path)
+            or _path_mtime(source_path)
+        )
+        if self.last_updated and self.date != datetime.min and self.last_updated < self.date:
+            self.last_updated = self.date
 
         self.event               = meta.get('event', '')
         self.event_slug          = slugify(self.event) if self.event else ''
@@ -372,6 +477,9 @@ class Post:
         self.description   = meta.get('description', '')
         raw_redirects      = meta.get('redirect_from', [])
         self.redirect_from = _coerce_str_list(raw_redirects)
+        self.reading_time_minutes = _estimate_reading_time(raw_body)
+        self.reading_time_label = f'{self.reading_time_minutes} min read'
+        self.excerpt = _make_excerpt(raw_body, fallback=self.description)
 
         self.sources     = self._list_files('sources')
         self.solve_files = self._list_files('solve')
@@ -410,6 +518,30 @@ class Post:
         return '' if self.date == datetime.min else self.date.strftime('%Y-%m-%d')
 
     @property
+    def last_updated_str(self) -> str:
+        return _format_date(self.last_updated)
+
+    @property
+    def last_updated_iso(self) -> str:
+        return self.last_updated.strftime('%Y-%m-%d') if self.last_updated else ''
+
+    @property
+    def has_last_updated(self) -> bool:
+        return bool(
+            self.last_updated
+            and self.date != datetime.min
+            and self.last_updated.date() != self.date.date()
+        )
+
+    @property
+    def context_label(self) -> str:
+        if self.type == 'ctf':
+            return self.event or self.category
+        if self.type == 'box':
+            return self.platform or self.os
+        return self.author
+
+    @property
     def keywords(self) -> str:
         """Auto-generate keywords from tags + contextual metadata."""
         kws: list[str] = list(self.tags)
@@ -423,6 +555,8 @@ class Post:
             'title': self.title, 'type': self.type, 'author': self.author,
             'tags': self.tags, 'pinned': self.pinned, 'image': self.image,
             'date_str': self.date_str, 'date_iso': self.date_iso,
+            'last_updated_str': self.last_updated_str, 'last_updated_iso': self.last_updated_iso,
+            'has_last_updated': self.has_last_updated,
             'language': self.language, 'language_code': self.language_code, 'language_label': self.language_label,
             'language_flag': self.language_flag,
             'url': self.url, 'slug': self.slug,
@@ -435,6 +569,10 @@ class Post:
             'rating': self.rating, 'flag': self.flag, 'flag_inline': self.flag_inline,
             'platform': self.platform, 'os': self.os,
             'description': self.description,
+            'excerpt': self.excerpt,
+            'context_label': self.context_label,
+            'reading_time_minutes': self.reading_time_minutes,
+            'reading_time_label': self.reading_time_label,
             'keywords': self.keywords,
             'html': self.html, 'toc': self.toc,
             'sources': self.sources, 'solve_files': self.solve_files,
@@ -481,7 +619,7 @@ def _parse_post(md_file: Path, dir_path: Path) -> Post | None:
         meta, body       = parse_frontmatter(md_file.read_text(encoding='utf-8'))
         flag             = str(meta.get('flag', ''))
         html, toc, flag_inline = md_to_html(body, flag=flag)
-        return Post(meta, html, toc, dir_path, flag_inline=flag_inline)
+        return Post(meta, html, toc, dir_path, md_file, body, flag_inline=flag_inline)
     except Exception as exc:
         print(f'  [!] Skipping {md_file}: {exc}')
         return None
@@ -628,9 +766,21 @@ def build_index(env: Environment, posts: list[Post]) -> None:
 
 
 def build_post_pages(env: Environment, posts: list[Post]) -> None:
-    for post in posts:
-        write_page(PUBLIC_DIR / 'posts' / post.slug / 'index.html',
-                   render(env, 'post.html', post=post.as_dict()))
+    post_dicts = [p.as_dict() for p in posts]
+
+    for idx, post in enumerate(posts):
+        newer_post = post_dicts[idx - 1] if idx > 0 else None
+        older_post = post_dicts[idx + 1] if idx + 1 < len(post_dicts) else None
+        write_page(
+            PUBLIC_DIR / 'posts' / post.slug / 'index.html',
+            render(
+                env,
+                'post.html',
+                post=post_dicts[idx],
+                newer_post=newer_post,
+                older_post=older_post,
+            ),
+        )
 
 
 def build_post_file_views(env: Environment, posts: list[Post]) -> None:
@@ -760,6 +910,111 @@ def build_about(env: Environment) -> None:
     meta, html = load_about()
     write_page(PUBLIC_DIR / 'about' / 'index.html',
                render(env, 'about.html', meta=meta, html=html))
+
+
+def build_search_index(posts: list[Post], events: list[dict]) -> None:
+    items: list[dict] = []
+    tags: dict[str, int] = {}
+    about_meta, _ = load_about()
+
+    items.append({
+        'title': 'About',
+        'url': '/about/',
+        'kind': 'page',
+        'kind_label': 'Page',
+        'subtitle': str(about_meta.get('tagline', '')).strip(),
+        'description': 'Background, current focus and links.',
+        'search_text': _normalize_whitespace(
+            f"about {about_meta.get('name', '')} {about_meta.get('tagline', '')} {about_meta.get('location', '')} {about_meta.get('school', '')}"
+        ).lower(),
+        'priority': 90,
+        'date_iso': '',
+    })
+
+    for post in posts:
+        for tag in post.tags:
+            tags[tag] = tags.get(tag, 0) + 1
+
+        subtitle_parts = [post.context_label]
+        if post.type == 'ctf' and post.category:
+            subtitle_parts.append(post.category)
+        if post.type == 'box' and post.os:
+            subtitle_parts.append(post.os)
+        if post.date_str:
+            subtitle_parts.append(post.date_str)
+
+        kind_label = {
+            'ctf': 'CTF writeup',
+            'box': 'Box writeup',
+            'post': 'Post',
+        }.get(post.type, 'Post')
+
+        items.append({
+            'title': post.title,
+            'url': post.url,
+            'kind': post.type,
+            'kind_label': kind_label,
+            'subtitle': ' · '.join(part for part in subtitle_parts if part),
+            'description': post.description or post.excerpt,
+            'search_text': _normalize_whitespace(
+                ' '.join([
+                    post.title,
+                    post.description,
+                    post.excerpt,
+                    post.author,
+                    post.event,
+                    post.category,
+                    post.platform,
+                    post.os,
+                    post.challenge_author,
+                    ' '.join(post.tags),
+                ])
+            ).lower(),
+            'priority': 320 if post.pinned else 220,
+            'date_iso': post.date_iso,
+        })
+
+    for event in events:
+        items.append({
+            'title': event['title'],
+            'url': f"/events/{event['slug']}/",
+            'kind': 'event',
+            'kind_label': 'Event',
+            'subtitle': ' · '.join(part for part in [
+                event.get('date_range', ''),
+                f"{event.get('writeup_count', 0)} writeup(s)",
+            ] if part),
+            'description': _make_excerpt(event.get('html', ''), limit=120) if event.get('html') else '',
+            'search_text': _normalize_whitespace(
+                ' '.join([
+                    event['title'],
+                    ' '.join(event.get('organizers', [])),
+                    ' '.join(event.get('organizer_countries', [])),
+                    ' '.join(post['title'] for post in event.get('posts', [])),
+                ])
+            ).lower(),
+            'priority': 140 + int(event.get('writeup_count', 0)),
+            'date_iso': event.get('end_date_iso') or event.get('start_date_iso') or '',
+        })
+
+    for tag, count in sorted(tags.items(), key=lambda item: item[0].lower()):
+        items.append({
+            'title': f'#{tag}',
+            'url': f"/tags/{slugify(tag)}/",
+            'kind': 'tag',
+            'kind_label': 'Tag',
+            'subtitle': f'{count} post(s)',
+            'description': '',
+            'search_text': _normalize_whitespace(f'tag {tag}').lower(),
+            'priority': 60 + count,
+            'date_iso': '',
+        })
+
+    (PUBLIC_DIR / 'search-index.json').write_text(
+        json.dumps({'items': items}, ensure_ascii=False),
+        encoding='utf-8',
+    )
+    print('  [+] Search index generated')
 
 
 def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
@@ -903,6 +1158,7 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     build_event_pages(env, events)
     build_events_index(env, events)
     build_about(env)
+    build_search_index(posts, events)
 
     print('  [+] Post assets...')
     copy_post_assets(posts)

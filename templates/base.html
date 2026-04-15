@@ -46,7 +46,7 @@
 </head>
 <body class="bg-bg text-body font-sans min-h-screen flex flex-col antialiased">
   <header class="site-header sticky top-0 z-50 border-b border-line/60 bg-bg/90 backdrop-blur-md">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+    <div class="site-header__bar max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
 
       <a href="/" class="logo flex items-center gap-0 font-mono font-bold text-lg select-none">
         <span class="text-muted">─</span>
@@ -54,12 +54,54 @@
         <span class="logo-cursor ml-0.5 text-cyan">▌</span>
       </a>
 
-      <nav class="flex items-center gap-1 sm:gap-2">
-        <a href="/posts/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">posts</a>
-        <a href="/events/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">events</a>
-        <a href="/tags/"  class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">tags</a>
-        <a href="/about/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">about</a>
-      </nav>
+      <div class="site-header__controls">
+        <div class="site-search" data-site-search data-search-index-url="/search-index.json">
+          <button
+            type="button"
+            class="site-search__trigger"
+            data-search-trigger
+            aria-expanded="false"
+            aria-controls="site-search-panel"
+            aria-label="Open global search">
+            <span class="site-search__trigger-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-3.5-3.5"></path>
+              </svg>
+            </span>
+            <span class="site-search__trigger-label">search</span>
+            <span class="site-search__kbd" aria-hidden="true">Ctrl K</span>
+          </button>
+
+          <div class="site-search__panel" id="site-search-panel" data-search-panel hidden>
+            <label class="site-search__field" for="site-search-input">
+              <span class="site-search__field-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <path d="m20 20-3.5-3.5"></path>
+                </svg>
+              </span>
+              <input
+                id="site-search-input"
+                type="search"
+                class="site-search__input"
+                data-search-input
+                placeholder="Search posts, tags, events..."
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false">
+            </label>
+            <div class="site-search__results" data-search-results></div>
+          </div>
+        </div>
+
+        <nav class="flex items-center gap-1 sm:gap-2">
+          <a href="/posts/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">posts</a>
+          <a href="/events/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">events</a>
+          <a href="/tags/"  class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">tags</a>
+          <a href="/about/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">about</a>
+        </nav>
+      </div>
 
     </div>
     <div class="header-line"></div>
