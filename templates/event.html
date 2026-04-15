@@ -1,8 +1,40 @@
 {% extends "base.html" %}
 {% from "macros.html" import post_card %}
 
-{% block title %}{{ event.title }} — {{ config.site.title }}{% endblock %}
+{% set event_title = event.title ~ ' — ' ~ config.site.title %}
+{% set event_url = config.site.base_url ~ '/events/' ~ event.slug ~ '/' %}
+{% set event_desc = 'Writeups and event info for ' ~ event.title %}
+{% if event.date_range %}
+  {% set event_desc = event_desc ~ ' · ' ~ event.date_range %}
+{% endif %}
+{% if event.organizers %}
+  {% set event_desc = event_desc ~ ' · ' ~ (event.organizers | join(', ')) %}
+{% endif %}
+{% if event.writeup_count %}
+  {% set event_desc = event_desc ~ ' · ' ~ event.writeup_count ~ ' writeup(s)' %}
+{% endif %}
+
+{% block title %}{{ event_title }}{% endblock %}
+{% block description %}{{ event_desc | e }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/events/{{ event.slug }}/">{% endblock %}
+{% block og %}
+<meta property="og:site_name"   content="{{ config.site.title | e }}">
+<meta property="og:type"        content="website">
+<meta property="og:locale"      content="en_US">
+<meta property="og:title"       content="{{ event_title | e }}">
+<meta property="og:description" content="{{ event_desc | e }}">
+<meta property="og:url"         content="{{ event_url }}">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
+<meta property="og:image:width"  content="400">
+<meta property="og:image:height" content="400">
+<meta name="twitter:card"        content="summary">
+<meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
+<meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
+<meta name="twitter:title"       content="{{ event_title | e }}">
+<meta name="twitter:description" content="{{ event_desc | e }}">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
+<meta name="theme-color" content="#ff0080">
+{% endblock %}
 
 {% block content %}
 

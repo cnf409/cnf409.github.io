@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "macros.html" import type_badge, difficulty_label, language_code, os_label %}
 
+{% block html_lang %}{{ post.language }}{% endblock %}
 {% block title %}{{ post.title }} — {{ config.site.title }}{% endblock %}
 
 {%- if post.description %}

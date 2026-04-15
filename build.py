@@ -659,6 +659,13 @@ def render(env: Environment, template: str, **ctx) -> str:
     return env.get_template(template).render(**ctx)
 
 
+def reset_public_dir(verbose: bool = False) -> None:
+    if PUBLIC_DIR.exists():
+        shutil.rmtree(PUBLIC_DIR)
+        print('  [+] Cleaned public/' if verbose else '  [+] Reset public/')
+    PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
+
+
 def load_about() -> tuple[dict, str]:
     about_file = ROOT / 'about.md'
     if about_file.exists():
@@ -1028,20 +1035,36 @@ def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
         {'loc': f'{base}/about/',  'changefreq': 'monthly', 'priority': '0.7'},
     ]
 
+    tag_lastmods: dict[str, datetime] = {}
+
     for post in posts:
         entry: dict = {'loc': f'{base}{post.url}', 'changefreq': 'monthly', 'priority': '0.9'}
-        if post.date != datetime.min:
-            entry['lastmod'] = post.date.strftime('%Y-%m-%d')
+        lastmod = post.last_updated or (post.date if post.date != datetime.min else None)
+        if lastmod:
+            entry['lastmod'] = lastmod.strftime('%Y-%m-%d')
         urls.append(entry)
 
+        if lastmod:
+            for tag in post.tags:
+                current = tag_lastmods.get(tag)
+                if current is None or lastmod > current:
+                    tag_lastmods[tag] = lastmod
+
     for event in events:
-        urls.append({'loc': f'{base}/events/{event["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6'})
+        entry = {'loc': f'{base}/events/{event["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6'}
+        event_lastmod = event.get('end_date_iso') or event.get('start_date_iso')
+        if event_lastmod:
+            entry['lastmod'] = event_lastmod
+        urls.append(entry)
 
     tags: set[str] = set()
     for post in posts:
         tags.update(post.tags)
     for tag in sorted(tags):
-        urls.append({'loc': f'{base}/tags/{slugify(tag)}/', 'changefreq': 'monthly', 'priority': '0.4'})
+        entry = {'loc': f'{base}/tags/{slugify(tag)}/', 'changefreq': 'monthly', 'priority': '0.4'}
+        if tag in tag_lastmods:
+            entry['lastmod'] = tag_lastmods[tag].strftime('%Y-%m-%d')
+        urls.append(entry)
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -1059,6 +1082,20 @@ def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
 
     (PUBLIC_DIR / 'sitemap.xml').write_text('\n'.join(lines), encoding='utf-8')
     print('  [+] Sitemap generated')
+
+
+def build_robots(config: dict) -> None:
+    base = config['site']['base_url'].rstrip('/')
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /posts/*/_fileview/',
+        'Disallow: /posts/*/solve/',
+        'Disallow: /posts/*/sources/',
+        f'Sitemap: {base}/sitemap.xml',
+    ]
+    (PUBLIC_DIR / 'robots.txt').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    print('  [+] robots.txt generated')
 
 
 def build_rss(config: dict, posts: list[Post]) -> None:
@@ -1126,11 +1163,7 @@ def build_404(env: Environment) -> None:
 
 
 def build(config: dict, clean: bool = False, include_drafts: bool = False) -> None:
-    if clean and PUBLIC_DIR.exists():
-        shutil.rmtree(PUBLIC_DIR)
-        print('  [+] Cleaned public/')
-
-    PUBLIC_DIR.mkdir(exist_ok=True)
+    reset_public_dir(verbose=clean)
 
     print('  [+] Discovering content...')
     posts = discover_posts(include_drafts=include_drafts)
@@ -1170,6 +1203,7 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     print('  [+] RSS & sitemap...')
     build_rss(config, posts)
     build_sitemap(config, posts, events)
+    build_robots(config)
     build_404(env)
 
     print('  [✓] Done → public/')
