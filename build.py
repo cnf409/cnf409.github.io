@@ -13,7 +13,8 @@ import tomllib
 from datetime import date, datetime
 from html import unescape as html_unescape
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote, urlparse
+from urllib.request import Request, urlopen
 
 import markdown
 from jinja2 import Environment, FileSystemLoader
@@ -52,9 +53,13 @@ _FENCED_CODE_RE = re.compile(r'```.*?```', re.DOTALL)
 _INLINE_CODE_RE = re.compile(r'`([^`]+)`')
 _MARKDOWN_IMAGE_RE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
 _MARKDOWN_LINK_RE = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+_REFERENCE_TITLE_RE = re.compile(r'<title[^>]*>(.*?)</title>', re.IGNORECASE | re.DOTALL)
 _WORD_RE = re.compile(r"\b[\w'-]+\b", re.UNICODE)
 _WHITESPACE_RE = re.compile(r'\s+')
 _GIT_DATE_CACHE: dict[Path, datetime | None] = {}
+_REFERENCE_TITLE_CACHE: dict[str, str] = {}
+_REFERENCE_FETCH_TIMEOUT_SECONDS = 2.0
+_REFERENCE_TITLE_MAX_BYTES = 64_000
 
 
 def load_config() -> dict:
@@ -374,6 +379,115 @@ def _make_flag_block_html(flag: str) -> str:
     )
 
 
+def _normalize_reference_host(hostname: str) -> str:
+    host = hostname.strip().lower()
+    return host[4:] if host.startswith('www.') else host
+
+
+def _fallback_reference_title(url: str) -> str:
+    parsed = urlparse(url)
+    host = _normalize_reference_host(parsed.hostname or parsed.netloc)
+    segments = [unquote(segment).strip() for segment in parsed.path.split('/') if segment.strip()]
+
+    while segments and segments[-1].lower() in {'index', 'default', 'home', 'amp'}:
+        segments.pop()
+
+    candidate = segments[-1] if segments else host
+    candidate = re.sub(r'\.[a-z0-9]{1,8}$', '', candidate, flags=re.IGNORECASE)
+    candidate = candidate.replace('-', ' ').replace('_', ' ')
+    candidate = re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', candidate)
+    candidate = _normalize_whitespace(candidate)
+    if not candidate:
+        return host or url
+    if candidate == candidate.lower():
+        return candidate.title()
+    return candidate[0].upper() + candidate[1:]
+
+
+def _fetch_reference_title(url: str) -> str:
+    if url in _REFERENCE_TITLE_CACHE:
+        return _REFERENCE_TITLE_CACHE[url]
+
+    parsed = urlparse(url)
+    if parsed.scheme not in {'http', 'https'} or not parsed.netloc:
+        _REFERENCE_TITLE_CACHE[url] = ''
+        return ''
+
+    request = Request(
+        url,
+        headers={
+            'User-Agent': 'Mozilla/5.0 (compatible; cnf409.me build bot/1.0)',
+            'Accept': 'text/html,application/xhtml+xml',
+        },
+    )
+
+    try:
+        with urlopen(request, timeout=_REFERENCE_FETCH_TIMEOUT_SECONDS) as response:
+            content_type = response.headers.get_content_type()
+            if content_type and 'html' not in content_type:
+                _REFERENCE_TITLE_CACHE[url] = ''
+                return ''
+            payload = response.read(_REFERENCE_TITLE_MAX_BYTES)
+    except Exception:
+        _REFERENCE_TITLE_CACHE[url] = ''
+        return ''
+
+    match = _REFERENCE_TITLE_RE.search(payload.decode('utf-8', errors='ignore'))
+    if not match:
+        _REFERENCE_TITLE_CACHE[url] = ''
+        return ''
+
+    title = _normalize_whitespace(html_unescape(_HTML_TAG_RE.sub(' ', match.group(1))))
+    _REFERENCE_TITLE_CACHE[url] = title
+    return title
+
+
+def _coerce_reference_entries(raw: object) -> list[dict[str, str]]:
+    if raw is None:
+        return []
+
+    items = list(raw) if isinstance(raw, (list, tuple)) else [raw]
+    references: list[dict[str, str]] = []
+    seen_urls: set[str] = set()
+
+    for item in items:
+        title = ''
+        if isinstance(item, dict):
+            url = str(item.get('url', '')).strip()
+            title = str(item.get('title', item.get('label', ''))).strip()
+        else:
+            url = str(item).strip()
+
+        if not url or url in seen_urls:
+            continue
+
+        seen_urls.add(url)
+        references.append({'url': url, 'title': title})
+
+    return references
+
+
+def _build_reference_card(reference: dict[str, str]) -> dict | None:
+    url = reference.get('url', '').strip()
+    if not url:
+        return None
+
+    parsed = urlparse(url)
+    if parsed.scheme not in {'http', 'https'} or not parsed.netloc:
+        return None
+
+    host = _normalize_reference_host(parsed.hostname or parsed.netloc)
+    origin = f'{parsed.scheme}://{parsed.netloc}'
+    title = reference.get('title', '').strip() or _fetch_reference_title(url) or _fallback_reference_title(url)
+
+    return {
+        'url': url,
+        'title': title,
+        'host': host,
+        'favicon_url': f'https://www.google.com/s2/favicons?sz=64&domain_url={quote(origin, safe="")}',
+    }
+
+
 def md_to_html(body: str, flag: str = '') -> tuple[str, str, bool]:
     flag_inline = bool(flag and _FLAG_MARKER_RE.search(body))
     if flag_inline:
@@ -477,6 +591,12 @@ class Post:
         self.description   = meta.get('description', '')
         raw_redirects      = meta.get('redirect_from', [])
         self.redirect_from = _coerce_str_list(raw_redirects)
+        raw_references = meta.get('references', meta.get('related_articles', meta.get('related', [])))
+        self.references = [
+            card
+            for card in (_build_reference_card(reference) for reference in _coerce_reference_entries(raw_references))
+            if card
+        ]
         self.reading_time_minutes = _estimate_reading_time(raw_body)
         self.reading_time_label = f'{self.reading_time_minutes} min read'
         self.excerpt = _make_excerpt(raw_body, fallback=self.description)
@@ -575,6 +695,7 @@ class Post:
             'reading_time_label': self.reading_time_label,
             'keywords': self.keywords,
             'html': self.html, 'toc': self.toc,
+            'references': self.references,
             'sources': self.sources, 'solve_files': self.solve_files,
         }
 

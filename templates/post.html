@@ -272,15 +272,6 @@
     <code class="flag-block__value font-mono text-sm">{{ post.flag }}</code>
   </div>
   {% endif %}
-  {% if post.tags %}
-  <div class="mt-10 pt-6 border-t border-line/40">
-    <div class="flex flex-wrap gap-2">
-      {% for tag in post.tags %}
-        <a href="/tags/{{ tag | lower | replace(' ', '-') }}/" class="tag tag--link">#{{ tag }}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
   {% if post.sources or post.solve_files %}
   <div class="mt-10 pt-6 border-t border-line/40 grid sm:grid-cols-2 gap-6">
 
@@ -336,6 +327,43 @@
 
   </div>
   {% endif %}
+  {% if post.tags %}
+  <div class="mt-10 pt-6 border-t border-line/40">
+    <div class="flex flex-wrap gap-2">
+      {% for tag in post.tags %}
+        <a href="/tags/{{ tag | lower | replace(' ', '-') }}/" class="tag tag--link">#{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if post.references %}
+  <section class="related-articles" id="related-articles">
+    <div class="related-articles__intro">
+      <h2 class="related-articles__title">Related articles</h2>
+      <p class="related-articles__copy">References and extra reading around the same topic.</p>
+    </div>
+
+    <div class="related-articles__grid">
+      {% for reference in post.references %}
+      <a href="{{ reference.url }}" class="related-article-card" target="_blank" rel="noopener">
+        <div class="related-article-card__meta">
+          <img
+            src="{{ reference.favicon_url }}"
+            alt=""
+            class="related-article-card__favicon"
+            width="18"
+            height="18"
+            loading="lazy"
+          >
+          <span class="related-article-card__host">{{ reference.host }}</span>
+        </div>
+        <h3 class="related-article-card__title">{{ reference.title }}</h3>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
   {% if newer_post or older_post %}
   <section class="post-end-nav">
@@ -379,12 +407,21 @@
   {% endif %}
 
 </article>
-{% if post.toc and '<li>' in post.toc %}
+{% if (post.toc and '<li>' in post.toc) or post.references %}
 <aside class="post-sidebar">
   <div class="post-toc">
     <div class="post-toc__label">Summary</div>
     <div class="post-toc__content">
+      {% if post.toc and '<li>' in post.toc %}
       {{ post.toc | safe }}
+      {% endif %}
+      {% if post.references %}
+      <div class="post-toc__extra{% if post.toc and '<li>' in post.toc %} post-toc__extra--separated{% endif %}">
+        <ul>
+          <li><a href="#related-articles">Related articles</a></li>
+        </ul>
+      </div>
+      {% endif %}
     </div>
     <a href="#top" class="post-toc__top">↑ Back to top</a>
   </div>

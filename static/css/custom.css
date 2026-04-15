@@ -34,9 +34,13 @@
   --text:    #e2e8f0;
   --muted:   #8892a4;
   --dim:     #4b5563;
+  --anchor-offset: 5rem;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--anchor-offset);
+}
 
 ::selection {
   background: rgba(247, 0, 255, 0.25);
@@ -942,6 +946,90 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
 .file-link:hover .file-link__name { color: var(--cyan); }
 .file-link:hover .file-link__meta { color: var(--muted); }
 
+.related-articles {
+  margin-top: 3rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(30,34,41,0.7);
+}
+.related-articles__intro {
+  margin-bottom: 1rem;
+}
+.related-articles__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.related-articles__copy {
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.related-articles__grid {
+  display: grid;
+  gap: 1rem;
+}
+.related-article-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-height: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(19,21,26,0.88);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.related-article-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(0,240,255,0.34);
+  box-shadow: 0 0 18px rgba(0,240,255,0.08);
+}
+.related-article-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.related-article-card__favicon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+}
+.related-article-card__host {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.24rem 0.62rem;
+  border: 1px solid rgba(0,240,255,0.18);
+  border-radius: 999px;
+  background: rgba(0,240,255,0.06);
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.related-article-card__title {
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
 .post-end-nav {
   margin-top: 3rem;
   padding-top: 1.75rem;
@@ -1025,6 +1113,9 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
 }
 
 @media (min-width: 760px) {
+  .related-articles__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .post-end-nav__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1039,6 +1130,13 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
 .post-content h2,
 .post-content h3,
 .post-content h4 { font-weight: 700; color: var(--text); margin-top: 2em; margin-bottom: 0.6em; line-height: 1.3; }
+.post-content h1[id],
+.post-content h2[id],
+.post-content h3[id],
+.post-content h4[id],
+#related-articles {
+  scroll-margin-top: var(--anchor-offset);
+}
 .post-content h2 { font-size: 1.3rem; border-bottom: 1px solid var(--line); padding-bottom: 0.35em; }
 .post-content h3 { font-size: 1.1rem; color: var(--text); }
 .post-content .headerlink { display: none; }
@@ -1290,6 +1388,7 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
 .post-main {
   max-width: 48rem;
   margin: 0 auto;
+  padding-bottom: clamp(3rem, 8vh, 5rem);
 }
 .post-sidebar {
   display: none;
@@ -1358,6 +1457,31 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
 }
 .post-toc .toc a:hover {
   color: var(--cyan);
+}
+.post-toc__extra {
+  margin-top: 0;
+}
+.post-toc__extra--separated {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.post-toc__extra ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.post-toc__extra li {
+  margin-bottom: 0.5rem;
+}
+.post-toc__extra a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.83rem;
+  line-height: 1.45;
+}
+.post-toc__extra a:hover {
+  color: var(--magenta);
 }
 .post-toc__top {
   display: inline-flex;

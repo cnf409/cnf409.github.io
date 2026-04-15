@@ -579,6 +579,77 @@
     });
   }
 
+  function getHashTarget(hash) {
+    if (!hash || hash === '#') return null;
+
+    const id = decodeURIComponent(String(hash).replace(/^#/, ''));
+    return id ? document.getElementById(id) : null;
+  }
+
+  function getAnchorOffset() {
+    const header = document.querySelector('.site-header');
+    return (header?.offsetHeight || 0) + 16;
+  }
+
+  function scrollToHashTarget(hash, behavior = 'smooth') {
+    const target = getHashTarget(hash);
+    if (!target) return false;
+
+    const top = Math.max(
+      0,
+      window.scrollY + target.getBoundingClientRect().top - getAnchorOffset()
+    );
+
+    window.scrollTo({ top, behavior });
+    return true;
+  }
+
+  function initAnchoredScroll() {
+    const tocLinks = document.querySelectorAll('.post-toc a[href^="#"]');
+    if (!tocLinks.length) return;
+
+    let correctionTimer = 0;
+    let lateCorrectionTimer = 0;
+
+    function scheduleCorrection(hash) {
+      window.clearTimeout(correctionTimer);
+      window.clearTimeout(lateCorrectionTimer);
+
+      correctionTimer = window.setTimeout(() => {
+        scrollToHashTarget(hash, 'auto');
+      }, 220);
+
+      lateCorrectionTimer = window.setTimeout(() => {
+        scrollToHashTarget(hash, 'auto');
+      }, 800);
+    }
+
+    tocLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const hash = link.getAttribute('href');
+        if (!hash || !scrollToHashTarget(hash, 'smooth')) return;
+
+        event.preventDefault();
+        history.pushState(null, '', hash);
+        scheduleCorrection(hash);
+      });
+    });
+
+    if (window.location.hash) {
+      window.addEventListener('load', () => {
+        if (scrollToHashTarget(window.location.hash, 'auto')) {
+          scheduleCorrection(window.location.hash);
+        }
+      }, { once: true });
+    }
+
+    window.addEventListener('hashchange', () => {
+      if (scrollToHashTarget(window.location.hash, 'auto')) {
+        scheduleCorrection(window.location.hash);
+      }
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     markActiveNav();
@@ -587,5 +658,6 @@
     initSourceCopy();
     initShareButtons();
     initLightbox();
+    initAnchoredScroll();
   });
 })();
