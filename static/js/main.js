@@ -177,6 +177,27 @@
         ? 'Enter to open the selected result'
         : 'Suggestions from recent posts, tags, and events';
       results.appendChild(hint);
+
+      syncActiveResultScroll();
+    }
+
+    function syncActiveResultScroll() {
+      if (activeIndex < 0) return;
+
+      const active = results.querySelector(`[data-search-index="${activeIndex}"]`);
+      if (!active) return;
+
+      const pad = 8;
+      const activeTop = active.offsetTop;
+      const activeBottom = activeTop + active.offsetHeight;
+      const viewTop = results.scrollTop;
+      const viewBottom = viewTop + results.clientHeight;
+
+      if (activeTop < viewTop + pad) {
+        results.scrollTop = Math.max(0, activeTop - pad);
+      } else if (activeBottom > viewBottom - pad) {
+        results.scrollTop = activeBottom - results.clientHeight + pad;
+      }
     }
 
     function updateActiveResult() {
@@ -185,6 +206,8 @@
         const index = Number(link.dataset.searchIndex || -1);
         link.classList.toggle('is-active', index === activeIndex);
       });
+
+      syncActiveResultScroll();
     }
 
     function refreshResults() {
