@@ -346,7 +346,7 @@
 
     trigger.addEventListener('click', () => {
       if (isOpen) {
-        input.focus();
+        closePanel();
         return;
       }
       focusSearch();
