@@ -13,6 +13,7 @@ solves             = ?
 challenge_author   = "GSBP"
 challenge_author_url = "https://gsbp0.github.io/"
 rating             = 7
+redirect_from      = ["/posts/2025/10/n1ctf-2025-web-eezzjs/"]
 +++
 
 ## Introduction

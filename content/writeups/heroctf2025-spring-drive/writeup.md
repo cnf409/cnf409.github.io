@@ -15,6 +15,7 @@ image              = "images/spring_drive.png"
 pinned             = true
 rating             = 8
 solves             = 56
+redirect_from      = ["/posts/2025/12/heroctf-2025-web-spring-drive/"]
 +++
 
 ## Introduction

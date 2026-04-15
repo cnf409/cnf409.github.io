@@ -12,6 +12,7 @@ stars            = 2
 challenge_author = "unknown"
 solves           = ?
 rating           = 9
+redirect_from    = ["/posts/2025/04/fcsc-2025-rev-coloratops/"]
 
 +++
 

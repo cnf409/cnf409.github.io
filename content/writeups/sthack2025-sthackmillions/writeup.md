@@ -14,6 +14,7 @@ pinned             = true
 difficulty         = "medium"
 solves             = ?
 rating             = 10
+redirect_from      = ["/posts/2025/05/sthack-2025-sthack-millions/"]
 +++
 
 # Introduction

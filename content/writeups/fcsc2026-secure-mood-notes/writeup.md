@@ -14,6 +14,7 @@ challenge_author   = "Worty"
 challenge_author_url = "https://worty.fr"
 rating             = 9.5
 flag               = "FCSC{5c3fa80edf2ea136b4ea966297e56c2639d9d7825371d01858436bcb22ff0426}"
+redirect_from      = ["/posts/2026/04/fcsc-2026-secure-mood-notes/"]
 pinned             = true
 +++
 

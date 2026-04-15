@@ -234,7 +234,7 @@
   <div class="post-content prose">
     {{ post.html | safe }}
   </div>
-  {% if post.flag %}
+  {% if post.flag and not post.flag_inline %}
   <div class="flag-block mt-10">
     <div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>
     <code class="flag-block__value font-mono text-sm">{{ post.flag }}</code>
@@ -266,7 +266,7 @@
             {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
           >
             <span class="file-link__icon">📄</span>
-            <span class="file-link__name font-mono text-sm">{{ filename.name }}</span>
+            <span class="file-link__name font-mono text-sm"><span class="file-link__stem">{{ filename.stem }}</span><span class="file-link__ext">{{ filename.ext }}</span></span>
             <span class="file-link__meta font-mono text-[11px]">
               {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
             </span>
@@ -291,7 +291,7 @@
             {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
           >
             <span class="file-link__icon">🔧</span>
-            <span class="file-link__name font-mono text-sm">{{ filename.name }}</span>
+            <span class="file-link__name font-mono text-sm"><span class="file-link__stem">{{ filename.stem }}</span><span class="file-link__ext">{{ filename.ext }}</span></span>
             <span class="file-link__meta font-mono text-[11px]">
               {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
             </span>

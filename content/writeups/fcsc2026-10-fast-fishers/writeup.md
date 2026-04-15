@@ -14,6 +14,7 @@ challenge_author   = "Mizu"
 challenge_author_url = "https://mizu.re/"
 rating             = 10
 flag               = "FCSC{ef387c83c9e558b135d9837c5dc43f46}"
+redirect_from      = ["/posts/2026/04/fcsc-2026-10-fast-fishers/"]
 +++
 
 # Introduction

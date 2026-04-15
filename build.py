@@ -45,6 +45,7 @@ _IMAGE_LINE_RE = re.compile(
     r'^(?P<indent>\s*)\[(?P<alt>[^\]]*)\]\((?P<src>images/[^)\s]+\.(?:png|jpe?g|gif|webp|svg))\)\s*$',
     re.IGNORECASE,
 )
+_FLAG_MARKER_RE = re.compile(r'\[\[!FLAG\]\]')
 
 
 def load_config() -> dict:
@@ -120,6 +121,20 @@ def _format_date_range(start: datetime | None, end: datetime | None) -> str:
             return f"{start.strftime('%b %d')} - {end.strftime('%b %d, %Y')}"
         return f"{_format_date(start)} - {_format_date(end)}"
     return _format_date(start or end)
+
+
+def _xml_escape(text: str) -> str:
+    return (
+        text.replace('&', '&amp;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+            .replace('"', '&quot;')
+            .replace("'", '&#39;')
+    )
+
+
+def _rfc2822(dt: datetime) -> str:
+    return dt.strftime('%a, %d %b %Y %H:%M:%S +0000')
 
 
 def _format_file_size(size: int) -> str:
@@ -264,7 +279,20 @@ def _normalize_html_links(html: str) -> str:
     return _blankify_html_links(_autolink_html(html))
 
 
-def md_to_html(body: str) -> tuple[str, str]:
+def _make_flag_block_html(flag: str) -> str:
+    escaped = flag.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    return (
+        '\n<div class="flag-block my-8">'
+        '\n<div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>'
+        f'\n<code class="flag-block__value font-mono text-sm">{escaped}</code>'
+        '\n</div>\n'
+    )
+
+
+def md_to_html(body: str, flag: str = '') -> tuple[str, str, bool]:
+    flag_inline = bool(flag and _FLAG_MARKER_RE.search(body))
+    if flag_inline:
+        body = _FLAG_MARKER_RE.sub(_make_flag_block_html(flag), body)
     body = _normalize_markdown_images(body)
     body = _normalize_php_fences(body)
     body = _TERMINAL_RE.sub(_terminal_replace, body)
@@ -276,16 +304,17 @@ def md_to_html(body: str) -> tuple[str, str]:
         },
     )
     html = _normalize_html_links(parser.convert(body))
-    return html, parser.toc
+    return html, parser.toc, flag_inline
 
 
 class Post:
-    def __init__(self, meta: dict, html: str, toc: str, dir_path: Path) -> None:
+    def __init__(self, meta: dict, html: str, toc: str, dir_path: Path, flag_inline: bool = False) -> None:
         self.meta  = meta
         self.html  = html
         self.toc   = toc
         self.dir   = dir_path
         self.slug  = dir_path.name
+        self.flag_inline = flag_inline
 
         self.title  = meta.get('title', self.slug.replace('-', ' ').title())
         self.type   = meta.get('type', 'post')
@@ -338,9 +367,11 @@ class Post:
         self.rating              = meta.get('rating')
         self.flag                = meta.get('flag', '')
 
-        self.platform    = meta.get('platform', '')
-        self.os          = meta.get('os', '')
-        self.description = meta.get('description', '')
+        self.platform      = meta.get('platform', '')
+        self.os            = meta.get('os', '')
+        self.description   = meta.get('description', '')
+        raw_redirects      = meta.get('redirect_from', [])
+        self.redirect_from = _coerce_str_list(raw_redirects)
 
         self.sources     = self._list_files('sources')
         self.solve_files = self._list_files('solve')
@@ -355,6 +386,8 @@ class Post:
             inline_source = _read_inline_source(file_path)
             files.append({
                 'name': file_path.name,
+                'stem': file_path.stem,
+                'ext':  file_path.suffix,
                 'size_bytes': file_path.stat().st_size,
                 'size_label': _format_file_size(file_path.stat().st_size),
                 'raw_url': f"/posts/{self.slug}/{subdir}/{quote(file_path.name)}",
@@ -399,7 +432,7 @@ class Post:
             'challenge_author': self.challenge_author,
             'challenge_author_url': self.challenge_author_url,
             'challenge_authors': self.challenge_authors,
-            'rating': self.rating, 'flag': self.flag,
+            'rating': self.rating, 'flag': self.flag, 'flag_inline': self.flag_inline,
             'platform': self.platform, 'os': self.os,
             'description': self.description,
             'keywords': self.keywords,
@@ -445,9 +478,10 @@ class Event:
 
 def _parse_post(md_file: Path, dir_path: Path) -> Post | None:
     try:
-        meta, body = parse_frontmatter(md_file.read_text(encoding='utf-8'))
-        html, toc  = md_to_html(body)
-        return Post(meta, html, toc, dir_path)
+        meta, body       = parse_frontmatter(md_file.read_text(encoding='utf-8'))
+        flag             = str(meta.get('flag', ''))
+        html, toc, flag_inline = md_to_html(body, flag=flag)
+        return Post(meta, html, toc, dir_path, flag_inline=flag_inline)
     except Exception as exc:
         print(f'  [!] Skipping {md_file}: {exc}')
         return None
@@ -491,7 +525,7 @@ def load_about() -> tuple[dict, str]:
     about_file = ROOT / 'about.md'
     if about_file.exists():
         meta, body = parse_frontmatter(about_file.read_text(encoding='utf-8'))
-        html, _    = md_to_html(body)
+        html, _, _ = md_to_html(body)
         return meta, html
     return {}, '<p>Coming soon.</p>'
 
@@ -520,7 +554,7 @@ def load_events() -> dict[str, Event]:
 
         try:
             meta, body = parse_frontmatter(md_file.read_text(encoding='utf-8'))
-            html, _ = md_to_html(body)
+            html, _, _ = md_to_html(body)
             events[slug] = Event(slug, meta, html, dir_path)
         except Exception as exc:
             print(f'  [!] Skipping event {md_file}: {exc}')
@@ -772,6 +806,66 @@ def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
     print('  [+] Sitemap generated')
 
 
+def build_rss(config: dict, posts: list[Post]) -> None:
+    site  = config['site']
+    base  = site['base_url'].rstrip('/')
+    limit = 42
+
+    lines: list[str] = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+        '<channel>',
+        f'  <title>{_xml_escape(site["title"])}</title>',
+        f'  <link>{base}/</link>',
+        f'  <description>{_xml_escape(site["description"])}</description>',
+        f'  <atom:link href="{base}/rss.xml" rel="self" type="application/rss+xml"/>',
+        '  <language>en-us</language>',
+        f'  <lastBuildDate>{_rfc2822(datetime.now())}</lastBuildDate>',
+        f'  <generator>conflict-blog-builder</generator>',
+    ]
+
+    for post in posts[:limit]:
+        link     = f'{base}{post.url}'
+        desc_raw = post.description or post.title
+        lines += [
+            '  <item>',
+            f'    <title>{_xml_escape(post.title)}</title>',
+            f'    <link>{link}</link>',
+            f'    <guid isPermaLink="true">{link}</guid>',
+        ]
+        if post.date != datetime.min:
+            lines.append(f'    <pubDate>{_rfc2822(post.date)}</pubDate>')
+        lines.append(f'    <description>{_xml_escape(desc_raw)}</description>')
+        for tag in post.tags:
+            lines.append(f'    <category>{_xml_escape(tag)}</category>')
+        lines.append('  </item>')
+
+    lines += ['</channel>', '</rss>']
+    (PUBLIC_DIR / 'rss.xml').write_text('\n'.join(lines), encoding='utf-8')
+    print('  [+] RSS feed generated')
+
+
+def build_redirects(posts: list[Post]) -> None:
+    count = 0
+    for post in posts:
+        for old_url in post.redirect_from:
+            old_path = old_url.strip('/')
+            dest = PUBLIC_DIR / old_path / 'index.html'
+            new_url = post.url
+            html = (
+                '<!DOCTYPE html>\n<html>\n<head>\n'
+                '<meta charset="UTF-8">\n'
+                f'<meta http-equiv="refresh" content="0; url={new_url}">\n'
+                f'<link rel="canonical" href="{new_url}">\n'
+                f'<script>window.location.replace("{new_url}");</script>\n'
+                '</head>\n<body></body>\n</html>'
+            )
+            write_page(dest, html)
+            count += 1
+    if count:
+        print(f'  [+] Redirects: {count} legacy URL(s)')
+
+
 def build_404(env: Environment) -> None:
     write_page(PUBLIC_DIR / '404.html', render(env, '404.html'))
 
@@ -814,7 +908,11 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     copy_post_assets(posts)
     copy_event_assets(events)
 
-    print('  [+] Sitemap & 404...')
+    print('  [+] Redirects...')
+    build_redirects(posts)
+
+    print('  [+] RSS & sitemap...')
+    build_rss(config, posts)
     build_sitemap(config, posts, events)
     build_404(env)
 
