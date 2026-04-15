@@ -197,18 +197,7 @@
         {% if post.challenge_authors %}
         <div>
           <dt class="info-dt">Author</dt>
-          <dd class="info-dd">
-            {% for author in post.challenge_authors %}
-              {% if author.url %}
-                <a href="{{ author.url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">
-                  {{ author.name }}
-                </a>
-              {% else %}
-                {{ author.name }}
-              {% endif %}
-              {% if not loop.last %}, {% endif %}
-            {% endfor %}
-          </dd>
+          <dd class="info-dd">{%- for author in post.challenge_authors -%}{%- if author.url -%}<a href="{{ author.url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">{{ author.name }}</a>{%- else -%}{{ author.name }}{%- endif -%}{%- if not loop.last %}, {% endif -%}{%- endfor -%}</dd>
         </div>
         {% endif %}
 

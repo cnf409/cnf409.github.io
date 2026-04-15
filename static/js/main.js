@@ -40,13 +40,112 @@
       .replace(/'/g, '&#39;');
   }
 
+  function normalizeUnicode(value) {
+    const text = String(value || '');
+
+    if (typeof text.normalize !== 'function') return text;
+
+    try {
+      return text.normalize('NFD');
+    } catch (_) {
+      return text;
+    }
+  }
+
+  function matchesSelector(node, selector) {
+    if (!node) return false;
+
+    const matcher = node.matches || node.msMatchesSelector || node.webkitMatchesSelector;
+    return Boolean(matcher && matcher.call(node, selector));
+  }
+
+  function closestElement(node, selector) {
+    if (!node) return null;
+    if (typeof node.closest === 'function') return node.closest(selector);
+
+    let current = node;
+    while (current && current.nodeType === 1) {
+      if (matchesSelector(current, selector)) return current;
+      current = current.parentElement;
+    }
+
+    return null;
+  }
+
+  function requestAnimationFrameSafe(callback) {
+    if (typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(callback);
+      return;
+    }
+
+    window.setTimeout(callback, 16);
+  }
+
+  function requestText(url) {
+    if (typeof window.fetch === 'function') {
+      return window.fetch(url, { credentials: 'same-origin' })
+        .then((response) => {
+          if (!response.ok) throw new Error(`request ${response.status}`);
+          return response.text();
+        });
+    }
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.withCredentials = true;
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState !== 4) return;
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.responseText);
+          return;
+        }
+        reject(new Error(`request ${xhr.status}`));
+      };
+
+      xhr.onerror = () => reject(new Error('network error'));
+      xhr.send();
+    });
+  }
+
+  function requestJson(url) {
+    return requestText(url).then((text) => JSON.parse(text));
+  }
+
+  function setClassState(node, className, enabled) {
+    if (!node) return;
+    if (enabled) node.classList.add(className);
+    else node.classList.remove(className);
+  }
+
+  function scrollWindowTo(top, behavior) {
+    const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+
+    if (behavior === 'smooth' && supportsSmoothScroll) {
+      try {
+        window.scrollTo({ top, behavior: 'smooth' });
+        return;
+      } catch (_) {
+      }
+    }
+
+    window.scrollTo(0, top);
+  }
+
   function normalizeSearchValue(value) {
     return String(value || '')
       .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^\w#+.-]+/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  function normalizeSearchText(value) {
+    return normalizeSearchValue(
+      normalizeUnicode(value)
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^\w#+.-]+/g, ' ')
+    );
   }
 
   function initGlobalSearch() {
@@ -81,13 +180,11 @@
     function ensureIndex() {
       if (fetchPromise) return fetchPromise;
 
-      fetchPromise = fetch(indexUrl, { credentials: 'same-origin' })
-        .then((response) => {
-          if (!response.ok) throw new Error(`search index ${response.status}`);
-          return response.json();
-        })
+      fetchPromise = requestJson(indexUrl)
         .then((payload) => {
-          const rawItems = Array.isArray(payload) ? payload : payload?.items;
+          const rawItems = Array.isArray(payload)
+            ? payload
+            : (payload && Array.isArray(payload.items) ? payload.items : []);
           items = Array.isArray(rawItems) ? rawItems : [];
           return items;
         })
@@ -100,11 +197,11 @@
     }
 
     function scoreItem(item, query) {
-      const normalizedQuery = normalizeSearchValue(query);
-      const title = normalizeSearchValue(item.title);
-      const subtitle = normalizeSearchValue(item.subtitle);
-      const description = normalizeSearchValue(item.description);
-      const haystack = normalizeSearchValue(item.search_text || `${item.title} ${item.subtitle} ${item.description}`);
+      const normalizedQuery = normalizeSearchText(query);
+      const title = normalizeSearchText(item.title);
+      const subtitle = normalizeSearchText(item.subtitle);
+      const description = normalizeSearchText(item.description);
+      const haystack = normalizeSearchText(item.search_text || `${item.title} ${item.subtitle} ${item.description}`);
       const priority = Number(item.priority || 0);
 
       if (!normalizedQuery) return priority;
@@ -129,7 +226,7 @@
     }
 
     function getMatches(query) {
-      const normalizedQuery = normalizeSearchValue(query);
+      const normalizedQuery = normalizeSearchText(query);
       const scored = items
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter(({ item, score }) => !normalizedQuery || score > Number(item.priority || 0))
@@ -204,7 +301,7 @@
       const links = results.querySelectorAll('[data-search-result]');
       links.forEach((link) => {
         const index = Number(link.dataset.searchIndex || -1);
-        link.classList.toggle('is-active', index === activeIndex);
+        setClassState(link, 'is-active', index === activeIndex);
       });
 
       syncActiveResultScroll();
@@ -241,7 +338,7 @@
 
     function focusSearch() {
       openPanel();
-      window.requestAnimationFrame(() => {
+      requestAnimationFrameSafe(() => {
         input.focus();
         input.select();
       });
@@ -287,7 +384,7 @@
     });
 
     results.addEventListener('mouseover', (event) => {
-      const link = event.target.closest('[data-search-result]');
+      const link = closestElement(event.target, '[data-search-result]');
       if (!link) return;
       const nextIndex = Number(link.dataset.searchIndex || 0);
       if (nextIndex === activeIndex) return;
@@ -296,7 +393,7 @@
     });
 
     results.addEventListener('click', (event) => {
-      if (event.target.closest('[data-search-result]')) closePanel();
+      if (closestElement(event.target, '[data-search-result]')) closePanel();
     });
 
     document.addEventListener('keydown', (event) => {
@@ -317,7 +414,7 @@
   }
 
   async function writeTextToClipboard(text) {
-    if (navigator.clipboard?.writeText) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
       await navigator.clipboard.writeText(text);
       return;
     }
@@ -341,7 +438,7 @@
     else button.textContent = label;
 
     button.setAttribute('aria-label', label);
-    button.classList.toggle('is-copied', Boolean(copied));
+    setClassState(button, 'is-copied', Boolean(copied));
 
     window.setTimeout(() => {
       if (labelNode) labelNode.textContent = defaultLabel;
@@ -393,8 +490,7 @@
 
         if (url) {
           try {
-            const response = await fetch(url, { credentials: 'same-origin' });
-            if (response.ok) text = await response.text();
+            text = await requestText(url);
           } catch (_) {
           }
         }
@@ -434,7 +530,7 @@
             flashCopyState(button, 'shared', true);
             return;
           } catch (error) {
-            if (error?.name === 'AbortError') return;
+            if (error && error.name === 'AbortError') return;
           }
         }
 
@@ -503,12 +599,14 @@
       function onEnd() {
         if (done) return;
         done = true;
+        imgEl.removeEventListener('animationend', onEnd);
+        imgEl.removeEventListener('webkitAnimationEnd', onEnd);
         overlay.classList.remove('is-closing');
         document.body.style.overflow = '';
         imgEl.src = '';
       }
-      imgEl.addEventListener('animationend', onEnd, { once: true });
-      imgEl.addEventListener('webkitAnimationEnd', onEnd, { once: true });
+      imgEl.addEventListener('animationend', onEnd);
+      imgEl.addEventListener('webkitAnimationEnd', onEnd);
     }
 
     function hitsImage(e) {
@@ -582,13 +680,17 @@
   function getHashTarget(hash) {
     if (!hash || hash === '#') return null;
 
-    const id = decodeURIComponent(String(hash).replace(/^#/, ''));
+    let id = String(hash).replace(/^#/, '');
+    try {
+      id = decodeURIComponent(id);
+    } catch (_) {
+    }
     return id ? document.getElementById(id) : null;
   }
 
   function getAnchorOffset() {
     const header = document.querySelector('.site-header');
-    return (header?.offsetHeight || 0) + 16;
+    return ((header && header.offsetHeight) || 0) + 16;
   }
 
   function scrollToHashTarget(hash, behavior = 'smooth') {
@@ -600,7 +702,7 @@
       window.scrollY + target.getBoundingClientRect().top - getAnchorOffset()
     );
 
-    window.scrollTo({ top, behavior });
+    scrollWindowTo(top, behavior);
     return true;
   }
 
@@ -630,17 +732,24 @@
         if (!hash || !scrollToHashTarget(hash, 'smooth')) return;
 
         event.preventDefault();
-        history.pushState(null, '', hash);
+        if (window.history && typeof window.history.pushState === 'function') {
+          window.history.pushState(null, '', hash);
+        } else {
+          window.location.hash = hash;
+        }
         scheduleCorrection(hash);
       });
     });
 
     if (window.location.hash) {
-      window.addEventListener('load', () => {
+      const onLoad = () => {
         if (scrollToHashTarget(window.location.hash, 'auto')) {
           scheduleCorrection(window.location.hash);
         }
-      }, { once: true });
+        window.removeEventListener('load', onLoad);
+      };
+
+      window.addEventListener('load', onLoad);
     }
 
     window.addEventListener('hashchange', () => {

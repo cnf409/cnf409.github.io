@@ -81,8 +81,8 @@ event             = "ROPEmporium"       # génère une page /events/<slug>/
 category          = "pwn"              # web | crypto | rev | pwn | misc | forensics...
 difficulty        = "easy"             # easy | medium | hard | insane  OU  stars = 2 (1-3)
 solves            = 142
-challenge_author  = "ROP Emporium"
-challenge_author_url = "https://twitter.com/..."  # optionnel — rend le nom cliquable
+challenge_author  = ["ROP Emporium"]
+challenge_author_url = ["https://twitter.com/..."]  # optionnel — une URL par auteur
 rating            = 8                  # ta note /10
 flag              = "FLAG{...}"        # optionnel — affiché automatiquement en bas du post
 pinned            = false              # true → affiché en haut de la homepage

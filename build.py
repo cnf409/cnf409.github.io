@@ -114,10 +114,7 @@ def _split_csv_list(raw: object) -> list[str]:
     if isinstance(raw, str):
         return [part.strip() for part in raw.split(',') if part.strip()]
     if isinstance(raw, (list, tuple)):
-        values: list[str] = []
-        for item in raw:
-            values.extend(_split_csv_list(item))
-        return values
+        return [str(item).strip() for item in raw if str(item).strip()]
     return []
 
 
@@ -572,10 +569,12 @@ class Post:
             self.solves_display = ''
         else:
             self.solves_display = str(raw_solves)
-        self.challenge_author    = meta.get('challenge_author', '')
-        self.challenge_author_url = meta.get('challenge_author_url', '')
-        author_names = _split_csv_list(self.challenge_author)
-        author_urls = _split_csv_list(self.challenge_author_url)
+        author_names = _split_csv_list(meta.get('challenge_author', []))
+        author_urls = _split_csv_list(meta.get('challenge_author_url', []))
+        self.challenge_author_names = author_names
+        self.challenge_author_urls = author_urls
+        self.challenge_author = ', '.join(author_names)
+        self.challenge_author_url = ', '.join(author_urls)
         self.challenge_authors = [
             {
                 'name': name,
@@ -685,6 +684,8 @@ class Post:
             'solves': self.solves, 'solves_display': self.solves_display,
             'challenge_author': self.challenge_author,
             'challenge_author_url': self.challenge_author_url,
+            'challenge_author_names': self.challenge_author_names,
+            'challenge_author_urls': self.challenge_author_urls,
             'challenge_authors': self.challenge_authors,
             'rating': self.rating, 'flag': self.flag, 'flag_inline': self.flag_inline,
             'platform': self.platform, 'os': self.os,

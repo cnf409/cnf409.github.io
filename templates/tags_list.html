@@ -107,7 +107,8 @@
       });
 
       if (empty) {
-        empty.classList.toggle('hidden', visibleCount !== 0);
+        if (visibleCount !== 0) empty.classList.add('hidden');
+        else empty.classList.remove('hidden');
       }
     };
 

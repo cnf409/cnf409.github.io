@@ -10,8 +10,8 @@ event              = "N1CTF 2025"
 difficulty         = "medium"
 category           = "web"
 solves             = ?
-challenge_author   = "GSBP"
-challenge_author_url = "https://gsbp0.github.io/"
+challenge_author   = ["GSBP"]
+challenge_author_url = ["https://gsbp0.github.io/"]
 rating             = 7
 redirect_from      = ["/posts/2025/10/n1ctf-2025-web-eezzjs/"]
 +++
