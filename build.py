@@ -681,7 +681,6 @@ class Post:
 
     @property
     def keywords(self) -> str:
-        """Auto-generate keywords from tags + contextual metadata."""
         kws: list[str] = list(self.tags)
         for extra in (self.event, self.category, self.platform, self.os):
             if extra and extra not in kws:

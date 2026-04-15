@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# usage: ./automate.sh HH:MM:SS [YYYY-MM-DD]
-# Predicts the lottery draw for a given time using the known reference seed.
 
 REF_DATE="2025-05-23"
 REF_TIME="01:11:54"

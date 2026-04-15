@@ -586,7 +586,7 @@
       imgEl.alt = alt || '';
       resetZoom();
       overlay.classList.remove('is-open', 'is-closing');
-      void overlay.offsetWidth; // force reflow so the animation replays
+      void overlay.offsetWidth;
       overlay.classList.add('is-open');
       document.body.style.overflow = 'hidden';
     }

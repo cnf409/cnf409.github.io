@@ -31,7 +31,6 @@
 {% endblock %}
 
 {% block og %}
-<!-- Open Graph -->
 <meta property="og:site_name"   content="{{ config.site.title | e }}">
 <meta property="og:type"        content="article">
 <meta property="og:locale"      content="{{ 'fr_FR' if post.language == 'fr' else 'en_US' }}">
@@ -41,19 +40,16 @@
 <meta property="og:image"       content="{{ _og_image }}">
 <meta property="og:image:width"  content="400">
 <meta property="og:image:height" content="400">
-<!-- Article metadata (LinkedIn, Facebook) -->
 {% if post.date_iso %}<meta property="article:published_time" content="{{ post.date_iso }}T00:00:00+00:00">{% endif %}
 {% if post.last_updated_iso %}<meta property="article:modified_time" content="{{ post.last_updated_iso }}T00:00:00+00:00">{% endif %}
 {% for tag in post.tags %}<meta property="article:tag" content="{{ tag | e }}">
 {% endfor %}
-<!-- Twitter / X -->
 <meta name="twitter:card"        content="{{ _twitter_card }}">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ post.title | e }} — {{ config.site.title | e }}">
 <meta name="twitter:description" content="{{ _desc | e }}">
 <meta name="twitter:image"       content="{{ _og_image }}">
-<!-- Discord theme color (neon rose) -->
 <meta name="theme-color" content="#ff0080">
 {% endblock %}
 

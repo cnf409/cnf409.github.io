@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Compiles a minimal LD_PRELOAD hook.so, strips it aggressively to stay under
-the 16 KiB HAProxy limit, then splits it at the first newline byte so Flask
-can write it as a note file (title + content).
-"""
-
 import hashlib
 import shutil
 import subprocess

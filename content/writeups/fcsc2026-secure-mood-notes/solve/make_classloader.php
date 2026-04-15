@@ -4,7 +4,6 @@ require __DIR__ . '/../secure-mood-notes/src/main_notes_app/vendor/autoload.php'
 use App\Model\Notes;
 use Composer\Autoload\ClassLoader;
 
-//$secret = 'FCSC{FAKE_FLAG1}';
 $secret = 'FCSC{9c3c34c030a9d6d8}';
 $path = '/path/to/shared.mood.notes';
 

@@ -7,7 +7,6 @@ require __DIR__ . '/../secure-mood-notes/src/main_notes_app/vendor/autoload.php'
 use App\Model\Note;
 use App\Model\Notes;
 
-//$secret = 'FCSC{FAKE_FLAG1}';
 $secret = 'FCSC{9c3c34c030a9d6d8}';
 $title = file_get_contents(__DIR__ . '/output/note_title.utf8.bin');
 $content = file_get_contents(__DIR__ . '/output/note_content.utf8.bin');
