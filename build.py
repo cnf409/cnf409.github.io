@@ -53,6 +53,7 @@ _FENCED_CODE_RE = re.compile(r'```.*?```', re.DOTALL)
 _INLINE_CODE_RE = re.compile(r'`([^`]+)`')
 _MARKDOWN_IMAGE_RE = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
 _MARKDOWN_LINK_RE = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
+_IMG_TAG_RE = re.compile(r'<img\b([^>]*)>', re.IGNORECASE)
 _REFERENCE_TITLE_RE = re.compile(r'<title[^>]*>(.*?)</title>', re.IGNORECASE | re.DOTALL)
 _WORD_RE = re.compile(r"\b[\w'-]+\b", re.UNICODE)
 _WHITESPACE_RE = re.compile(r'\s+')
@@ -366,6 +367,24 @@ def _normalize_html_links(html: str) -> str:
     return _blankify_html_links(_autolink_html(html))
 
 
+def _optimize_html_images(html: str) -> str:
+    def repl(match: re.Match) -> str:
+        attrs = match.group(1)
+        closing = ''
+
+        if re.search(r'/\s*$', attrs):
+            attrs = re.sub(r'/\s*$', '', attrs).rstrip()
+            closing = ' /'
+
+        if not re.search(r'\bloading\s*=', attrs, flags=re.IGNORECASE):
+            attrs += ' loading="lazy"'
+        if not re.search(r'\bdecoding\s*=', attrs, flags=re.IGNORECASE):
+            attrs += ' decoding="async"'
+        return f'<img{attrs}{closing}>'
+
+    return _IMG_TAG_RE.sub(repl, html)
+
+
 def _make_flag_block_html(flag: str) -> str:
     escaped = flag.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     return (
@@ -499,7 +518,7 @@ def md_to_html(body: str, flag: str = '') -> tuple[str, str, bool]:
             'toc': {},
         },
     )
-    html = _normalize_html_links(parser.convert(body))
+    html = _optimize_html_images(_normalize_html_links(parser.convert(body)))
     return html, parser.toc, flag_inline
 
 

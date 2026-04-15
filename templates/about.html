@@ -52,6 +52,7 @@
         {% if meta.avatar %}
         <div class="about-avatar-wrap flex-shrink-0">
           <img src="{{ meta.avatar }}" alt="{{ meta.name or config.site.title }}"
+               width="128" height="128" decoding="async"
                class="about-avatar w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover">
         </div>
         {% endif %}

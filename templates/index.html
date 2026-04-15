@@ -56,6 +56,7 @@
     {% if about.avatar %}
     <div class="home-avatar-wrap flex-shrink-0">
       <img src="{{ about.avatar }}" alt="{{ about.name or config.site.title }}"
+           width="160" height="160" decoding="async" fetchpriority="high"
            class="home-avatar w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover">
     </div>
     {% endif %}
