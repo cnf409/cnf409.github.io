@@ -20,12 +20,22 @@
     </div>
 
     <div class="flex flex-wrap gap-3">
+      {% if file.kind == 'solve' %}
+      <button type="button"
+              class="pagination-btn source-copy-btn"
+              data-copy-source
+              data-copy-url="{{ file.raw_url }}"
+              data-copy-target="#source-copy-panel pre"
+              data-default-label="copy">
+        copy
+      </button>
+      {% endif %}
       <a href="{{ file.raw_url }}" class="pagination-btn" download>download</a>
       <a href="{{ post.url }}" class="pagination-btn">back to post</a>
     </div>
   </div>
 
-  <div class="source-view-panel">
+  <div class="source-view-panel" id="source-copy-panel">
     {{ highlighted_code | safe }}
   </div>
 </div>

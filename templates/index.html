@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import post_card %}
+{% from "macros.html" import post_card, social_icon %}
 
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
 
@@ -68,6 +68,33 @@
       <div class="home-hero__links">
         <a href="/posts/" class="home-link">all posts</a>
         <a href="/about/" class="home-link">about</a>
+      </div>
+
+      <div class="home-socials" aria-label="social links">
+        {% if config.social.linkedin %}
+        <a href="{{ config.social.linkedin }}" class="home-social-link" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <span class="home-social-link__icon">{{ social_icon('linkedin') }}</span>
+          <span class="sr-only">LinkedIn</span>
+        </a>
+        {% endif %}
+        {% if config.social.twitter %}
+        <a href="{{ config.social.twitter }}" class="home-social-link" target="_blank" rel="noopener" aria-label="Twitter" title="Twitter">
+          <span class="home-social-link__icon">{{ social_icon('twitter') }}</span>
+          <span class="sr-only">Twitter</span>
+        </a>
+        {% endif %}
+        {% if config.social.github %}
+        <a href="{{ config.social.github }}" class="home-social-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <span class="home-social-link__icon">{{ social_icon('github') }}</span>
+          <span class="sr-only">GitHub</span>
+        </a>
+        {% endif %}
+        {% if config.social.discord %}
+        <a href="{{ config.social.discord }}" class="home-social-link" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
+          <span class="home-social-link__icon">{{ social_icon('discord') }}</span>
+          <span class="sr-only">Discord</span>
+        </a>
+        {% endif %}
       </div>
     </div>
   </section>
