@@ -862,6 +862,22 @@ def load_events() -> dict[str, Event]:
     return events
 
 
+def _minify_css(css: str) -> str:
+    css = re.sub(r'/\*[\s\S]*?\*/', '', css)       # strip comments
+    css = re.sub(r'\s+', ' ', css)                  # collapse whitespace
+    css = re.sub(r' ?([{};,]) ?', r'\1', css)       # trim around structural chars
+    css = re.sub(r' ?: ?', ':', css)                # trim around colon
+    css = css.replace(';}', '}')                    # trailing semicolons
+    return css.strip()
+
+
+def minify_css() -> None:
+    for path in (PUBLIC_DIR / 'css').glob('*.css'):
+        if path.name == 'tailwind.css':
+            continue  # already minified by the Tailwind CLI
+        path.write_text(_minify_css(path.read_text(encoding='utf-8')), encoding='utf-8')
+
+
 def copy_static() -> None:
     if not STATIC_DIR.exists():
         return
@@ -1334,6 +1350,9 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
 
     print('  [+] Syntax CSS...')
     generate_syntax_css()
+
+    print('  [+] Minifying CSS...')
+    minify_css()
 
     env = make_env(config)
 
