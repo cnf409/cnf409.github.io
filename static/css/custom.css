@@ -356,6 +356,7 @@ html {
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(0,240,255,0.4), rgba(247,0,255,0.6), rgba(0,240,255,0.4), transparent);
   transform-origin: left;
+  will-change: transform;
   animation: headerLine 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
