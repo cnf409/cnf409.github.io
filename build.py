@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import http.server
 import json
 import math
@@ -781,12 +782,26 @@ def discover_posts(include_drafts: bool = False) -> list[Post]:
     return sorted(posts, key=lambda p: p.date, reverse=True)
 
 
+def _asset_version() -> str:
+    h = hashlib.sha256()
+    for path in [
+        PUBLIC_DIR / 'css' / 'tailwind.css',
+        PUBLIC_DIR / 'css' / 'custom.css',
+        PUBLIC_DIR / 'css' / 'syntax.css',
+        STATIC_DIR / 'js' / 'main.js',
+    ]:
+        if path.exists():
+            h.update(path.read_bytes())
+    return h.hexdigest()[:12]
+
+
 def make_env(config: dict) -> Environment:
     env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)), autoescape=False)
-    env.globals['config']  = config
-    env.globals['now']     = datetime.now()
-    env.globals['slugify'] = slugify
-    env.filters['tojson']  = lambda v: json.dumps(v, ensure_ascii=False)
+    env.globals['config']        = config
+    env.globals['now']           = datetime.now()
+    env.globals['asset_version'] = _asset_version()
+    env.globals['slugify']       = slugify
+    env.filters['tojson']        = lambda v: json.dumps(v, ensure_ascii=False)
     return env
 
 
@@ -1311,8 +1326,6 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     events = collect_events(posts, event_meta)
     print(f'      {len(posts)} post(s)')
 
-    env = make_env(config)
-
     print('  [+] Static files...')
     copy_static()
 
@@ -1321,6 +1334,8 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
 
     print('  [+] Syntax CSS...')
     generate_syntax_css()
+
+    env = make_env(config)
 
     print('  [+] Building pages...')
     build_index(env, posts)
