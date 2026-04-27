@@ -1,6 +1,6 @@
 +++
 name     = "conflict / cnf409"
-tagline  = "hacking sh*t - cybersecurity student & CTF player"
+tagline  = "hacking sh*t - CTF Player, CS student based in Bordeaux"
 location = "Bordeaux, France"
 school   = "Ynov Campus (B2 Cyber)"
 avatar   = "/img/pfp.jpg"

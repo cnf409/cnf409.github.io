@@ -2,7 +2,7 @@
 {% from "macros.html" import type_badge, difficulty_label, language_code, os_label %}
 
 {% block html_lang %}{{ post.language }}{% endblock %}
-{% block title %}{{ post.title }} — {{ config.site.title }}{% endblock %}
+{% block title %}{% if post.type == 'ctf' and post.event %}{{ post.title }} — {{ post.event }}{% if post.category %} {{ post.category | capitalize }}{% endif %} Writeup — {{ config.site.title }}{% else %}{{ post.title }} — {{ config.site.title }}{% endif %}{% endblock %}
 
 {%- if post.description %}
   {%- set _desc = post.description %}
@@ -74,8 +74,8 @@
     "@type": "Person",
     "name": {{ config.site.author | tojson }},
     "url": {{ config.site.base_url | tojson }}
-  }{% if post.tags %},
-  "keywords": {{ post.tags | tojson }}{% endif %}
+  }{% set _kw = (post.tags or []) + ([post.event] if post.event and post.event not in (post.tags or []) else []) + ([post.category] if post.category and post.category not in (post.tags or []) and post.category != post.event else []) %}{% if _kw %},
+  "keywords": {{ _kw | tojson }}{% endif %}
 }
 </script>
 <script type="application/ld+json">

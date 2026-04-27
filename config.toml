@@ -1,6 +1,6 @@
 [site]
 title       = "conflict"
-description = "CTF writeups, cybersecurity research, and deep dives"
+description = "French CTF writeups and cybersecurity research — FCSC, ECSC Team France, ANSSI challenges, HeroCTF and deep dives"
 base_url    = "https://cnf409.me"
 author      = "conflict"
 
