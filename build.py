@@ -863,18 +863,18 @@ def load_events() -> dict[str, Event]:
 
 
 def _minify_css(css: str) -> str:
-    css = re.sub(r'/\*[\s\S]*?\*/', '', css)       # strip comments
-    css = re.sub(r'\s+', ' ', css)                  # collapse whitespace
-    css = re.sub(r' ?([{};,]) ?', r'\1', css)       # trim around structural chars
-    css = re.sub(r' ?: ?', ':', css)                # trim around colon
-    css = css.replace(';}', '}')                    # trailing semicolons
+    css = re.sub(r'/\*[\s\S]*?\*/', '', css)
+    css = re.sub(r'\s+', ' ', css)
+    css = re.sub(r' ?([{};,]) ?', r'\1', css)
+    css = re.sub(r' ?: ?', ':', css)
+    css = css.replace(';}', '}')
     return css.strip()
 
 
 def minify_css() -> None:
     for path in (PUBLIC_DIR / 'css').glob('*.css'):
         if path.name == 'tailwind.css':
-            continue  # already minified by the Tailwind CLI
+            continue
         path.write_text(_minify_css(path.read_text(encoding='utf-8')), encoding='utf-8')
 
 

@@ -1749,9 +1749,6 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   margin: 0 !important;
 }
 
-/* — 404 neon digits — */
-
-/* premier 4 : stable, double-flicker rapide */
 @keyframes neonA {
   0%,  18% { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
   19%       { filter: none; }
@@ -1760,25 +1757,18 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   22%, 100% { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
 }
 
-/* 0 : nickel, un seul bref clignotement */
 @keyframes neonB {
   0%,  70% { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
   71%       { filter: brightness(1.4); }
   72%, 100% { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
 }
 
-/* dernier 4 : le cassé — galère à rester allumé */
 @keyframes neonC {
-  /* allumé brièvement au départ */
   0%,  6%  { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
-  /* s'éteint */
   7%        { filter: none; }
-  /* flash raté */
   10%       { filter: brightness(1.8); }
   11%       { filter: none; }
-  /* reste éteint */
   11%, 30%  { filter: none; }
-  /* tentatives de rallumage de plus en plus fortes */
   31%       { filter: brightness(2); }
   32%       { filter: none; }
   37%       { filter: brightness(2.5) drop-shadow(0 0 3px rgba(0,240,255,0.3)); }
@@ -1787,7 +1777,6 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
   44%       { filter: none; }
   48%       { filter: brightness(3.5) drop-shadow(0 0 5px rgba(0,240,255,0.45)); }
   49%       { filter: none; }
-  /* enfin allumé — stable pour le reste du cycle */
   50%, 100% { filter: brightness(4) drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
 }
 
