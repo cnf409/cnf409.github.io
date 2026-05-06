@@ -1937,3 +1937,112 @@ a.pagination-btn:hover { color: var(--cyan); border-color: rgba(0,240,255,0.4); 
     animation: none !important;
   }
 }
+
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.nav-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 13rem;
+  padding: 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+  z-index: 60;
+}
+.nav-dropdown:hover .nav-dropdown__menu,
+.nav-dropdown:focus-within .nav-dropdown__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown__menu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+.nav-dropdown__item {
+  display: block;
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color 0.15s, background-color 0.15s;
+}
+.nav-dropdown__item:hover,
+.nav-dropdown__item:focus-visible {
+  color: var(--cyan);
+  background: rgba(255, 255, 255, 0.04);
+  outline: none;
+}
+
+@media (max-width: 640px) {
+  .nav-dropdown__menu {
+    right: auto;
+    left: 0;
+    min-width: 11rem;
+  }
+}
+
+.cve-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.cve-card:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+.cve-card__link {
+  display: block;
+  padding: 1rem 1.1rem;
+}
+.cve-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
+}
+.cve-card__id {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+.cve-card__date {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+.cve-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+.cve-card__copy {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}

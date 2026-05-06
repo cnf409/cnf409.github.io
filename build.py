@@ -607,6 +607,7 @@ class Post:
 
         self.platform      = meta.get('platform', '')
         self.os            = meta.get('os', '')
+        self.cve_id        = str(meta.get('cve_id', '')).strip()
         self.description   = meta.get('description', '')
         raw_redirects      = meta.get('redirect_from', [])
         self.redirect_from = _coerce_str_list(raw_redirects)
@@ -708,6 +709,7 @@ class Post:
             'challenge_authors': self.challenge_authors,
             'rating': self.rating, 'flag': self.flag, 'flag_inline': self.flag_inline,
             'platform': self.platform, 'os': self.os,
+            'cve_id': self.cve_id,
             'description': self.description,
             'excerpt': self.excerpt,
             'context_label': self.context_label,
@@ -1090,7 +1092,20 @@ def build_about(env: Environment) -> None:
                render(env, 'about.html', meta=meta, html=html))
 
 
-def build_search_index(posts: list[Post], events: list[dict]) -> None:
+def collect_cves(posts: list[Post]) -> list[dict]:
+    cve_posts = [p for p in posts if p.cve_id]
+    cve_posts.sort(key=lambda p: p.cve_id, reverse=True)
+    return [p.as_dict() for p in cve_posts]
+
+
+def build_cves_index(env: Environment, cves: list[dict]) -> None:
+    write_page(
+        PUBLIC_DIR / 'cves' / 'index.html',
+        render(env, 'cves_list.html', cves=cves, cve_total=len(cves)),
+    )
+
+
+def build_search_index(posts: list[Post], events: list[dict], cves: list[dict] | None = None) -> None:
     items: list[dict] = []
     tags: dict[str, int] = {}
     about_meta, _ = load_about()
@@ -1188,6 +1203,21 @@ def build_search_index(posts: list[Post], events: list[dict]) -> None:
             'date_iso': '',
         })
 
+    for cve in cves or []:
+        items.append({
+            'title': cve['cve_id'],
+            'url': cve['url'],
+            'kind': 'cve',
+            'kind_label': 'CVE',
+            'subtitle': cve.get('title', ''),
+            'description': cve.get('description', '') or cve.get('excerpt', ''),
+            'search_text': _normalize_whitespace(
+                ' '.join([cve['cve_id'], cve.get('title', ''), cve.get('description', '')])
+            ).lower(),
+            'priority': 280,
+            'date_iso': cve.get('date_iso', ''),
+        })
+
     (PUBLIC_DIR / 'search-index.json').write_text(
         json.dumps({'items': items}, ensure_ascii=False),
         encoding='utf-8',
@@ -1202,6 +1232,7 @@ def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
         {'loc': f'{base}/',        'changefreq': 'weekly',  'priority': '1.0'},
         {'loc': f'{base}/posts/',  'changefreq': 'weekly',  'priority': '0.8'},
         {'loc': f'{base}/events/', 'changefreq': 'monthly', 'priority': '0.6'},
+        {'loc': f'{base}/cves/',   'changefreq': 'monthly', 'priority': '0.7'},
         {'loc': f'{base}/tags/',   'changefreq': 'monthly', 'priority': '0.5'},
         {'loc': f'{base}/about/',  'changefreq': 'monthly', 'priority': '0.7'},
     ]
@@ -1355,6 +1386,8 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     minify_css()
 
     env = make_env(config)
+    cves = collect_cves(posts)
+    env.globals['cves'] = cves
 
     print('  [+] Building pages...')
     build_index(env, posts)
@@ -1364,8 +1397,9 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     build_tag_pages(env, posts)
     build_event_pages(env, events)
     build_events_index(env, events)
+    build_cves_index(env, cves)
     build_about(env)
-    build_search_index(posts, events)
+    build_search_index(posts, events, cves)
 
     print('  [+] Post assets...')
     copy_post_assets(posts)
