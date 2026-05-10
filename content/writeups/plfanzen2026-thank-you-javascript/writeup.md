@@ -130,7 +130,7 @@ If we take a look at how this function works from `bcrypt.js`'s source code, we 
 /// @param {String|Buffer} data the data to hash and compare
 /// @param {String} hash expected hash
 /// @param {Function} cb callback(err, matched) - matched is true if hashed data matches hash
-function compare(data, hthisash, cb) {
+function compare(data, hash, cb) {
     let error;
 
     <...>
@@ -242,7 +242,7 @@ template <class T> T* Statement::Bind(const Napi::CallbackInfo& info, int start,
 }
 ```
 
-This means that if we pass three values in the `email` array, the first will be the actual `email`, the second will be the `username` and the third will be the `password_hash`, and all the other parameters will be ignored. In that scenario, the `verification_code` is never inserted in the DB as because its placeholder `?` is left unbound and it defaults to `NULL`, giving us access to the account.
+This means that if we pass three values in the `email` array, the first will be the actual `email`, the second will be the `username` and the third will be the `password_hash`, and all the other parameters will be ignored. In that scenario, the `verification_code` is never inserted in the DB because its placeholder `?` is left unbound and it defaults to `NULL`, giving us access to the account.
 
 > Note: SQLite's UNIQUE constraint uses BINARY collation by default (case-sensitive), so ADMIN and admin are different keys. UNIQUE only complains for byte-identical duplicates, while LIKE ignores case.
 
