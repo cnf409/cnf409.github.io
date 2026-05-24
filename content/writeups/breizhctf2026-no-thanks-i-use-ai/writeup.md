@@ -1,6 +1,6 @@
 +++
 type               = "ctf"
-title              = "No thanks I use AI"
+title              = "No thanks, I use AI"
 description        = "Abusing a JSON array type-confusion to slip a path-traversal filename past the character blacklist, an SVG external-script href to sidestep script-src 'self' for admin XSS, then gunicorn's worker recycle to hijack a dotenv import shadowed in the app root for RCE"
 author             = "conflict"
 date               = "2026-05-24"
