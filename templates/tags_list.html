@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'tags' %}
 
 {% set tags_title = 'Tags — ' ~ config.site.title %}
 {% set tags_desc = tag_total ~ ' tag(s) on ' ~ config.site.title ~ ', grouped alphabetically.' %}
@@ -14,107 +16,45 @@
 <meta property="og:title"       content="{{ tags_title | e }}">
 <meta property="og:description" content="{{ tags_desc | e }}">
 <meta property="og:url"         content="{{ tags_url }}">
-<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ tags_title | e }}">
 <meta name="twitter:description" content="{{ tags_desc | e }}">
-<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta name="theme-color" content="#ff0080">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}
 
+{% block main_attrs %} style="max-width:calc(1000px + 2 * var(--page-x))"{% endblock %}
 {% block content %}
-
-  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-    <div>
-      <p class="font-mono text-xs text-muted mb-1">index</p>
-      <h1 class="font-mono text-2xl font-bold text-body">
-        <span class="text-cyan">~/</span>tags
-      </h1>
-    </div>
-    <p class="font-mono text-xs text-dim">{{ tag_total }} tag(s), grouped alphabetically</p>
-  </div>
-
-  {% if grouped_tags %}
-  <div class="tag-search mb-7">
-    <label for="tag-search-input" class="tag-search__label">Search tags</label>
-    <input
-      id="tag-search-input"
-      type="search"
-      class="tag-search__input"
-      placeholder="search by tag name..."
-      autocomplete="off"
-      autocapitalize="off"
-      spellcheck="false"
-    >
-  </div>
-  {% endif %}
-
-  {% if grouped_tags %}
-    <div id="tag-groups">
+<div class="page-head"><h1 class="page-title" data-reveal="ink">Tags<span class="count">{{ tag_total }}</span></h1>
+  {% if grouped_tags %}<label class="field" style="width:min(360px,100%)"><svg class="icon"><use href="#i-search"/></svg><input type="search" placeholder="filter tags…" aria-label="Filter tags" data-tag-search="#tag-index" autocomplete="off" spellcheck="false"><kbd>/</kbd></label>{% endif %}
+</div>
+{% if grouped_tags %}
+<div>
+  <div id="tag-index">
     {% for letter, group in grouped_tags %}
-    <section class="tags-group mb-7" data-tags-group>
-      <h2 class="tags-group__letter">{{ letter }}</h2>
-      <div class="flex flex-wrap gap-2">
-        {% for tag, tag_slug, count in group %}
-        <a href="/tags/{{ tag_slug }}/" class="tag-pill" data-tag-name="{{ tag | lower }}">
-          <span class="tag-pill__name">#{{ tag }}</span>
-          <span class="tag-pill__count">{{ count }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
+    <section class="letter-group" data-letter-group><h2 class="letter-group__letter">{{ letter }}</h2><ul class="tags">
+      {%- for tag, tag_slug, count in group %}<li data-tag="{{ tag | lower }}"><a class="tag" href="/tags/{{ tag_slug }}/">#{{ tag }}<span class="tag__count">{{ count }}</span></a></li>{% endfor -%}
+    </ul></section>
     {% endfor %}
-    </div>
-    <p id="tag-search-empty" class="font-mono text-muted text-sm hidden">No matching tags.</p>
+  </div>
+  <p class="empty" data-empty hidden><span class="empty__mark tone tone--dense" aria-hidden="true"></span><span>No tag matches <b>“”</b>.</span></p>
+</div>
 {% else %}
-  <p class="font-mono text-muted text-sm">No tags yet.</p>
-  {% endif %}
-
+<p class="empty"><span class="empty__mark tone tone--dense" aria-hidden="true"></span><span>No tags yet.</span></p>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
 <script>
-  (function () {
-    const input = document.querySelector('#tag-search-input');
-    const groups = document.querySelectorAll('[data-tags-group]');
-    const empty = document.querySelector('#tag-search-empty');
-
-    if (!input || !groups.length) return;
-
-    const sync = () => {
-      const query = input.value.trim().toLowerCase();
-      let visibleCount = 0;
-
-      groups.forEach((group) => {
-        const tags = group.querySelectorAll('[data-tag-name]');
-        let groupVisible = 0;
-
-        tags.forEach((tag) => {
-          const name = tag.getAttribute('data-tag-name') || '';
-          const match = !query || name.includes(query);
-          tag.style.display = match ? '' : 'none';
-          if (match) {
-            groupVisible += 1;
-            visibleCount += 1;
-          }
-        });
-
-        group.style.display = groupVisible ? '' : 'none';
-      });
-
-      if (empty) {
-        if (visibleCount !== 0) empty.classList.add('hidden');
-        else empty.classList.remove('hidden');
-      }
-    };
-
-    input.addEventListener('input', sync);
-    input.addEventListener('search', sync);
-    sync();
-  })();
+  /* "/" jumps to the tag filter, as the kbd hint promises */
+  document.addEventListener('keydown', function (e) {
+    var input = document.querySelector('[data-tag-search]');
+    if (e.key !== '/' || !input || /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+    e.preventDefault(); input.focus();
+  });
 </script>
 {% endblock %}

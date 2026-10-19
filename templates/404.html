@@ -1,33 +1,18 @@
 {% extends "base.html" %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
 
 {% block title %}404 — Page Not Found — {{ config.site.title }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/404/">{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
+{% block main_attrs %} style="padding-top:var(--space-12)"{% endblock %}
 {% block content %}
-<div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-
-  <div class="error-code font-mono font-bold select-none mb-6">
-    <span class="neon-digit neon-digit--a">4</span>
-    <span class="neon-digit neon-digit--b">0</span>
-    <span class="neon-digit neon-digit--c">4</span>
+<section class="impact-404" data-reveal="impact">
+  <div class="impact-404__lines" aria-hidden="true"></div>
+  <div class="impact-404__box">
+    <h1 class="impact-404__num" aria-label="404"><span>4</span><span>0</span><span>4</span></h1>
+    <p class="balloon impact-404__msg">This page doesn't exist or has been moved. It might be an unpublished draft.</p>
+    <div class="btn-row" style="margin-top:12px"><a class="btn btn--solid" href="/"><span class="btn__label">home</span><span class="arr">→</span></a><a class="btn" href="/posts/"><span class="btn__label">all posts</span></a></div>
   </div>
-
-  <h1 class="font-mono text-xl sm:text-2xl font-bold text-body mb-3">
-    <span class="text-cyan">~/</span>page-not-found
-  </h1>
-
-  <p class="text-muted text-sm mb-2 max-w-sm">
-    This page doesn't exist or has been moved.
-  </p>
-  <p class="text-dim text-xs font-mono mb-10">
-    It might be an unpublished draft.
-  </p>
-
-  <div class="flex gap-4">
-    <a href="/"       class="home-link">home</a>
-    <a href="/posts/" class="home-link">all posts</a>
-  </div>
-
-</div>
+</section>
 {% endblock %}

@@ -1,42 +1,19 @@
 {% extends "base.html" %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'posts' %}
 
 {% block title %}{{ file.name }} — Source — {{ post.title }} — {{ config.site.title }}{% endblock %}
 {% block description %}Source view for {{ file.name }}{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}{{ file.viewer_url }}">{% endblock %}
 
+{% block main_attrs %} style="max-width:calc(1000px + 2 * var(--page-x))"{% endblock %}
 {% block content %}
-<div class="max-w-4xl mx-auto">
-  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-    <div class="min-w-0">
-      <p class="font-mono text-xs text-muted mb-1">{{ file.kind_label }}</p>
-      <h1 class="font-mono text-xl sm:text-2xl font-bold text-body break-all">
-        {{ file.name }}
-      </h1>
-      <p class="font-mono text-xs text-dim mt-2">
-        from <a href="{{ post.url }}" class="hover:text-cyan transition-colors">{{ post.title }}</a>
-        · {{ file.size_label }}
-      </p>
-    </div>
-
-    <div class="flex flex-wrap gap-3">
-      {% if file.kind == 'solve' %}
-      <button type="button"
-              class="pagination-btn source-copy-btn"
-              data-copy-source
-              data-copy-url="{{ file.raw_url }}"
-              data-copy-target="#source-copy-panel pre"
-              data-default-label="copy">
-        copy
-      </button>
-      {% endif %}
-      <a href="{{ file.raw_url }}" class="pagination-btn" download>download</a>
-      <a href="{{ post.url }}" class="pagination-btn">back to post</a>
-    </div>
-  </div>
-
-  <div class="source-view-panel" id="source-copy-panel">
-    {{ highlighted_code | safe }}
-  </div>
-</div>
+<header class="source-head">
+  <div><h1 class="source-head__name"><span class="file-ext">{{ file.ext.lstrip('.') or 'txt' }}</span>{{ file.name }}</h1><p class="source-head__from">from <a href="{{ post.url }}">{{ post.title }}</a> · {{ file.size_label }} · {{ line_count }} lines</p></div>
+  <div class="btn-row"><button class="btn btn--sm" data-copy="#src-raw"><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy</span></button><a class="btn btn--sm" href="{{ file.raw_url }}" download><svg class="icon"><use href="#i-down"/></svg><span class="btn__label">download</span></a><a class="btn btn--sm" href="{{ post.url }}"><span class="btn__label">← back to post</span></a></div>
+</header>
+<div class="codeblock source" style="margin:0">{{ highlighted_code | safe }}</div>
+{# copy reads this, so line numbers never land in the clipboard #}
+<pre id="src-raw" hidden>{{ raw_source | e }}</pre>
 {% endblock %}

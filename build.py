@@ -33,15 +33,19 @@ STATIC_DIR    = ROOT / "static"
 PUBLIC_DIR    = ROOT / "public"
 CONFIG_FILE   = ROOT / "config.toml"
 
-_TERMINAL_RE = re.compile(r'```terminal\n(.*?)\n```', re.DOTALL)
 _LANGUAGE_META = {
-    'en': {'label': 'English', 'flag': '/flags/us.svg'},
-    'fr': {'label': 'French',  'flag': '/flags/fr.svg'},
+    'en': {'label': 'English'},
+    'fr': {'label': 'French'},
 }
 _INLINE_FILE_MAX_BYTES = 100_000
-_PHP_FENCE_RE = re.compile(
-    r'(^|\n)```(?P<lang>php\d*)[^\n]*\n(?P<code>.*?)(?:\n)```(?=\n|$)',
-    re.IGNORECASE | re.DOTALL,
+_FENCE_RE = re.compile(
+    r'(^|\n)```(?P<lang>[\w+#.-]*)[^\n]*\n(?P<code>.*?)\n```(?=\n|$)',
+    re.DOTALL,
+)
+_PROMPT_RE = re.compile(r'^((?:\S+ )?\$) (.*)$')
+_COPY_BTN = (
+    '<button class="btn btn--sm" data-copy><svg class="icon"><use href="#i-copy"/></svg>'
+    '<span class="btn__label">copy</span></button>'
 )
 _HTML_TAG_RE = re.compile(r'(<[^>]+>)')
 _BARE_URL_RE = re.compile(r'https?://[^\s<]+')
@@ -88,11 +92,6 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     return tomllib.loads(frontmatter), text[end + 3:].strip()
 
 
-def _terminal_replace(m: re.Match) -> str:
-    content = m.group(1).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-    return f'\n<div class="terminal-block"><pre class="terminal-pre"><code>{content}</code></pre></div>\n'
-
-
 def _coerce_datetime(raw: object) -> datetime | None:
     if isinstance(raw, datetime):
         return raw
@@ -121,7 +120,7 @@ def _split_csv_list(raw: object) -> list[str]:
 
 
 def _format_date(value: datetime | None) -> str:
-    return value.strftime('%b %d, %Y') if value else ''
+    return f'{value:%b} {value.day}, {value.year}' if value else ''
 
 
 def _format_date_range(start: datetime | None, end: datetime | None) -> str:
@@ -129,10 +128,10 @@ def _format_date_range(start: datetime | None, end: datetime | None) -> str:
         if start.date() == end.date():
             return _format_date(start)
         if start.year == end.year and start.month == end.month:
-            return f"{start.strftime('%b %d')} - {end.strftime('%d, %Y')}"
+            return f"{start:%b} {start.day} – {end.day}, {end.year}"
         if start.year == end.year:
-            return f"{start.strftime('%b %d')} - {end.strftime('%b %d, %Y')}"
-        return f"{_format_date(start)} - {_format_date(end)}"
+            return f"{start:%b} {start.day} – {end:%b} {end.day}, {end.year}"
+        return f"{_format_date(start)} – {_format_date(end)}"
     return _format_date(start or end)
 
 
@@ -249,29 +248,58 @@ def _read_inline_source(path: Path) -> str | None:
         return None
 
 
+def _escape_html(text: str) -> str:
+    return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
 def _highlight_source(filename: str, source: str) -> str:
     try:
         lexer = get_lexer_for_filename(filename, source)
     except ClassNotFound:
         lexer = TextLexer(stripall=False)
 
-    formatter = HtmlFormatter(style='dracula', cssclass='highlight')
-    return highlight(source, lexer, formatter)
+    return highlight(source, lexer, HtmlFormatter(cssclass='highlight', linenos='inline'))
 
 
-def _highlight_php_inline(code: str) -> str:
-    formatter = HtmlFormatter(style='dracula', cssclass='highlight')
-    lexer = get_lexer_by_name('php', startinline=True)
-    return highlight(code, lexer, formatter)
+def _terminal_html(code: str) -> str:
+    # `$ cmd` lines become prompt + command, the rest output; a block without prompts stays plain
+    lines = code.split('\n')
+    has_prompt = any(_PROMPT_RE.match(line) for line in lines)
+    out: list[str] = []
+    for line in lines:
+        if m := _PROMPT_RE.match(line):
+            out.append(f'<span class="gp">{_escape_html(m.group(1))}</span> {_escape_html(m.group(2))}')
+        elif has_prompt:
+            out.append(f'<span class="go">{_escape_html(line)}</span>')
+        else:
+            out.append(_escape_html(line))
+    return (
+        '<figure class="terminal"><figcaption class="terminal__bar"><span class="terminal__title">shell</span>'
+        f'{_COPY_BTN}</figcaption><pre>' + '\n'.join(out) + '</pre></figure>'
+    )
 
 
-def _normalize_php_fences(body: str) -> str:
+def _codeblock_html(code: str, lang: str) -> str:
+    lang = lang.lower()
+    try:
+        lexer = get_lexer_by_name(lang, startinline=True) if lang else TextLexer()
+    except ClassNotFound:
+        lexer = TextLexer()
+    body = highlight(code, lexer, HtmlFormatter(cssclass='highlight'))
+    return (
+        f'<figure class="codeblock"><figcaption class="codeblock__bar">'
+        f'<span class="codeblock__lang">{_escape_html(lang or "text")}</span>{_COPY_BTN}</figcaption>'
+        f'{body}</figure>'
+    )
+
+
+def _normalize_fences(body: str) -> str:
     def replace(match: re.Match) -> str:
-        prefix = match.group(1)
-        code = match.group('code')
-        return f"{prefix}\n{_highlight_php_inline(code)}\n"
+        lang, code = match.group('lang'), match.group('code')
+        html = _terminal_html(code) if lang.lower() == 'terminal' else _codeblock_html(code, lang)
+        return f"{match.group(1)}\n{html}\n"
 
-    return _PHP_FENCE_RE.sub(replace, body)
+    return _FENCE_RE.sub(replace, body)
 
 
 def _normalize_markdown_images(body: str) -> str:
@@ -351,6 +379,8 @@ def _autolink_html(html: str) -> str:
 def _blankify_html_links(html: str) -> str:
     def repl(match: re.Match) -> str:
         attrs = match.group(1)
+        if re.search(r'\bhref\s*=\s*"#', attrs):
+            return match.group(0)
         has_target = re.search(r'\btarget\s*=', attrs, flags=re.IGNORECASE)
         has_rel = re.search(r'\brel\s*=', attrs, flags=re.IGNORECASE)
 
@@ -386,13 +416,18 @@ def _optimize_html_images(html: str) -> str:
     return _IMG_TAG_RE.sub(repl, html)
 
 
-def _make_flag_block_html(flag: str) -> str:
-    escaped = flag.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+def make_flag_html(flag: str) -> str:
+    value = _escape_html(flag)
+    if '{' in value and value.endswith('}'):
+        head, _, inner = value[:-1].partition('{')
+        value = f'{head}<span class="brace">{{</span>{inner}<span class="brace">}}</span>'
     return (
-        '\n<div class="flag-block my-8">'
-        '\n<div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>'
-        f'\n<code class="flag-block__value font-mono text-sm">{escaped}</code>'
-        '\n</div>\n'
+        '<section class="flag-panel" data-reveal="flag" aria-label="Flag">'
+        '<div class="flag-panel__lines" aria-hidden="true"></div>'
+        '<div class="flag-panel__box"><p class="flag-panel__stamp">Flag</p>'
+        f'<code class="flag-panel__value">{value}</code>'
+        '<button class="btn btn--sm" data-copy><svg class="icon"><use href="#i-copy"/></svg>'
+        '<span class="btn__label">copy flag</span></button></div></section>'
     )
 
 
@@ -505,22 +540,19 @@ def _build_reference_card(reference: dict[str, str]) -> dict | None:
     }
 
 
-def md_to_html(body: str, flag: str = '') -> tuple[str, str, bool]:
+def md_to_html(body: str, flag: str = '') -> tuple[str, list[dict], bool]:
     flag_inline = bool(flag and _FLAG_MARKER_RE.search(body))
     if flag_inline:
-        body = _FLAG_MARKER_RE.sub(_make_flag_block_html(flag), body)
+        body = _FLAG_MARKER_RE.sub(lambda _: f'\n\n{make_flag_html(flag)}\n\n', body)
     body = _normalize_markdown_images(body)
-    body = _normalize_php_fences(body)
-    body = _TERMINAL_RE.sub(_terminal_replace, body)
+    body = _normalize_fences(body)
     parser = markdown.Markdown(
-        extensions=['fenced_code', 'tables', 'toc', 'codehilite', 'attr_list', 'md_in_html'],
-        extension_configs={
-            'codehilite': {'css_class': 'highlight', 'guess_lang': True, 'use_pygments': True},
-            'toc': {},
-        },
+        extensions=['fenced_code', 'tables', 'toc', 'attr_list', 'md_in_html'],
+        extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor'}},
     )
     html = _optimize_html_images(_normalize_html_links(parser.convert(body)))
-    return html, parser.toc, flag_inline
+    html = re.sub(r'<table>(.*?)</table>', r'<div class="table-wrap"><table>\1</table></div>', html, flags=re.DOTALL)
+    return html, parser.toc_tokens, flag_inline
 
 
 class Post:
@@ -528,7 +560,7 @@ class Post:
         self,
         meta: dict,
         html: str,
-        toc: str,
+        toc: list[dict],
         dir_path: Path,
         source_path: Path,
         raw_body: str,
@@ -555,7 +587,6 @@ class Post:
             self.language = 'en'
         self.language_code  = self.language.upper()
         self.language_label = _LANGUAGE_META[self.language]['label']
-        self.language_flag  = _LANGUAGE_META[self.language]['flag']
 
         raw = meta.get('date')
         if isinstance(raw, datetime):
@@ -604,6 +635,7 @@ class Post:
         ]
         self.rating              = meta.get('rating')
         self.flag                = meta.get('flag', '')
+        self.flag_html           = make_flag_html(str(self.flag)) if self.flag else ''
 
         self.platform      = meta.get('platform', '')
         self.os            = meta.get('os', '')
@@ -651,7 +683,7 @@ class Post:
 
     @property
     def date_str(self) -> str:
-        return '' if self.date == datetime.min else self.date.strftime('%b %d, %Y')
+        return '' if self.date == datetime.min else _format_date(self.date)
 
     @property
     def date_iso(self) -> str:
@@ -697,7 +729,6 @@ class Post:
             'last_updated_str': self.last_updated_str, 'last_updated_iso': self.last_updated_iso,
             'has_last_updated': self.has_last_updated,
             'language': self.language, 'language_code': self.language_code, 'language_label': self.language_label,
-            'language_flag': self.language_flag,
             'url': self.url, 'slug': self.slug,
             'event': self.event, 'event_slug': self.event_slug,
             'category': self.category, 'difficulty': self.difficulty, 'stars': self.stars,
@@ -707,7 +738,7 @@ class Post:
             'challenge_author_names': self.challenge_author_names,
             'challenge_author_urls': self.challenge_author_urls,
             'challenge_authors': self.challenge_authors,
-            'rating': self.rating, 'flag': self.flag, 'flag_inline': self.flag_inline,
+            'rating': self.rating, 'flag': self.flag, 'flag_html': self.flag_html, 'flag_inline': self.flag_inline,
             'platform': self.platform, 'os': self.os,
             'cve_id': self.cve_id,
             'description': self.description,
@@ -787,10 +818,9 @@ def discover_posts(include_drafts: bool = False) -> list[Post]:
 def _asset_version() -> str:
     h = hashlib.sha256()
     for path in [
-        PUBLIC_DIR / 'css' / 'tailwind.css',
-        PUBLIC_DIR / 'css' / 'custom.css',
-        PUBLIC_DIR / 'css' / 'syntax.css',
-        STATIC_DIR / 'js' / 'main.js',
+        STATIC_DIR / 'css' / 'tokens.css',
+        STATIC_DIR / 'css' / 'conflict.css',
+        STATIC_DIR / 'js' / 'conflict.js',
     ]:
         if path.exists():
             h.update(path.read_bytes())
@@ -864,22 +894,6 @@ def load_events() -> dict[str, Event]:
     return events
 
 
-def _minify_css(css: str) -> str:
-    css = re.sub(r'/\*[\s\S]*?\*/', '', css)
-    css = re.sub(r'\s+', ' ', css)
-    css = re.sub(r' ?([{};,]) ?', r'\1', css)
-    css = re.sub(r' ?: ?', ':', css)
-    css = css.replace(';}', '}')
-    return css.strip()
-
-
-def minify_css() -> None:
-    for path in (PUBLIC_DIR / 'css').glob('*.css'):
-        if path.name == 'tailwind.css':
-            continue
-        path.write_text(_minify_css(path.read_text(encoding='utf-8')), encoding='utf-8')
-
-
 def copy_static() -> None:
     if not STATIC_DIR.exists():
         return
@@ -910,33 +924,6 @@ def copy_event_assets(events: list[dict]) -> None:
             src = Path(dir_path) / subdir
             if src.exists():
                 shutil.copytree(src, base / subdir, dirs_exist_ok=True)
-
-
-def generate_syntax_css() -> None:
-    css = HtmlFormatter(style='dracula').get_style_defs('.highlight')
-    out = PUBLIC_DIR / 'css'
-    out.mkdir(parents=True, exist_ok=True)
-    (out / 'syntax.css').write_text(css, encoding='utf-8')
-
-
-def run_tailwind() -> None:
-    binary = ROOT / 'tailwindcss'
-    cmd    = str(binary) if binary.exists() else 'tailwindcss'
-    out    = PUBLIC_DIR / 'css'
-    out.mkdir(parents=True, exist_ok=True)
-    try:
-        subprocess.run(
-            [cmd, '-i', str(STATIC_DIR / 'css' / 'input.css'),
-             '-o', str(out / 'tailwind.css'), '--minify'],
-            check=True, capture_output=True,
-        )
-        print('  [+] Tailwind built')
-    except FileNotFoundError:
-        print('  [!] tailwindcss not found — run debug.sh or download manually')
-        shutil.copy2(STATIC_DIR / 'css' / 'input.css', out / 'tailwind.css')
-    except subprocess.CalledProcessError as exc:
-        print(f'  [!] Tailwind error: {exc.stderr.decode()[:200]}')
-        shutil.copy2(STATIC_DIR / 'css' / 'input.css', out / 'tailwind.css')
 
 
 def build_index(env: Environment, posts: list[Post]) -> None:
@@ -989,6 +976,8 @@ def build_post_file_views(env: Environment, posts: list[Post]) -> None:
                         post=post_dict,
                         file=file_ctx,
                         highlighted_code=_highlight_source(file_info['name'], source),
+                        raw_source=source,
+                        line_count=len(source.splitlines()),
                     ),
                 )
 
@@ -1105,124 +1094,13 @@ def build_cves_index(env: Environment, cves: list[dict]) -> None:
     )
 
 
-def build_search_index(posts: list[Post], events: list[dict], cves: list[dict] | None = None) -> None:
-    items: list[dict] = []
-    tags: dict[str, int] = {}
-    about_meta, _ = load_about()
-
-    items.append({
-        'title': 'About',
-        'url': '/about/',
-        'kind': 'page',
-        'kind_label': 'Page',
-        'subtitle': str(about_meta.get('tagline', '')).strip(),
-        'description': 'Background, current focus and links.',
-        'search_text': _normalize_whitespace(
-            f"about {about_meta.get('name', '')} {about_meta.get('tagline', '')} {about_meta.get('location', '')} {about_meta.get('school', '')}"
-        ).lower(),
-        'priority': 90,
-        'date_iso': '',
-    })
-
-    for post in posts:
-        for tag in post.tags:
-            tags[tag] = tags.get(tag, 0) + 1
-
-        subtitle_parts = [post.context_label]
-        if post.type == 'ctf' and post.category:
-            subtitle_parts.append(post.category)
-        if post.type == 'box' and post.os:
-            subtitle_parts.append(post.os)
-        if post.date_str:
-            subtitle_parts.append(post.date_str)
-
-        kind_label = {
-            'ctf': 'CTF writeup',
-            'box': 'Box writeup',
-            'post': 'Post',
-        }.get(post.type, 'Post')
-
-        items.append({
-            'title': post.title,
-            'url': post.url,
-            'kind': post.type,
-            'kind_label': kind_label,
-            'subtitle': ' · '.join(part for part in subtitle_parts if part),
-            'description': post.description or post.excerpt,
-            'search_text': _normalize_whitespace(
-                ' '.join([
-                    post.title,
-                    post.description,
-                    post.excerpt,
-                    post.author,
-                    post.event,
-                    post.category,
-                    post.platform,
-                    post.os,
-                    post.challenge_author,
-                    ' '.join(post.tags),
-                ])
-            ).lower(),
-            'priority': 320 if post.pinned else 220,
-            'date_iso': post.date_iso,
-        })
-
-    for event in events:
-        items.append({
-            'title': event['title'],
-            'url': f"/events/{event['slug']}/",
-            'kind': 'event',
-            'kind_label': 'Event',
-            'subtitle': ' · '.join(part for part in [
-                event.get('date_range', ''),
-                f"{event.get('writeup_count', 0)} writeup(s)",
-            ] if part),
-            'description': _make_excerpt(event.get('html', ''), limit=120) if event.get('html') else '',
-            'search_text': _normalize_whitespace(
-                ' '.join([
-                    event['title'],
-                    ' '.join(event.get('organizers', [])),
-                    ' '.join(event.get('organizer_countries', [])),
-                    ' '.join(post['title'] for post in event.get('posts', [])),
-                ])
-            ).lower(),
-            'priority': 140 + int(event.get('writeup_count', 0)),
-            'date_iso': event.get('end_date_iso') or event.get('start_date_iso') or '',
-        })
-
-    for tag, count in sorted(tags.items(), key=lambda item: item[0].lower()):
-        items.append({
-            'title': f'#{tag}',
-            'url': f"/tags/{slugify(tag)}/",
-            'kind': 'tag',
-            'kind_label': 'Tag',
-            'subtitle': f'{count} post(s)',
-            'description': '',
-            'search_text': _normalize_whitespace(f'tag {tag}').lower(),
-            'priority': 60 + count,
-            'date_iso': '',
-        })
-
-    for cve in cves or []:
-        items.append({
-            'title': cve['cve_id'],
-            'url': cve['url'],
-            'kind': 'cve',
-            'kind_label': 'CVE',
-            'subtitle': cve.get('title', ''),
-            'description': cve.get('description', '') or cve.get('excerpt', ''),
-            'search_text': _normalize_whitespace(
-                ' '.join([cve['cve_id'], cve.get('title', ''), cve.get('description', '')])
-            ).lower(),
-            'priority': 280,
-            'date_iso': cve.get('date_iso', ''),
-        })
-
-    (PUBLIC_DIR / 'search-index.json').write_text(
-        json.dumps({'items': items}, ensure_ascii=False),
-        encoding='utf-8',
-    )
-    print('  [+] Search index generated')
+def search_index_json(posts: list[Post]) -> str:
+    items = [{
+        'title': p.title, 'type': p.type, 'event': p.event or p.cve_id or p.platform,
+        'date': p.date_str, 'tags': p.tags, 'pinned': p.pinned, 'url': p.url,
+    } for p in posts]
+    # inlined in a <script> block, so "</" must not close it
+    return json.dumps(items, ensure_ascii=False).replace('</', '<\\/')
 
 
 def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
@@ -1376,18 +1254,10 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     print('  [+] Static files...')
     copy_static()
 
-    print('  [+] Tailwind CSS...')
-    run_tailwind()
-
-    print('  [+] Syntax CSS...')
-    generate_syntax_css()
-
-    print('  [+] Minifying CSS...')
-    minify_css()
-
     env = make_env(config)
     cves = collect_cves(posts)
     env.globals['cves'] = cves
+    env.globals['search_index'] = search_index_json(posts)
 
     print('  [+] Building pages...')
     build_index(env, posts)
@@ -1399,7 +1269,6 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     build_events_index(env, events)
     build_cves_index(env, cves)
     build_about(env)
-    build_search_index(posts, events, cves)
 
     print('  [+] Post assets...')
     copy_post_assets(posts)

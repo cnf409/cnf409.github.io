@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from "macros.html" import type_badge, difficulty_label, language_code, os_label %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'posts' %}
 
 {% block html_lang %}{{ post.language }}{% endblock %}
 {% block title %}{% if post.type == 'ctf' and post.event %}{{ post.title }} — {{ post.event }}{% if post.category %} {{ post.category | capitalize }}{% endif %} Writeup — {{ config.site.title }}{% else %}{{ post.title }} — {{ config.site.title }}{% endif %}{% endblock %}
@@ -18,7 +19,7 @@
   {%- set _og_image = config.site.base_url ~ post.url ~ post.image %}
   {%- set _twitter_card = 'summary_large_image' %}
 {%- else %}
-  {%- set _og_image = config.site.base_url ~ '/img/pfp.jpg' %}
+  {%- set _og_image = config.site.base_url ~ '/img/avatar.jpg' %}
   {%- set _twitter_card = 'summary' %}
 {%- endif %}
 
@@ -38,8 +39,8 @@
 <meta property="og:description" content="{{ _desc | e }}">
 <meta property="og:url"         content="{{ config.site.base_url }}{{ post.url }}">
 <meta property="og:image"       content="{{ _og_image }}">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 {% if post.date_iso %}<meta property="article:published_time" content="{{ post.date_iso }}T00:00:00+00:00">{% endif %}
 {% if post.last_updated_iso %}<meta property="article:modified_time" content="{{ post.last_updated_iso }}T00:00:00+00:00">{% endif %}
 {% for tag in post.tags %}<meta property="article:tag" content="{{ tag | e }}">
@@ -50,7 +51,6 @@
 <meta name="twitter:title"       content="{{ post.title | e }} — {{ config.site.title | e }}">
 <meta name="twitter:description" content="{{ _desc | e }}">
 <meta name="twitter:image"       content="{{ _og_image }}">
-<meta name="theme-color" content="#ff0080">
 {% endblock %}
 
 {% block jsonld %}
@@ -92,330 +92,105 @@
 {% endblock %}
 
 {% block content %}
-<div class="post-layout">
-<article class="post-main" id="top">
-
-  <header class="mb-8">
-    <div class="flex items-center gap-2 mb-3">
-      {{ type_badge(post.type) }}
-    </div>
-
-    <div class="post-title text-2xl sm:text-3xl font-bold text-body mb-4 leading-tight">
-      {% if post.type == 'ctf' and post.event %}
-        <a href="/events/{{ post.event_slug }}/" class="post-event-title">{{ post.event }}</a>
-      {% endif %}
-      {% if post.type == 'box' and post.platform %}
-        <div class="post-event-title post-event-title--box">{{ post.platform }}</div>
-      {% endif %}
-      <div class="post-title-main">
-        <span>{{ post.title }} {{ language_code(post, variant='hero') }}</span>
-      </div>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted font-mono">
-      <span>{{ post.language_code }}</span>
-      {% if post.author %}
-        <span>by <span class="text-body">{{ post.author }}</span></span>
-      {% endif %}
-      {% if post.date_str %}
-        <time datetime="{{ post.date_iso }}" class="text-dim">{{ post.date_str }}</time>
-      {% endif %}
-    </div>
-
-    <div class="post-tools">
-      <div class="post-tools__meta">
-        {% if post.type in ['ctf', 'box'] %}
-        <span class="post-tools__pill">
-          <span class="post-tools__pill-icon" aria-hidden="true">⏱</span>
-          <span>{{ post.reading_time_label }}</span>
-        </span>
-        {% endif %}
-        {% if post.type in ['ctf', 'box'] and post.last_updated_iso %}
-        <time datetime="{{ post.last_updated_iso }}" class="post-tools__pill">
-          <span class="post-tools__pill-icon" aria-hidden="true">↻</span>
-          <span>updated {{ post.last_updated_str }}</span>
-        </time>
-        {% endif %}
-      </div>
-
-      <div class="post-tools__actions">
-        <button
-          type="button"
-          class="post-share-btn"
-          data-share-post
-          data-share-title="{{ post.title }} — {{ config.site.title }}"
-          data-default-label="share">
-          <span class="post-share-btn__icon" aria-hidden="true">↗</span>
-          <span data-button-label>share</span>
-        </button>
-      </div>
-    </div>
-  </header>
-  {% if post.type in ['ctf', 'box'] %}
-  <div class="info-card mb-8">
-    <div class="info-card__label font-mono text-xs font-bold uppercase tracking-widest mb-4
-      {% if post.type == 'ctf' %}text-cyan{% else %}text-magenta{% endif %}">
-      {% if post.type == 'ctf' %}CTF Challenge{% else %}Box Writeup{% endif %}
-    </div>
-    <dl class="info-card__grid">
-
-      {% if post.type == 'ctf' %}
-        {% if post.event %}
-        <div>
-          <dt class="info-dt">Event</dt>
-          <dd class="info-dd">
-            <a href="/events/{{ post.event_slug }}/" class="text-cyan hover:underline">{{ post.event }}</a>
-          </dd>
-        </div>
-        {% endif %}
-
-        {% if post.category %}
-        <div>
-          <dt class="info-dt">Category</dt>
-          <dd class="info-dd">{{ post.category }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.difficulty or post.stars %}
-        <div>
-          <dt class="info-dt">Difficulty</dt>
-          <dd class="info-dd">{{ difficulty_label(post.difficulty, post.stars) }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.solves is not none %}
-        <div>
-          <dt class="info-dt">Solves</dt>
-          <dd class="info-dd">{{ post.solves_display }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.challenge_authors %}
-        <div>
-          <dt class="info-dt">Author</dt>
-          <dd class="info-dd">{%- for author in post.challenge_authors -%}{%- if author.url -%}<a href="{{ author.url }}" class="text-cyan hover:underline" target="_blank" rel="noopener">{{ author.name }}</a>{%- else -%}{{ author.name }}{%- endif -%}{%- if not loop.last %}, {% endif -%}{%- endfor -%}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.rating is not none %}
-        <div>
-          <dt class="info-dt">My rating</dt>
-          <dd class="info-dd">
-            <span class="text-yellow font-semibold">{{ post.rating }}</span>
-            <span class="text-dim">/10</span>
-          </dd>
-        </div>
-        {% endif %}
-
-      {% elif post.type == 'box' %}
-        {% if post.platform %}
-        <div>
-          <dt class="info-dt">Platform</dt>
-          <dd class="info-dd capitalize">{{ post.platform }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.os %}
-        <div>
-          <dt class="info-dt">OS</dt>
-          <dd class="info-dd">{{ os_label(post.os) }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.difficulty or post.stars %}
-      <div>
-          <dt class="info-dt">Difficulty</dt>
-          <dd class="info-dd">{{ difficulty_label(post.difficulty, post.stars) }}</dd>
-        </div>
-        {% endif %}
-
-        {% if post.rating is not none %}
-        <div>
-          <dt class="info-dt">Personal rating</dt>
-          <dd class="info-dd">
-            <span class="text-yellow font-semibold">{{ post.rating }}</span>
-            <span class="text-dim">/10</span>
-          </dd>
-        </div>
-        {% endif %}
-      {% endif %}
-
-    </dl>
+{%- from "macros.html" import toc_list %}
+{%- set has_toc = post.toc | length > 0 %}
+<header class="writeup-head">
+  <p class="writeup-head__eyebrow" data-reveal="ink">{{ badge(post.type) }}
+    {%- if post.type == 'ctf' and post.event %}<a class="brush" href="/events/{{ post.event_slug }}/">{{ post.event }}</a>
+    {%- elif post.type == 'box' and post.platform %}<span>{{ post.platform }}</span>
+    {%- elif post.cve_id %}<a class="brush" href="/cves/">{{ post.cve_id }}</a>{% endif %}</p>
+  <h1 class="writeup-title" data-reveal="ink" style="--i:1">{{ post.title }}<span class="lang" title="{{ post.language_label }}">{{ post.language_code }}</span></h1>
+  <div class="writeup-head__meta">
+    {% if post.author %}<span>by <strong>{{ post.author }}</strong></span><span class="sep" aria-hidden="true"></span>{% endif %}
+    {% if post.date_str %}<time datetime="{{ post.date_iso }}">{{ post.date_str }}</time>{% endif %}
+    <span class="pill"><svg class="icon"><use href="#i-clock"/></svg>{{ post.reading_time_label }}</span>
+    {% if post.has_last_updated %}<time class="pill" datetime="{{ post.last_updated_iso }}"><svg class="icon"><use href="#i-refresh"/></svg>updated {{ post.last_updated_str }}</time>{% endif %}
+    <button class="btn btn--sm" data-share><svg class="icon"><use href="#i-share"/></svg><span class="btn__label">share</span></button>
   </div>
-  {% endif %}
-  {% if post.image %}
-  <div class="mb-8 rounded-lg overflow-hidden border border-line">
-    <img
-      src="{{ post.url }}{{ post.image }}"
-      alt="{{ post.title }}"
-      class="w-full h-auto"
-      decoding="async"
-      fetchpriority="high">
-  </div>
-  {% endif %}
-  <div class="post-content prose">
-    {{ post.html | safe }}
-  </div>
-  {% if post.flag and not post.flag_inline %}
-  <div class="flag-block mt-10">
-    <div class="flag-block__label font-mono text-xs font-bold uppercase tracking-widest text-green-t mb-2">Flag</div>
-    <code class="flag-block__value font-mono text-sm">{{ post.flag }}</code>
-  </div>
-  {% endif %}
-  {% if post.sources or post.solve_files %}
-  <div class="mt-10 pt-6 border-t border-line/40 grid sm:grid-cols-2 gap-6">
+</header>
 
-    {% if post.sources %}
-    <div class="files-section">
-      <h3 class="files-section__title">
-        <span class="text-cyan">⬇</span> Challenge files
-      </h3>
-      <ul class="files-list">
-        {% for filename in post.sources %}
-        <li>
-          <a
-            href="{{ filename.viewer_url if filename.inline_view else filename.raw_url }}"
-            class="file-link"
-            {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
-          >
-            <span class="file-link__icon">📄</span>
-            <span class="file-link__name font-mono text-sm"><span class="file-link__stem">{{ filename.stem }}</span><span class="file-link__ext">{{ filename.ext }}</span></span>
-            <span class="file-link__meta font-mono text-[11px]">
-              {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
-            </span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
+{% if post.type in ['ctf', 'box'] %}
+<div style="margin-top:var(--space-12)"><section class="panel info-card" data-reveal="cut" aria-label="{{ 'Challenge' if post.type == 'ctf' else 'Box' }} info">
+  <span class="panel__tab">{{ 'Info' if post.type == 'ctf' else 'Box' }}</span>
+  <dl class="info-grid">
+    {% if post.type == 'ctf' %}
+    <div><dt>Event</dt><dd>{% if post.event %}<a href="/events/{{ post.event_slug }}/">{{ post.event }}</a>{% else %}???{% endif %}</dd></div>
+    <div><dt>Category</dt><dd>{{ post.category or '???' }}</dd></div>
+    <div><dt>Difficulty</dt><dd>{{ difficulty(post, 'lg') or '???' }}</dd></div>
+    <div><dt>Solves</dt><dd>{{ post.solves_display or '???' }}</dd></div>
+    <div><dt>Author</dt><dd>{% for a in post.challenge_authors %}{% if a.url %}<a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if not loop.last %}, {% endif %}{% else %}???{% endfor %}</dd></div>
+    {% else %}
+    <div><dt>Platform</dt><dd>{{ post.platform or '???' }}</dd></div>
+    <div><dt>OS</dt><dd>{{ os_label(post.os) if post.os else '???' }}</dd></div>
+    <div><dt>Difficulty</dt><dd>{{ difficulty(post, 'lg') or '???' }}</dd></div>
     {% endif %}
-
-    {% if post.solve_files %}
-    <div class="files-section">
-      <h3 class="files-section__title">
-        <span class="text-magenta">⬇</span> Solve scripts
-      </h3>
-      <ul class="files-list">
-        {% for filename in post.solve_files %}
-        <li>
-          <a
-            href="{{ filename.viewer_url if filename.inline_view else filename.raw_url }}"
-            class="file-link"
-            {% if filename.inline_view %}target="_blank" rel="noopener"{% else %}download{% endif %}
-          >
-            <span class="file-link__icon">🔧</span>
-            <span class="file-link__name font-mono text-sm"><span class="file-link__stem">{{ filename.stem }}</span><span class="file-link__ext">{{ filename.ext }}</span></span>
-            <span class="file-link__meta font-mono text-[11px]">
-              {{ 'view source' if filename.inline_view else 'download' }} · {{ filename.size_label }}
-            </span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-
-  </div>
-  {% endif %}
-  {% if post.tags %}
-  <div class="mt-10 pt-6 border-t border-line/40">
-    <div class="flex flex-wrap gap-2">
-      {% for tag in post.tags %}
-        <a href="/tags/{{ tag | lower | replace(' ', '-') }}/" class="tag tag--link">#{{ tag }}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
-
-  {% if post.references %}
-  <section class="related-articles" id="related-articles">
-    <div class="related-articles__intro">
-      <h2 class="related-articles__title">Related articles</h2>
-      <p class="related-articles__copy">References and extra reading around the same topic.</p>
-    </div>
-
-    <div class="related-articles__grid">
-      {% for reference in post.references %}
-      <a href="{{ reference.url }}" class="related-article-card" target="_blank" rel="noopener">
-        <div class="related-article-card__meta">
-          <img
-            src="{{ reference.favicon_url }}"
-            alt=""
-            class="related-article-card__favicon"
-            width="18"
-            height="18"
-            loading="lazy"
-          >
-          <span class="related-article-card__host">{{ reference.host }}</span>
-        </div>
-        <h3 class="related-article-card__title">{{ reference.title }}</h3>
-      </a>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
-
-  {% if newer_post or older_post %}
-  <section class="post-end-nav">
-    <div class="post-end-nav__intro">
-      <h2 class="post-end-nav__title">Keep Reading</h2>
-      <p class="post-end-nav__copy">Jump to the next article without going back to the archive.</p>
-    </div>
-
-    <div class="post-end-nav__grid{% if not newer_post or not older_post %} post-end-nav__grid--single{% endif %}">
-      {% if newer_post %}
-      <a href="{{ newer_post.url }}" class="post-end-nav-card post-end-nav-card--newer">
-        <span class="post-end-nav-card__direction">← newer</span>
-        <div class="post-end-nav-card__meta">
-          <span>{{ newer_post.type | upper }}</span>
-          {% if newer_post.context_label %}<span>{{ newer_post.context_label }}</span>{% endif %}
-          {% if newer_post.date_str %}<span>{{ newer_post.date_str }}</span>{% endif %}
-        </div>
-        <h3 class="post-end-nav-card__title">{{ newer_post.title }}</h3>
-        {% if newer_post.description or newer_post.excerpt %}
-        <p class="post-end-nav-card__copy">{{ newer_post.description or newer_post.excerpt }}</p>
-        {% endif %}
-      </a>
-      {% endif %}
-
-      {% if older_post %}
-      <a href="{{ older_post.url }}" class="post-end-nav-card post-end-nav-card--older">
-        <span class="post-end-nav-card__direction">older →</span>
-        <div class="post-end-nav-card__meta">
-          <span>{{ older_post.type | upper }}</span>
-          {% if older_post.context_label %}<span>{{ older_post.context_label }}</span>{% endif %}
-          {% if older_post.date_str %}<span>{{ older_post.date_str }}</span>{% endif %}
-        </div>
-        <h3 class="post-end-nav-card__title">{{ older_post.title }}</h3>
-        {% if older_post.description or older_post.excerpt %}
-        <p class="post-end-nav-card__copy">{{ older_post.description or older_post.excerpt }}</p>
-        {% endif %}
-      </a>
-      {% endif %}
-    </div>
-  </section>
-  {% endif %}
-
-</article>
-{% if (post.toc and '<li>' in post.toc) or post.references %}
-<aside class="post-sidebar">
-  <div class="post-toc">
-    <div class="post-toc__label">Summary</div>
-    <div class="post-toc__content">
-      {% if post.toc and '<li>' in post.toc %}
-      {{ post.toc | safe }}
-      {% endif %}
-      {% if post.references %}
-      <div class="post-toc__extra{% if post.toc and '<li>' in post.toc %} post-toc__extra--separated{% endif %}">
-        <ul>
-          <li><a href="#related-articles">Related articles</a></li>
-        </ul>
-      </div>
-      {% endif %}
-    </div>
-    <a href="#top" class="post-toc__top">↑ Back to top</a>
-  </div>
-</aside>
+    <div><dt>My rating</dt><dd>{% if post.rating is not none %}<span class="score"><b>{{ post.rating }}</b><span>/ 10</span></span>{% else %}???{% endif %}</dd></div>
+  </dl>
+</section></div>
 {% endif %}
+
+{% if post.image %}
+<figure class="writeup-cover"><img src="{{ post.url }}{{ post.image }}" alt="{{ post.title }}" decoding="async" fetchpriority="high" data-zoom></figure>
+{% endif %}
+
+<div class="writeup-layout">
+  <div>
+    {% if has_toc %}<details class="toc-mobile"><summary>Contents <svg class="icon"><use href="#i-chev"/></svg></summary>
+      <nav class="toc" aria-label="Contents"><div class="toc__rail">{{ toc_list(post.toc) }}</div></nav>
+    </details>{% endif %}
+    <div class="article">
+      {{ post.html | safe }}
+    </div>
+
+    <div class="writeup-end">
+      {% if post.flag_html and not post.flag_inline %}{{ post.flag_html | safe }}{% endif %}
+
+      {% if post.sources or post.solve_files %}
+      <section aria-labelledby="files-h">
+        <div class="section-head"><h2 class="section-title" id="files-h">Files</h2><span class="mono muted" style="font-size:13px">{{ (post.sources | length) + (post.solve_files | length) }} files</span></div>
+        <ul class="files">
+          {% for kind, group in [('solve script', post.solve_files), ('challenge source', post.sources)] %}{% for f in group %}
+          <li class="file-row"><span class="file-ext">{{ f.ext.lstrip('.') or 'txt' }}</span><span><a class="file-row__name" href="{{ f.viewer_url if f.inline_view else f.raw_url }}"{% if not f.inline_view %} download{% endif %}>{{ f.name }}</a><span class="file-row__kind">{{ kind }}</span></span><span class="file-row__size">{{ f.size_label }}</span><a class="btn btn--sm btn--icon" href="{{ f.raw_url }}" download aria-label="Download {{ f.name }}"><svg class="icon"><use href="#i-down"/></svg></a></li>
+          {% endfor %}{% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+
+      {% if post.references %}
+      <section aria-labelledby="rel-h" id="related-articles">
+        <div class="section-head"><h2 class="section-title" id="rel-h">Related articles</h2></div>
+        <div class="link-grid" data-reveal-group>
+          {% for r in post.references %}
+          <article class="card link-card" data-reveal="cut"><span class="link-card__fav"><img src="{{ r.favicon_url }}" alt="" width="18" height="18" loading="lazy"></span><div><h3 class="link-card__title"><a class="card__link" href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a></h3><p class="link-card__host">{{ r.host }}</p></div><span class="card__arrow" aria-hidden="true">↗</span></article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      {% if post.tags %}
+      <section aria-labelledby="tags-h">
+        <div class="section-head"><h2 class="section-title" id="tags-h">Tags</h2></div>
+        <ul class="tags">{% for tag in post.tags %}<li><a class="tag" href="/tags/{{ slugify(tag) }}/">#{{ tag }}</a></li>{% endfor %}</ul>
+      </section>
+      {% endif %}
+
+      {% if newer_post or older_post %}
+      <nav class="post-nav" aria-label="More posts">
+        {% if newer_post %}<article class="card post-nav__item post-nav__item--prev"><span class="post-nav__dir"><span class="card__arrow">←</span> newer</span><h3 class="card__title"><a class="card__link" href="{{ newer_post.url }}">{{ newer_post.title }}</a></h3></article>{% endif %}
+        {% if older_post %}<article class="card post-nav__item post-nav__item--next"><span class="post-nav__dir">older <span class="card__arrow">→</span></span><h3 class="card__title"><a class="card__link" href="{{ older_post.url }}">{{ older_post.title }}</a></h3></article>{% endif %}
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+  {% if has_toc %}
+  <aside class="writeup-aside"><nav class="toc" data-toc aria-label="Contents">
+    <p class="eyebrow toc__title">Contents</p>
+    <div class="toc__rail">
+      {{ toc_list(post.toc) }}
+      <span class="toc__marker" aria-hidden="true"></span>
+    </div>
+    <a class="toc__top brush" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>back to top</a>
+  </nav></aside>
+  {% endif %}
 </div>
 {% endblock %}

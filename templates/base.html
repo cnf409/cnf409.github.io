@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{% block html_lang %}{{ page_lang | default('en') }}{% endblock %}">
+<html data-theme="light" lang="{% block html_lang %}{{ page_lang | default('en') }}{% endblock %}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,131 +16,125 @@
   <meta property="og:title"       content="{{ config.site.title | e }}">
   <meta property="og:description" content="{{ config.site.description | e }}">
   <meta property="og:url"         content="{{ config.site.base_url }}/">
-  <meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-  <meta property="og:image:width"  content="400">
-  <meta property="og:image:height" content="400">
+  <meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+  <meta property="og:image:width"  content="640">
+  <meta property="og:image:height" content="640">
   <meta name="twitter:card"        content="summary">
   <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
   <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
   <meta name="twitter:title"       content="{{ config.site.title | e }}">
   <meta name="twitter:description" content="{{ config.site.description | e }}">
-  <meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-  <meta name="theme-color" content="#ff0080">
+  <meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
   {% endblock %}
+
+  {# Paper only until an Ink toggle exists; add the #0f0f0e dark meta with it #}
+  <meta name="theme-color" content="#fafaf7">
 
   {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
   {% block hreflang %}{% endblock %}
 
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <link rel="apple-touch-icon" href="/img/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="alternate" type="application/rss+xml" title="{{ config.site.title }}" href="/rss.xml">
-  <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/Inter-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/ArchivoCondensed-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin>
 
-  <link rel="stylesheet" href="/css/tailwind.css?v={{ asset_version }}">
-  <link rel="stylesheet" href="/css/syntax.css?v={{ asset_version }}">
-  <link rel="stylesheet" href="/css/custom.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="/css/tokens.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="/css/conflict.css?v={{ asset_version }}">
+  {# the one preflight rule conflict.css relies on: components that set display must still honour [hidden] #}
+  <style>[hidden]:where(:not([hidden="until-found"])) { display: none !important; }</style>
+  <script defer src="/js/conflict.js?v={{ asset_version }}"></script>
 
   {% block head %}{% endblock %}
   {% block jsonld %}{% endblock %}
 </head>
-<body class="bg-bg text-body font-sans min-h-screen flex flex-col antialiased">
-  <header class="site-header sticky top-0 z-50 border-b border-line/60 bg-bg">
-    <div class="site-header__bar max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4.5 4.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l2.5 1.6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.2 6.2A5.5 5.5 0 1 0 13.5 9"/><path d="M13.6 2.6v3.8H9.8"/></symbol>
+  <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 10.5V2M4.8 5 8 1.8 11.2 5"/><path d="M3 8.5V14h10V8.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9"/><path d="M11 5V2H2v9h3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 16 16"><path d="M8 14.5s4.8-4.3 4.8-8a4.8 4.8 0 0 0-9.6 0c0 3.7 4.8 8 4.8 8Z"/><circle cx="8" cy="6.5" r="1.7"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 16 16"><path d="M1 6 8 2.8 15 6 8 9.2 1 6Z"/><path d="M4 7.5v3.6c1 .9 2.4 1.4 4 1.4s3-.5 4-1.4V7.5M15 6v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 10 10"><path d="M1.5 3.5 5 7l3.5-3.5"/></symbol>
+  <symbol id="i-window" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="M1.8 6.4h14.4M4.4 4.6h.01M6.4 4.6h.01"/></symbol>
+  <symbol id="i-term" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="m5 7 2.6 2.2L5 11.4M9.2 11.6H13"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 18 18"><path d="M2 5h14M2 9h14M2 13h9"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M2 9h14M9 2c2.2 2.3 2.2 11.7 0 14M9 2c-2.2 2.3-2.2 11.7 0 14"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 16 16"><path d="M8 13.5V2.5M3.5 7 8 2.5 12.5 7"/></symbol>
+</svg>
 
-      <a href="/" class="logo flex items-center gap-0 font-mono font-bold text-lg select-none">
-        <span class="text-muted">─</span>
-        <span class="text-body ml-2">{{ config.site.title }}</span>
-        <span class="logo-cursor ml-0.5 text-cyan">▌</span>
-      </a>
-
-      <div class="site-header__controls">
-        <div class="site-search" data-site-search data-search-index-url="/search-index.json">
-          <button
-            type="button"
-            class="site-search__trigger"
-            data-search-trigger
-            aria-expanded="false"
-            aria-controls="site-search-panel"
-            aria-label="Open global search">
-            <span class="site-search__trigger-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="7"></circle>
-                <path d="m20 20-3.5-3.5"></path>
-              </svg>
-            </span>
-            <span class="site-search__trigger-label">search</span>
-            <span class="site-search__kbd" aria-hidden="true">Ctrl K</span>
-          </button>
-
-          <div class="site-search__panel" id="site-search-panel" data-search-panel hidden>
-            <label class="site-search__field" for="site-search-input">
-              <span class="site-search__field-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="7"></circle>
-                  <path d="m20 20-3.5-3.5"></path>
-                </svg>
-              </span>
-              <input
-                id="site-search-input"
-                type="search"
-                class="site-search__input"
-                data-search-input
-                placeholder="Search posts, tags, events..."
-                autocomplete="off"
-                autocapitalize="off"
-                spellcheck="false">
-            </label>
-            <div class="site-search__results" data-search-results></div>
-          </div>
-        </div>
-
-        <nav class="site-nav flex items-center gap-1 sm:gap-2" aria-label="Primary">
-          <a href="/posts/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">posts</a>
-          <a href="/events/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">events</a>
-          {% if cves %}
-          <div class="nav-dropdown">
-            <a href="/cves/" class="nav-link nav-dropdown__trigger font-mono text-sm text-muted hover:text-cyan transition-colors duration-200" aria-haspopup="true">cves</a>
-            <div class="nav-dropdown__menu" role="menu">
-              {% for cve in cves %}
-              <a href="{{ cve.url }}" class="nav-dropdown__item" role="menuitem">{{ cve.cve_id }}</a>
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-          <a href="/tags/"  class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">tags</a>
-          <a href="/about/" class="nav-link font-mono text-sm text-muted hover:text-cyan transition-colors duration-200">about</a>
-        </nav>
+{%- macro cur(name) %}{% if nav == name %} aria-current="page"{% endif %}{% endmacro %}
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="logo" href="/">{{ config.site.title }}</a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__link brush" href="/posts/"{{ cur('posts') }}>posts</a>
+      <a class="nav__link brush" href="/events/"{{ cur('events') }}>events</a>
+      {% if cves %}
+      <div class="dropdown">
+        <button class="nav__link brush" data-toggle aria-controls="cve-menu" aria-expanded="false"{{ cur('cves') }}>cves <svg class="icon nav__chev"><use href="#i-chev"/></svg></button>
+        <ul class="dropdown__menu" id="cve-menu" hidden>
+          {% for cve in cves %}
+          <li><a class="menu-item" href="{{ cve.url }}"><span>{{ cve.cve_id }}</span>{% if cve.tags %}<small>{{ cve.tags[:2] | join(' · ') }}</small>{% endif %}</a></li>
+          {% endfor %}
+          <li><a class="menu-item" href="/cves/"><span>all cves</span><small>→</small></a></li>
+        </ul>
       </div>
-
+      {% endif %}
+      <a class="nav__link brush" href="/tags/"{{ cur('tags') }}>tags</a>
+      <a class="nav__link brush" href="/about/"{{ cur('about') }}>about</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn--sm search-trigger" data-search-open aria-haspopup="dialog" aria-expanded="false"><svg class="icon"><use href="#i-search"/></svg><span class="btn__label search-trigger__label">search</span><kbd>Ctrl K</kbd></button>
+      <button class="btn btn--sm btn--icon menu-toggle" data-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Menu"><svg class="icon"><use href="#i-menu"/></svg></button>
     </div>
-    <div class="header-line"></div>
-  </header>
+  </div>
+  <nav class="mobile-menu" id="mobile-menu" hidden aria-label="Main">
+    <a href="/posts/"{{ cur('posts') }}>posts <span class="arr">→</span></a>
+    <a href="/events/"{{ cur('events') }}>events <span class="arr">→</span></a>
+    {% if cves %}<a href="/cves/"{{ cur('cves') }}>cves <span class="arr">{{ cves | length }}</span></a>{% endif %}
+    <a href="/tags/"{{ cur('tags') }}>tags <span class="arr">→</span></a>
+    <a href="/about/"{{ cur('about') }}>about <span class="arr">→</span></a>
+  </nav>
+</header>
 
-  <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-10">
-    {% block content %}{% endblock %}
-  </main>
+<main class="wrap page{% block main_class %}{% endblock %}" id="top"{% block main_attrs %}{% endblock %}>
+{% block content %}{% endblock %}
+</main>
 
-  <footer class="border-t border-line/30 mt-auto">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-dim">
-      <span>{{ config.site.title }} &copy; {{ now.year }}</span>
-      <div class="flex items-center gap-4">
-        {% if config.social.linkedin %}
-          <a href="{{ config.social.linkedin }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">linkedin</a>
-        {% endif %}
-        {% if config.social.twitter %}
-          <a href="{{ config.social.twitter }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">twitter</a>
-        {% endif %}
-        {% if config.social.github %}
-          <a href="{{ config.social.github }}" class="hover:text-cyan transition-colors" target="_blank" rel="noopener">github</a>
-        {% endif %}
-      </div>
-      <span class="text-dim/50">in rami malek we trust</span>
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="site-footer__brand">{{ config.site.title }} <small>© {{ now.year }}</small></p>
+    <nav class="site-footer__links" aria-label="Elsewhere">
+      {% if config.social.linkedin %}<a class="brush" href="{{ config.social.linkedin }}" target="_blank" rel="noopener">linkedin</a>{% endif %}
+      {% if config.social.twitter %}<a class="brush" href="{{ config.social.twitter }}" target="_blank" rel="noopener">twitter</a>{% endif %}
+      {% if config.social.github %}<a class="brush" href="{{ config.social.github }}" target="_blank" rel="noopener">github</a>{% endif %}
+      <a class="brush" href="/rss.xml">rss</a>
+    </nav>
+    <p class="site-footer__egg">in rami malek we trust</p>
+  </div>
+</footer>
+
+<div class="search" data-search hidden role="dialog" aria-modal="true" aria-label="Search posts">
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel">
+    <div class="search__bar">
+      <svg class="icon"><use href="#i-search"/></svg>
+      <input class="search__input" type="search" placeholder="Search writeups, events, tags…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" aria-label="Search">
+      <button class="btn btn--sm" data-search-close><span class="btn__label">esc</span></button>
     </div>
-  </footer>
+    <p class="search__label">Pinned</p>
+    <ul class="search__results" id="search-results" role="listbox"></ul>
+    <div class="search__empty" hidden><p>No writeup matches <b>“”</b>.</p><p class="muted">Try an event name, or browse <a href="/tags/">tags</a>.</p></div>
+    <div class="search__foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<script type="application/json" id="search-index">{{ search_index }}</script>
 
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="c5afd10b-d746-4599-bb13-4ebe2526cf41"></script>
-  <script defer src="/js/main.js?v={{ asset_version }}"></script>
-  {% block scripts %}{% endblock %}
+<script defer src="https://cloud.umami.is/script.js" data-website-id="c5afd10b-d746-4599-bb13-4ebe2526cf41"></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

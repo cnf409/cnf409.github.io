@@ -1,179 +1,68 @@
-{% macro type_badge(type) %}
-  {% if type == 'ctf' %}
-    <span class="badge badge-ctf">CTF</span>
-  {% elif type == 'box' %}
-    <span class="badge badge-box">BOX</span>
-  {% else %}
-    <span class="badge badge-post">POST</span>
-  {% endif %}
-{% endmacro %}
+{% macro badge(type) -%}
+<span class="badge badge--{{ type if type in ['ctf', 'box'] else 'post' }}">{{ {'ctf': 'CTF', 'box': 'Box'}.get(type, 'Post') }}</span>
+{%- endmacro %}
 
-{% macro difficulty_label(difficulty, stars) %}
-  {% if stars %}
-    <span class="diff-stars">
-      {% for i in range(1, 4) %}
-        <span class="{% if i <= stars %}text-yellow{% else %}text-dim{% endif %}">★</span>
-      {% endfor %}
-    </span>
-  {% elif difficulty %}
-    {% set colors = {
-      'easy':   'text-green-400',
-      'medium': 'text-yellow-400',
-      'hard':   'text-orange-400',
-      'insane': 'text-red-500',
-    } %}
-    <span class="{{ colors.get(difficulty|lower, 'text-muted') }} font-mono text-xs font-semibold uppercase">
-      {{ difficulty }}
-    </span>
-  {% endif %}
-{% endmacro %}
+{% macro lang(post) -%}
+<span class="lang" title="{{ post.language_label }}">{{ post.language_code }}</span>
+{%- endmacro %}
 
-{% macro language_code(post, variant='default') %}
-  <span class="language-code {% if variant != 'default' %}language-code--{{ variant }}{% endif %}" title="{{ post.language_label }}" aria-label="{{ post.language_label }}">
-    <span class="language-code__dot">&middot;</span>
-    <span class="language-code__value">{{ post.language_code }}</span>
-  </span>
-{% endmacro %}
+{% macro difficulty(post, size='') -%}
+{%- if post.stars -%}
+<span class="stars{% if size %} stars--{{ size }}{% endif %}" role="img" aria-label="{{ post.stars }} of 3 stars">{% for i in range(1, 4) %}<i{% if i > post.stars %} class="off"{% endif %}></i>{% endfor %}</span>
+{%- elif post.difficulty -%}
+<span class="diff" data-level="{{ post.difficulty | lower }}"><span class="diff__pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span>{{ post.difficulty | lower }}</span>
+{%- endif -%}
+{%- endmacro %}
 
-{% macro os_icon(os_name) %}
-  {% set os = (os_name or '')|lower %}
-  <span class="os-icon {% if os %}os-icon--{{ os }}{% endif %}" aria-hidden="true">
-    {% if os == 'windows' %}
-      <svg class="os-icon__svg" viewBox="0 0 24 24" fill="none">
-        <path fill="#4CC2FF" d="M2 4.5 11 3v8H2z"/>
-        <path fill="#39A7F0" d="M13 2.8 22 1.5v9.5h-9z"/>
-        <path fill="#2A8CD6" d="M2 12.9h9v8.1L2 19.5z"/>
-        <path fill="#1E74C7" d="M13 12.9h9v9.6L13 21z"/>
-      </svg>
-    {% elif os == 'linux' %}
-      <svg class="os-icon__svg" viewBox="0 0 24 24" fill="none">
-        <ellipse cx="12" cy="14" rx="5.9" ry="7.3" fill="#0F172A"/>
-        <ellipse cx="12" cy="14.7" rx="3.15" ry="4.6" fill="#F8FAFC"/>
-        <circle cx="12" cy="7.4" r="3.2" fill="#0F172A"/>
-        <circle cx="10.85" cy="7.1" r=".42" fill="#F8FAFC"/>
-        <circle cx="13.15" cy="7.1" r=".42" fill="#F8FAFC"/>
-        <path d="M12 7.8 10.9 9.35h2.2z" fill="#FBBF24"/>
-        <ellipse cx="9.2" cy="20.1" rx="2" ry=".95" fill="#FBBF24"/>
-        <ellipse cx="14.8" cy="20.1" rx="2" ry=".95" fill="#FBBF24"/>
-      </svg>
-    {% else %}
-      <svg class="os-icon__svg" viewBox="0 0 24 24" fill="none">
-        <rect x="4" y="5" width="16" height="11" rx="2.5" stroke="currentColor" stroke-width="1.7"/>
-        <path d="M9 19h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-      </svg>
-    {% endif %}
-  </span>
-{% endmacro %}
+{% macro os_label(os_name) -%}
+<span class="os"><svg class="icon"><use href="#i-{{ 'window' if (os_name or '') | lower == 'windows' else 'term' }}"/></svg>{{ os_name | capitalize }}</span>
+{%- endmacro %}
 
-{% macro os_label(os_name) %}
-  <span class="os-inline">
-    {{ os_icon(os_name) }}
-    <span class="capitalize">{{ os_name }}</span>
-  </span>
-{% endmacro %}
+{% macro eyebrow_text(post) -%}
+{{ post.event or post.platform or post.cve_id }}
+{%- endmacro %}
 
-{% macro social_icon(name) %}
-  {% set network = (name or '')|lower %}
-  {% if network == 'linkedin' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-      <rect x="2" y="9" width="4" height="12"></rect>
-      <circle cx="4" cy="4" r="2"></circle>
-    </svg>
-  {% elif network == 'twitter' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-    </svg>
-  {% elif network == 'github' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-    </svg>
-  {% elif network == 'discord' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-      <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path>
-    </svg>
-  {% endif %}
-{% endmacro %}
+{% macro meta(post) -%}
+{%- set parts = [] -%}
+{%- if post.type == 'ctf' -%}
+  {%- if post.category %}{% set _ = parts.append(post.category | e) %}{% endif -%}
+  {%- if post.stars or post.difficulty %}{% set _ = parts.append(difficulty(post)) %}{% endif -%}
+  {%- if post.solves is not none %}{% set _ = parts.append(post.solves_display ~ ' solves') %}{% endif -%}
+{%- elif post.type == 'box' -%}
+  {%- if post.os %}{% set _ = parts.append(os_label(post.os)) %}{% endif -%}
+  {%- if post.stars or post.difficulty %}{% set _ = parts.append(difficulty(post)) %}{% endif -%}
+{%- else -%}
+  {%- if post.author %}{% set _ = parts.append('by ' ~ post.author | e) %}{% endif -%}
+  {%- set _ = parts.append(post.reading_time_label) -%}
+{%- endif -%}
+{%- if parts %}<p class="card__meta">{{ parts | join(' <span class="sep">·</span> ') }}</p>{% endif -%}
+{%- endmacro %}
 
-{% macro post_card(post, featured=false) %}
-<article class="post-card {% if featured %}post-card--featured{% endif %}" data-type="{{ post.type }}">
-  <a href="{{ post.url }}" class="{% if featured %}post-card__link post-card__link--featured{% else %}block p-4 sm:p-5{% endif %}">
+{% macro card_tags(tags, limit=7) -%}
+{%- if tags %}<ul class="tags tags--sm">{% for tag in tags[:limit] %}<li><span class="tag">#{{ tag }}</span></li>{% endfor %}</ul>{% endif -%}
+{%- endmacro %}
 
-    {% if post.type == 'ctf' and post.event %}
-    <div class="post-card__eyebrow post-card__eyebrow--ctf">{{ post.event }}</div>
-    {% elif post.type == 'box' and post.platform %}
-    <div class="post-card__eyebrow post-card__eyebrow--box">{{ post.platform }}</div>
-    {% elif featured %}
-    <div class="post-card__eyebrow post-card__eyebrow--post">{{ post.type }}</div>
-    {% endif %}
+{# a post row in a list; `eyebrow=false` drops badge + event (event pages) #}
+{% macro post_row(post, eyebrow=true, heading='h2') -%}
+<li data-type="{{ post.type }}"><article class="card post-row" data-reveal="cut"><div class="post-row__main">
+  {%- if eyebrow %}<p class="post-row__eyebrow">{{ badge(post.type) }}{% if eyebrow_text(post) %}<span class="eyebrow">{{ eyebrow_text(post) }}</span>{% endif %}</p>{% endif -%}
+  <{{ heading }} class="card__title"><a class="card__link" href="{{ post.url }}">{{ post.title }}</a> {{ lang(post) }}</{{ heading }}>
+  {{- meta(post) -}}
+  {{- card_tags(post.tags) if eyebrow else '' -}}
+</div><div class="post-row__date"><time datetime="{{ post.date_iso }}">{{ post.date_str or '???' }}</time><span class="card__arrow" aria-hidden="true">→</span></div></article></li>
+{%- endmacro %}
 
-    {% if featured %}
-    <div class="post-card__featured-body">
-      <div class="post-card__title-wrap">
-        <h3 class="post-card__title post-card__title--featured font-semibold text-body">
-          {{ post.title }} {{ language_code(post, variant='title') }}
-        </h3>
-      </div>
-
-      {% if post.tags %}
-      <div class="flex flex-wrap gap-1.5">
-        {% for tag in post.tags[:4] %}
-          <span class="tag">#{{ tag }}</span>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <div class="post-card__featured-meta">
-        <span class="post-card__featured-type">{{ post.type | upper }}</span>
-        <time class="text-xs font-mono text-dim whitespace-nowrap" datetime="{{ post.date_iso }}">
-          {{ post.date_str }}
-        </time>
-      </div>
-    </div>
-    {% else %}
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex-1 min-w-0">
-        <div class="post-card__title-wrap post-card__title-wrap--list mb-1.5">
-          <h3 class="post-card__title post-card__title--list font-semibold text-body">{{ post.title }} {{ language_code(post, variant='title') }}</h3>
-        </div>
-
-        <div class="flex items-center gap-2 text-xs text-muted font-mono flex-wrap mb-2">
-          {% if post.type == 'ctf' %}
-            {% if post.category %}<span>{{ post.category }}</span><span class="text-dim">·</span>{% endif %}
-            {{ difficulty_label(post.difficulty, post.stars) }}
-            {% if post.solves is not none %}
-              <span class="text-dim">·</span>
-              <span>
-                {% if post.solves_display == '???' %}
-                  ???
-                {% else %}
-                  {{ post.solves_display }} solves
-                {% endif %}
-              </span>
-            {% endif %}
-          {% elif post.type == 'box' %}
-            {% if post.os %}{{ os_label(post.os) }}<span class="text-dim">·</span>{% endif %}
-            {{ difficulty_label(post.difficulty, post.stars) }}
-          {% else %}
-            {% if post.author %}<span>{{ post.author }}</span>{% endif %}
-          {% endif %}
-        </div>
-
-        {% if post.tags %}
-        <div class="flex flex-wrap gap-1.5">
-          {% for tag in post.tags[:7] %}
-            <span class="tag">#{{ tag }}</span>
-          {% endfor %}
-        </div>
-        {% endif %}
-
-      </div>
-
-      <time class="text-xs font-mono text-dim whitespace-nowrap pt-0.5" datetime="{{ post.date_iso }}">
-        {{ post.date_str }}
-      </time>
-    </div>
-    {% endif %}
-  </a>
+{% macro post_card(post, art=false) -%}
+<article class="card post-card" data-reveal="cut">
+  {%- if art %}<div class="post-card__art" aria-hidden="true"><span class="mottle" style="inset:0"></span></div>{% endif -%}
+  {%- if eyebrow_text(post) %}<p class="eyebrow">{{ eyebrow_text(post) }}</p>{% endif -%}
+  <h3 class="card__title"><a class="card__link" href="{{ post.url }}">{{ post.title }}</a> {{ lang(post) }}</h3>
+  {{- card_tags(post.tags, 4) -}}
+  <div class="post-card__foot">{{ badge(post.type) }}<time datetime="{{ post.date_iso }}">{{ post.date_str or '???' }}</time></div>
 </article>
-{% endmacro %}
+{%- endmacro %}
+
+{# two levels at most, so the sticky rail fits in the viewport #}
+{% macro toc_list(tokens, depth=2) -%}
+<ol class="toc__list">{% for t in tokens %}<li><a class="toc__link" href="#{{ t.id }}">{{ t.name }}</a>{% if t.children and depth > 1 %}{{ toc_list(t.children, depth - 1) }}{% endif %}</li>{% endfor %}</ol>
+{%- endmacro %}

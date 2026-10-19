@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from "macros.html" import post_card %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'events' %}
 
 {% set event_title = event.title ~ ' — ' ~ config.site.title %}
 {% set event_url = config.site.base_url ~ '/events/' ~ event.slug ~ '/' %}
@@ -24,66 +25,34 @@
 <meta property="og:title"       content="{{ event_title | e }}">
 <meta property="og:description" content="{{ event_desc | e }}">
 <meta property="og:url"         content="{{ event_url }}">
-<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ event_title | e }}">
 <meta name="twitter:description" content="{{ event_desc | e }}">
-<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta name="theme-color" content="#ff0080">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}
 
+{% block main_attrs %} style="max-width:calc(1000px + 2 * var(--page-x))"{% endblock %}
 {% block content %}
-
-  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-    <div>
-      <p class="font-mono text-xs text-muted mb-1">event</p>
-      <h1 class="font-mono text-2xl font-bold text-body">
-        <span class="text-cyan">~/events/</span>{{ event.title }}
-      </h1>
-    </div>
-    <p class="font-mono text-xs text-dim">{{ event.writeup_count }} writeup(s)</p>
-  </div>
-
-  <section class="event-summary mb-8">
-    <div class="event-summary__grid">
-      {% if event.organizers %}
-      <div>
-        <div class="event-summary__label">Organizers</div>
-        <div class="event-summary__value">{{ event.organizers | join(', ') }}</div>
-      </div>
-      {% endif %}
-      {% if event.organizer_countries %}
-      <div>
-        <div class="event-summary__label">Country</div>
-        <div class="event-summary__value">{{ event.organizer_countries | join(', ') }}</div>
-      </div>
-      {% endif %}
-      {% if event.date_range %}
-      <div>
-        <div class="event-summary__label">Dates</div>
-        <div class="event-summary__value">{{ event.date_range }}</div>
-      </div>
-      {% endif %}
-    </div>
-    {% if event.html %}
-    <div class="post-content event-summary__body">
-      {{ event.html | safe }}
-    </div>
-    {% endif %}
-  </section>
-
-  <div class="grid gap-3">
-    {% for post in event.posts %}
-      {{ post_card(post) }}
-    {% endfor %}
-  </div>
-
-  {% if not event.posts %}
-  <p class="font-mono text-muted text-sm mt-8">No writeups yet.</p>
-  {% endif %}
-
+<p class="writeup-head__eyebrow" style="margin-bottom:18px"><a class="brush" href="/events/">← events</a></p>
+<div class="page-head"><h1 class="page-title" data-reveal="ink">{{ event.title }}</h1></div>
+<section class="panel info-card summary" data-reveal="cut"><span class="panel__tab">Event</span><dl class="info-grid">
+  <div><dt>Organisers</dt><dd>{{ event.organizers | join(', ') if event.organizers else '???' }}</dd></div>
+  <div><dt>Country</dt><dd>{{ event.organizer_countries | join(', ') if event.organizer_countries else '???' }}</dd></div>
+  <div><dt>Dates</dt><dd>{{ event.date_range or '???' }}</dd></div>
+</dl></section>
+{% if event.html %}<div class="article" style="max-width:720px;margin-bottom:var(--space-12)">{{ event.html | safe }}</div>{% endif %}
+<div class="section-head"><h2 class="section-title">Writeups</h2><span class="mono muted" style="font-size:13px">{{ event.writeup_count }}</span></div>
+{% if event.posts %}
+<ol class="post-list" data-reveal-group>
+  {% for post in event.posts %}{{ post_row(post, eyebrow=false, heading='h3') }}
+  {% endfor %}
+</ol>
+{% else %}
+<p class="empty"><span class="empty__mark tone tone--dense" aria-hidden="true"></span><span>No writeups yet.</span></p>
+{% endif %}
 {% endblock %}

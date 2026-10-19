@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from "macros.html" import post_card %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'cves' %}
 
 {% set cves_title = 'CVEs — ' ~ config.site.title %}
 {% set cves_desc = 'Vulnerabilities published by ' ~ config.site.author ~ ', with technical writeups and proof of concepts.' %}
@@ -15,58 +16,30 @@
 <meta property="og:title"       content="{{ cves_title | e }}">
 <meta property="og:description" content="{{ cves_desc | e }}">
 <meta property="og:url"         content="{{ cves_url }}">
-<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ cves_title | e }}">
 <meta name="twitter:description" content="{{ cves_desc | e }}">
-<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta name="theme-color" content="#ff0080">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}
 
+{% block main_attrs %} style="max-width:calc(1000px + 2 * var(--page-x))"{% endblock %}
 {% block content %}
-
-  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-    <div>
-      <p class="font-mono text-xs text-muted mb-1">index</p>
-      <h1 class="font-mono text-2xl font-bold text-body">
-        <span class="text-cyan">~/</span>cves
-      </h1>
-    </div>
-    <p class="font-mono text-xs text-dim">{{ cve_total }} CVE(s)</p>
-  </div>
-
-  {% if cves %}
-  <div class="grid gap-3">
-    {% for cve in cves %}
-    <article class="cve-card">
-      <a href="{{ cve.url }}" class="cve-card__link">
-        <div class="cve-card__top">
-          <span class="cve-card__id">{{ cve.cve_id }}</span>
-          {% if cve.date_str %}
-            <time class="cve-card__date" datetime="{{ cve.date_iso }}">{{ cve.date_str }}</time>
-          {% endif %}
-        </div>
-        <h2 class="cve-card__title">{{ cve.title }}</h2>
-        {% if cve.description or cve.excerpt %}
-        <p class="cve-card__copy">{{ cve.description or cve.excerpt }}</p>
-        {% endif %}
-        {% if cve.tags %}
-        <div class="flex flex-wrap gap-1.5 mt-3">
-          {% for tag in cve.tags[:6] %}
-            <span class="tag">#{{ tag }}</span>
-          {% endfor %}
-        </div>
-        {% endif %}
-      </a>
-    </article>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="font-mono text-muted text-sm">No CVEs yet.</p>
-  {% endif %}
-
+<div class="page-head"><h1 class="page-title" data-reveal="ink">CVEs<span class="count">{{ cve_total }}</span></h1></div>
+{% if cves %}
+<div class="cve-list" data-reveal-group>
+  {% for cve in cves %}
+  <article class="card cve-card" data-reveal="cut"><div class="cve-card__id"><code>{{ cve.cve_id }}</code><time datetime="{{ cve.date_iso }}">{{ cve.date_str or '???' }}</time></div><h2 class="card__title"><a class="card__link" href="{{ cve.url }}">{{ cve.title }}</a></h2>
+    {%- if cve.description or cve.excerpt %}<p>{{ cve.description or cve.excerpt }}</p>{% endif -%}
+    {%- if cve.tags %}<ul class="tags tags--sm">{% for tag in cve.tags[:6] %}<li><span class="tag">#{{ tag }}</span></li>{% endfor %}</ul>{% endif -%}
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty"><span class="empty__mark tone tone--dense" aria-hidden="true"></span><span>No CVEs yet.</span></p>
+{% endif %}
 {% endblock %}

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
+{% set nav = 'events' %}
 
 {% set events_title = 'Events — ' ~ config.site.title %}
 {% set events_desc = 'Archive of CTF events and grouped writeups on ' ~ config.site.title ~ '.' %}
@@ -14,50 +16,30 @@
 <meta property="og:title"       content="{{ events_title | e }}">
 <meta property="og:description" content="{{ events_desc | e }}">
 <meta property="og:url"         content="{{ events_url }}">
-<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ events_title | e }}">
 <meta name="twitter:description" content="{{ events_desc | e }}">
-<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta name="theme-color" content="#ff0080">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}
 
 {% block content %}
-
-  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-    <div>
-      <p class="font-mono text-xs text-muted mb-1">index</p>
-      <h1 class="font-mono text-2xl font-bold text-body">
-        <span class="text-cyan">~/</span>events
-      </h1>
-    </div>
-    <p class="font-mono text-xs text-dim">{{ event_total }} event(s)</p>
-  </div>
-
-  {% if events %}
-  <div class="grid gap-4">
-    {% for event in events %}
-    <article class="event-card">
-      <a href="/events/{{ event.slug }}/" class="event-card__link">
-        <div class="event-card__top">
-          <h2 class="event-card__title">{{ event.title }}</h2>
-          <span class="event-card__count">{{ event.writeup_count }} writeup(s)</span>
-        </div>
-        <div class="event-card__meta">
-          {% if event.date_range %}<span>{{ event.date_range }}</span>{% endif %}
-          {% if event.organizers %}<span>{{ event.organizers | join(', ') }}</span>{% endif %}
-          {% if event.organizer_countries %}<span>{{ event.organizer_countries | join(', ') }}</span>{% endif %}
-        </div>
-      </a>
-    </article>
-    {% endfor %}
-  </div>
-  {% else %}
-  <p class="font-mono text-muted text-sm">No events yet.</p>
-  {% endif %}
-
+<div class="page-head"><h1 class="page-title" data-reveal="ink">Events<span class="count">{{ event_total }}</span></h1></div>
+{% if events %}
+<div class="event-grid" data-reveal-group>
+  {% for event in events %}
+  <article class="card event-card" data-reveal="cut"><div><h2 class="card__title"><a class="card__link" href="/events/{{ event.slug }}/">{{ event.title }}</a></h2><dl>
+    <dt>dates</dt><dd>{{ event.date_range or '???' }}</dd>
+    <dt>by</dt><dd>{{ event.organizers | join(', ') if event.organizers else '???' }}</dd>
+    <dt>country</dt><dd>{{ event.organizer_countries | join(', ') if event.organizer_countries else '???' }}</dd>
+  </dl></div><div class="event-card__count"><b>{{ event.writeup_count }}</b><span>writeup{{ '' if event.writeup_count == 1 else 's' }}</span></div></article>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty"><span class="empty__mark tone tone--dense" aria-hidden="true"></span><span>No events yet.</span></p>
+{% endif %}
 {% endblock %}

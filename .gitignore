@@ -6,3 +6,4 @@ tailwindcss
 tailwindcss-*
 *.css.map
 .DS_Store
+.playwright-mcp/

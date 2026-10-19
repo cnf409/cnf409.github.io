@@ -3,7 +3,7 @@ name     = "conflict / cnf409"
 tagline  = "hacking sh*t - CTF Player, CS student based in Bordeaux"
 location = "Bordeaux, France"
 school   = "Ynov Campus (B2 Cyber)"
-avatar   = "/img/pfp.jpg"
+avatar   = "/img/avatar.jpg"
 +++
 
 I'm Vincent, an 18 years old cybersecurity student based in Bordeaux. I first got into cybersecurity in 2022, and started taking it seriously in 2024 when I began studying at Bordeaux Ynov Campus.

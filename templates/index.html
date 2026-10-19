@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import post_card, social_icon %}
+{% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
 
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
 
@@ -35,82 +35,43 @@
 <meta property="og:title"       content="{{ config.site.title | e }}">
 <meta property="og:description" content="{{ config.site.description | e }}">
 <meta property="og:url"         content="{{ config.site.base_url }}/">
-<meta property="og:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta property="og:image:width"  content="400">
-<meta property="og:image:height" content="400">
+<meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
+<meta property="og:image:width"  content="640">
+<meta property="og:image:height" content="640">
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:title"       content="{{ config.site.title | e }}">
 <meta name="twitter:description" content="{{ config.site.description | e }}">
-<meta name="twitter:image"       content="{{ config.site.base_url }}/img/pfp.jpg">
-<meta name="theme-color" content="#ff0080">
+<meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}
 
 {% block content %}
-
-  <section class="home-hero">
-    {% if about.avatar %}
-    <div class="home-avatar-wrap flex-shrink-0">
-      <img src="{{ about.avatar }}" alt="{{ about.name or config.site.title }}"
-           width="160" height="160" decoding="async" fetchpriority="high"
-           class="home-avatar w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover">
+{%- set tl = (about.tagline or config.site.description).split(' - ', 1) %}
+<section class="hero">
+  <div class="hero__art" data-reveal="cut"><div class="cut"><div class="avatar"><img src="{{ about.avatar or '/img/avatar.jpg' }}" alt="{{ config.site.author }}'s avatar" width="640" height="640" decoding="async" fetchpriority="high"></div></div></div>
+  <div class="hero__text">
+    <p class="hero__handle">cnf409</p>
+    <h1 class="hero__title" data-reveal="ink">CTF Writeups &amp; Cybersecurity Research</h1>
+    <p class="hero__tagline">{% if tl | length == 2 %}<b>{{ tl[0] }}</b> — {{ tl[1] }}{% else %}{{ tl[0] }}{% endif %}</p>
+    <div class="hero__actions">
+      <a class="btn btn--solid" href="/posts/"><span class="btn__label">all posts</span><span class="arr">→</span></a>
+      <a class="link-arrow" href="/about/"><span class="brush">about</span></a>
     </div>
-    {% endif %}
-
-    <div class="home-hero__copy">
-      <p class="font-mono text-xs uppercase tracking-[0.3em] text-cyan/70 mb-3">cnf409</p>
-      <h1 class="home-hero__title">CTF Writeups &amp; Cybersecurity Research</h1>
-      <p class="home-hero__subtitle">{{ about.tagline or config.site.description }}</p>
-
-      <div class="home-hero__links">
-        <a href="/posts/" class="home-link">all posts</a>
-        <a href="/about/" class="home-link">about</a>
-      </div>
-
-      <div class="home-socials" aria-label="social links">
-        {% if config.social.linkedin %}
-        <a href="{{ config.social.linkedin }}" class="home-social-link" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-          <span class="home-social-link__icon">{{ social_icon('linkedin') }}</span>
-          <span class="sr-only">LinkedIn</span>
-        </a>
-        {% endif %}
-        {% if config.social.twitter %}
-        <a href="{{ config.social.twitter }}" class="home-social-link" target="_blank" rel="noopener" aria-label="Twitter" title="Twitter">
-          <span class="home-social-link__icon">{{ social_icon('twitter') }}</span>
-          <span class="sr-only">Twitter</span>
-        </a>
-        {% endif %}
-        {% if config.social.github %}
-        <a href="{{ config.social.github }}" class="home-social-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-          <span class="home-social-link__icon">{{ social_icon('github') }}</span>
-          <span class="sr-only">GitHub</span>
-        </a>
-        {% endif %}
-        {% if config.social.discord %}
-        <a href="{{ config.social.discord }}" class="home-social-link" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
-          <span class="home-social-link__icon">{{ social_icon('discord') }}</span>
-          <span class="sr-only">Discord</span>
-        </a>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-
-  {% if pinned %}
-  <section class="pt-2">
-    <div class="flex items-center justify-between mb-4">
-      <span class="section-heading text-magenta font-mono text-xs font-bold uppercase tracking-widest">Pinned</span>
-      <a href="/posts/" class="font-mono text-xs text-dim hover:text-cyan transition-colors">browse all →</a>
-    </div>
-    <div class="home-pinned-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-      {% for post in pinned %}
-        {{ post_card(post, featured=true) }}
-      {% endfor %}
-    </div>
-  </section>
-  {% else %}
-  <p class="font-mono text-sm text-dim">No pinned posts yet. <a href="/posts/" class="hover:text-cyan transition-colors">Browse all posts</a>.</p>
-  {% endif %}
-
+    <ul class="socials" aria-label="Elsewhere">
+      {%- for name in ['linkedin', 'twitter', 'github', 'discord'] if config.social[name] %}
+      <li><a class="brush" href="{{ config.social[name] }}" target="_blank" rel="noopener">{{ name }} <span class="arr">↗</span></a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+{% if pinned %}
+<section class="section" style="margin-top:var(--space-24)">
+  <div class="section-head"><h2 class="section-title" data-reveal="ink">Pinned</h2><a class="link-arrow" href="/posts/"><span class="brush">browse all</span> <span class="arr">→</span></a></div>
+  <div class="pinned" data-reveal-group>
+    {% for post in pinned %}{{ post_card(post, art=loop.first) }}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}
