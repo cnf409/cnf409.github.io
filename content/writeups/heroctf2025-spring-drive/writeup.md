@@ -42,7 +42,7 @@ As stated in the introduction, the application's backend is coded in Java via th
 
 `supervisord.conf`
 
-```bash
+```ini
 [...]
 [program:postgres]
 command=/postgres_start.sh

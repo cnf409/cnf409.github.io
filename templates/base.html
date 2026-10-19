@@ -27,8 +27,18 @@
   <meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
   {% endblock %}
 
-  {# Paper only until an Ink toggle exists; add the #0f0f0e dark meta with it #}
-  <meta name="theme-color" content="#fafaf7">
+  <meta name="theme-color" content="#fafaf7" id="theme-color">
+  {# Paper by default; Ink only when picked. Runs before the stylesheets so there is no flash. #}
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-color').content = '#0f0f0e';
+      }
+    })();
+  </script>
 
   {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
   {% block hreflang %}{% endblock %}
@@ -63,6 +73,8 @@
   <symbol id="i-term" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="m5 7 2.6 2.2L5 11.4M9.2 11.6H13"/></symbol>
   <symbol id="i-menu" viewBox="0 0 18 18"><path d="M2 5h14M2 9h14M2 13h9"/></symbol>
   <symbol id="i-globe" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M2 9h14M9 2c2.2 2.3 2.2 11.7 0 14M9 2c-2.2 2.3-2.2 11.7 0 14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 16 16"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.8"/><path d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/></symbol>
   <symbol id="i-arrow-up" viewBox="0 0 16 16"><path d="M8 13.5V2.5M3.5 7 8 2.5 12.5 7"/></symbol>
 </svg>
 
@@ -89,6 +101,7 @@
     </nav>
     <div class="header-actions">
       <button class="btn btn--sm search-trigger" data-search-open aria-haspopup="dialog" aria-expanded="false"><svg class="icon"><use href="#i-search"/></svg><span class="btn__label search-trigger__label">search</span><kbd>Ctrl K</kbd></button>
+      <button class="btn btn--sm btn--icon theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode"><svg class="icon theme-toggle__dark"><use href="#i-moon"/></svg><svg class="icon theme-toggle__light"><use href="#i-sun"/></svg></button>
       <button class="btn btn--sm btn--icon menu-toggle" data-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Menu"><svg class="icon"><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -135,6 +148,24 @@
 <script type="application/json" id="search-index">{{ search_index }}</script>
 
 <script defer src="https://cloud.umami.is/script.js" data-website-id="c5afd10b-d746-4599-bb13-4ebe2526cf41"></script>
+<script>
+  (function () {
+    var root = document.documentElement, meta = document.getElementById('theme-color');
+    var btn = document.querySelector('[data-theme-toggle]');
+    function sync() {
+      var dark = root.getAttribute('data-theme') === 'dark', label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+      btn.setAttribute('aria-label', label); btn.title = label;
+      meta.content = dark ? '#0f0f0e' : '#fafaf7';
+    }
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

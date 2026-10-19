@@ -52,8 +52,8 @@
   <div class="hero__art" data-reveal="cut"><div class="cut"><div class="avatar"><img src="{{ about.avatar or '/img/avatar.jpg' }}" alt="{{ config.site.author }}'s avatar" width="640" height="640" decoding="async" fetchpriority="high"></div></div></div>
   <div class="hero__text">
     <p class="hero__handle">cnf409</p>
-    <h1 class="hero__title" data-reveal="ink">CTF Writeups &amp; Cybersecurity Research</h1>
-    <p class="hero__tagline">{% if tl | length == 2 %}<b>{{ tl[0] }}</b> — {{ tl[1] }}{% else %}{{ tl[0] }}{% endif %}</p>
+    <h1 class="hero__title" data-reveal="ink">Writeups, Researches and more</h1>
+    <p class="hero__tagline">{% if tl | length == 2 %}<b>{{ tl[0] }}</b><span class="hero__sep" aria-hidden="true">|</span>{{ tl[1] }}{% else %}{{ tl[0] }}{% endif %}</p>
     <div class="hero__actions">
       <a class="btn btn--solid" href="/posts/"><span class="btn__label">all posts</span><span class="arr">→</span></a>
       <a class="link-arrow" href="/about/"><span class="brush">about</span></a>

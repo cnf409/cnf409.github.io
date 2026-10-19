@@ -165,7 +165,7 @@ The newlines are also written in the `.htaccess`, injecting arbitrary Apache dir
 
 Apache treats `\` at the end of a line as a line continuation, the next line is merged into the current directive. Setting `name` to `'\` produces:
 
-```xml
+```apacheconf
 <FilesMatch "\\.mood\\.notes$">
 Header set Mood-Filename '\
 Require ip 127.0.0.1
@@ -182,7 +182,7 @@ The `'` opens a quoted string and `\` continues the line, so Apache merges `Head
 
 Apache's `mod_headers` supports `expr=` in `Header set`. The full directive syntax is:
 
-```xml
+```apacheconf
 Header set <name> <value_if_true> "expr=<boolean_expression>"
 ```
 

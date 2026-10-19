@@ -32,7 +32,7 @@ Voici un crackme plein de couleurs avec des allures old school.
 
 On nous donne un exécutable:
 
-```css
+```text
 file coloratops;
 coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=34ce7dda6332fe818a86eb6f98df9610f088e6da, for GNU/Linux 3.2.0, stripped
 ```

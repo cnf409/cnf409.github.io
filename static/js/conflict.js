@@ -30,6 +30,9 @@
     entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
   /* threshold 0: Chromium measures the target after its own hidden clip-path, so any ratio > 0 never arrives */
   }, { threshold: 0, rootMargin: '0px 0px -6% 0px' }) : null;
+  var ioFull = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.intersectionRatio >= 0.9) { e.target.classList.add('is-in'); ioFull.unobserve(e.target); } });
+  }, { threshold: 0.9 }) : null;
   function reveals(scope) {
     $$('[data-reveal-group]', scope).forEach(function (g) {
       $$(':scope > [data-reveal], :scope > * > [data-reveal]', g).forEach(function (el, i) { el.style.setProperty('--i', i); });
@@ -37,7 +40,7 @@
     $$('[data-reveal]', scope).forEach(function (el) {
       if (!once(el, 'reveal')) return;
       if (!io || reduce.matches) { el.classList.add('is-in'); return; }
-      io.observe(el);
+      (el.getAttribute('data-reveal') === 'flag' && ioFull ? ioFull : io).observe(el);
     });
   }
   function replay(el) { el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); }
@@ -131,7 +134,7 @@
       if (!box.hidden) return;
       lastFocus = d.activeElement; box.hidden = false; box.classList.remove('is-closing'); restart(box, 'is-opening');
       $$('[data-search-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'true'); });
-      render(input.value); setTimeout(function () { input.focus(); input.select(); }, 0);
+      render(input.value, true); setTimeout(function () { input.focus(); input.select(); }, 0);
     }
     function close() {
       if (box.hidden) return;
@@ -152,7 +155,7 @@
       input.setAttribute('aria-activedescendant', items[active].id);
       items[active].scrollIntoView({ block: 'nearest' });
     }
-    function render(q) {
+    function render(q, animate) {
       q = (q || '').trim();
       var hits = !q ? index.filter(function (p) { return p.pinned; }).slice(0, 6) : index.filter(function (p) {
         return (p.title + ' ' + (p.event || '') + ' ' + (p.tags || []).join(' ')).toLowerCase().indexOf(q.toLowerCase()) > -1;
@@ -168,7 +171,8 @@
       }).join('');
       empty.hidden = !(q && !hits.length);
       if (!empty.hidden) $('b', empty).textContent = '“' + q + '”';
-      restart(box, 'is-results');
+      /* rows rise in when the panel opens; typing swaps them in place so the list doesn't blink */
+      if (animate) restart(box, 'is-results'); else box.classList.remove('is-results');
       select(hits.length ? 0 : -1);
     }
     $$('[data-search-open]').forEach(function (b) { if (once(b, 'sopen')) b.addEventListener('click', open); });

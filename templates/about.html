@@ -65,7 +65,7 @@
           {%- if meta.school %}<li><svg class="icon"><use href="#i-cap"/></svg>{{ meta.school }}</li>{% endif -%}
         </ul></div>
     </div>
-    {% if meta.tagline %}<p class="hero__tagline" style="margin-bottom:var(--space-8)">{% if tl | length == 2 %}<b>{{ tl[0] }}</b> — {{ tl[1] }}{% else %}{{ tl[0] }}{% endif %}</p>{% endif %}
+    {% if meta.tagline %}<p class="hero__tagline" style="margin-bottom:var(--space-8)">{% if tl | length == 2 %}<b>{{ tl[0] }}</b><span class="hero__sep" aria-hidden="true">|</span>{{ tl[1] }}{% else %}{{ tl[0] }}{% endif %}</p>{% endif %}
     <div class="article">
       {{ html | safe }}
     </div>

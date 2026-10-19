@@ -1336,6 +1336,10 @@ def serve(config: dict) -> None:
             super().__init__(*args, directory=str(PUBLIC_DIR), **kwargs)
         def log_message(self, fmt, *args):
             pass
+        def end_headers(self):
+            # every rebuild rewrites the pages, so the browser must never reuse a stale copy
+            self.send_header('Cache-Control', 'no-cache')
+            super().end_headers()
 
     print('\n  [✓] http://localhost:8000  (Ctrl-C to stop)\n')
     try:

