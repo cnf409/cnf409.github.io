@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 *)",
+      "Skill(update-config)",
+      "Bash(curl -sI https://cnf409.me/)",
+      "Bash(curl -s https://cnf409.me/sitemap.xml)",
+      "Bash(curl -s \"https://www.google.com/search?q=site:cnf409.me\" -A \"Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36\")",
+      "Bash(curl -s \"https://duckduckgo.com/html/?q=site%3Acnf409.me\" -A \"Mozilla/5.0\")",
+      "Bash(python build.py)"
+    ]
+  }
+}
