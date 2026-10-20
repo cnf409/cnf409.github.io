@@ -984,3 +984,60 @@ html:active-view-transition-type(back)::view-transition-new(root) { animation-na
 [data-theme="dark"] .theme-toggle .theme-toggle__light { display: block; }
 :root { color-scheme: light; }
 [data-theme="dark"] { color-scheme: dark; }
+
+/* ───────────────────────── about: the cursed word ─────────────────────────
+   "i use macOS btw": blood-red scrawl with horns, standing in a small fire, that won't hold still.
+   Horns and flames are pseudo-elements, so the scratch filter roughens them with the letters.
+   Reduced motion: static scratch, still flames. */
+.cursed {
+  --blood: #8e0710; --blood-dry: #3a0105; --flame-core: #ffd23a; --flame: #ff6a00; --flame-edge: #c81400;
+  position: relative; isolation: isolate; display: inline-block; padding: 0 0.14em;
+  font-family: var(--font-display); font-style: normal; font-weight: 900; font-size: 1.55em;
+  line-height: 1; letter-spacing: 0.02em; color: var(--blood);
+  -webkit-text-stroke: 0.025em var(--blood-dry);
+  transform: rotate(-4deg) skewX(-10deg); filter: url(#f-cursed);
+}
+/* horns, one at each end of the word */
+.cursed::after {
+  content: ""; position: absolute; left: 0.02em; right: 0.02em; top: -0.32em; height: 0.42em;
+  background: var(--blood);
+  clip-path: polygon(3% 100%, 1% 55%, 2% 20%, 6% 0, 6% 30%, 9% 60%, 14% 100%, 86% 100%, 91% 60%, 94% 30%, 94% 0, 98% 20%, 99% 55%, 97% 100%);
+}
+/* flames licking up from under the baseline */
+.cursed::before {
+  --tongue: var(--flame-core) 0 12%, var(--flame) 38%, var(--flame-edge) 62%, transparent 75%;
+  content: ""; position: absolute; z-index: -1; left: -0.06em; right: -0.06em; bottom: -0.22em; height: 1em;
+  background:
+    radial-gradient(8% 70% at 6% 92%, var(--tongue)),
+    radial-gradient(7% 95% at 20% 92%, var(--tongue)),
+    radial-gradient(8% 60% at 34% 92%, var(--tongue)),
+    radial-gradient(7% 100% at 49% 92%, var(--tongue)),
+    radial-gradient(8% 72% at 63% 92%, var(--tongue)),
+    radial-gradient(7% 98% at 78% 92%, var(--tongue)),
+    radial-gradient(8% 66% at 93% 92%, var(--tongue)),
+    radial-gradient(60% 22% at 50% 92%, var(--flame) 0 30%, var(--flame-edge) 60%, transparent 80%);
+  -webkit-mask: linear-gradient(to top, transparent, #000 12%, #000 50%, transparent);
+  mask: linear-gradient(to top, transparent, #000 12%, #000 50%, transparent);
+  transform-origin: 50% 100%;
+}
+.cursed::selection { background: var(--blood); color: var(--paper); }
+[data-theme="dark"] .cursed {
+  --blood: #e0141f; --blood-dry: #2a0003;
+  text-shadow: 0 -0.06em 0.22em color-mix(in oklab, var(--flame) 60%, transparent); /* firelight from below */
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cursed { filter: url(#f-cursed-live); animation: cursed-tremble 0.36s steps(1) infinite; }
+  .cursed::before { animation: cursed-burn 0.7s ease-in-out infinite alternate; }
+}
+@keyframes cursed-burn {
+  0%   { transform: scaleY(0.85) skewX(3deg); opacity: 0.85; }
+  40%  { transform: scaleY(1.08) skewX(-4deg); opacity: 1; }
+  70%  { transform: scaleY(0.95) skewX(2deg); opacity: 0.9; }
+  100% { transform: scaleY(1.12) skewX(-2deg); opacity: 1; }
+}
+@keyframes cursed-tremble {
+  0%   { transform: rotate(-4deg) skewX(-10deg) translate(0, 0); }
+  25%  { transform: rotate(-3deg) skewX(-12deg) translate(0.6px, -0.8px); }
+  50%  { transform: rotate(-5deg) skewX(-9deg) translate(-0.7px, 0.5px); }
+  75%  { transform: rotate(-3.5deg) skewX(-11deg) translate(0.4px, 0.9px); }
+}
