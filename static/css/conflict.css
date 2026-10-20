@@ -76,6 +76,32 @@ body {
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; }
 a { color: inherit; }
+/* ───────────────────────── cursors ─────────────────────────
+   Native CSS cursors (no JS follower): drawn SVGs, 2x for retina, hotspot in CSS px.
+   Minimal: solid ink arrow, hand on clickables, I-beam on text; 1px paper outline reads on both themes.
+   Inlined as data URIs so a freshly navigated page has them with the CSS (no fallback-arrow flash).
+   Each rule is declared three times so every engine keeps the best one it parses.
+   :where() keeps them at zero specificity, so component rules (zoom-in, grab, not-allowed) still win. */
+:where(html) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M2 1.5v14l4.2-3.7H12z' fill='%23121212' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round' paint-order='stroke'/%3E%3C/svg%3E") 2 2, default;
+  cursor: -webkit-image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M2 1.5v14l4.2-3.7H12z' fill='%23121212' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round' paint-order='stroke'/%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cpath d='M2 1.5v14l4.2-3.7H12z' fill='%23121212' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round' paint-order='stroke'/%3E%3C/svg%3E") 2x) 2 2, default;
+  cursor: image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M2 1.5v14l4.2-3.7H12z' fill='%23121212' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round' paint-order='stroke'/%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cpath d='M2 1.5v14l4.2-3.7H12z' fill='%23121212' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round' paint-order='stroke'/%3E%3C/svg%3E") 2x) 2 2, default;
+}
+:where(.article :is(p, li, h1, h2, h3, h4, h5, h6, blockquote, td, th, pre, code, figcaption),
+       textarea, [contenteditable="true"], input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="reset"], [type="range"], [type="color"], [type="file"])) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23fafaf7' stroke-width='3.6'/%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23121212' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 10 10, text;
+  cursor: -webkit-image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23fafaf7' stroke-width='3.6'/%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23121212' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23fafaf7' stroke-width='3.6'/%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23121212' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 2x) 10 10, text;
+  cursor: image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23fafaf7' stroke-width='3.6'/%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23121212' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23fafaf7' stroke-width='3.6'/%3E%3Cpath d='M7.5 3h5M10 3v14M7.5 17h5' stroke='%23121212' stroke-width='1.6'/%3E%3C/g%3E%3C/svg%3E") 2x) 10 10, text;
+}
+:where(a[href], button, summary, label, select, [role="button"], [role="option"], [role="tab"], [data-toggle],
+       input:is([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="reset"], [type="file"]),
+       .nav__link, .btn, .filter, .result, .toc-mobile > summary,
+       :is(a[href], button, summary, [role="button"], [role="option"]) *) {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cg id='h'%3E%3Crect x='6.4' y='1' width='3.3' height='11' rx='1.65'/%3E%3Crect x='9.4' y='6.6' width='3' height='6' rx='1.5'/%3E%3Crect x='12.1' y='7.6' width='3' height='5.4' rx='1.5'/%3E%3Crect x='14.8' y='8.8' width='2.8' height='4.6' rx='1.4'/%3E%3Cpath d='M6.4 10.2h11.2v3.6c0 3.2-2 5.2-5 5.2h-2c-1.6 0-2.7-.7-3.6-1.9L3.6 12.8c-.5-.7-.4-1.5.3-1.8.6-.3 1.3-.1 1.8.5l.7.9z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23h' fill='none' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round'/%3E%3Cuse href='%23h' fill='%23121212'/%3E%3C/svg%3E") 8 1, pointer;
+  cursor: -webkit-image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cg id='h'%3E%3Crect x='6.4' y='1' width='3.3' height='11' rx='1.65'/%3E%3Crect x='9.4' y='6.6' width='3' height='6' rx='1.5'/%3E%3Crect x='12.1' y='7.6' width='3' height='5.4' rx='1.5'/%3E%3Crect x='14.8' y='8.8' width='2.8' height='4.6' rx='1.4'/%3E%3Cpath d='M6.4 10.2h11.2v3.6c0 3.2-2 5.2-5 5.2h-2c-1.6 0-2.7-.7-3.6-1.9L3.6 12.8c-.5-.7-.4-1.5.3-1.8.6-.3 1.3-.1 1.8.5l.7.9z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23h' fill='none' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round'/%3E%3Cuse href='%23h' fill='%23121212'/%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cg id='h'%3E%3Crect x='6.4' y='1' width='3.3' height='11' rx='1.65'/%3E%3Crect x='9.4' y='6.6' width='3' height='6' rx='1.5'/%3E%3Crect x='12.1' y='7.6' width='3' height='5.4' rx='1.5'/%3E%3Crect x='14.8' y='8.8' width='2.8' height='4.6' rx='1.4'/%3E%3Cpath d='M6.4 10.2h11.2v3.6c0 3.2-2 5.2-5 5.2h-2c-1.6 0-2.7-.7-3.6-1.9L3.6 12.8c-.5-.7-.4-1.5.3-1.8.6-.3 1.3-.1 1.8.5l.7.9z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23h' fill='none' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round'/%3E%3Cuse href='%23h' fill='%23121212'/%3E%3C/svg%3E") 2x) 8 1, pointer;
+  cursor: image-set(url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cg id='h'%3E%3Crect x='6.4' y='1' width='3.3' height='11' rx='1.65'/%3E%3Crect x='9.4' y='6.6' width='3' height='6' rx='1.5'/%3E%3Crect x='12.1' y='7.6' width='3' height='5.4' rx='1.5'/%3E%3Crect x='14.8' y='8.8' width='2.8' height='4.6' rx='1.4'/%3E%3Cpath d='M6.4 10.2h11.2v3.6c0 3.2-2 5.2-5 5.2h-2c-1.6 0-2.7-.7-3.6-1.9L3.6 12.8c-.5-.7-.4-1.5.3-1.8.6-.3 1.3-.1 1.8.5l.7.9z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23h' fill='none' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round'/%3E%3Cuse href='%23h' fill='%23121212'/%3E%3C/svg%3E") 1x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cg id='h'%3E%3Crect x='6.4' y='1' width='3.3' height='11' rx='1.65'/%3E%3Crect x='9.4' y='6.6' width='3' height='6' rx='1.5'/%3E%3Crect x='12.1' y='7.6' width='3' height='5.4' rx='1.5'/%3E%3Crect x='14.8' y='8.8' width='2.8' height='4.6' rx='1.4'/%3E%3Cpath d='M6.4 10.2h11.2v3.6c0 3.2-2 5.2-5 5.2h-2c-1.6 0-2.7-.7-3.6-1.9L3.6 12.8c-.5-.7-.4-1.5.3-1.8.6-.3 1.3-.1 1.8.5l.7.9z'/%3E%3C/g%3E%3C/defs%3E%3Cuse href='%23h' fill='none' stroke='%23fafaf7' stroke-width='2' stroke-linejoin='round'/%3E%3Cuse href='%23h' fill='%23121212'/%3E%3C/svg%3E") 2x) 8 1, pointer;
+}
+:where(:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .icon { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: square; }
 kbd {
@@ -161,7 +187,7 @@ kbd {
 .nav { display: flex; align-items: center; gap: var(--space-6); margin-left: auto; }
 .nav__link {
   font: 600 14px/1 var(--font-sans); color: var(--ink); background: none; border: 0; padding: 8px 0;
-  cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+  display: inline-flex; align-items: center; gap: 4px;
 }
 .nav__chev { width: 10px; height: 10px; transition: transform var(--dur-fast) var(--ease-ink); }
 [aria-expanded="true"] > .nav__chev { transform: rotate(180deg); }
@@ -245,7 +271,7 @@ kbd {
   position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center;
   gap: var(--space-2); height: var(--btn-h); padding: 0 var(--space-4);
   background: var(--paper); border: var(--stroke-thin) solid var(--ink); border-radius: var(--radius-0);
-  font: 600 14px/1 var(--font-sans); text-decoration: none; cursor: pointer; white-space: nowrap;
+  font: 600 14px/1 var(--font-sans); text-decoration: none; white-space: nowrap;
   transition: transform var(--dur-instant) var(--ease-ink);
   -webkit-tap-highlight-color: transparent;
 }
@@ -295,7 +321,7 @@ kbd {
 }
 .filter {
   position: relative; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px;
-  background: none; border: 0; border-left: var(--stroke-thin) solid var(--ink); cursor: pointer;
+  background: none; border: 0; border-left: var(--stroke-thin) solid var(--ink);
   font: 600 14px/1 var(--font-sans);
 }
 .filter:first-of-type { border-left: 0; }
@@ -569,7 +595,7 @@ a.tag:hover::before, a.tag:focus-visible::before { clip-path: inset(0); }
 .search__label { font: 600 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); padding: 10px 16px 6px; margin: 0; }
 .result {
   position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center;
-  padding: 10px 16px; text-decoration: none; color: var(--ink); cursor: pointer;
+  padding: 10px 16px; text-decoration: none; color: var(--ink);
 }
 .result::before { content: ""; position: absolute; inset: 0 8px; z-index: -1; background: var(--ink); clip-path: inset(0 100% 0 0); transition: clip-path var(--dur-fast) var(--ease-ink); }
 .result[aria-selected="true"]::before { clip-path: inset(0); }
@@ -592,10 +618,9 @@ a.tag:hover::before, a.tag:focus-visible::before { clip-path: inset(0); }
 
 /* ───────────────────────── writeup ───────────────────────── */
 .writeup-head { display: grid; gap: var(--space-6); }
-.writeup-head .writeup-title { max-width: 20ch; }
 .writeup-head__eyebrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 0; font: 700 14px/1 var(--font-sans); }
 .writeup-head__eyebrow a { color: var(--ink); text-decoration: none; }
-.writeup-title { font: 900 var(--text-display-l)/var(--text-display-l--line-height) var(--font-display); letter-spacing: -.005em; margin: 0; text-wrap: balance; }
+.writeup-title { font: 900 var(--text-display-l)/var(--text-display-l--line-height) var(--font-display); letter-spacing: -.005em; margin: 0; text-wrap: pretty; }
 .writeup-title .lang { vertical-align: .9em; margin-left: 6px; }
 .writeup-head__meta { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; font: 500 14px/1.2 var(--font-sans); color: var(--ink-muted); }
 .writeup-head__meta strong { color: var(--ink); font-weight: 700; }
@@ -631,7 +656,7 @@ a.tag:hover::before, a.tag:focus-visible::before { clip-path: inset(0); }
 .toc__top { display: inline-flex; gap: 6px; margin-top: var(--space-6); font: 600 13px/1 var(--font-sans); color: var(--ink); }
 .toc-mobile { display: none; border: var(--stroke-thin) solid var(--ink); margin-bottom: var(--space-8); }
 .toc-mobile > summary {
-  list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;
+  list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;
   font: 800 12px/1 var(--font-display); letter-spacing: .1em; text-transform: uppercase;
 }
 .toc-mobile > summary::-webkit-details-marker { display: none; }

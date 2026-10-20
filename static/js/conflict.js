@@ -3,8 +3,7 @@
    Port: drop into the site as /static/conflict.js with <script defer>. Exposes window.Conflict. */
 (function () {
   'use strict';
-  var d = document, root = d.documentElement;
-  root.classList.add('js');
+  var d = document, root = d.documentElement; /* .js is set by the inline head script in base.html */
   var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
 
   function $(sel, scope) { return (scope || d).querySelector(sel); }

@@ -31,6 +31,11 @@
   {# Paper by default; Ink only when picked. Runs before the stylesheets so there is no flash. #}
   <script>
     (function () {
+      var root = document.documentElement;
+      /* entrances start hidden from the first paint; set later (in conflict.js) the page painted visible,
+         then clipped back before wiping in. Failsafe: if conflict.js never runs, show everything. */
+      root.classList.add('js');
+      setTimeout(function () { if (!window.Conflict) root.classList.remove('js'); }, 4000);
       var t = null;
       try { t = localStorage.getItem('theme'); } catch (e) {}
       if (t === 'dark') {
