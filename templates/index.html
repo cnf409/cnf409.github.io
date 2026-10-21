@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% from "macros.html" import post_row, post_card, badge, lang, difficulty, os_label %}
 
+{% set home_title = config.site.title ~ ' — CTF writeups & security research' %}
+{% block title %}{{ home_title }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/">{% endblock %}
 
 {% block jsonld %}
@@ -32,7 +34,7 @@
 <meta property="og:site_name"   content="{{ config.site.title | e }}">
 <meta property="og:type"        content="website">
 <meta property="og:locale"      content="en_US">
-<meta property="og:title"       content="{{ config.site.title | e }}">
+<meta property="og:title"       content="{{ home_title | e }}">
 <meta property="og:description" content="{{ config.site.description | e }}">
 <meta property="og:url"         content="{{ config.site.base_url }}/">
 <meta property="og:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
@@ -41,7 +43,7 @@
 <meta name="twitter:card"        content="summary">
 <meta name="twitter:site"        content="@{{ config.social.twitter.split('/')[-1] }}">
 <meta name="twitter:creator"     content="@{{ config.social.twitter.split('/')[-1] }}">
-<meta name="twitter:title"       content="{{ config.site.title | e }}">
+<meta name="twitter:title"       content="{{ home_title | e }}">
 <meta name="twitter:description" content="{{ config.site.description | e }}">
 <meta name="twitter:image"       content="{{ config.site.base_url }}/img/avatar.jpg">
 {% endblock %}

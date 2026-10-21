@@ -11,6 +11,7 @@ import subprocess
 import sys
 import threading
 import tomllib
+from collections import Counter
 from datetime import date, datetime
 from html import unescape as html_unescape
 from pathlib import Path
@@ -31,6 +32,7 @@ EVENTS_DIR    = CONTENT_DIR / "events"
 TEMPLATES_DIR = ROOT / "templates"
 STATIC_DIR    = ROOT / "static"
 PUBLIC_DIR    = ROOT / "public"
+TAG_INDEX_MIN = 2  # tags with fewer posts are noindex and left out of the sitemap
 CONFIG_FILE   = ROOT / "config.toml"
 
 _LANGUAGE_META = {
@@ -592,16 +594,32 @@ def _build_reference_card(reference: dict[str, str]) -> dict | None:
 
 
 def md_to_html(body: str, flag: str = '', base: Path | None = None) -> tuple[str, list[dict], bool]:
+    """Render a post body; the page title owns the only <h1>, so `#` sections become <h2>.
+
+    >>> md_to_html('# Intro\\n\\n## Detail\\n\\n```sh\\n# comment\\n```')[0].count('<h1')
+    0
+    >>> [t['level'] for t in md_to_html('# Intro\\n\\n## Detail')[1]]
+    [2]
+    >>> md_to_html('## Intro')[0].startswith('<h2')
+    True
+    """
     flag_inline = bool(flag and _FLAG_MARKER_RE.search(body))
     if flag_inline:
         body = _FLAG_MARKER_RE.sub(lambda _: f'\n\n{make_flag_html(flag)}\n\n', body)
     body = _normalize_markdown_images(body)
     body = _normalize_fences(body)
-    parser = markdown.Markdown(
-        extensions=['fenced_code', 'tables', 'toc', 'attr_list', 'md_in_html'],
-        extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor'}},
-    )
-    html = _optimize_html_images(_normalize_html_links(parser.convert(body)), base)
+    def convert(baselevel: int) -> tuple[markdown.Markdown, str]:
+        parser = markdown.Markdown(
+            extensions=['fenced_code', 'tables', 'toc', 'attr_list', 'md_in_html'],
+            extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor', 'baselevel': baselevel}},
+        )
+        return parser, parser.convert(body)
+
+    parser, html = convert(1)
+    # the page title is the only <h1>; posts written with `#` sections get shifted down one level
+    if any(t['level'] == 1 for t in parser.toc_tokens):
+        parser, html = convert(2)
+    html = _optimize_html_images(_normalize_html_links(html), base)
     html = re.sub(r'<table>(.*?)</table>', r'<div class="table-wrap"><table>\1</table></div>', html, flags=re.DOTALL)
     return html, parser.toc_tokens, flag_inline
 
@@ -632,6 +650,8 @@ class Post:
         self.tags   = meta.get('tags', [])
         self.pinned = bool(meta.get('pinned', False))
         self.image  = meta.get('image')
+        cover = dir_path / self.image if self.image else None
+        self.image_size = _image_size(cover.read_bytes()) if cover and cover.is_file() else None
         self.draft  = bool(meta.get('draft', False))
         self.language = str(meta.get('language', 'en')).strip().lower() or 'en'
         if self.language not in _LANGUAGE_META:
@@ -775,7 +795,7 @@ class Post:
     def as_dict(self) -> dict:
         return {
             'title': self.title, 'type': self.type, 'author': self.author,
-            'tags': self.tags, 'pinned': self.pinned, 'image': self.image,
+            'tags': self.tags, 'pinned': self.pinned, 'image': self.image, 'image_size': self.image_size,
             'date_str': self.date_str, 'date_iso': self.date_iso,
             'last_updated_str': self.last_updated_str, 'last_updated_iso': self.last_updated_iso,
             'has_last_updated': self.has_last_updated,
@@ -1048,9 +1068,7 @@ def build_posts_list(env: Environment, posts: list[Post], config: dict) -> None:
                    prev_url=prev_url, next_url=next_url,
                    canonical_url=canonical_url)
         html = render(env, 'posts_list.html', **ctx)
-        if i == 0:
-            write_page(PUBLIC_DIR / 'posts' / 'index.html', html)
-        write_page(PUBLIC_DIR / 'posts' / 'page' / str(page_num) / 'index.html', html)
+        write_page(PUBLIC_DIR / 'posts' / ('index.html' if i == 0 else f'page/{page_num}/index.html'), html)
 
 
 def build_tag_pages(env: Environment, posts: list[Post]) -> None:
@@ -1063,7 +1081,8 @@ def build_tag_pages(env: Environment, posts: list[Post]) -> None:
         tag_slug = slugify(tag)
         write_page(PUBLIC_DIR / 'tags' / tag_slug / 'index.html',
                    render(env, 'tag.html', tag=tag, tag_slug=tag_slug,
-                          posts=[p.as_dict() for p in tposts]))
+                          posts=[p.as_dict() for p in tposts],
+                          indexable=len(tposts) >= TAG_INDEX_MIN))
 
     all_tags = sorted(tags, key=str.lower)
     grouped_tags: dict[str, list[tuple[str, str, int]]] = {}
@@ -1157,12 +1176,16 @@ def search_index_json(posts: list[Post]) -> str:
 def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
     base = config['site']['base_url'].rstrip('/')
 
+    # pages that list every post change whenever the newest post does
+    newest = max((p.last_updated or p.date for p in posts if p.date != datetime.min), default=None)
+    listing = {'lastmod': newest.strftime('%Y-%m-%d')} if newest else {}
+
     urls: list[dict] = [
-        {'loc': f'{base}/',        'changefreq': 'weekly',  'priority': '1.0'},
-        {'loc': f'{base}/posts/',  'changefreq': 'weekly',  'priority': '0.8'},
+        {'loc': f'{base}/',        'changefreq': 'weekly',  'priority': '1.0', **listing},
+        {'loc': f'{base}/posts/',  'changefreq': 'weekly',  'priority': '0.8', **listing},
         {'loc': f'{base}/events/', 'changefreq': 'monthly', 'priority': '0.6'},
         {'loc': f'{base}/cves/',   'changefreq': 'monthly', 'priority': '0.7'},
-        {'loc': f'{base}/tags/',   'changefreq': 'monthly', 'priority': '0.5'},
+        {'loc': f'{base}/tags/',   'changefreq': 'monthly', 'priority': '0.5', **listing},
         {'loc': f'{base}/about/',  'changefreq': 'monthly', 'priority': '0.7'},
     ]
 
@@ -1188,10 +1211,9 @@ def build_sitemap(config: dict, posts: list[Post], events: list[dict]) -> None:
             entry['lastmod'] = event_lastmod
         urls.append(entry)
 
-    tags: set[str] = set()
-    for post in posts:
-        tags.update(post.tags)
-    for tag in sorted(tags):
+    tag_counts = Counter(tag for post in posts for tag in post.tags)
+    # single-post tags are noindex (thin duplicates of the post), see tag.html
+    for tag in sorted(t for t, n in tag_counts.items() if n >= TAG_INDEX_MIN):
         entry = {'loc': f'{base}/tags/{slugify(tag)}/', 'changefreq': 'monthly', 'priority': '0.4'}
         if tag in tag_lastmods:
             entry['lastmod'] = tag_lastmods[tag].strftime('%Y-%m-%d')
@@ -1220,7 +1242,6 @@ def build_robots(config: dict) -> None:
     lines = [
         'User-agent: *',
         'Allow: /',
-        'Disallow: /posts/*/_fileview/',
         'Disallow: /posts/*/solve/',
         'Disallow: /posts/*/sources/',
         f'Sitemap: {base}/sitemap.xml',
@@ -1268,7 +1289,8 @@ def build_rss(config: dict, posts: list[Post]) -> None:
     print('  [+] RSS feed generated')
 
 
-def build_redirects(posts: list[Post]) -> None:
+def build_redirects(config: dict, posts: list[Post]) -> None:
+    base = config['site']['base_url'].rstrip('/')
     count = 0
     for post in posts:
         for old_url in post.redirect_from:
@@ -1279,7 +1301,8 @@ def build_redirects(posts: list[Post]) -> None:
                 '<!DOCTYPE html>\n<html>\n<head>\n'
                 '<meta charset="UTF-8">\n'
                 f'<meta http-equiv="refresh" content="0; url={new_url}">\n'
-                f'<link rel="canonical" href="{new_url}">\n'
+                '<meta name="robots" content="noindex">\n'
+                f'<link rel="canonical" href="{base}{new_url}">\n'
                 f'<script>window.location.replace("{new_url}");</script>\n'
                 '</head>\n<body></body>\n</html>'
             )
@@ -1326,7 +1349,7 @@ def build(config: dict, clean: bool = False, include_drafts: bool = False) -> No
     copy_event_assets(events)
 
     print('  [+] Redirects...')
-    build_redirects(posts)
+    build_redirects(config, posts)
 
     print('  [+] RSS & sitemap...')
     build_rss(config, posts)

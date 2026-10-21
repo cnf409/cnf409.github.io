@@ -3,7 +3,7 @@
 {% set nav = 'posts' %}
 
 {% set archive_title = 'Posts — ' ~ config.site.title if page_num == 1 else 'Posts — Page ' ~ page_num ~ ' — ' ~ config.site.title %}
-{% set archive_desc = 'CTF writeups, box writeups and cybersecurity posts on ' ~ config.site.title ~ '.' if page_num == 1 else 'Page ' ~ page_num ~ ' of the archive of CTF writeups, box writeups and cybersecurity posts on ' ~ config.site.title ~ '.' %}
+{% set archive_desc = 'Every CTF writeup, CVE and security research post on ' ~ config.site.title ~ ': web exploitation, reverse engineering and more, newest first.' if page_num == 1 else 'Page ' ~ page_num ~ ' of the archive of CTF writeups, box writeups and cybersecurity posts on ' ~ config.site.title ~ '.' %}
 {% set archive_url = config.site.base_url ~ canonical_url %}
 
 {% block title %}{{ archive_title }}{% endblock %}

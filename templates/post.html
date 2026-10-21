@@ -3,7 +3,7 @@
 {% set nav = 'posts' %}
 
 {% block html_lang %}{{ post.language }}{% endblock %}
-{% block title %}{% if post.type == 'ctf' and post.event %}{{ post.title }} — {{ post.event }}{% if post.category %} {{ post.category | capitalize }}{% endif %} Writeup — {{ config.site.title }}{% else %}{{ post.title }} — {{ config.site.title }}{% endif %}{% endblock %}
+{% block title %}{% if post.type == 'ctf' and post.event %}{{ post.title }} — {{ post.event }}{% if post.category %} {{ post.category | capitalize }}{% endif %} Writeup — {{ config.site.title }}{% else %}{{ post.title }}{% if post.title | length <= 50 %} — {{ config.site.title }}{% endif %}{% endif %}{% endblock %}
 
 {%- if post.description %}
   {%- set _desc = post.description %}
@@ -17,9 +17,13 @@
 
 {%- if post.image %}
   {%- set _og_image = config.site.base_url ~ post.url ~ post.image %}
+  {%- set _og_size = post.image_size %}
+  {%- set _og_alt = post.title %}
   {%- set _twitter_card = 'summary_large_image' %}
 {%- else %}
   {%- set _og_image = config.site.base_url ~ '/img/avatar.jpg' %}
+  {%- set _og_size = (640, 640) %}
+  {%- set _og_alt = config.site.author %}
   {%- set _twitter_card = 'summary' %}
 {%- endif %}
 
@@ -39,8 +43,9 @@
 <meta property="og:description" content="{{ _desc | e }}">
 <meta property="og:url"         content="{{ config.site.base_url }}{{ post.url }}">
 <meta property="og:image"       content="{{ _og_image }}">
-<meta property="og:image:width"  content="640">
-<meta property="og:image:height" content="640">
+{% if _og_size %}<meta property="og:image:width"  content="{{ _og_size[0] }}">
+<meta property="og:image:height" content="{{ _og_size[1] }}">{% endif %}
+<meta property="og:image:alt"    content="{{ _og_alt | e }}">
 {% if post.date_iso %}<meta property="article:published_time" content="{{ post.date_iso }}T00:00:00+00:00">{% endif %}
 {% if post.last_updated_iso %}<meta property="article:modified_time" content="{{ post.last_updated_iso }}T00:00:00+00:00">{% endif %}
 {% for tag in post.tags %}<meta property="article:tag" content="{{ tag | e }}">
@@ -130,7 +135,7 @@
 {% endif %}
 
 {% if post.image %}
-<figure class="writeup-cover"><img src="{{ post.url }}{{ post.image }}" alt="{{ post.title }}" decoding="async" fetchpriority="high" data-zoom></figure>
+<figure class="writeup-cover"><img src="{{ post.url }}{{ post.image }}" alt="{{ post.title }}"{% if post.image_size %} width="{{ post.image_size[0] }}" height="{{ post.image_size[1] }}"{% endif %} decoding="async" fetchpriority="high" data-zoom></figure>
 {% endif %}
 
 <div class="writeup-layout">

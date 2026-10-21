@@ -3,12 +3,15 @@
 {% set nav = 'tags' %}
 
 {% set tag_title = '#' ~ tag ~ ' — ' ~ config.site.title %}
-{% set tag_desc = (posts | length) ~ ' post(s) tagged ' ~ tag ~ ' on ' ~ config.site.title ~ '.' %}
+{% set tag_desc = (posts | length) ~ (' writeup' if posts | length == 1 else ' writeups') ~ ' tagged #' ~ tag ~ ' on ' ~ config.site.title ~ ': ' ~ (posts | map(attribute='title') | join(', ')) ~ '.' %}
+{% set tag_desc = tag_desc | truncate(160, end='…', leeway=0) %}
 {% set tag_url = config.site.base_url ~ '/tags/' ~ tag_slug ~ '/' %}
 
 {% block title %}{{ tag_title }}{% endblock %}
 {% block description %}{{ tag_desc | e }}{% endblock %}
 {% block canonical %}<link rel="canonical" href="{{ config.site.base_url }}/tags/{{ tag_slug }}/">{% endblock %}
+{# a one-post tag page only duplicates that post: keep it out of the index, still follow its links #}
+{% block robots %}{% if indexable %}{{ super() }}{% else %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block og %}
 <meta property="og:site_name"   content="{{ config.site.title | e }}">
 <meta property="og:type"        content="website">

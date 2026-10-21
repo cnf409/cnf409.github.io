@@ -677,13 +677,13 @@ a.tag:hover::before, a.tag:focus-visible::before { clip-path: inset(0); }
 /* article body — nothing in here animates */
 .article { font: 400 var(--text-body-article)/var(--text-body-article--line-height) var(--font-sans); color: var(--ink); overflow-wrap: break-word; }
 .article > * { margin: 0 0 1.15em; }
-.article h1, .article h2, .article h3 { font-family: var(--font-display); color: var(--ink); text-wrap: balance; position: relative; }
+.article h1, .article h2, .article h3, .article h4 { font-family: var(--font-display); color: var(--ink); text-wrap: balance; position: relative; }
 .article h1 { font-weight: 800; font-size: var(--text-display-m); line-height: 1; margin: 2.2em 0 .6em; }
 .article h2 { font-weight: 800; font-size: var(--text-display-s); line-height: 1.05; margin: 2em 0 .55em; }
-.article h3 { font-weight: 800; font-size: var(--text-display-xs); line-height: 1.1; margin: 1.7em 0 .5em; }
+.article h3, .article h4 { font-weight: 800; font-size: var(--text-display-xs); line-height: 1.1; margin: 1.7em 0 .5em; }
 .article h1:first-child, .article h2:first-child { margin-top: 0; }
-.article :is(h1, h2, h3) .anchor { margin-left: .3em; color: var(--blue); text-decoration: none; opacity: 0; font-family: var(--font-mono); font-size: .7em; }
-.article :is(h1, h2, h3):hover .anchor, .article .anchor:focus-visible { opacity: 1; }
+.article :is(h1, h2, h3, h4) .anchor { margin-left: .3em; color: var(--blue); text-decoration: none; opacity: 0; font-family: var(--font-mono); font-size: .7em; }
+.article :is(h1, h2, h3, h4):hover .anchor, .article .anchor:focus-visible { opacity: 1; }
 .article h2::before {
   content: ""; display: block; width: 28px; height: 8px; margin-bottom: 14px;
   --tone-c: var(--ink); --tone-p: 4px; --tone-r: 46%;

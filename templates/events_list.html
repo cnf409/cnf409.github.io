@@ -3,7 +3,7 @@
 {% set nav = 'events' %}
 
 {% set events_title = 'Events — ' ~ config.site.title %}
-{% set events_desc = 'Archive of CTF events and grouped writeups on ' ~ config.site.title ~ '.' %}
+{% set events_desc = ('CTF events played by ' ~ config.site.author ~ ', with writeups grouped per competition: ' ~ (events | map(attribute='title') | join(', ')) ~ '.') | truncate(160, end='…', leeway=0) %}
 {% set events_url = config.site.base_url ~ '/events/' %}
 
 {% block title %}{{ events_title }}{% endblock %}
