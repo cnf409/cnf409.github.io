@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # build.py dates "last updated" from git log; a shallow clone dates every post to the tip commit
 
       - name: Setup Python
         uses: actions/setup-python@v5
