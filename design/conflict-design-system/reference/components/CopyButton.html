@@ -1,0 +1,36 @@
+<!doctype html>
+<html><head><link rel="stylesheet" href="../../css/tokens.css"><link rel="stylesheet" href="../../css/conflict.css"><script defer src="../../js/conflict.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<style>
+  body { padding: 28px 28px 36px; }
+  .ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
+  .ds-stack { display: grid; gap: 22px; }
+  .ds-cap { display: block; margin: 0 0 10px; font: 600 10.5px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+  .ds-note { font: 500 12px/1.5 var(--font-mono); color: var(--ink-muted); margin: 0; }
+  .ds-note b { color: var(--ink); font-weight: 600; }
+</style>
+</head><body><svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4.5 4.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l2.5 1.6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.2 6.2A5.5 5.5 0 1 0 13.5 9"/><path d="M13.6 2.6v3.8H9.8"/></symbol>
+  <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 10.5V2M4.8 5 8 1.8 11.2 5"/><path d="M3 8.5V14h10V8.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9"/><path d="M11 5V2H2v9h3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 16 16"><path d="M8 14.5s4.8-4.3 4.8-8a4.8 4.8 0 0 0-9.6 0c0 3.7 4.8 8 4.8 8Z"/><circle cx="8" cy="6.5" r="1.7"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 16 16"><path d="M1 6 8 2.8 15 6 8 9.2 1 6Z"/><path d="M4 7.5v3.6c1 .9 2.4 1.4 4 1.4s3-.5 4-1.4V7.5M15 6v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 10 10"><path d="M1.5 3.5 5 7l3.5-3.5"/></symbol>
+  <symbol id="i-window" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="M1.8 6.4h14.4M4.4 4.6h.01M6.4 4.6h.01"/></symbol>
+  <symbol id="i-term" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="m5 7 2.6 2.2L5 11.4M9.2 11.6H13"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 18 18"><path d="M2 5h14M2 9h14M2 13h9"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M2 9h14M9 2c2.2 2.3 2.2 11.7 0 14M9 2c-2.2 2.3-2.2 11.7 0 14"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 16 16"><path d="M8 13.5V2.5M3.5 7 8 2.5 12.5 7"/></symbol>
+</svg>
+
+<div class="ds-stack">
+  <div class="ds-row">
+    <div><span class="ds-cap">Rest</span><button class="btn btn--sm" data-copy="#src"><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy</span></button></div>
+    <div><span class="ds-cap">Copied</span><button class="btn btn--sm" data-state="copied"><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copied</span></button></div>
+    <div><span class="ds-cap">Share (click)</span><button class="btn btn--sm" data-share="https://cnf409.me/posts/secure-mood-notes"><svg class="icon"><use href="#i-share"/></svg><span class="btn__label">share</span></button></div>
+  </div>
+  <code id="src" hidden>example</code>
+  <p class="ds-note">copied · ink fill + label stamp <b>transform/opacity</b> <b>dur-slow</b> <b>ease-ink</b> · reduced motion: label swap only</p>
+</div></body></html>

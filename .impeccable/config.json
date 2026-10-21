@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "static/js/conflict.js"
+        ],
+        "createdAt": "2026-10-19T17:14:09.661Z",
+        "reason": "agent: lightbox <img> is a JS template whose src is set on open (conflict.js openLightbox)"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "static/css/conflict.css"
+        ],
+        "createdAt": "2026-10-20T14:40:59.860Z",
+        "reason": "agent: .highlight .hll inset stripe marks a highlighted code line (syntax-highlighter convention), not a card accent; predates this session"
+      }
+    ]
+  }
+}

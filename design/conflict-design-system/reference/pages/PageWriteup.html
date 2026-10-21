@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head><link rel="stylesheet" href="../../css/tokens.css"><link rel="stylesheet" href="../../css/conflict.css"><script defer src="../../js/conflict.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<title>Secure Mood Notes — conflict</title></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4.5 4.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l2.5 1.6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.2 6.2A5.5 5.5 0 1 0 13.5 9"/><path d="M13.6 2.6v3.8H9.8"/></symbol>
+  <symbol id="i-share" viewBox="0 0 16 16"><path d="M8 10.5V2M4.8 5 8 1.8 11.2 5"/><path d="M3 8.5V14h10V8.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9"/><path d="M11 5V2H2v9h3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 16 16"><path d="M8 14.5s4.8-4.3 4.8-8a4.8 4.8 0 0 0-9.6 0c0 3.7 4.8 8 4.8 8Z"/><circle cx="8" cy="6.5" r="1.7"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 16 16"><path d="M1 6 8 2.8 15 6 8 9.2 1 6Z"/><path d="M4 7.5v3.6c1 .9 2.4 1.4 4 1.4s3-.5 4-1.4V7.5M15 6v4"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 10 10"><path d="M1.5 3.5 5 7l3.5-3.5"/></symbol>
+  <symbol id="i-window" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="M1.8 6.4h14.4M4.4 4.6h.01M6.4 4.6h.01"/></symbol>
+  <symbol id="i-term" viewBox="0 0 18 18"><rect x="1.8" y="2.8" width="14.4" height="12.4"/><path d="m5 7 2.6 2.2L5 11.4M9.2 11.6H13"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 18 18"><path d="M2 5h14M2 9h14M2 13h9"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7"/><path d="M2 9h14M9 2c2.2 2.3 2.2 11.7 0 14M9 2c-2.2 2.3-2.2 11.7 0 14"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 16 16"><path d="M8 13.5V2.5M3.5 7 8 2.5 12.5 7"/></symbol>
+</svg>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="logo" href="#">conflict</a>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__link brush" href="#" aria-current="page">posts</a>
+      <a class="nav__link brush" href="#">events</a>
+      <div class="dropdown">
+        <button class="nav__link brush" data-toggle aria-controls="cve-menu" aria-expanded="false">cves <svg class="icon nav__chev"><use href="#i-chev"/></svg></button>
+        <ul class="dropdown__menu" id="cve-menu" hidden>
+          <li><a class="menu-item" href="#"><span>CVE-2026-27472</span><small>spip · ssrf</small></a></li>
+          <li><a class="menu-item" href="#"><span>CVE-2026-27474</span><small>xss</small></a></li>
+        </ul>
+      </div>
+      <a class="nav__link brush" href="#">tags</a>
+      <a class="nav__link brush" href="#">about</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn--sm search-trigger" data-search-open aria-haspopup="dialog" aria-expanded="false"><svg class="icon"><use href="#i-search"/></svg><span class="btn__label search-trigger__label">search</span><kbd>Ctrl K</kbd></button>
+      <button class="btn btn--sm btn--icon menu-toggle" data-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Menu"><svg class="icon"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobile-menu" hidden aria-label="Main">
+    <a href="#" aria-current="page">posts <span class="arr">→</span></a>
+    <a href="#">events <span class="arr">→</span></a>
+    <a href="#">cves <span class="arr">2</span></a>
+    <a href="#">tags <span class="arr">→</span></a>
+    <a href="#">about <span class="arr">→</span></a>
+  </nav>
+</header>
+
+<main class="wrap page" id="top">
+  <header class="writeup-head">
+  <p class="writeup-head__eyebrow" data-reveal="ink"><span class="badge badge--ctf">CTF</span><a class="brush" href="#">FCSC 2026</a></p>
+  <h1 class="writeup-title" data-reveal="ink" style="--i:1">Secure Mood Notes<span class="lang" title="English">EN</span></h1>
+  <div class="writeup-head__meta">
+    <span>by <strong>conflict</strong></span><span class="sep" aria-hidden="true"></span>
+    <time datetime="2026-04-11">Apr 11, 2026</time>
+    <span class="pill"><svg class="icon"><use href="#i-clock"/></svg>25 min read</span>
+    <span class="pill"><svg class="icon"><use href="#i-refresh"/></svg>updated Apr 20, 2026</span>
+    <button class="btn btn--sm" data-share><svg class="icon"><use href="#i-share"/></svg><span class="btn__label">share</span></button>
+  </div>
+</header>
+
+  <div style="margin-top:var(--space-12)"><section class="panel info-card" data-reveal="cut" aria-label="Challenge info">
+  <span class="panel__tab">Info</span>
+  <dl class="info-grid">
+    <div><dt>Event</dt><dd><a href="#">FCSC 2026</a></dd></div>
+    <div><dt>Category</dt><dd>web</dd></div>
+    <div><dt>Difficulty</dt><dd><span class="stars stars--lg" role="img" aria-label="3 of 3 stars"><i></i><i></i><i></i></span></dd></div>
+    <div><dt>Solves</dt><dd>12</dd></div>
+    <div><dt>Author</dt><dd><a href="#">Worty</a></dd></div>
+    <div><dt>My rating</dt><dd><span class="score"><b>9.5</b><span>/ 10</span></span></dd></div>
+  </dl>
+</section>
+</div>
+  <div class="writeup-layout">
+    <div><details class="toc-mobile"><summary>Contents <svg class="icon"><use href="#i-chev"/></svg></summary>
+  <nav class="toc" aria-label="Contents"><div class="toc__rail"><ol class="toc__list"><li><a class="toc__link" href="#overview" aria-current="true">Overview</a></li><li><a class="toc__link" href="#recon">Recon</a><ol><li><a class="toc__link" href="#stack">The stack</a></li><li><a class="toc__link" href="#notes-api">The notes API</a></li></ol></li><li><a class="toc__link" href="#solve">Solve</a></li><li><a class="toc__link" href="#takeaways">Takeaways</a></li></ol></div></nav>
+</details>
+<div class="article">
+  <h2 id="overview">Overview <a class="anchor" href="#overview" aria-label="Link to Overview">#</a></h2>
+  <p><strong>Secure Mood Notes</strong> is a small note-taking app where every note carries a <em>mood</em>. The front is a Flask service on <code>:8000</code>; it forwards everything under <code>/api</code> to an internal Apache + PHP backend that owns the database. Twelve teams solved it during the event.</p>
+  <p>Most of the work was reading: two codebases, one shared cookie, and a hardened PHP runtime. This writeup walks through how I mapped it, which assumptions turned out wrong, and the script I ended with. See the <a href="#">challenge page</a> for the original sources.</p>
+  <figure><img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 960 400%22 font-family=%22monospace%22 font-size=%2218%22%3E%3Crect width=%22960%22 height=%22400%22 fill=%22%23fafaf7%22/%3E%3Cdefs%3E%3Cpattern id=%22d%22 width=%226%22 height=%226%22 patternUnits=%22userSpaceOnUse%22%3E%3Ccircle cx=%221.5%22 cy=%221.5%22 r=%221.1%22 fill=%22%23c4c4bd%22/%3E%3Ccircle cx=%224.5%22 cy=%224.5%22 r=%221.1%22 fill=%22%23c4c4bd%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect x=%2240%22 y=%22130%22 width=%22220%22 height=%22140%22 fill=%22url(%23d)%22 stroke=%22%23121212%22 stroke-width=%224%22/%3E%3Crect x=%22370%22 y=%22130%22 width=%22220%22 height=%22140%22 fill=%22%23fafaf7%22 stroke=%22%23121212%22 stroke-width=%224%22/%3E%3Crect x=%22700%22 y=%22130%22 width=%22220%22 height=%22140%22 fill=%22%23121212%22/%3E%3Ctext x=%22150%22 y=%22208%22 text-anchor=%22middle%22 fill=%22%23121212%22 font-weight=%22700%22%3Eflask%3C/text%3E%3Ctext x=%22480%22 y=%22208%22 text-anchor=%22middle%22 fill=%22%23121212%22 font-weight=%22700%22%3Eapache %2B php%3C/text%3E%3Ctext x=%22810%22 y=%22208%22 text-anchor=%22middle%22 fill=%22%23fafaf7%22 font-weight=%22700%22%3Esqlite%3C/text%3E%3Cpath d=%22M264 200h96M594 200h96%22 stroke=%22%23121212%22 stroke-width=%224%22/%3E%3Cpath d=%22M350 190l12 10-12 10M680 190l12 10-12 10%22 fill=%22none%22 stroke=%22%23121212%22 stroke-width=%224%22/%3E%3Ctext x=%22312%22 y=%22186%22 text-anchor=%22middle%22 fill=%22%2355554f%22 font-size=%2214%22%3E/api%3C/text%3E%3Ctext x=%22642%22 y=%22186%22 text-anchor=%22middle%22 fill=%22%2355554f%22 font-size=%2214%22%3Epdo%3C/text%3E%3Ctext x=%2240%22 y=%22100%22 fill=%22%23121212%22 font-size=%2215%22%3E:8000%3C/text%3E%3Ctext x=%22370%22 y=%22100%22 fill=%22%23121212%22 font-size=%2215%22%3Einternal :80%3C/text%3E%3C/svg%3E" alt="Architecture: Flask front on port 8000 calls the internal Apache and PHP backend through /api, which talks to SQLite through PDO." width="960" height="400"><figcaption>Fig. 1 — the three moving parts, as deployed by the organisers</figcaption></figure>
+  <h2 id="recon">Recon <a class="anchor" href="#recon" aria-label="Link to Recon">#</a></h2>
+  <h3 id="stack">The stack</h3>
+  <p>The archive ships a <code>docker-compose.yml</code> with two services. Things worth noting before touching any code:</p>
+  <ul>
+    <li>the front and the backend share the same session secret;</li>
+    <li>the PHP runtime loads a hardening extension with a custom rules file;</li>
+    <li>only the front is exposed, the backend listens on the internal network.</li>
+  </ul>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Service</th><th>Image</th><th>Port</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>front</td><td><code>python:3.12-slim</code></td><td>8000</td><td>Flask, session cookie</td></tr>
+      <tr><td>notes</td><td><code>php:8.3-apache</code></td><td>80</td><td>internal only</td></tr>
+      <tr><td>db</td><td>sqlite file</td><td>—</td><td>mounted read-write</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="notes-api">The notes API</h3>
+  <p>The repository class is short and uses prepared statements throughout, so the database layer was not where the bug lived:</p>
+  <figure class="codeblock">
+  <figcaption class="codeblock__bar"><span class="codeblock__lang">php</span><span class="codeblock__file">src/NoteRepository.php</span><button class="btn btn--sm" data-copy><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy</span></button></figcaption>
+  <div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="c1">// render the current user's notes</span>
+<span class="k">final</span> <span class="k">class</span> <span class="nc">NoteRepository</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="k">private</span> <span class="nx">PDO</span> <span class="nv">$db</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">forUser</span><span class="p">(</span><span class="kt">int</span> <span class="nv">$id</span><span class="p">):</span> <span class="kt">array</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="nv">$q</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">db</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s1">'SELECT title, body FROM notes WHERE owner = ?'</span><span class="p">);</span>
+</span>        <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">([</span><span class="nv">$id</span><span class="p">]);</span>
+        <span class="k">return</span> <span class="nv">$q</span><span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">(</span><span class="nx">PDO</span><span class="o">::</span><span class="na">FETCH_ASSOC</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">echo</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$note</span><span class="p">[</span><span class="s1">'title'</span><span class="p">],</span> <span class="no">ENT_QUOTES</span><span class="p">,</span> <span class="s2">"UTF-8"</span><span class="p">)</span> <span class="o">.</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+<span class="nv">$limit</span> <span class="o">=</span> <span class="nv">$cfg</span><span class="p">[</span><span class="s1">'limit'</span><span class="p">]</span> <span class="o">??</span> <span class="mi">20</span><span class="p">;</span> <span class="nv">$strict</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</pre></div>
+</figure>
+
+  <blockquote><p>When the code looks boring, the bug is usually in the glue between two services rather than in either of them.</p></blockquote>
+  <h2 id="solve">Solve <a class="anchor" href="#solve" aria-label="Link to Solve">#</a></h2>
+  <p>The final script is a plain <code>requests</code> session. Set <code>BASE</code> to the instance URL, then:</p>
+  <ol><li>log in with a fresh account;</li><li>list notes to confirm the session works;</li><li>read the result from the last note.</li></ol>
+  <figure class="codeblock">
+  <figcaption class="codeblock__bar"><span class="codeblock__lang">python</span><span class="codeblock__file">solve.py</span><button class="btn btn--sm" data-copy><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy</span></button></figcaption>
+  <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">BASE</span> <span class="o">=</span> <span class="s2">"http://localhost:8000"</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s2">/login"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">"user"</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">"pass"</span><span class="p">:</span> <span class="n">password</span><span class="p">})</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># 302 on success</span>
+
+<span class="nd">@retry</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">notes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">BASE</span><span class="si">}</span><span class="s2">/notes"</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"&lt;h2&gt;(.*?)&lt;/h2&gt;"</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">login</span><span class="p">(</span><span class="s2">"conflict"</span><span class="p">,</span> <span class="s2">"hunter2"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">notes</span><span class="p">()),</span> <span class="s2">"notes</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">)</span>
+</pre></div>
+</figure>
+
+  <figure class="terminal">
+  <figcaption class="terminal__bar"><span class="terminal__title">shell</span><button class="btn btn--sm" data-copy><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy</span></button></figcaption>
+  <pre><span class="gp">$</span> python3 solve.py
+<span class="go">[*] logging in as conflict
+[+] session ok, 3 notes</span>
+<span class="gp">$</span> curl -s localhost:8000/health
+<span class="go">{"status": "ok", "version": "1.4.2"}</span>
+<span class="gp">$</span> ls -la dist/
+<span class="go">total 12
+-rw-r--r-- 1 conflict conflict 4.2K Apr 11 21:04 solve.py
+-rw-r--r-- 1 conflict conflict  913 Apr 11 21:04 run.sh</span></pre>
+</figure>
+
+  <hr>
+  <h2 id="takeaways">Takeaways <a class="anchor" href="#takeaways" aria-label="Link to Takeaways">#</a></h2>
+  <p>Great challenge by Worty: every step was fair, and the hardening layer forced me to actually read its documentation instead of guessing.</p>
+</div>
+
+      <div class="writeup-end">
+        <section class="flag-panel" data-reveal="flag" aria-label="Flag">
+  <div class="flag-panel__lines" aria-hidden="true"></div>
+  <div class="flag-panel__box">
+    <p class="flag-panel__stamp">Flag</p>
+    <p class="flag-panel__label">captured · Apr 11, 2026 · 21:47</p>
+    <code class="flag-panel__value" id="flag-value">FCSC<span class="brace">{</span>5c3fa80e9b1d4e2706a1<span class="brace">}</span></code>
+    <button class="btn btn--sm" data-copy="#flag-value"><svg class="icon"><use href="#i-copy"/></svg><span class="btn__label">copy flag</span></button>
+  </div>
+</section>
+
+        <section aria-labelledby="files-h">
+  <div class="section-head"><h2 class="section-title" id="files-h">Files</h2><span class="mono muted" style="font-size:13px">3 files · 21.4 KB</span></div>
+  <ul class="files">
+    <li class="file-row"><span class="file-ext">py</span><span><a class="file-row__name" href="#">solve.py</a><span class="file-row__kind">solve script</span></span><span class="file-row__size">4.2 KB</span><a class="btn btn--sm btn--icon" href="#" download aria-label="Download solve.py"><svg class="icon"><use href="#i-down"/></svg></a></li>
+    <li class="file-row"><span class="file-ext">php</span><span><a class="file-row__name" href="#">NoteRepository.php</a><span class="file-row__kind">challenge source</span></span><span class="file-row__size">1.1 KB</span><a class="btn btn--sm btn--icon" href="#" download aria-label="Download NoteRepository.php"><svg class="icon"><use href="#i-down"/></svg></a></li>
+    <li class="file-row"><span class="file-ext">yml</span><span><a class="file-row__name" href="#">docker-compose.yml</a><span class="file-row__kind">challenge source</span></span><span class="file-row__size">16.1 KB</span><a class="btn btn--sm btn--icon" href="#" download aria-label="Download docker-compose.yml"><svg class="icon"><use href="#i-down"/></svg></a></li>
+  </ul>
+</section>
+
+        <section aria-labelledby="rel-h">
+  <div class="section-head"><h2 class="section-title" id="rel-h">Related articles</h2></div>
+  <div class="link-grid" data-reveal-group>
+    <article class="card link-card" data-reveal="cut"><span class="link-card__fav"><svg class="icon"><use href="#i-globe"/></svg></span><div><h3 class="link-card__title"><a class="card__link" href="#">Hardening PHP runtimes with rule-based extensions</a></h3><p class="link-card__host">snuffleupagus.readthedocs.io</p></div><span class="card__arrow" aria-hidden="true">↗</span></article>
+    <article class="card link-card" data-reveal="cut"><span class="link-card__fav"><svg class="icon"><use href="#i-globe"/></svg></span><div><h3 class="link-card__title"><a class="card__link" href="#">Sessions shared between Flask and PHP: what can go wrong</a></h3><p class="link-card__host">blog.example.org</p></div><span class="card__arrow" aria-hidden="true">↗</span></article>
+  </div>
+</section>
+
+        <section aria-labelledby="tags-h">
+  <div class="section-head"><h2 class="section-title" id="tags-h">Tags</h2></div>
+  <ul class="tags">
+    <li><a class="tag" href="#">#web</a></li><li><a class="tag" href="#">#web-server</a></li><li><a class="tag" href="#">#php</a></li><li><a class="tag" href="#">#apache</a></li><li><a class="tag" href="#">#flask</a></li><li><a class="tag" href="#">#ld_preload</a></li><li><a class="tag" href="#">#pop_chain</a></li><li><a class="tag" href="#">#snuffleupagus</a></li><li><a class="tag" href="#">#rce</a></li>
+  </ul>
+</section>
+
+        <nav class="post-nav" aria-label="More posts">
+  <article class="card post-nav__item post-nav__item--prev"><span class="post-nav__dir"><span class="card__arrow">←</span> newer</span><h3 class="card__title"><a class="card__link" href="#">No thanks, I use AI</a></h3></article>
+  <article class="card post-nav__item post-nav__item--next"><span class="post-nav__dir">older <span class="card__arrow">→</span></span><h3 class="card__title"><a class="card__link" href="#">Thank you JavaScript</a></h3></article>
+</nav>
+
+      </div>
+    </div>
+    <aside class="writeup-aside"><nav class="toc" data-toc aria-label="Contents">
+  <p class="eyebrow toc__title">Contents</p>
+  <div class="toc__rail">
+    <ol class="toc__list">
+      <li><a class="toc__link" href="#overview" aria-current="true">Overview</a></li>
+      <li><a class="toc__link" href="#recon">Recon</a>
+        <ol><li><a class="toc__link" href="#stack">The stack</a></li><li><a class="toc__link" href="#notes-api">The notes API</a></li></ol></li>
+      <li><a class="toc__link" href="#solve">Solve</a></li>
+      <li><a class="toc__link" href="#takeaways">Takeaways</a></li>
+    </ol>
+    <span class="toc__marker" aria-hidden="true"></span>
+  </div>
+  <a class="toc__top brush" href="#top"><svg class="icon"><use href="#i-arrow-up"/></svg>back to top</a>
+</nav>
+</aside>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="site-footer__brand">conflict <small>© 2026</small></p>
+    <nav class="site-footer__links" aria-label="Elsewhere">
+      <a class="brush" href="#">linkedin</a><a class="brush" href="#">twitter</a><a class="brush" href="#">github</a>
+    </nav>
+    <p class="site-footer__egg">in rami malek we trust</p>
+  </div>
+</footer>
+
+<div class="search" data-search hidden role="dialog" aria-modal="true" aria-label="Search posts">
+  <div class="search__scrim" data-search-close></div>
+  <div class="search__panel">
+    <div class="search__bar">
+      <svg class="icon"><use href="#i-search"/></svg>
+      <input class="search__input" type="search" placeholder="Search writeups, events, tags…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list">
+      <button class="btn btn--sm" data-search-close><span class="btn__label">esc</span></button>
+    </div>
+    <p class="search__label">Pinned</p>
+    <ul class="search__results" id="search-results" role="listbox"></ul>
+    <div class="search__empty" hidden><p>No writeup matches <b>“”</b>.</p><p class="muted">Try an event name, or browse <a href="#">tags</a>.</p></div>
+    <div class="search__foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<script type="application/json" id="search-index">[
+ {"title":"Secure Mood Notes","type":"ctf","event":"FCSC 2026","date":"Apr 11, 2026","tags":["web","php","flask","apache"],"pinned":true},
+ {"title":"No thanks, I use AI","type":"ctf","event":"FCSC 2026","date":"Apr 12, 2026","tags":["misc","llm"],"pinned":true},
+ {"title":"Thank you JavaScript","type":"ctf","event":"HackDay Finale 2026","date":"Mar 2, 2026","tags":["web","javascript","prototype-pollution"],"pinned":true},
+ {"title":"10 Fast Fishers","type":"ctf","event":"StarHack 2025","date":"Nov 23, 2025","tags":["pwn","fsop"],"pinned":true},
+ {"title":"Qing Corporation","type":"box","event":"HackDay Finale 2026","date":"Mar 3, 2026","tags":["ad","windows","jenkins"]},
+ {"title":"Down The Rabbit Hole","type":"ctf","event":"ECW 2025","date":"Oct 19, 2025","tags":["reverse","crc32"]},
+ {"title":"Blind SSRF in SPIP 4.4.8","type":"post","event":"CVE-2026-27472","date":"Feb 9, 2026","tags":["web","spip","ssrf"]}
+]</script>
+
+</body>
+</html>

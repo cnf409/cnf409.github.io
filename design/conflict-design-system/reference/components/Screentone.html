@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><link rel="stylesheet" href="../../css/tokens.css"><link rel="stylesheet" href="../../css/conflict.css"><script defer src="../../js/conflict.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<style>
+  body { padding: 28px 28px 36px; }
+  .ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
+  .ds-stack { display: grid; gap: 22px; }
+  .ds-cap { display: block; margin: 0 0 10px; font: 600 10.5px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+  .ds-note { font: 500 12px/1.5 var(--font-mono); color: var(--ink-muted); margin: 0; }
+  .ds-note b { color: var(--ink); font-weight: 600; }
+</style>
+
+<style>.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.sw>div{display:grid;gap:8px}.sw .s{height:96px;border:var(--stroke-thin) solid var(--ink);position:relative;overflow:hidden;isolation:isolate}.ink-mask{position:absolute;inset:0;background:var(--ink)}</style></head><body>
+<div class="ds-stack">
+  <div class="sw">
+    <div><div class="s tone tone--light"></div><p class="ds-note"><b>tone--light</b> · tone-1 · hover sweeps</p></div>
+    <div><div class="s tone"></div><p class="ds-note"><b>tone</b> · tone-2 · 6px pitch</p></div>
+    <div><div class="s tone tone--dense"></div><p class="ds-note"><b>tone--dense</b> · 4px · hard, tags</p></div>
+    <div><div class="s tone tone--ink tone--coarse"></div><p class="ds-note"><b>tone--ink</b> · ink dots · section marks</p></div>
+    <div><div class="s"><span class="ink-mask" style="-webkit-mask:var(--mask-focus-lines) center/100% 100%;mask:var(--mask-focus-lines) center/100% 100%"></span></div><p class="ds-note"><b>focus lines</b> · climax only: flag, 404</p></div>
+    <div><div class="s"><span class="ink-mask" style="-webkit-mask:var(--mask-speed-lines) center/100% 100%;mask:var(--mask-speed-lines) center/100% 100%;background:var(--tone-2)"></span></div><p class="ds-note"><b>speed lines</b> · direction: post nav, solid button</p></div>
+    <div><div class="s"><span class="mottle" style="inset:0"></span></div><p class="ds-note"><b>mottle</b> · cloudy tone patches · art areas</p></div>
+    <div><div class="s"><span class="ink-mask" style="-webkit-mask:var(--mask-burst) center/100% 100%;mask:var(--mask-burst) center/100% 100%"></span></div><p class="ds-note"><b>burst</b> · impact frame on press</p></div>
+  </div>
+  <p class="ds-note">Text rule: only <b>ink</b> text sits directly on tone-2 dots (≥8.4:1 worst case). Muted, red or blue text over tone goes inside a paper knockout box.</p>
+</div></body></html>
