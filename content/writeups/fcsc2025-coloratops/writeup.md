@@ -39,7 +39,7 @@ coloratops: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically
 
 On est sur un ELF en 64 bits, qui est strippé.
 
-![me_when_elf_is_stripped.jpg](https://i.ibb.co/j996X9Yn/me-when-elf-is-stripped.jpg)
+![me_when_elf_is_stripped.jpg](images/me-when-elf-is-stripped.jpg)
 
 ### Identification des fonctions principales et nommage
 
@@ -192,7 +192,7 @@ if ((0x3b < elapsedSeconds) && (hasTimedOut == 0)) {
 }
 ```
 
-![breaking_the_timer.jpg](https://i.ibb.co/9mNsfQhf/breaking-the-timer.jpg)
+![breaking_the_timer.jpg](images/breaking-the-timer.jpg)
 
 ### Changements d'image de fond
 
@@ -288,11 +288,11 @@ On va d'abord s'arrêter à l'appel de `checkFlagValidity()`. Vu que le programm
 `checkFlagValidity()` -> `0x55555555dc77`
 
 On voit ces instructions qui sont plutôt intéressantes: 
-![2025-04-27-173526_755x281_scrot.png](https://i.ibb.co/PZs4DHHW/2025-04-27-173526-755x281-scrot.png)
+![2025-04-27-173526_755x281_scrot.png](images/2025-04-27-173526-755x281-scrot.png)
 
 On peut aller à l'instruction suivante et inspecter le contenu de `rax` pour voir notre tableau `expectedSignatures`:
 
-![2025-04-27-173958_425x381_scrot.png](https://i.ibb.co/gLmq2YfF/2025-04-27-173958-425x381-scrot.png)
+![2025-04-27-173958_425x381_scrot.png](images/2025-04-27-173958-425x381-scrot.png)
 
 Et le transformer en une liste, ça sera utile pour plus tard:
 
@@ -333,13 +333,13 @@ On comprend donc notre tableau précédent, c'est un tableau d'indices !
 
 Il faut donc savoir à quelle couleur correspond chaque indice. On va pouvoir faire ça avec GDB, sauf qu'une fois de plus le programme est **strippé** donc on ne peut pas juste mettre un _breakpoint_ sur la fonction.
 
-![2025-04-27-180202_746x879_scrot.png](https://i.ibb.co/PGpGL06v/2025-04-27-180202-746x879-scrot.png)
+![2025-04-27-180202_746x879_scrot.png](images/2025-04-27-180202-746x879-scrot.png)
 
 On voit une instruction `call 0x55555555dc32` et la fonction à `0x55555555dc32` semble être notre `decodePixelSignature`.
 
 La ligne `0x55555555dc4f: lea rax,[rip+0x18ca] # 0x55555555f520` est intéressante car c'est sûrement l'adresse du tableau qui contient les couleurs. Essayons d'inspecter sa valeur:
 
-![2025-04-27-180603_764x88_scrot.png](https://i.ibb.co/7mRnDR2/2025-04-27-180603-764x88-scrot.png)
+![2025-04-27-180603_764x88_scrot.png](images/2025-04-27-180603-764x88-scrot.png)
 
 Et ces valeurs sont très cohérentes, puisque `0xffffffff` est le code hexadécimal pour du _blanc_.
 
@@ -364,23 +364,23 @@ Si on utilise ce tableau de correspondances des couleurs, on aura les couleurs d
 
 On remarque quelque chose de très intéressant: **les 5 premiers caractères sont blancs**, si on teste ça dans le programme, cette contrainte est déjà respectée:
 
-![2025-04-27-181716_1187x676_scrot.png](https://i.ibb.co/217tjyVQ/2025-04-27-181716-1187x676-scrot.png)
+![2025-04-27-181716_1187x676_scrot.png](images/2025-04-27-181716-1187x676-scrot.png)
 
 Trouver le flag revient donc à _trouver l'entrée qui aura les couleurs correspondantes à notre tableau_.
 
 Deux options s'offrent à nous:
 
-![bruteforce_ou_script.jpg](https://i.ibb.co/990f1pHm/bruteforce-ou-script.jpg)
+![bruteforce_ou_script.jpg](images/bruteforce-ou-script.jpg)
 
 Puisque _la couleur d'un caractère dépend du caractère suivant_, on peut commencer par la fin du flag et remonter au fur et à mesure jusqu'au début du flag. Par exemple, le seul caractère qui fait une accolade fermée blanche est la lettre _d_. On sait donc que le dernier caractère du flag est _d_.
 
-![2025-04-27-182348_1169x141_scrot.png](https://i.ibb.co/pv6YDpkN/2025-04-27-182348-1169x141-scrot.png)
+![2025-04-27-182348_1169x141_scrot.png](images/2025-04-27-182348-1169x141-scrot.png)
 
 Pour vérifier notre input on peut mettre un breakpoint à `0x55555555dde1`, juste avant que le programme commence à comparer les signatures dans `checkFlagValidity()`.
 
 Ensuite, on inspecte notre input comme ceci:
 
-![2025-04-27-182943_779x206_scrot.png](https://i.ibb.co/Q3SpCRMc/2025-04-27-182943-779x206-scrot.png)
+![2025-04-27-182943_779x206_scrot.png](images/2025-04-27-182943-779x206-scrot.png)
 
 À la fin, on a `0x03` puis `0x00`. Si on reprend notre tableau `expectedSignatures`, on voit que les quatre dernières valeurs sont `[9,9,3,0]`. On retrouve bien notre `3` suivi de notre `0`.
 
@@ -388,7 +388,7 @@ Ensuite, on inspecte notre input comme ceci:
 
 Après environ une heure et demie à tester les couleurs et à ne pas faire la différence entre le orange corail, le orange doré et le jaune, on trouve enfin la bonne entrée:
 
-![2025-04-27-183435_1194x677_scrot.png](https://i.ibb.co/b569TXYC/2025-04-27-183435-1194x677-scrot.png)
+![2025-04-27-183435_1194x677_scrot.png](images/2025-04-27-183435-1194x677-scrot.png)
 
 `⬜⬜⬜⬜⬜🔵🟢🟠🟢🟢🟢🟡🟢🟠🟢🟣🟢🟢🟣🔵🟢🟢🟢🟡🔴🟢🟣🟣🟠🟠🟢🟣🟡🟠🔵🟣🔵🔴🟣🟢🔴🔴🟠🟠🟣🟡🟠🟣🟢🔴🟢🟢🟠🔵🔴🔵🟡🟠🟠🔵🔵🔵🟠⬜`
 
@@ -398,4 +398,4 @@ Si on plisse les yeux, on voit que notre représentation colorée était plutôt
 
 J'ai adoré ce challenge ! En tant que débutant en reverse, j'ai appris beaucoup de choses et la touche colorée a rendu la résolution vraiment sympa.
 
-![solving.gif](https://i.ibb.co/C5YxYhpy/solving.gif)
+![solving.gif](images/solving.gif)

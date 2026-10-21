@@ -312,7 +312,7 @@ We can use a "meet-in-the-middle" approach or a smart solver:
 
 We can now reset the admin's password by first registering a probe user to know which id we are at, then requesting a password reset token to get the UUID and add it into the storage. We solve the equation for the next ID and register the user with the valid email string before requesting a password reset with the email set to `admin@example.com` and the token to `<UUID>|1` so it resets the user 1's password (admin).
 
-![all my homies hate cryptography](https://i.imgflip.com/adqatw.jpg)
+![all my homies hate cryptography](images/adqatw.jpg)
 
 ---
 
@@ -471,7 +471,7 @@ Resulting Command:
 clamscan --quiet 'x'; cat /app/flag* > /app/uploads/<UUID> #''
 ```
 
-![finally code execution](https://i.imgflip.com/adqbsv.jpg)
+![finally code execution](images/adqbsv.jpg)
 
 ---
 

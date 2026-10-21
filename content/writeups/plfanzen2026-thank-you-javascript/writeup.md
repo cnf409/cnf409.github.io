@@ -270,7 +270,7 @@ export function sort_natural<T> (this: FilterImpl, input: T[], property?: string
 }
 ```
 
-![meme.png](https://i.imgflip.com/arfuyf.jpg)
+![meme.png](images/arfuyf.jpg)
 
 There is no check at all for the `ownPropertyOnly` config, if we look at the advisory's PoC script, we can see it is very similar to our situation:
 ```javascript
@@ -380,7 +380,7 @@ The output will look like this:
 
 Because `Flag` has no `.items` field no character is returned, but it is enough to spot where it got sorted in the list, as the place where there is `||` is where `Flag` is. We now just have to take the character that comes before it, and repeat that until the end of the flag, adding the known characters into the `group_by_exp` expression each time.
 
-![meme.gif](https://i.imgflip.com/arfvks.gif)
+![meme.gif](images/arfvks.gif)
 
 ```terminal
 plfanzen2026/web/thank_you_javascript $ python3 solve.py

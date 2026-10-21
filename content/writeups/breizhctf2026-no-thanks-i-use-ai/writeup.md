@@ -21,7 +21,7 @@ references         = ["https://developer.mozilla.org/en-US/docs/Web/HTTP/Referen
 
 *No Thanks, I use AI* was a Web challenge from BreizhCTF 2026 which I've managed to get the first blood on after about 4 hours of working on it. The challenge consisted of only a web app which was a chat with some cool features and a bot made with playwright. It required to use both client-side and server-side vulnerabilities to achieve code execution on the instance and get the flag.
 
-![no_thanks_i_use_ai](https://i.imgflip.com/asm4gq.jpg)
+![no_thanks_i_use_ai](images/asm4gq.jpg)
 
 # TLDR
 
@@ -296,7 +296,7 @@ Seeing how the challenge is built, our goal is to get RCE, but the first step is
 
 Because of how `/uploads/` is made, we cannot just upload a `.html` file and send a message with a link to it so that it's rendered in the `iframe` and the code inside gets executed. Instead, it's going to do nothing (or be downloaded by the browser).
 
-![sadge_meme](https://i.imgflip.com/asm3hd.jpg)
+![sadge_meme](images/asm3hd.jpg)
 
 So we need to find a way to have a file that can execute code and that has a MIME type starting with `image/`
 ```python
@@ -381,7 +381,7 @@ Now that we have XSS on the admin by sending him a message, we also have access 
 
 As I have mentioned it earlier, Gunicorn is configured to re-spawn a worker every 100 requests. Gunicorn respawning a worker means the app will be re-launched, the imports will be re-imported and the templates will be re-templated.
 
-![gunicorn_meme](https://i.imgflip.com/asm2eq.jpg)
+![gunicorn_meme](images/asm2eq.jpg)
 
 This means that if we can drop a `.py` file at the root of the app with the name of one of the libraries that `app.py` imports, we could hijack that import and get code execution when the library is called. This may break some functionalities of the app, but there is one library that is called very soon in `app.py` and which the app doesn't really rely on: `dotenv`.
 
@@ -389,7 +389,7 @@ If we can manage to drop a `dotenv.py` file at the root of the app, then we can 
 
 ## Mooooooovvveeeeeeeeee
 
-![elephant_meme](https://i.imgflip.com/amb7i7.png)
+![elephant_meme](images/amb7i7.png)
 
 Let's address this guy: you may be thinking (like I was) "why can't we just re-use the path traversal in the upload to do this ?" and you would be right, if only there was a way to make a clean upload with it. The fact that `']` is added at the end of the file name prevents us entirely from doing this, and I could not find a way (although i've tried for more than 30 mins) to have a clean file uploaded to the app.
 

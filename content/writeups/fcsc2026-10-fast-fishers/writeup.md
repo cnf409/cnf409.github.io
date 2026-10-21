@@ -26,7 +26,7 @@ You type a word, click the fish and the corresponding `document.execCommand()` i
 
 The challenge comes with a bot that visits any *URL* you provide, with a `FLAG` cookie set on the application domain. Sadly, the goal is to steal this cookie and not to actually play the game.
 
-![wdym_meme](https://i.imgflip.com/aoycqo.jpg)
+![wdym_meme](images/aoycqo.jpg)
 
 # TLDR
 
@@ -122,7 +122,7 @@ Even though `inner` is cross-origin, we can redirect it because assigning `.loca
 inner.location = 'about:blank';
 ```
 
-![aquarium_meme](https://i.imgflip.com/aoyct4.gif)
+![aquarium_meme](images/aoyct4.gif)
 
 After this navigation, `about:blank` is same-origin with the attacker, so `inner.eval()` becomes accessible. 
 
@@ -226,4 +226,4 @@ GET /?c=FLAG=FCSC{ef387c83c9e558b135d9837c5dc43f46} HTTP/1.1
 
 This was a very fun challenge made by Mizu, as a monkeytype tryhard I had to solve it and make a writeup about it. I also loved the lore and the details such as the aquarium that's actually a different frame, like it's separated from the main page.
 
-![me_playing_meme](https://i.imgflip.com/aoycmo.gif)
+![me_playing_meme](images/aoycmo.gif)

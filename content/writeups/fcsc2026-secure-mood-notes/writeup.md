@@ -111,7 +111,7 @@ except:
 
 ## Snuffleupagus, the Bouncer
 
-![snuffleupagus_meme](https://i.imgflip.com/aoxy3d.jpg)
+![snuffleupagus_meme](images/aoxy3d.jpg)
 
 Snuffleupagus is a PHP extension that hooks into the Zend VM and enforces rules at runtime. The  rules from `default.rules`:
 
@@ -392,7 +392,7 @@ This script returns the `notes_data` cookie, ready to be sent to the PHP app.
 
 A request to `/api/notes?filter=incl` now executes `include "/path/to/shared.mood.notes"`, we have arbitrary PHP execution from a file we control because it's any shared note.
 
-![include_meme](https://i.imgflip.com/aoxyqb.jpg)
+![include_meme](images/aoxyqb.jpg)
 
 ## Smuggling an ELF into the Server
 
@@ -458,7 +458,7 @@ subprocess.run([
         subprocess.run([strip_bin, "--strip-section-headers", str(out / "hook.so")], check=True)
 ```
 
-![gcc_meme](https://i.imgflip.com/aoxzf4.gif)
+![gcc_meme](images/aoxzf4.gif)
 
 ## The Snuffleupagus incident
 

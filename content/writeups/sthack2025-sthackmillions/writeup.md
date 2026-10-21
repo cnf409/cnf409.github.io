@@ -31,11 +31,11 @@ The final goal of this series was to get the _Jackpot_, a.k.a. having the correc
 
 The machine looked like an arcade machine, covered in satirical stickers.
 
-![machine_large.png](https://i.ibb.co/x8jNC65R/IMG-1562.jpg)
+![machine_large.png](images/IMG-1562.jpg)
 
 Even though they were funny, most of them were useless, except for one.
 
-![sticker.png](https://i.ibb.co/YBBLBTqG/2025-05-27-135909-153x260-scrot.png)
+![sticker.png](images/2025-05-27-135909-153x260-scrot.png)
 
 Here we have a very useful hint: this machine is powered by a software called _Lotogiciel_, and it's even trademarked!
 
@@ -45,7 +45,7 @@ Despite not being a dorking expert, I still tried to search up this keyword but 
 
 It then occurred to me that there aren't many websites that host source code for software, so I typed _Lotogiciel_ on GitHub, and found something.
 
-![github.png](https://i.ibb.co/Y4cjrYMv/2025-05-27-140432-913x279-scrot.png)
+![github.png](images/2025-05-27-140432-913x279-scrot.png)
 
 Since the commit's author is `hessman`, we can assume this repo is linked to the CTF.
 
@@ -55,7 +55,7 @@ We notice two files here that are probably compiled executables.
 
 The repository has three commits, which is a bit too much for just uploading two files, and not enough for an actual programming project, so let's take a look at them.
 
-![commit.png](https://i.ibb.co/23jmfHwX/2025-05-27-140916-1473x456-scrot.png)
+![commit.png](images/2025-05-27-140916-1473x456-scrot.png)
 
 The second commit, called _info_, held the flag for the first step of this series!
 
@@ -69,7 +69,7 @@ Now let's clone the repo and take a look at these two executables.
 lotogiciel: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=c1977b3e031316cf2b2ef5366d65ae7793a01c03, for GNU/Linux 4.4.0, not stripped
 ```
 
-![meme](https://i.imgflip.com/9vbuj9.jpg)
+![meme](images/9vbuj9.jpg)
 
 One of the two executables is compiled for `aarch64` and the other for `x86-64`, but they seem to both originate from the same source code (based on the strings).
 
@@ -178,7 +178,7 @@ There are multiple interesting things here that show that the randomness of this
 
 We can run the program with a simple seed `1234` to check that we understood how it works.
 
-![first_draw.png](https://i.ibb.co/ynS8cKkT/2025-05-27-143952-616x44-scrot.png)
+![first_draw.png](images/2025-05-27-143952-616x44-scrot.png)
 
 We indeed get a set of 5 numbers, so that confirms our understanding.
 
@@ -194,7 +194,7 @@ Some key takeaways:
 
 If we want to predict the next draw's result on the machine, we need to know what seed the last draw used. So let's go check what the last draw was.
 
-![current_draw.png](https://i.ibb.co/kg5WGmG5/IMG-1570.jpg)
+![current_draw.png](images/IMG-1570.jpg)
 
 We'll make a script to list all the possible draws at this exact time using `faketime`.
 
@@ -256,11 +256,11 @@ printf "Heure  : %s %s\nSeed   : %d\nTirage : %s\n" \
        "$DATE_STR" "$TIME_STR" "$seed" "$draw"
 ```
 
-![winning_draw.png](https://i.ibb.co/Fq0g14vY/2025-05-27-150653-472x88-scrot.png)
+![winning_draw.png](images/2025-05-27-150653-472x88-scrot.png)
 
 Let's verify that our script works by playing this grid on the machine and scanning the ticket after the draw.
 
-![ticket](https://i.ibb.co/JDZBsqd/IMG-1572.jpg)
+![ticket](images/IMG-1572.jpg)
 
 # 3/4 - Misc
 
@@ -293,15 +293,15 @@ Let's predict the next winning numbers, make a grid and get the QR code from the
 
 Then, modify the _JSON_ to put `app.py` in the `prize` field.
 
-![afr_qr.png](https://i.ibb.co/ksH4hnMT/IMG-1573.png)
+![afr_qr.png](images/IMG-1573.png)
 
 Then scan the QR code on the machine. It should see that we have the right numbers and print out the contents of the file named in `prize` (`app.py`).
 
-![flag_3.png](https://i.ibb.co/M0NmW7b/IMG-1576.jpg)
+![flag_3.png](images/IMG-1576.jpg)
 
 (The flag is commented at the top of the ticket.)
 
-![meme](https://i.imgflip.com/9vbvm4.jpg)
+![meme](images/9vbvm4.jpg)
 
 # 4/4 - Misc
 
@@ -309,7 +309,7 @@ Great! We can now read pretty much any file we want on the server, and we know i
 
 If you remember, our goal is to have a ticket with all the numbers correct **and** the bonus number. On the machine, we can only select bonus numbers between 1 and 10, but the draw's bonus numbers are always above 10.
 
-![draws.png](https://i.ibb.co/TqKNmCn2/IMG-1582.jpg)
+![draws.png](images/IMG-1582.jpg)
 
 So there's only one way to get the _Jackpot_: arbitrarily crafting a QR code with the right numbers.
 
@@ -319,9 +319,9 @@ To do so, we need to know how the `signature` field works and the key used. But 
 
 Let's read both `.env` and `sign.py` files.
 
-![secret_key.png](https://i.ibb.co/rR8Fjyfs/IMG-1581.jpg)
+![secret_key.png](images/IMG-1581.jpg)
 
-![sign.py.png](https://i.ibb.co/vCcn165M/IMG-1583.jpg)
+![sign.py.png](images/IMG-1583.jpg)
 
 It's a simple _HMAC SHA-256_ signature on the `data` field. We have the function and the key used by the machine, so we can generate valid signatures.
 
@@ -353,11 +353,11 @@ if __name__ == "__main__":
     print(pack(payload if payload else {}))
 ```
 
-![script.py.png](https://i.ibb.co/CpkyDS8D/2025-05-27-155234-954x128-scrot.png)
+![script.py.png](images/2025-05-27-155234-954x128-scrot.png)
 
 Now that we have a valid _JSON_ payload that should give us a _Jackpot_, let's put it in a QR code and scan it on the machine!
 
-![final.png](https://i.ibb.co/Z65Cj0fm/IMG-1587.jpg)
+![final.png](images/IMG-1587.jpg)
 
 It worked, and we got a beautiful check for completing this challenge!
 
@@ -367,4 +367,4 @@ This was definitely one of the best challenge series I've played. Having a physi
 
 Thanks to `hackdaddy` and `hessman` for creating this series !
 
-![meme](https://i.imgflip.com/9vbw2s.jpg)
+![meme](images/9vbw2s.jpg)
