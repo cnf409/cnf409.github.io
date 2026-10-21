@@ -455,7 +455,6 @@ a.tag:hover::before, a.tag:focus-visible::before { clip-path: inset(0); }
 .card:has(.card__link:focus-visible) { outline: var(--stroke-thin) solid var(--focus); outline-offset: 3px; }
 .card__link { text-decoration: none; color: inherit; outline: none; }
 .card__link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
-.card .tags, .card .card__above { position: relative; z-index: 2; }
 .card__arrow { display: inline-block; font: 500 16px/1 var(--font-mono); transition: transform var(--dur-fast) var(--ease-ink); }
 .card:hover .card__arrow { transform: translate(4px, 0); }
 .card__title { font: 800 var(--text-display-xs)/var(--text-display-xs--line-height) var(--font-display); margin: 0; text-wrap: balance; }
