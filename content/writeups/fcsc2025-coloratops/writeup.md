@@ -1,7 +1,7 @@
 +++
 type             = "ctf"
 title            = "coloratops"
-description      = "Voici un crackme plein de couleurs avec des allures old school."
+description      = "Writeup du crackme coloré du FCSC 2025 : reverse d'un ELF 64 bits strippé, identification des fonctions clés et récupération du flag."
 author           = "conflict"
 date             = "2025-04-27"
 language         = "fr"

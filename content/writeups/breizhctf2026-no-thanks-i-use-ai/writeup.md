@@ -1,7 +1,7 @@
 +++
 type               = "ctf"
 title              = "No thanks, I use AI"
-description        = "Abusing a JSON array type-confusion to slip a path-traversal filename past the character blacklist, an SVG external-script href to sidestep script-src 'self' for admin XSS, then gunicorn's worker recycle to hijack a dotenv import shadowed in the app root for RCE"
+description        = "BreizhCTF 2026 web: JSON type confusion for path traversal, an SVG external script past script-src 'self' for admin XSS, then gunicorn worker recycling for RCE."
 author             = "conflict"
 date               = "2026-05-24"
 language           = "en"

@@ -1,6 +1,7 @@
 +++
 name     = "conflict / cnf409"
 tagline  = "hacking sh*t - CTF Player, CS student based in Bordeaux"
+description = "Vincent (conflict), a Bordeaux cybersecurity student and ECSC Team France 2025-2026 member, writing CTF writeups and web vulnerability research."
 location = "Bordeaux, France"
 school   = "Ynov Campus (B3 Cyber)"
 avatar   = "/img/avatar.jpg"

@@ -1,7 +1,7 @@
 +++
 type               = "ctf"
 title              = "Spring Drive"
-description        = "From String.hashCode() Collision to RCE via HTTP Method Injection"
+description        = "HeroCTF 2025 hard web: a String.hashCode() collision to take over admin, SSRF via HTTP method injection into Redis, then ClamAV command injection for RCE."
 author             = "conflict"
 date               = "2025-12-01"
 language           = "en"

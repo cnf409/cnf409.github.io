@@ -1,7 +1,7 @@
 +++
 type               = "ctf"
 title              = "Sthack'Millions"
-description        = "great for gambling addicts"
+description        = "Four-part Sthack 2025 series on a real lottery machine: OSINT to find the Lotogiciel source, reversing its QR tickets, then forging a jackpot grid."
 author             = "conflict"
 date               = "2025-05-27"
 language           = "en"

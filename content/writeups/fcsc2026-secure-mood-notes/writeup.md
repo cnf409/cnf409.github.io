@@ -1,7 +1,7 @@
 +++
 type               = "ctf"
 title              = "Secure Mood Notes"
-description        = "Leaking a Snuffleupagus secret key via Apache .htaccess injection, then forging signed PHP cookies to chain a Composer gadget, smuggling an ELF into the server and escaping the sandbox via LD_PRELOAD and mail()"
+description        = "FCSC 2026 web: leak the Snuffleupagus secret via .htaccess injection, forge signed PHP cookies for a Composer gadget chain, escape the sandbox with LD_PRELOAD."
 author             = "conflict"
 date               = "2026-04-11"
 language           = "en"

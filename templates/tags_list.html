@@ -3,7 +3,7 @@
 {% set nav = 'tags' %}
 
 {% set tags_title = 'Tags — ' ~ config.site.title %}
-{% set tags_desc = tag_total ~ ' tag(s) on ' ~ config.site.title ~ ', grouped alphabetically.' %}
+{% set tags_desc = 'All ' ~ tag_total ~ ' topics covered on ' ~ config.site.title ~ ', from web exploitation and RCE to reverse engineering, each linking to its CTF writeups and security posts.' %}
 {% set tags_url = config.site.base_url ~ '/tags/' %}
 
 {% block title %}{{ tags_title }}{% endblock %}

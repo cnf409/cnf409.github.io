@@ -1,7 +1,7 @@
 +++
 type               = "ctf"
 title              = "Thank You Javascript"
-description        = "Abusing node-sqlite3 array-binding parameter pollution and LiquidJS sort_natural's prototype-leaking sort-order side-channel (CVE-2026-39412) to exfiltrate a flag hidden on a class prototype"
+description        = "node-sqlite3 array-binding parameter pollution and a LiquidJS sort_natural prototype side channel (CVE-2026-39412) to leak a flag hidden on a class prototype."
 author             = "conflict"
 date               = "2026-05-10"
 language           = "en"
