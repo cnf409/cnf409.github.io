@@ -35,7 +35,7 @@
   {%- if post.author %}{% set _ = parts.append('by ' ~ post.author | e) %}{% endif -%}
   {%- set _ = parts.append(post.reading_time_label) -%}
 {%- endif -%}
-{%- if parts %}<p class="card__meta">{{ parts | join(' <span class="sep">·</span> ') }}</p>{% endif -%}
+{%- if parts %}<p class="card__meta">{{ parts | join(' <span class="sep" aria-hidden="true">·</span> ') }}</p>{% endif -%}
 {%- endmacro %}
 
 {% macro card_tags(tags, limit=7) -%}

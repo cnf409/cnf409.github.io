@@ -398,7 +398,49 @@ def _normalize_html_links(html: str) -> str:
     return _blankify_html_links(_autolink_html(html))
 
 
-def _optimize_html_images(html: str) -> str:
+def _image_size(data: bytes) -> tuple[int, int] | None:
+    """Read (width, height) from a PNG/GIF/JPEG/WebP header; stdlib only, since .venv has no Pillow.
+
+    >>> _image_size(b'\\x89PNG\\r\\n\\x1a\\n\\0\\0\\0\\rIHDR' + (640).to_bytes(4, 'big') + (480).to_bytes(4, 'big'))
+    (640, 480)
+    >>> _image_size(b'GIF89a' + (3).to_bytes(2, 'little') + (5).to_bytes(2, 'little'))
+    (3, 5)
+    >>> _image_size(b'\\xff\\xd8\\xff\\xe0\\0\\x04ab\\xff\\xc2\\0\\x11\\x08' + (7).to_bytes(2, 'big') + (9).to_bytes(2, 'big'))
+    (9, 7)
+    >>> _image_size(b'RIFF\\0\\0\\0\\0WEBPVP8X' + bytes(8) + (99).to_bytes(3, 'little') + (49).to_bytes(3, 'little'))
+    (100, 50)
+    >>> _image_size(b'<svg xmlns="http://www.w3.org/2000/svg"/>') is None
+    True
+    """
+    if data.startswith(b'\x89PNG\r\n\x1a\n') and data[12:16] == b'IHDR':
+        return int.from_bytes(data[16:20], 'big'), int.from_bytes(data[20:24], 'big')
+    if data[:6] in (b'GIF87a', b'GIF89a'):
+        return int.from_bytes(data[6:8], 'little'), int.from_bytes(data[8:10], 'little')
+    if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        chunk = data[12:16]
+        if chunk == b'VP8 ':
+            return int.from_bytes(data[26:28], 'little') & 0x3FFF, int.from_bytes(data[28:30], 'little') & 0x3FFF
+        if chunk == b'VP8L':
+            bits = int.from_bytes(data[21:25], 'little')
+            return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+        if chunk == b'VP8X':
+            return int.from_bytes(data[24:27], 'little') + 1, int.from_bytes(data[27:30], 'little') + 1
+        return None
+    if data[:2] == b'\xff\xd8':
+        i = 2
+        while i + 9 <= len(data) and data[i] == 0xFF:
+            marker = data[i + 1]
+            if marker == 0xFF:  # fill byte before a marker
+                i += 1
+                continue
+            # SOF0..SOF15 carry the frame size; C4/C8/CC are DHT/JPG/DAC, not frames
+            if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+                return int.from_bytes(data[i + 7:i + 9], 'big'), int.from_bytes(data[i + 5:i + 7], 'big')
+            i += 2 + int.from_bytes(data[i + 2:i + 4], 'big')
+    return None
+
+
+def _optimize_html_images(html: str, base: Path | None = None) -> str:
     def repl(match: re.Match) -> str:
         attrs = match.group(1)
         closing = ''
@@ -406,6 +448,15 @@ def _optimize_html_images(html: str) -> str:
         if re.search(r'/\s*$', attrs):
             attrs = re.sub(r'/\s*$', '', attrs).rstrip()
             closing = ' /'
+
+        # Intrinsic size for local images so the lazy-loaded box is reserved (no layout shift).
+        src = re.search(r'\bsrc="([^"]+)"', attrs)
+        if base and src and not re.search(r'\bwidth\s*=', attrs, flags=re.IGNORECASE):
+            parsed = urlparse(html_unescape(src.group(1)))
+            path = base / unquote(parsed.path)
+            if not parsed.scheme and not parsed.path.startswith('/') and path.is_file():
+                if size := _image_size(path.read_bytes()):
+                    attrs += f' width="{size[0]}" height="{size[1]}"'
 
         if not re.search(r'\bloading\s*=', attrs, flags=re.IGNORECASE):
             attrs += ' loading="lazy"'
@@ -540,7 +591,7 @@ def _build_reference_card(reference: dict[str, str]) -> dict | None:
     }
 
 
-def md_to_html(body: str, flag: str = '') -> tuple[str, list[dict], bool]:
+def md_to_html(body: str, flag: str = '', base: Path | None = None) -> tuple[str, list[dict], bool]:
     flag_inline = bool(flag and _FLAG_MARKER_RE.search(body))
     if flag_inline:
         body = _FLAG_MARKER_RE.sub(lambda _: f'\n\n{make_flag_html(flag)}\n\n', body)
@@ -550,7 +601,7 @@ def md_to_html(body: str, flag: str = '') -> tuple[str, list[dict], bool]:
         extensions=['fenced_code', 'tables', 'toc', 'attr_list', 'md_in_html'],
         extension_configs={'toc': {'permalink': '#', 'permalink_class': 'anchor'}},
     )
-    html = _optimize_html_images(_normalize_html_links(parser.convert(body)))
+    html = _optimize_html_images(_normalize_html_links(parser.convert(body)), base)
     html = re.sub(r'<table>(.*?)</table>', r'<div class="table-wrap"><table>\1</table></div>', html, flags=re.DOTALL)
     return html, parser.toc_tokens, flag_inline
 
@@ -792,7 +843,7 @@ def _parse_post(md_file: Path, dir_path: Path) -> Post | None:
     try:
         meta, body       = parse_frontmatter(md_file.read_text(encoding='utf-8'))
         flag             = str(meta.get('flag', ''))
-        html, toc, flag_inline = md_to_html(body, flag=flag)
+        html, toc, flag_inline = md_to_html(body, flag=flag, base=dir_path)
         return Post(meta, html, toc, dir_path, md_file, body, flag_inline=flag_inline)
     except Exception as exc:
         print(f'  [!] Skipping {md_file}: {exc}')
@@ -886,7 +937,7 @@ def load_events() -> dict[str, Event]:
 
         try:
             meta, body = parse_frontmatter(md_file.read_text(encoding='utf-8'))
-            html, _, _ = md_to_html(body)
+            html, _, _ = md_to_html(body, base=dir_path)
             events[slug] = Event(slug, meta, html, dir_path)
         except Exception as exc:
             print(f'  [!] Skipping event {md_file}: {exc}')

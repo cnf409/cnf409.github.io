@@ -64,6 +64,7 @@
   {% block jsonld %}{% endblock %}
 </head>
 <body>
+<a class="skip-link" href="#top">skip to content</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4.5 4.5"/></symbol>
   <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l2.5 1.6"/></symbol>
@@ -119,7 +120,7 @@
   </nav>
 </header>
 
-<main class="wrap page{% block main_class %}{% endblock %}" id="top"{% block main_attrs %}{% endblock %}>
+<main class="wrap page{% block main_class %}{% endblock %}" id="top" tabindex="-1"{% block main_attrs %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 

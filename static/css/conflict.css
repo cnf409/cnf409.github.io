@@ -74,6 +74,7 @@ body {
 ::selection { background: var(--ink); color: var(--paper); }
 :focus-visible { outline: var(--stroke-thin) solid var(--focus); outline-offset: 2px; }
 img, svg { display: block; max-width: 100%; }
+img { height: auto; } /* width/height attrs then only reserve the aspect ratio */
 button { font: inherit; color: inherit; }
 a { color: inherit; }
 /* ───────────────────────── cursors ─────────────────────────
@@ -103,6 +104,13 @@ a { color: inherit; }
 }
 :where(:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link {
+  position: fixed; top: var(--space-2); left: var(--space-2); z-index: var(--z-menu); transform: translateY(-200%);
+  padding: var(--space-2) var(--space-4); background: var(--ink); color: var(--paper); border-radius: var(--radius-0);
+  font: 800 14px/1 var(--font-display); text-decoration: none;
+}
+.skip-link:focus { transform: none; }
+main:focus { outline: none; } /* tabindex=-1 skip target, not interactive */
 .icon { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: square; }
 kbd {
   font: 500 11px/1 var(--font-mono); letter-spacing: .02em; color: var(--ink-muted);
